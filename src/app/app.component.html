@@ -1,26 +1,72 @@
-<ng-container>
-  <ul nz-menu nzTheme="light" nzMode="inline" [nzInlineCollapsed]="isCollapsed">
-    <ng-container *ngFor="let menu of sidebar">
-      <ng-container *ngIf="!menu.root">
-        <li nz-submenu [ngClass]="isCollapsed ? 'ant-menu-item-custom-selected' : ''" 
-          [nzTitle]="menu.title " [nzIcon]="menu.icon">
-          <ul>
-            <ng-container *ngFor="let item of menu.submenu">
-              <li nz-menu-item nzMatchRouter class="li-padding-left"
-                [ngClass]="isCollapsed ? 'ant-menu-item-custom-selected' : ''" >
-                <a [routerLink]="item.path">{{ item.title  }}</a>
-              </li>
-            </ng-container>
-          </ul>
-        </li>
-      </ng-container>
-      <ng-container *ngIf="menu.root">
-        <li nz-menu-item nzMatchRouter [ngClass]="isCollapsed ? 'ant-menu-item-custom-selected' : ''"
-          *hasRoles="menu.authorities">
-          <i nz-icon [nzType]="menu.icon + ''" *ngIf="menu?.icon"></i>
-          <span><a [routerLink]="menu.path">{{ menu.title  }}</a></span>
-        </li>
-      </ng-container>
-    </ng-container>
-  </ul>
-</ng-container>
+<nz-layout>
+  <nz-sider  nzCollapsible [(nzCollapsed)]="isCollapsed"
+  nzWidth="320px" [nzTrigger]="null" >
+    <div class="l" >
+      <img 
+      src="https://as2.ftcdn.net/v2/jpg/05/10/51/95/1000_F_510519598_oNklXEbpRqcWvG3jOUD2E5egO4wgqwNX.jpg"
+       class=""   [width]="isCollapsed === true ? 70 : 300" [height]="isCollapsed === true ? 50 : 150"/>
+    </div>
+    <ul nz-menu  nzMode="inline" [nzInlineIndent]="40" class="sider">
+      <li nz-menu-item >
+        <span nz-icon nzType="home" class="me-2"></span>
+        <a routerLink="">Trang chủ</a>
+      </li>
+      <li nz-submenu nzTitle="Quản lý hóa đơn" nzIcon="shop" class="mt-3">
+        <ul>
+          <li nz-menu-item>Hóa đơn mua bán</li>
+          <li nz-menu-item>Hóa đơn đổi trả</li>
+        
+        </ul>
+      </li>
+      <li nz-submenu nzTitle="Quản lý người dùng" nzIcon="team" class="mt-3">
+        <ul>
+          <li nz-menu-item>Quản lý nhân viên</li>
+          <li nz-menu-item>Quản lý khách hàng</li>
+        
+        </ul>
+      </li>
+      <li nz-submenu nzTitle="Quản lý sản phẩm" nzIcon="project" class="mt-3">
+        <ul>
+          <a nz-menu-item routerLink="product/product-list">Quản lý sản phẩm</a>
+          <a nz-menu-item routerLink="product/category-list">Quản lý chất liệu</a> 
+          <li nz-menu-item>Quản lý phụ kiện</li>
+        </ul>
+      </li>
+      <li nz-menu-item>
+        <span nz-icon nzType="bank"></span>
+        <span >Quản lý nhà cung cấp</span>
+      </li>
+      <li nz-menu-item nzIcon="project">
+        <span nz-icon nzType="bar-chart"></span>
+        <span>Báo cáo thống kê</span>
+      </li>
+    </ul>
+  </nz-sider>
+  <nz-layout>
+    <nz-header>
+      <div class="app-header">
+        <div class="d-flex">
+      
+    <div class="col">
+      <span class="header-trigger"  (click)="isCollapsed = !isCollapsed">
+     <i class="trigger" style="font-size: 25px;"
+      nz-icon
+      [nzType]="isCollapsed ? 'menu-unfold' : 'menu-fold'"   
+    ></i><label for="" style="font-size: 25px;margin-bottom: 10px;">Trang chủ</label>
+  </span>
+  <span class="layout-header-title"> </span>
+ 
+    </div>
+  </div>
+  </div>
+    </nz-header>
+    <nz-content>
+      <nz-breadcrumb class="ms-3">
+        <nz-breadcrumb-item >User</nz-breadcrumb-item>
+        <nz-breadcrumb-item>Bill</nz-breadcrumb-item>
+      </nz-breadcrumb>
+      <router-outlet></router-outlet>
+    </nz-content>
+    <nz-footer>Ant Design ©2020 Implement By Angular</nz-footer>
+  </nz-layout>
+</nz-layout>

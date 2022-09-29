@@ -1,6 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { ROUTER_UTILS } from './router.utils';
-import { SidebarConstant } from './sidebar.contant';
+
 
 @Component({
   selector: 'app-root',
@@ -8,10 +7,16 @@ import { SidebarConstant } from './sidebar.contant';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  @Input() isCollapsed = false;
-  sidebar = SidebarConstant;
-
-  ROUTER_UTILS = ROUTER_UTILS;
+ isCollapsed = false;
+ logo :string  = '../assets/image/logo.png';
   constructor() {}
+
+  getWidthImage():number{
+    if(this.isCollapsed){
+      return 300;
+    }else{
+      return 100;
+    }
+  }
 
 }
