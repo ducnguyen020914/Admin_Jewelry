@@ -1,0 +1,14 @@
+<div>
+  <div [class]="'image' + (customSizeImg ? ' custom-size-image' : '')">
+    <div *ngIf="displayButton" class="camera">
+      <input
+        [accept]="acceptFiles"
+        [multiple]="multiple"
+        [disabled]="disable"
+        (change)="handleChange($event)"
+        id="file-input"
+        type="file"
+      />
+    </div>
+  </div>
+</div>
