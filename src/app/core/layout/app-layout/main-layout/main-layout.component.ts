@@ -1,6 +1,5 @@
 import { Component, HostListener, OnInit } from '@angular/core';
 import { ActivationEnd, Router } from '@angular/router';
-import { ChangePasswordComponent } from '@pages/admin/setting/user/change-password/change-password.component';
 import { LANGUAGES_CONST } from '@shared/constants/base.constant';
 import { INTERNAL } from '@shared/constants/customer.constants';
 import { LOCAL_STORAGE } from '@shared/constants/local-session-cookies.constants';
@@ -21,7 +20,6 @@ import { ROUTER_UTILS } from '@shared/utils/router.utils';
 import * as moment from 'moment';
 import { NzModalRef, NzModalService } from 'ng-zorro-antd/modal';
 import { LocalStorageService } from 'ngx-webstorage';
-
 @Component({
   selector: 'app-main-layout',
   templateUrl: './main-layout.component.html',
@@ -111,22 +109,6 @@ export class MainLayoutComponent implements OnInit {
       return list[0] + ' ' + list[list.length - 1];
     } else {
       return fullName;
-    }
-  }
-
-  openChangePasswordModal(): void {
-    if (this.authService.getTokenPrivateKey()) {
-      const base = CommonUtil.modalBase(
-        ChangePasswordComponent,
-        { user: { id: this.authService.getTokenPrivateKey() } },
-        '30%'
-      );
-      const modal: NzModalRef = this.modalService.create(base);
-      // modal.afterClose.subscribe((result) => {
-      //   if (result && result?.success) {
-      //
-      //   }
-      // });
     }
   }
 

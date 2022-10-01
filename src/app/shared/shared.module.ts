@@ -48,7 +48,6 @@ import { DateRangePickerComponent } from './components/date-range-picker/date-ra
 import { EditorComponent } from './components/editor/editor.component';
 import { FilePublicComponent } from './components/file-public/file-public.component';
 import { FileComponent } from './components/file/file.component';
-import { GridViewEmployeeComponent } from './components/grid-view/grid-view-employee.component';
 import { ModalFileComponent } from './components/modal-file/modal-file.component';
 import { ModalComponent } from './components/modal/modal.component';
 import { NoDataComponent } from './components/no-data/no-data.component';
@@ -85,7 +84,6 @@ import { PipeModule } from './pipe/pipe.module';
     ValidateMessageComponent,
     DateRangePickerComponent,
     TreeViewComponent,
-    GridViewEmployeeComponent,
     UploadFileComponent,
   ],
   imports: [
@@ -197,7 +195,6 @@ import { PipeModule } from './pipe/pipe.module';
     TreeViewComponent,
     NzTreeSelectModule,
     AngularResizeEventModule,
-    GridViewEmployeeComponent,
     UploadFileComponent,
   ],
   providers: [],

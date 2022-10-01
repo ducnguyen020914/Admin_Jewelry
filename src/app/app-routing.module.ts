@@ -24,95 +24,14 @@ const routes: Routes = [
             (m) => m.DashboardModule
           ),
       },
-      {
-        path: ROUTER_UTILS.partnerContract.root,
-        loadChildren: () =>
-          import('@pages/admin/partner-contract/partner-contract.module').then(
-            (m) => m.PartnerContractModule
-          ),
-      },
-      {
-        path: ROUTER_UTILS.vendor.root,
-        loadChildren: () =>
-          import('@pages/admin/vendor/vendor.module').then(
-            (m) => m.VendorModule
-          ),
-      },
-      {
-        path: ROUTER_UTILS.notification.root,
-        loadChildren: () =>
-          import('@pages/admin/notification/notification.module').then(
-            (m) => m.NotificationModule
-          ),
-      },
-      {
-        path: ROUTER_UTILS.employee.root,
-        loadChildren: () =>
-          import('@pages/admin/employee/employee.module').then(
-            (m) => m.EmployeeModule
-          ),
-      },
-      {
-        path: ROUTER_UTILS.contract.root,
-        loadChildren: () =>
-          import('@pages/admin/contract/contract.module').then(
-            (m) => m.ContractModule
-          ),
-      },
-      {
-        path: ROUTER_UTILS.department.root,
-        loadChildren: () =>
-          import('@pages/admin/department/department.module').then(
-            (m) => m.DepartmentModule
-          ),
-      },
-      {
-        path: ROUTER_UTILS.booking.root,
-        loadChildren: () =>
-          import('@pages/admin/booking/booking.module').then(
-            (m) => m.BookingModule
-          ),
-      },
-      {
-        path: ROUTER_UTILS.product.root,
-        loadChildren: () =>
-          import('@pages/admin/product/product.module').then(
-            (m) => m.ProductModule
-          ),
-      },
-      {
-        path: ROUTER_UTILS.setting.root,
-        loadChildren: () =>
-          import('@pages/admin/setting/setting.module').then(
-            (m) => m.SettingModule
-          ),
-      },
-      {
-        path: ROUTER_UTILS.meeting.root,
-        loadChildren: () =>
-          import('@pages/admin/meeting/meeting.module').then(
-            (m) => m.MeetingModule
-          ),
-      },
-      {
-        path: ROUTER_UTILS.guest.root,
-        loadChildren: () =>
-          import('@pages/admin/guest/guest.module').then(
-            (m) => m.GuestModule
-          ),
-      },
+
       {
         path: ROUTER_UTILS.error.permissionDenied,
         component: Page403Component,
       },
     ],
   },
-  {
-    path: ROUTER_UTILS.home.root,
-    component: AuthLayoutComponent,
-    loadChildren: () =>
-      import('@pages/admin/home/home.module').then((m) => m.HomeModule),
-  },
+
   {
     path: ROUTER_UTILS.authentication.root,
     component: AuthLayoutComponent,

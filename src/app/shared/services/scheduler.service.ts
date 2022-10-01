@@ -1,8 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { SERVICE } from '@shared/constants/gateway-routes-api.constant';
-import { UserSchedulerRequest } from '@shared/models/request/user-scheduler-request.model';
-import { IUserSchedulerResponse } from '@shared/models/user-scheduler-response.model';
 import { Observable } from 'rxjs';
 import { AbstractService, EntityResponseType } from './common/abstract.service';
 
@@ -24,14 +22,14 @@ export class SchedulerService extends AbstractService {
    * @param params UserSchedulerRequest
    * @param id string
    */
-  getScheduler(
-   params?: UserSchedulerRequest,
-   loading = false
-  ): Observable<EntityResponseType<IUserSchedulerResponse[]>> {
-    return super.get<IUserSchedulerResponse[]>(`${this.resourceUrl}/schedulers`, {
-      loading, params
-    });
-  }
+  // getScheduler(
+  //  params?: UserSchedulerRequest,
+  //  loading = false
+  // ): Observable<EntityResponseType<IUserSchedulerResponse[]>> {
+  //   return super.get<IUserSchedulerResponse[]>(`${this.resourceUrl}/schedulers`, {
+  //     loading, params
+  //   });
+  // }
 
   /**
    * @description : reject user scheduler
