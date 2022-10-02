@@ -49,6 +49,10 @@ export const ROUTER_UTILS = {
     create: 'create',
     update: ':customerId/update',
   },
+  statistical:{
+    root:'',
+    statistical:"statistical"
+  },
   notification: {
     root: 'notification',
     create: 'create/:type',
@@ -80,17 +84,18 @@ export const ROUTER_UTILS = {
     contractUpdate: ':id/update',
     contractCreate: 'create',
   },
-  booking: {
-    root: 'booking',
-    product: 'product',
-    menu: 'menu',
-    menuUpdate: 'menu/:id/update',
-    menuCreate: 'menu/create',
-    menuDetail: 'menu/:id/detail',
-    order: 'order',
+  order: {
+    root: 'order',
+    orderList: 'list',
     orderUpdate: 'order/:id/update',
     orderDetail: 'order/:id/detail',
     orderCreate: 'order/create',
+    refun:"refun"
+  },
+  user:{
+    root:"user",
+    employee:'employee',
+    customer:'customer'
   },
   setting: {
     root: 'setting',
@@ -111,33 +116,15 @@ export const ROUTER_UTILS = {
       list: 'parameter/list',
     },
   },
-  meeting: {
-    root: 'meeting',
-    list: 'list',
-    create: 'create',
-    update: ':id/update',
-    detail: ':id/detail',
-    calender: 'me/calender',
-  },
   product: {
     root: 'product',
     productList: 'list',
-    manufacture: 'manufacture',
-    manufactureUpdate: 'manufacture/:id/update',
-    manufactureCreate: 'manufacture/create',
-    manufactureDetail: 'manufacture/:id/detail',
+    material:'material',
     category: 'category',
     categoryUpdate: 'category/:id/update',
     categoryDetail: 'category/:id/detail',
     categoryCreate: 'category/create',
-  },
-
-  manufacture: {
-    root: 'manufacture',
-    list: 'list',
-    create: 'create',
-    update: ':id/update',
-    detail: ':id/detail',
+    accessory:'accessory'
   },
   room: {
     root: 'room',

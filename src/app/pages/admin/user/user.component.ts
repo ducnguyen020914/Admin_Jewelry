@@ -21,7 +21,6 @@ import { UserService } from '@shared/services/user.service';
 import CommonUtil from '@shared/utils/common-utils';
 import { NzModalRef, NzModalService } from 'ng-zorro-antd/modal';
 import { NzTableQueryParams } from 'ng-zorro-antd/table';
-import { AdvancedSearchUserComponent } from './advanced-search-user/advanced-search-user.component';
 @Component({
   selector: 'app-user',
   templateUrl: './user.component.html',
@@ -369,25 +368,25 @@ export class UserComponent implements OnInit {
     return '';
   }
 
-  openAdvancedSearch(): void {
-    const base = CommonUtil.modalBase(
-      AdvancedSearchUserComponent,
-      {
-        users: this.users,
-        advanceSearch: this.advanceSearch,
-      },
-      '30%'
-    );
-    const modal: NzModalRef = this.modalService.create(base);
-    modal.afterClose.subscribe((result) => {
-      if (result?.success) {
-        this.advanceSearch = result?.userRequest;
-        this.userRequest.accountType = this.advanceSearch.accountType;
-        this.userRequest.status = this.advanceSearch.status;
-        this.loadData(this.pageIndex, this.pageSize);
-      }
-    });
-  }
+  // openAdvancedSearch(): void {
+  //   const base = CommonUtil.modalBase(
+  //     AdvancedSearchUserComponent,
+  //     {
+  //       users: this.users,
+  //       advanceSearch: this.advanceSearch,
+  //     },
+  //     '30%'
+  //   );
+  //   const modal: NzModalRef = this.modalService.create(base);
+  //   modal.afterClose.subscribe((result) => {
+  //     if (result?.success) {
+  //       this.advanceSearch = result?.userRequest;
+  //       this.userRequest.accountType = this.advanceSearch.accountType;
+  //       this.userRequest.status = this.advanceSearch.status;
+  //       this.loadData(this.pageIndex, this.pageSize);
+  //     }
+  //   });
+  // }
 
   onSearchRoles(keyword: any): void {
     // this.roleService

@@ -5,6 +5,7 @@ import { MainLayoutComponent } from '@core/layout/app-layout/main-layout/main-la
 import { Page403Component } from '@pages/auth/page403/page403.component';
 import { Page404Component } from '@pages/auth/page404/page404.component';
 import { ROUTER_UTILS } from '@shared/utils/router.utils';
+import { OrderModule } from './pages/admin/order/order.module';
 
 const routes: Routes = [
   {
@@ -24,7 +25,30 @@ const routes: Routes = [
             (m) => m.DashboardModule
           ),
       },
-
+      {
+        path:ROUTER_UTILS.product.root,
+        loadChildren : () => import('@pages/admin/product/product.module').then(
+          (m) => m.ProductModule
+        )
+      },
+      {
+        path:ROUTER_UTILS.user.root,
+        loadChildren : () => import('@pages/admin/user/user.module').then(
+          (m) => m.UserModule
+        )
+      },
+      {
+        path:ROUTER_UTILS.order.root,
+        loadChildren : () => import('@pages/admin/order/order.module').then(
+          (m) => m.OrderModule
+        )
+      },
+      {
+        path:ROUTER_UTILS.statistical.statistical,
+        loadChildren : () => import('@pages/admin/statistical/statistical.module').then(
+          (m) => m.StatisticalModule
+        )
+      },
       {
         path: ROUTER_UTILS.error.permissionDenied,
         component: Page403Component,

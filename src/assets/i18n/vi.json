@@ -90,7 +90,6 @@
   },
   "sidebar": {
     "vendor": "Quản lý dịch vụ",
-    "vendor": "Quản lý dịch vụ",
     "dashboard": "Trang chủ",
     "contract": "Quản lý hợp đồng",
     "building": "Quản lý tòa nhà",
@@ -128,7 +127,11 @@
     "category":"Quản lý thể loại",
     "manufacture":"Quản lý nhà sản xuất",
     "guest":"Quản lý khách hàng",
-    "register":"Đăng ký khách ra vào"
+    "register":"Đăng ký khách ra vào",
+    "material":"Quản lý chất liệu",
+    "refun":"Quản lý đổi trả",
+    "accessory":"Quản lý phụ kiện",
+    "statistical":"Báo cáo thống kê"
   },
   "error": {
     "msg": "Lỗi",
