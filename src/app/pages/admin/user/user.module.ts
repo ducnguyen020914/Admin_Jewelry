@@ -7,11 +7,13 @@ import {UserComponent} from "@pages/admin/user/user.component";
 import { CustomerComponent } from './customer/customer.component';
 import { EmployeeComponent } from './employee/employee.component';
 import { UserRoutingModule } from './user-routing.module';
+import {UpdateUserComponent} from "@pages/admin/user/update-user/update-user.component";
 @NgModule({
   declarations: [
     UserComponent,
     CustomerComponent,
-    EmployeeComponent
+    EmployeeComponent,
+    UpdateUserComponent
   ],
   imports: [
     CommonModule,

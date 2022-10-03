@@ -36,6 +36,7 @@ export interface IUser {
   disabled?: boolean;
   userPrimary?: UserPrimary;
   departmentId?: string;
+  paper?: string;
 }
 
 export class User implements IUser {
@@ -73,6 +74,7 @@ export class User implements IUser {
     public disabled?: boolean,
     public userPrimary?: UserPrimary,
     public departmentId?: string,
+    public paper?: string
     ) {
     this.id = id;
     this.username = username;
@@ -108,5 +110,6 @@ export class User implements IUser {
     this.disabled = disabled;
     this.userPrimary = userPrimary;
     this.departmentId = departmentId;
+    this.paper =paper;
   }
 }

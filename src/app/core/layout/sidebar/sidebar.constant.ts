@@ -59,6 +59,11 @@ export const SidebarConstant = [
     icon: 'user',
     submenu: [
       {
+        path: `${ROUTER_UTILS.user.root}/${ROUTER_UTILS.user.list}`,
+        title: 'sidebar.user',
+        root: true,
+      },
+      {
         path: `${ROUTER_UTILS.user.root}/${ROUTER_UTILS.user.employee}`,
         title: 'sidebar.employee',
         root: true,

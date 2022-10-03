@@ -21,6 +21,7 @@ import { UserService } from '@shared/services/user.service';
 import CommonUtil from '@shared/utils/common-utils';
 import { NzModalRef, NzModalService } from 'ng-zorro-antd/modal';
 import { NzTableQueryParams } from 'ng-zorro-antd/table';
+import {ROLES} from "@shared/constants/role.constant";
 @Component({
   selector: 'app-user',
   templateUrl: './user.component.html',
@@ -58,7 +59,7 @@ export class UserComponent implements OnInit {
   pathTranslateAccountType = 'model.user.service.accountType.';
   roles: IRole[] = [];
   userStatus = USER_STATUS;
-
+  rolesSelect = ROLES;
   constructor(
     private fb: UntypedFormBuilder,
     private userService: UserService,
@@ -131,25 +132,6 @@ export class UserComponent implements OnInit {
     );
   }
 
-  // refreshStatus(item?: any, index?: number, checked?: any): void {
-  //   const validData = [...this.users];
-  //   const allChecked = validData.length > 0 && validData.every(value => value.checked);
-  //   const allUnChecked = validData.every(value => !value.checked);
-  //   this.allChecked = allChecked;
-  //   this.indeterminate = !allChecked && !allUnChecked;
-  // }
-  //
-  // changeChecked(item?: any) {
-  //   item.checked = !item.checked;
-  // }
-  //
-  // checkAll(value: boolean): void {
-  //   this.users.forEach(data => {
-  //     data.checked = value;
-  //   });
-  //   this.refreshStatus();
-  // }
-
   onQueryParamsChange(params: NzTableQueryParams): void {
     if (this.isCallFirstRequest) {
       this.isCallFirstRequest = false;
@@ -181,12 +163,6 @@ export class UserComponent implements OnInit {
       }
     });
   }
-  syncUserLdap(): void {
-    this.userService.syncUserLdap().subscribe((res) => {
-      this.toast.success('model.user.success.sync');
-      this.loadData(this.pageIndex, this.pageSize);
-    });
-  }
 
   create(value: string): void {
     const dataObject = {
@@ -194,7 +170,7 @@ export class UserComponent implements OnInit {
         typeUser: value,
       },
     };
-    this.router.navigate([`setting/user/create`], dataObject);
+    this.router.navigate([`user/create`], dataObject);
   }
 
   update(user: IUser): void {
@@ -213,50 +189,6 @@ export class UserComponent implements OnInit {
     };
     this.router.navigate([`setting/user/${user.id}/update`], dataObject);
   }
-
-  // delete(isArray: boolean, user?: IUser) {
-  //   /** isArray là true => forEach users get những bản ghi có checked = true */
-  //   if (isArray) {
-  //     const ids: any[] = this.users.filter(item => item.checked === true).map(item => item.id);
-  //     const userDeleteRequest: IUserDeleteRequest = {};
-  //     userDeleteRequest.ids = ids;
-  //
-  //     const form = CommonUtil.modalConfirm(
-  //       this.translateService,
-  //       'model.user.deleteCheckedUserTitle',
-  //       'model.user.deleteCheckedUserContent',
-  //     );
-  //     const modal = this.modalService.confirm(form);
-  //     modal.afterClose.subscribe(result => {
-  //       if (result?.success) {
-  //         this.userService.deleteUsers(userDeleteRequest).subscribe(res => {
-  //           if (res.status === STATUS.SUCCESS_200) {
-  //             this.toast.success('model.user.success.delete');
-  //             this.loadData(this.pageIndex, this.pageSize);
-  //           }
-  //         });
-  //       }
-  //     });
-  //   } else {
-  //     const form = CommonUtil.modalConfirm(
-  //       this.translateService,
-  //       'model.user.deleteUserTitle',
-  //       'model.user.deleteUserContent',
-  //       {fullName: user?.fullName}
-  //     );
-  //     const modal = this.modalService.confirm(form);
-  //     modal.afterClose.subscribe(result => {
-  //       if (result?.success) {
-  //         this.userService.delete(user!.id).subscribe(res => {
-  //           if (res.status === STATUS.SUCCESS_200) {
-  //             this.toast.success('model.user.success.delete');
-  //             this.loadData(this.pageIndex, this.pageSize);
-  //           }
-  //         });
-  //       }
-  //     });
-  //   }
-  // }
 
   lock(user: IUser): void {
     this.isVisible = true;
@@ -296,37 +228,6 @@ export class UserComponent implements OnInit {
     }
   }
 
-  // checkButton(index: number, id: any): void {
-  //   const form = CommonUtil.modalConfirm(
-  //     this.translateService,
-  //     this.users[index].status === this.userActive ? 'common.inactive' : 'common.active',
-  //     this.users[index].status === this.userActive ? 'model.user.inActiveUserContent' : 'model.user.activeUserContent'
-  //   );
-  //   const modal = this.modalService.confirm(form);
-  //   modal.afterClose.subscribe(result => {
-  //     if (result?.success) {
-  //       if (this.users[index].status === this.userActive) {
-  //         this.users[index].status = this.userInactive;
-  //       } else {
-  //         this.users[index].status = this.userActive;
-  //       }
-  //       if (this.users[index].status === this.userActive) {
-  //         this.userService.active(id).subscribe(res => {
-  //           if (res && res?.body?.success) {
-  //             this.loadData(this.pageIndex, this.pageSize);
-  //           }
-  //         });
-  //       } else {
-  //         this.userService.inactive(id).subscribe(res => {
-  //           if (res && res?.body?.success) {
-  //             this.loadData(this.pageIndex, this.pageSize);
-  //           }
-  //         });
-  //       }
-  //     }
-  //   });
-  // }
-
   format(value: any, type: string): string | any {
     if (type === 'date') {
       return CommonUtil.formatArrayToDate(value);
@@ -355,38 +256,6 @@ export class UserComponent implements OnInit {
     );
   }
 
-  getAccountTypeTrans(user: User): string {
-    if (user?.accountType) {
-      if (
-        this.getTranslate(user?.accountType?.toLowerCase()) ===
-        this.pathTranslateAccountType
-      ) {
-        return user?.accountType;
-      }
-      return this.getTranslate(user?.accountType?.toLowerCase() || '');
-    }
-    return '';
-  }
-
-  // openAdvancedSearch(): void {
-  //   const base = CommonUtil.modalBase(
-  //     AdvancedSearchUserComponent,
-  //     {
-  //       users: this.users,
-  //       advanceSearch: this.advanceSearch,
-  //     },
-  //     '30%'
-  //   );
-  //   const modal: NzModalRef = this.modalService.create(base);
-  //   modal.afterClose.subscribe((result) => {
-  //     if (result?.success) {
-  //       this.advanceSearch = result?.userRequest;
-  //       this.userRequest.accountType = this.advanceSearch.accountType;
-  //       this.userRequest.status = this.advanceSearch.status;
-  //       this.loadData(this.pageIndex, this.pageSize);
-  //     }
-  //   });
-  // }
 
   onSearchRoles(keyword: any): void {
     // this.roleService
@@ -413,10 +282,4 @@ export class UserComponent implements OnInit {
     }
   }
 
-  getListRoleNams(roleNames: Array<string>): string {
-    if (roleNames.length > 0) {
-      return roleNames.toString();
-    }
-    return '';
-  }
 }

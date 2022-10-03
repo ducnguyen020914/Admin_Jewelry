@@ -5,7 +5,6 @@ import { MainLayoutComponent } from '@core/layout/app-layout/main-layout/main-la
 import { Page403Component } from '@pages/auth/page403/page403.component';
 import { Page404Component } from '@pages/auth/page404/page404.component';
 import { ROUTER_UTILS } from '@shared/utils/router.utils';
-import { OrderModule } from './pages/admin/order/order.module';
 
 const routes: Routes = [
   {

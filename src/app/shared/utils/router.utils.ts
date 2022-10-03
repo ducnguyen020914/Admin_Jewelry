@@ -94,8 +94,10 @@ export const ROUTER_UTILS = {
   },
   user:{
     root:"user",
+    list:"list",
     employee:'employee',
-    customer:'customer'
+    customer:'customer',
+    userCreate: 'create',
   },
   setting: {
     root: 'setting',

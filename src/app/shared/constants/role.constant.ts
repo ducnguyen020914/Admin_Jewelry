@@ -10,6 +10,15 @@ export const ROLE_STATUS = [
   { value: ROLE_INACTIVE, label: 'model.role.inactive' }, // Trạng thái không hoạt động
 ];
 
+export const ROLE_STAFF = 'STAFF'
+export const ROLE_CUSTOMER = 'CUSTOMER'
+export const STORE_OWNER = 'OWNER'
+export const ROLES = [
+  { value: ROLE_STAFF, label: 'model.role.staff' },
+  { value: ROLE_CUSTOMER, label: 'model.role.customer' },
+  { value: STORE_OWNER, label: 'model.role.owner' },
+];
+
 export const SYSTEMMANAGEMENT = 'SYSTEMMANAGEMENT';
 export const CENTER = 'CENTER';
 export const BUILDING = 'BUILDING';
