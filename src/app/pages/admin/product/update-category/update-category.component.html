@@ -1,0 +1,78 @@
+<div class="content">
+  <div *nzModalTitle>
+    <span *ngIf="!isDetail">{{
+      (isUpdate ? "action.update" : "action.create") | translate
+    }}</span>
+    <span *ngIf="isDetail">{{ "action.detail" | translate }}</span>
+  </div>
+ 
+    <div class="col-12">
+      <form [formGroup]="form">
+      
+          <div class="col-12 mb-2">
+            <label
+              >{{ "model.category.name" | translate }}
+              <span class="text-danger">*</span></label
+            >
+            <input
+              formControlName="name"
+              nz-input
+              [maxLength]="LENGTH_VALIDATOR.NAME_MAX_LENGTH.MAX"
+              placeholder="{{ 'model.category.name' | translate }}"
+            />
+            <ng-container
+              *ngIf="form.get('name')?.touched || form.get('name')?.dirty"
+            >
+              <span
+                class="text-danger"
+                *ngIf="form.get('name')?.hasError('required')"
+              >
+                <mb-not-blank [value]="'model.category.name'"></mb-not-blank>
+              </span>
+            </ng-container>
+          </div> 
+            <label>{{ "model.category.property" | translate }} </label>
+            <div formArrayName="properties" class="row">
+              <div class="col-6 mb-3"
+                *ngFor="
+                  let child of properties?.controls;
+                  let i = index">
+                    <input
+                      [formControlName]="i"
+                      nz-input
+                      [maxLength]="LENGTH_VALIDATOR.NAME_MAX_LENGTH.MAX"
+                      placeholder="{{ 'model.category.property' | translate }}{{
+                        '  ' + i
+                      }}"/>
+              </div>
+            </div>
+          <button
+            class="col-1 mx-3 mt-3"
+            nz-button
+            nzType="primary"
+            (click)="addProperties()"
+          >
+            Thêm
+          </button>
+      </form>
+    </div>
+  <div class="row">
+    <div class="col-12 text-center" *nzModalFooter>
+      <button nz-button nzType="default" class="e-2" (click)="onCancel()">
+        {{
+          (action === ROUTER_ACTIONS.detail ? "action.back" : "action.cancel")
+            | translate
+        }}
+      </button>
+      <button
+        *ngIf="!isDetail"
+        nz-button
+        nzType="primary"
+        (click)="onSubmit()"
+        [disabled]="form.invalid"
+      >
+        {{ (isUpdate ? "action.save" : "action.save") | translate }}
+      </button>
+    </div>
+  </div>
+</div>

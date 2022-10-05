@@ -89,7 +89,7 @@
     "unread": "Chưa xem"
   },
   "sidebar": {
-    "vendor": "Quản lý dịch vụ",
+    "vendor": "Quản lý nhà cung cấp",
     "dashboard": "Trang chủ",
     "contract": "Quản lý hợp đồng",
     "building": "Quản lý tòa nhà",
@@ -1500,7 +1500,6 @@
       "titleUnLock": "Xác nhận mở khóa vai trò",
       "center": "Trung tâm",
       "building": "Tòa nhà",
-      "customer": "Khách hàng",
       "roleLevel": "Cấp của vai trò",
       "chooseLevel": "Chọn cấp của vai trò",
       "updating": "Đang cập nhật",
