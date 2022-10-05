@@ -5,6 +5,7 @@ import { ProductComponent } from './product.component';
 import { CategoryComponent } from './category/category.component';
 import { MaterialComponent } from './material/material.component';
 import { AccessoryComponent } from './accessory/accessory.component';
+import { VendorComponent } from './vendor/vendor.component';
 
 const routes: Routes = [
   {
@@ -34,6 +35,16 @@ const routes: Routes = [
     data: {
       title: 'model.product.accessory',
     },
+    
+  },
+
+  {
+    path: ROUTER_UTILS.product.vendor,
+    component: VendorComponent,
+    data: {
+      title: 'model.product.vendor',
+    },
+    
   },
   // {
   //   path: ROUTER_UTILS.product.category,

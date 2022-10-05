@@ -128,7 +128,8 @@ export const ROUTER_UTILS = {
     categoryUpdate: 'category/:id/update',
     categoryDetail: 'category/:id/detail',
     categoryCreate: 'category/create',
-    accessory:'accessory'
+    accessory:'accessory',
+    vendor:'vendor'
   },
   room: {
     root: 'room',

@@ -51,6 +51,12 @@ export const SidebarConstant = [
         title: 'sidebar.accessory',
         root: true,
       },
+      {
+        path: `${ROUTER_UTILS.product.root}/${ROUTER_UTILS.product.vendor}`,
+        title: 'sidebar.vendor',
+        root: true,
+      }
+      
     ]
   },
   {

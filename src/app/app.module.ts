@@ -10,7 +10,7 @@ import {
 } from '@angular/common/http';
 import vi from '@angular/common/locales/vi';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { IconDefinition } from '@ant-design/icons-angular';
@@ -36,6 +36,10 @@ import { NgxWebstorageModule } from 'ngx-webstorage';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { IconsProviderModule } from './icons-provider.module';
+import { AngularFireStorageModule } from '@angular/fire/compat/storage';
+import { AngularFireModule } from '@angular/fire/compat';
+import { AngularFireDatabaseModule } from '@angular/fire/compat/database';
+import { environment } from '../environments/environment';
 
 registerLocaleData(vi);
 
@@ -67,10 +71,14 @@ const icons: IconDefinition[] = Object.keys(antDesignIcons).map(
     NgxWebstorageModule.forRoot({ prefix: '', separator: '' }),
     IconsProviderModule,
     FormsModule,
+    ReactiveFormsModule,
     NzLayoutModule,
     NzFormModule,
     NzMenuModule,
     NzSpinModule,
+    AngularFireStorageModule,
+    AngularFireModule.initializeApp(environment.firebaseConfig,"cloud"),
+    AngularFireDatabaseModule
   ],
   providers: [
     { provide: LocationStrategy, useClass: HashLocationStrategy },
