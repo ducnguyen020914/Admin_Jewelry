@@ -113,7 +113,7 @@
                       form.get('paper')?.dirty
                     ">
                     <span class="text-danger" *ngIf="form.get('paper')?.hasError('required')">
-                      <mb-not-blank [value]="'model.user.paper'"></mb-not-blank>
+                      <mb-not-blank [value]="'model.user.papers'"></mb-not-blank>
                     </span>
                   <span class="text-danger" *ngIf="form.get('paper')?.hasError('pattern')">
                       <small>{{ "common.pattern" | translate }}</small>
@@ -290,17 +290,12 @@
                 <div class="col-12">
                   <label>{{ "model.user.role" | translate }}
                     <span class="text-danger">*</span></label>
-                  <nz-select nzShowSearch nzAllowClear appDebounceKeyUp maxlength="LENGTH_VALIDATOR.NAME_MAX_LENGTH.MAX"
-                    [nzMaxTagCount]="2" nzMode="multiple" removeOptionTitle formControlName="roleIds"
-                    (onEvent)="searchRoles($event)" nzServerSearch nzPlaceHolder="{{
-                      'model.user.service.selectRole' | translate
-                    }}" id="roleIds">
-                    <nz-option *ngFor="let role of roles" [nzCustomContent]="true" [nzValue]="role?.id"
-                      [nzLabel]="role.name!">
+                  <nz-select formControlName="status" nzAllowClear removeOptionTitle
+                             nzPlaceHolder="{{ 'model.user.service.selectRole' | translate }}">
+                    <nz-option *ngFor="let service of rolesSelect" [nzLabel]="service.label | translate"
+                               [nzValue]="service.value" [nzCustomContent]="true">
                       <div container="body" [animation]="false" [openDelay]="100" [closeDelay]="0"
-                        [ngbTooltip]="role?.name!">
-                        {{ role?.name! }}
-                      </div>
+                           [ngbTooltip]="(service?.label!) | translate">{{(service?.label!) | translate}}</div>
                     </nz-option>
                   </nz-select>
                   <ng-container *ngIf="

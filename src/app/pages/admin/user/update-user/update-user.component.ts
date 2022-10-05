@@ -15,7 +15,6 @@ import {
   USER_TYPE
 } from '@shared/constants/user.constant';
 import { LENGTH_VALIDATOR, VALIDATORS } from '@shared/constants/validators.constant';
-import { ICustomer } from '@shared/models/customer.model';
 import { IRole } from '@shared/models/role.model';
 import { User } from '@shared/models/user.model';
 import { AuthService } from '@shared/services/auth/auth.service';
@@ -31,6 +30,7 @@ import { differenceInCalendarDays } from 'date-fns';
 import * as moment from 'moment';
 import { NzDatePickerComponent } from 'ng-zorro-antd/date-picker';
 import {AVATAR_PLACEHOLDER_FILE} from "@shared/constants/images.contrant";
+import {ROLES} from "@shared/constants/role.constant";
 
 @Component({
   selector: 'app-update-user',
@@ -43,13 +43,11 @@ export class UpdateUserComponent implements OnInit {
   contact = false;
   isVisible = false;
   user: User = new User();
-  typeUser = '';
   isInternal = false;
   isLdap = false;
   userTypeLocal = '';
   roles: IRole[] = [];
   JOB_TITLE_LIST = JOB_TITLE_LIST;
-  customers: ICustomer[] = [];
   form: UntypedFormGroup = new UntypedFormGroup({});
   passwordVisible = false;
   rePasswordVisible = false;
@@ -76,6 +74,7 @@ export class UpdateUserComponent implements OnInit {
   isChangeMyself = false;
   urlJoinTelegramBot = '';
   avatarPlaceHolder = AVATAR_PLACEHOLDER_FILE;
+  rolesSelect = ROLES;
 
   @ViewChild('datePicker') datePicker!: NzDatePickerComponent;
 
@@ -157,6 +156,7 @@ export class UpdateUserComponent implements OnInit {
         ],
         paper: [
           this.isUpdate ? this.user?.paper : null,
+          Validators.required,
           [Validators.maxLength(LENGTH_VALIDATOR.NAME_MAX_LENGTH.MAX)],
         ],
         gender: [

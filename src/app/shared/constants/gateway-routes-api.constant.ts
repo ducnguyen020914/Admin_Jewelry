@@ -14,6 +14,7 @@ export const SERVICE = {
   VENDOR: '/vendor/api',
   PRODUCT: '/product/api',
   CATEGORY: '/category/api',
+  CUSTOMER: '/customer/api'
 };
 
 export const MODULE = {

@@ -45,9 +45,11 @@ export const ROUTER_UTILS = {
     root: 'partner-contract',
   },
   customer: {
+    list: 'list',
     root: 'customer',
     create: 'create',
     update: ':customerId/update',
+    detail: ':id/detail',
   },
   statistical:{
     root:'',

@@ -1,58 +1,95 @@
-import { ICustomerContact } from './customer-contact.model';
+import {Role} from "@shared/models/role.model";
+import {UserPrimary} from "@shared/models/user-primary.model";
 
 export interface ICustomer {
   id?: string;
-  name?: string;
-  code?: string;
-  taxNumber?: string;
-  contacts?: ICustomerContact[];
-  phoneNumber?: string;
+  username?: string;
+  fullName?: string;
+  password?: string;
   email?: string;
-  legalRepresentative?: string;
-  businessCode?: string;
-  invoiceIssuingAddress?: string;
+  phoneNumber?: string;
+  roles?: string;
+  authorities?: any;
+  authenticationType?: string;
+  accountType?: string;
+  contactId?: string;
+  dayOfBirth?: string;
+  gender?: string;
+  repeatPassword?: string;
+  roleIds?: Array<string>;
+  employeeCode?: string;
+  title?: string;
+  description?: string;
+  status?: string;
+  departmentName?: string;
+  avatarFileId?: string;
+  file?: any;
+  avatarFileUrl?: string;
+  deleted?: boolean;
   checked?: boolean;
   disabled?: boolean;
-  deleted?: boolean;
-  status?: string;
-  type?: string;
-  incorporationDate?: string;
+  departmentId?: string;
+  paper?: string;
+  address?: string;
 }
 
 export class Customer implements ICustomer {
   constructor(
     public id?: string,
-    public name?: string,
-    public code?: string,
-    public taxNumber?: string,
-    public contacts?: ICustomerContact[],
-    public phoneNumber?: string,
+    public username?: string,
+    public fullName?: string,
+    public password?: string,
     public email?: string,
-    public legalRepresentative?: string,
-    public businessCode?: string,
-    public invoiceIssuingAddress?: string,
+    public phoneNumber?: string,
+    public role?: string,
+    public authorities?: any,
+    public authenticationType?: string,
+    public accountType?: string,
+    public contactId?: string,
+    public dayOfBirth?: string,
+    public gender?: string,
+    public repeatPassword?: string,
+    public organizationId?: string,
+    public employeeCode?: string,
+    public title?: string,
+    public description?: string,
+    public status?: string,
+    public avatarFileId?: string,
+    public file?: any,
+    public avatarFileUrl?: string,
+    public deleted?: boolean,
     public checked?: boolean,
     public disabled?: boolean,
-    public deleted?: boolean,
-    public status?: string,
-    public type?: string,
-    public incorporationDate?: string,
+    public paper?: string,
+    public address?: string
   ) {
     this.id = id;
-    this.name = name;
-    this.code = code;
-    this.taxNumber = taxNumber;
-    this.contacts = contacts;
-    this.phoneNumber = phoneNumber;
+    this.username = username;
+    this.fullName = fullName;
+    this.password = password;
     this.email = email;
-    this.legalRepresentative = legalRepresentative;
-    this.businessCode = businessCode;
-    this.invoiceIssuingAddress = invoiceIssuingAddress;
+    this.phoneNumber = phoneNumber;
+    this.authorities = authorities;
+    this.authenticationType = authenticationType;
+    this.accountType = accountType;
+    this.contactId = contactId;
+    this.dayOfBirth = dayOfBirth;
+    this.gender = gender;
+    this.repeatPassword = repeatPassword;
+    this.role =role;
+    this.organizationId = organizationId;
+    this.employeeCode = employeeCode;
+    this.title = title;
+    this.description = description;
+    this.status = status;
+    this.avatarFileId = avatarFileId;
+    // Thong tin anh trong tai khoan
+    this.file = file;
+    this.avatarFileUrl = avatarFileUrl;
+    this.deleted = deleted;
     this.checked = checked;
     this.disabled = disabled;
-    this.deleted = deleted;
-    this.status = status;
-    this.type = type;
-    this.incorporationDate = incorporationDate;
+    this.paper =paper;
+    this.address =address;
   }
 }
