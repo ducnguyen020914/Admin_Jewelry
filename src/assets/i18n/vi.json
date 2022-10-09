@@ -605,6 +605,8 @@
       "menuName": "Menu",
       "menuType": "Kiểu menu",
       "totalPrice": "Tổng giá tiền",
+      "customer": "Thông tin khách hàng",
+      "customerSelect" : "Vui lòng chọn khách hàng",
       "update": "Cập nhật đơn đặt hàng",
       "detail": "Chi tiết đơn đặt hàng",
       "orderItems": "Danh sách sản phẩm",
@@ -626,16 +628,19 @@
         "endCreatedAt": "Thời gian tạo đơn đến"
       },
       "type": {
-        "root": "Kiểu đặt hàng",
-        "orderSet": "Đặt đồ ăn vặt",
-        "orderBuffet": "Đặt cơm"
+        "root": "Hình thức mua hàng",
+        "orderSet": "Mua tại cửa hàng",
+        "orderBuffet": "Mua trực tuyến"
       },
       "status": {
         "root": "Trạng thái",
-        "new": "Chờ duyệt",
-        "paid": "Đã thanh toán",
-        "order": "Đã duyệt",
-        "delivered": "Đã giao hàng"
+        "to_pay": "Chờ lấy hàng",
+        "to_ship": "Chờ xác nhận",
+        "to_receive": "Đang giao",
+        "completed": "Đã giao",
+        "cancelled": "Đã huỷ",
+        "return_refund": "Trả hàng"
+
       },
       "success": {
         "msg": "Thành công",

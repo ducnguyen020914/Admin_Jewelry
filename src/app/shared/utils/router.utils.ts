@@ -91,7 +91,7 @@ export const ROUTER_UTILS = {
     orderList: 'list',
     orderUpdate: 'order/:id/update',
     orderDetail: 'order/:id/detail',
-    orderCreate: 'order/create',
+    orderCreate: 'create',
     refun:"refun"
   },
   user:{

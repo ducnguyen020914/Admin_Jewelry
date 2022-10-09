@@ -216,26 +216,6 @@ export const ORDER_STATUS_CONST: {
   PAID: 'PAID',
 }
 
-export const ORDER_STATUS: { label: string; value: string; }[] = [
-  {
-    label: 'model.order.status.new',
-    value: 'NEW',
-  },
-  {
-    label: 'model.order.status.order',
-    value: 'ORDER',
-  },
-  {
-    label: 'model.order.status.delivered',
-    value: 'DELIVERED',
-  },
-  {
-    label: 'model.order.status.paid',
-    value: 'PAID',
-  },
-];
-
-
 export const ORDER_TYPE_CONST: {
   [key: string]: string;
 } = {
