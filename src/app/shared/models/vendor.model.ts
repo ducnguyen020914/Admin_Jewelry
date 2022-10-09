@@ -3,10 +3,13 @@ import { Role } from './role.model';
 import { UserPrimary } from './user-primary.model';
 
 export interface IVendor {
-  id?: string;
+  vendorId?: string;
   name?: string;
   email?: string;
-  phoneNumber?: string;
+  address?:string;
+  phone?: string;
+  bankName?:string;
+  bankNumber?:string
   createdBy?: string;
   createdAt?: number;
   lastModifiedBy?: string;
@@ -15,23 +18,24 @@ export interface IVendor {
 
 export class Vendor implements IVendor {
   constructor(
-    public id?: string,
-    public username?: string,
-    public fullName?: string,
-    public password?: string,
+    public vendorId?: string,
+    public name?: string,
     public email?: string,
-    public phoneNumber?: string,
+    public address?:string,
+    public phone?: string,
+    public bankName?:string,
+    public bankNumber?:string,
     public createdBy?: string,
     public createdAt?: number,
     public lastModifiedBy?: string,
     public lastModifiedAt?: number
   ) {
-    this.id = id;
-    this.username = username;
-    this.fullName = fullName;
-    this.password = password;
+    this.vendorId = vendorId;
     this.email = email;
-    this.phoneNumber = phoneNumber;
+    this.address = address;
+    this.phone = phone;
+    this.bankName = bankName;
+    this.bankNumber = bankNumber;
     this.createdBy = createdBy;
     this.createdAt = createdAt;
     this.lastModifiedAt = lastModifiedAt;

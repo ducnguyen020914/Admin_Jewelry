@@ -261,6 +261,7 @@
       "productDelete": "Bạn có chắc chắn muốn xóa sản phẩm ?",
       "titleDelete": "Xác nhận xóa nhà cung cấp",
       "titleDeleteProduct": "Xác nhận xóa sản phẩm",
+      
       "product": {
         "code": "Mã sản phẩm",
         "name": "Tên sản phẩm",
@@ -284,6 +285,7 @@
       "phone": "Số điện thoại",
       "address": "Địa chỉ",
       "bankNumber": "Số tài khoản",
+      "phoneNumber":"Số điện thoại",
       "bankName": "Tên ngân hàng",
       "createdAt": "Thời gian tạo",
       "createBy": "Người tạo",
@@ -303,11 +305,26 @@
         "msg": "Lỗi"
       }
     },
+    "material":{
+      "name":"Tên chất liệu",
+      "purchasePrice": "Giá mua",
+      "salePrice":"Giá khuyến mại",
+      "materialTypeName":"Tên loại vật liệu",
+      "color":"Màu sắc",
+      "type":"Loại Chất liệu",
+      "age":"Tuổi chất liệu",
+      "createdAt":"Ngày tạo",
+      "createdBy": "Người tạo",
+      "lastModifiedAt": "Ngày cập nhật",
+      "lastModifiedBy": "Người cập nhật"
+    },
     "category": {
+      "description":"Mô tả chi tiết",
       "id": "Mã thể loại",
       "title": "Quản lý thể loại sản phẩm",
       "list": "Danh sách thể loại",
       "name": "Tên thể loại",
+      "keyword":"Từ khóa",
       "details":"Chi tiết thể loại",
       "enterName": "Vui lòng điền tên của thể loại",
       "subTypeId": "Thể loại cha (ReferenceTypeId)",
@@ -346,6 +363,9 @@
       "title": "Quản lý nhà sản xuất",
       "email": "Email",
       "phoneNumber": "Số điện thoại",
+      "bankNumber":"Số tài khoản",
+      "bankName":"Tên ngân hàng",
+      "address":"Địa chỉ nhà cung cấp",
       "enterEmail": "Vui lòng điền email của nhà sản xuất",
       "list": "Danh sách nhà sản xuất",
       "name": "Tên nhà sản xuất",
@@ -360,6 +380,9 @@
       "unlockTitle": "Xác nhận mở khóa nhà sản xuất",
       "lockManufactureContent": "Bạn có chắc chắn muốn khóa nhà sản xuất {{name}}?",
       "unlockManufactureContent": "Bạn có chắc chắn muốn mở khóa nhà sản xuất <b>{{name}}?",
+      "deleteManufactureTitel": "Xác nhận xóa nhà cung cấp",
+      "deleteManufactureContent": "Bạn có chắc chắn muốn xóa khóa nhà cung cấp <b>{{name}}?",
+    
       "status": "Trạng thái",
       "selectStatus": "Chọn trạng thái",
       "manufactureStatus": {
@@ -513,6 +536,7 @@
       "material": "Chất liệu",
       "dimensions": "Kích thước",
       "selectStatus": "Chọn trạng thái",
+      "vendor":"Danh sách nhà cung cấp",
       "productStatus": {
         "active": "Hoạt động",
         "inactive": "Không hoạt động",
@@ -540,61 +564,6 @@
       },
       "deleteProductTitle": "Xóa sản phẩm",
       "deleteProductContent": "Bạn có chắc chắn xóa sản phẩm {{name}} không?"
-    },
-    "menu": {
-      "title": "Tiêu đề",
-      "list": "Danh sách menu",
-      "create": "Tạo menu",
-      "update": "Cập nhật menu",
-      "detail": "Chi tiết menu",
-      "chooseProducts": "Chọn sản phẩm",
-      "code": "Mã menu",
-      "type": "Loại menu",
-      "price": "Giá tiền",
-      "note": "Ghi chú",
-      "status": "Trạng thái thanh toán",
-      "closedAt": "Thời gian đóng đơn",
-      "startCloseAt": "Thời gian đóng đơn từ",
-      "endCloseAt": "Thời gian đóng đơn đến",
-      "availableproduct": "Các sản phẩm đang có",
-      "selectedProducts": "Các sản phẩm đã chọn",
-      "orders": "Các đơn đặt hàng trong menu",
-      "isClosed": "Đã đóng đơn",
-      "publishStatus": "Trạng thái công khai",
-      "unPublishStatus": "Trạng thái không công khai",
-      "publish": "Công khai menu",
-      "unpublish": "Hủy công khai menu",
-      "publishConfirm": "Bạn có chắc chắn công khai menu {{title}} không?",
-      "unpublishConfirm": "Bạn có chắc chắn hủy công khai menu {{title}} không?",
-      "lunch": "Menu tùy chọn",
-      "food": "Menu tự chọn",
-      "delete": "Xóa menu",
-      "deleteConfirm":"Bạn có chắc chắn xóa menu {{title}} không?",
-      "keyword": {
-        "input": "Nhập tiêu đề, mã, ghi chú hoặc giá" ,
-        "title": "Từ khóa"
-      },
-      "success": {
-        "msg": "Thành công",
-        "create": "Tạo mới menu thành công",
-        "update": "Cập nhật menu thành công",
-        "delete": "Xóa menu thành công",
-        "publish":"Công khai menu thành công",
-        "unpublish":"Hủy công khai menu thành công",
-        "commit": "Chốt đơn thành công"
-      },
-      "error": {
-        "msg": "Lỗi",
-        "create": "Tạo mới menu thất bại",
-        "update": "Cập nhật menu thất bại",
-        "delete": "Xóa menu thất bại",
-        "publish":"Công khai menu thất bại",
-        "unpublish":"Hủy công khai menu thất bại",
-        "productMinSize": "Menu phải có ít nhất một sản phẩm"
-      },
-      "deleteProductTitle": "Xóa sản phẩm",
-      "deleteProductContent": "Bạn có chắc chắn xóa sản phẩm {{name}} không?",
-      "emptyProducts": "Danh sách sản phẩm trống"
     },
     "order": {
       "list": "Danh sách đơn đặt hàng",

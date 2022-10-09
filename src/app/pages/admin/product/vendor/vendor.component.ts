@@ -1,14 +1,18 @@
 import { Component, OnInit } from '@angular/core';
 import { PAGINATION } from '../../../../shared/constants/pagination.constants';
 import { FormGroup, FormBuilder } from '@angular/forms';
-import { IVendor } from '../../../../shared/models/vendor.model';
+import { IVendor, Vendor } from '../../../../shared/models/vendor.model';
 import { TranslateService } from '@ngx-translate/core';
 import { ToastService } from '../../../../shared/services/helpers/toast.service';
-import { NzModalService } from 'ng-zorro-antd/modal';
+import { NzModalService, NzModalRef } from 'ng-zorro-antd/modal';
 import { Router } from '@angular/router';
 import { VendorSearchRequest } from '../../../../shared/models/request/vendor-search-request.model';
 import { NzTableQueryParams } from 'ng-zorro-antd/table';
 import CommonUtil from '../../../../shared/utils/common-utils';
+import { VendorService } from '../../../../shared/services/product/vendorservice';
+import { ROUTER_ACTIONS } from '../../../../shared/utils/router.utils';
+import { UpdateVendorComponent } from '../update-vendor/update-vendor.component';
+import { DetailVendorComponent } from '../detail-vendor/detail-vendor.component';
 
 @Component({
   selector: 'app-vendor',
@@ -39,8 +43,8 @@ export class VendorComponent implements OnInit {
     private toast: ToastService,
     private modalService: NzModalService,
     private router: Router,
+    private vendorService:VendorService
   ) {
-    this.onSearchRoles('');
     this.initForm();
   }
 
@@ -51,7 +55,71 @@ export class VendorComponent implements OnInit {
   getIndex(index: number): number {
     return CommonUtil.getIndex(index, this.pageIndex, this.pageSize);
   }
+  create(): void {
+    const base = CommonUtil.modalBase(
+      UpdateVendorComponent,
+      {
+        action: ROUTER_ACTIONS.create,
+      },
+      '40%'
+    );
+    const modal: NzModalRef = this.modalService.create(base);
+    modal.afterClose.subscribe((result) => {
+      if (result && result?.success) {
+        this.loadData(this.pageIndex,this.pageSize);
+      }
+    });
+  }
+  update(vendor:IVendor): void {
+    const base = CommonUtil.modalBase(
+      UpdateVendorComponent,
+      {
+        isUpdate: true,
+        vendor,
+      },
+      '40%'
+    );
+    const modal: NzModalRef = this.modalService.create(base);
+    modal.afterClose.subscribe((result) => {
+      if (result && result?.success) {
+        this.loadData(this.pageIndex,this.pageSize);
+      }
+    });
+  }
+  detail(vendor: IVendor): void {
+    console.log(vendor);
+    
+    const base = CommonUtil.modalBase(
+      DetailVendorComponent,
+      {
+        action: ROUTER_ACTIONS.detail,
+        vendor,
+      },
+      '40%'
+    );
 
+    const modal: NzModalRef = this.modalService.create(base);
+    modal.afterClose.subscribe((result) => {});
+  }
+  delete(vendor: IVendor): void {
+    const deleteForm = CommonUtil.modalConfirm(
+      this.translateService,
+      'model.manufacture.deleteManufactureTitel',
+      'model.manufacture.deleteManufactureContent',
+      { name: vendor?.name }
+    );
+    const modal: NzModalRef = this.modalService.create(deleteForm);
+    modal.afterClose.subscribe((result: { success: boolean; data: any }) => {
+      if (result?.success) {
+        this.vendorService
+          .delete(vendor?.vendorId || '')
+          .subscribe((response: any) => {
+            this.toast.success('model.product.success.delete');
+            this.loadData(this.pageIndex,this.pageSize);
+          });
+      }
+    });
+  }
   initForm(): void {
     this.form = this.fb.group({
       keyword: null,
@@ -59,13 +127,6 @@ export class VendorComponent implements OnInit {
       status: null,
     });
   }
-
-  // search(event: any): void {
-  //   this.userRequest.keyword = event?.target?.value.trim();
-  //   this.pageIndex = PAGINATION.PAGE_DEFAULT;
-  //   this.loadData(this.pageIndex, this.pageSize);
-  // }
-
   search(): void {
     this.vendorSearchRequest.keyword = this.form.get('keyword')?.value;
     this.pageIndex = PAGINATION.PAGE_DEFAULT;
@@ -82,7 +143,13 @@ export class VendorComponent implements OnInit {
     this.vendorSearchRequest.pageSize = size;
     this.vendorSearchRequest.sortBy = sortBy;
     this.loading = isLoading;
-  }
+    this.vendorService.search(this.vendorSearchRequest).subscribe((res:any) => {
+      this.vendors = res.body?.data.data;
+      this.total  = res.body?.data?.page.total;
+      console.log(res);
+      
+    })
+    }
 
   onQueryParamsChange(params: NzTableQueryParams): void {
     if (this.isCallFirstRequest) {
@@ -106,6 +173,8 @@ export class VendorComponent implements OnInit {
     const { pageIndex, pageSize } = params;
     this.pageIndex = pageIndex;
     this.pageSize = pageSize;
+    console.log(params);
+    
     this.loadData(this.pageIndex, this.pageSize);
   }
 
@@ -120,20 +189,10 @@ export class VendorComponent implements OnInit {
   }
 
 
-  onSearchRoles(keyword: any): void {
-    // this.roleService
-    //   .searchAutoComplete({ keyword: keyword.trim() })
-    //   .subscribe((res) => {
-    //     const data = res?.body?.data as Array<Role>;
-    //     this.roles = data || [];
-    //   });
-  }
-
   resetSearch(): void {
     this.form.reset();
     this.pageIndex = PAGINATION.PAGE_DEFAULT;
     this.pageSize = PAGINATION.SIZE_DEFAULT;
-    this.onSearchRoles('');
     this.loadData(this.pageIndex, this.pageSize);
   }
 }

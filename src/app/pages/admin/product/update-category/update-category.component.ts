@@ -8,6 +8,9 @@ import { ROUTER_ACTIONS } from '@shared/utils/router.utils';
 import { CategoryService } from '../../../../shared/services/product/category.service';
 import { ToastService } from '../../../../shared/services/helpers/toast.service';
 import { NzModalRef } from 'ng-zorro-antd/modal';
+import { TranslateService } from '@ngx-translate/core';
+import { map, filter } from 'rxjs/operators';
+import { element } from 'protractor';
 
 @Component({
   selector: 'app-update-category',
@@ -21,7 +24,7 @@ export class UpdateCategoryComponent implements OnInit {
   @Input() category: Category = new Category();
   initalState:Category = new Category();
   LENGTH_VALIDATOR = LENGTH_VALIDATOR;
-  
+  pathTranslate = 'model.category.'
   ROUTER_ACTIONS = ROUTER_ACTIONS;
   form:FormGroup = new  FormGroup([]);
   categorySearchRequest: CategorySearchRequest = {
@@ -31,7 +34,8 @@ export class UpdateCategoryComponent implements OnInit {
   constructor(private fb: FormBuilder,
     private categoryService:CategoryService,
     private toast:ToastService,
-    private modalRef:NzModalRef) { }
+    private modalRef:NzModalRef,
+    private translateService:TranslateService) { }
   get properties():FormArray{
     return this.form.get('properties') as FormArray;
   }
@@ -39,14 +43,22 @@ export class UpdateCategoryComponent implements OnInit {
     this.initForm();
   }
   initForm(): void {
+    console.log(this.category);
+    
     const dataObject =
       this.action === this.ROUTER_ACTIONS.create
         ? this.initalState
         : this.category;
     this.form = this.fb.group({
       name: [dataObject.name, [Validators.required]],
+      description:[dataObject.description],
         properties: this.fb.array([]),
     });
+    if(this.isUpdate){
+      dataObject.properties?.forEach((category:any) => {
+        this.properties.push(this.fb.control(category.name));
+      })
+    }
   }
   searchCategories(id:string){};
   
@@ -54,8 +66,6 @@ export class UpdateCategoryComponent implements OnInit {
     this.properties.push(
      this.fb.control('')
     );
-    console.log(this.properties);
-    
   }
   onSubmit(): void {
     console.log('ádsda', this.properties);
@@ -68,21 +78,27 @@ export class UpdateCategoryComponent implements OnInit {
   updateCategory(){
     console.log('heelooo khi');
     const category: Category = {
-      ...this.form.value
+      ...this.form.value,
+      properties:this.propertyValues().filter((element) => element.trim() !== '')
     };
-    this.categoryService.update(category,this.category.id).subscribe((res) => {
-      this.toast.success('model.category.success.create');
+    this.categoryService.update(category,this.category.categoryId).subscribe((res) => {
+      this.toast.success('model.category.success.update');
       this.modalRef.close({
         success: true,
         value: category,
       });
     });
   }
+  propertyValues():string[]{
+    return this.properties.value;
+  }
   createCategory(){
-    console.log('heelooo khi');
+    
     const category: Category = {
-      ...this.form.value
+      ...this.form.value,
+      properties:this.propertyValues().filter((element) => element.trim() !== '')
     };
+    console.log('heelooo khi',category);
     this.categoryService.create(category).subscribe((res) => {
       this.toast.success('model.category.success.create');
       this.modalRef.close({
@@ -91,4 +107,10 @@ export class UpdateCategoryComponent implements OnInit {
       });
     });
   };
+    getTranslate(str: string): string {
+      return this.translateService.instant(this.pathTranslate + '' + str);
+    }
+  onChangeData(type: string, content: string): void {
+    this.form.get(type)?.setValue(content);
+  }
 }

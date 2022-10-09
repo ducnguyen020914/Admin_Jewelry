@@ -1,9 +1,10 @@
 
 export interface ICategory {
-  id?: string;
+  categoryId?: string;
   deleted?: boolean;
   name?: string;
   properties?:string[];
+  description?:string;
   createdAt?: number;
   createdBy?: string;
   lastModifiedAt?: number;
@@ -11,18 +12,20 @@ export interface ICategory {
 }
 export class Category implements ICategory {
   constructor(
-    public id?: string,
+    public categoryId?: string,
     public name?: string,
     public properties?:string[],
+    public description?:string,
     public deleted?: boolean,
     public createdAt?: number,
     public createdBy?: string,
     public lastModifiedAt?: number,
     public lastModifiedBy?: string,
   ) {
-    this.id = id;
+    this.categoryId = categoryId;
     this.name = name;
     this.properties = properties;
+    this.description = description;
     this.deleted = deleted;
     this.createdAt = createdAt;
     this.createdBy = createdBy;

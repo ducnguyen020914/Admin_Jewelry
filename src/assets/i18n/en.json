@@ -87,7 +87,6 @@
   "sidebar": {
     "dashboard": "Dashboard",
     "vendor": "Vendor",
-    "vendor": "Vendor",
     "building": "Buildings",
     "contract": "Contract",
     "unit": "Units",
@@ -533,10 +532,6 @@
       },
       "deleteProductTitle": "Delete product",
       "deleteProductContent":"Are you sure you want to delete product {{name}}?"
-    },
-   "guest": {
-      "register":"Register guests in and out",
-      "registerlist":"Register List"
     },
     "menu": {
       "title": "Title",

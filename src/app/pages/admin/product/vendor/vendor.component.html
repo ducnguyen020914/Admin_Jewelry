@@ -1,5 +1,5 @@
 <div class="content">
-  <mb-table-title [title]="'model.user.list'"></mb-table-title>
+  <mb-table-title [title]="'model.vendor.list'"></mb-table-title>
   <!-- filter element -->
   <nz-table class="content mt-3">
     <div [formGroup]="form" class="filter-element">
@@ -42,24 +42,23 @@
         <thead>
         <tr>
           <th nzAlign="center">{{ "common.index" | translate }}</th>
-          <th nzAlign="left" nzColumnKey="fullName" [nzSortFn]="true">
-            {{ "model.user.fullName" | translate }}
+          <th nzAlign="center" nzColumnKey="name" [nzSortFn]="true">
+            {{ "model.vendor.name" | translate }}
           </th>
-          <th nzAlign="left" nzColumnKey="username" [nzSortFn]="true">
-            {{ "model.user.username" | translate }}
+          <th nzAlign="center" nzColumnKey="email" [nzSortFn]="true">
+            {{ "model.vendor.email" | translate }}
           </th>
-          <th nzAlign="left" nzColumnKey="accountType" [nzSortFn]="true">
-            {{ "model.user.accountType" | translate }}
+          <th nzAlign="center" nzColumnKey="phone" [nzSortFn]="true">
+            {{ "model.vendor.phoneNumber" | translate }}
           </th>
-          <th nzAlign="center">{{ "model.user.phoneNumber" | translate }}</th>
-          <th nzAlign="left" nzColumnKey="email" [nzSortFn]="true">
-            {{ "model.user.email" | translate }}
+          <th nzAlign="center" nzColumnKey="address" [nzSortFn]="true">
+            {{ "model.vendor.address" | translate }}
           </th>
-          <th nzAlign="left" nzColumnKey="employeeCode" [nzSortFn]="true">
-            {{ "model.user.employeeCodeSort" | translate }}
+          <th nzAlign="center" nzColumnKey="bankName" [nzSortFn]="true">
+            {{ "model.vendor.bankName" | translate }}
           </th>
-          <th nzAlign="center" nzColumnKey="status" [nzSortFn]="true">
-            {{ "common.status" | translate }}
+          <th nzAlign="center" nzColumnKey="bankNumber" [nzSortFn]="true">
+            {{ "model.vendor.bankNumber" | translate }}
           </th>
           <th
             nzAlign="center"
@@ -75,37 +74,23 @@
           <tr>
             <td nzAlign="center">{{ getIndex(i) }}</td>
             <td
-              nzAlign="left"
-              [nzTooltipTitle]="item.fullName"
-              nzTooltipPlacement="top"
-              nz-tooltip
+            nzAlign="center"
             >
-              {{ getLimitLength(item.fullName!) }}
+              {{ getLimitLength(item.name!) }}
             </td>
-            <td nzAlign="left">{{ item.username }}</td>
-            <td nzAlign="left">{{item.authenticationType }}</td>
-            <td nzAlign="center">{{ item.phoneNumber }}</td>
+            <td nzAlign="left">{{ item.email }}</td>
+            <td nzAlign="left">{{item.phone }}</td>
+            <td nzAlign="center">{{ item.address }}</td>
             <td
               nzAlign="left"
               [nzTooltipTitle]="item.email"
               nzTooltipPlacement="top"
               nz-tooltip
             >
-              {{ item.email }}
+              {{ item.bankName }}
             </td>
-            <td nzAlign="left">{{ item.employeeCode }}</td>
-            <td nzAlign="center">
-              <mb-badge
-                [color]="
-                    item.status === userActive
-                      ? 'badge-info'
-                      : 'badge-secondary'
-                  "
-                [text]="format(item.status, 'status')"
-              >
-              </mb-badge>
-            </td>
-            <td nzAlign="left" *hasRoles="['user:update']">
+            <td nzAlign="left">{{ item.bankNumber }}</td>
+            <td nzAlign="left">
               <!--<i class="icon icon-edit"-->
               <!--(click)="update(item)"-->
               <!--nz-icon nzType="edit"-->
@@ -114,48 +99,32 @@
               <!--nzTooltipPlacement="top"-->
               <!--nz-tooltip></i>-->
               <mb-button-action
-                [action]="'edit'"
-                *hasRoles="['user:update']"
-                className="first"
-                nzTooltipTitle="{{ 'action.update' | translate }}"
-                nzTooltipPlacement="top"
-                nz-tooltip
-                (click)="update(item)"
-              >
-              </mb-button-action>
+              [action]="'view'"
+              nzTooltipTitle="{{ 'action.detail' | translate }}"
+              nzTooltipPlacement="top"
+              nz-tooltip
+              (click)="detail(item)"
+            >
+            </mb-button-action>
               <mb-button-action
-                [action]="item.status === userActive ? 'lock' : 'unlock'"
-                *hasRoles="['user:update']"
-                className="{{
-                    item.authenticationType === USER_INTERNAL
-                      ? 'center'
-                      : 'last'
-                  }}"
-                nzTooltipTitle="{{
-                    (item.status === userActive
-                      ? 'action.lock'
-                      : 'action.unlock'
-                    ) | translate
-                  }}"
-                nzTooltipPlacement="top"
-                nz-tooltip
-                (click)="lock(item)"
-              >
-              </mb-button-action>
-              <ng-container *ngIf="item.authenticationType === USER_INTERNAL">
-                <mb-button-action
-                  [action]="'key'"
-                  *hasRoles="['user:update']"
-                  className="last"
-                  (click)="openChangePassword(item)"
-                  nzTooltipTitle="{{
-                      'model.user.changePassword' | translate
-                    }}"
+                  [action]="'edit'"
+                  *hasRoles="['manufacture:update']"
+                  className="first"
+                  nzTooltipTitle="{{ 'action.update' | translate }}"
                   nzTooltipPlacement="top"
                   nz-tooltip
+                  (click)="update(item)"
                 >
                 </mb-button-action>
-              </ng-container>
+                <mb-button-action
+                  [action]="'delete'"
+                  [className]="'last'"
+                  nzTooltipTitle="{{ 'action.update' | translate }}"
+                  nzTooltipPlacement="top"
+                  nz-tooltip
+                  (click)="delete(item)"
+                >
+                </mb-button-action>
             </td>
           </tr>
         </ng-container>

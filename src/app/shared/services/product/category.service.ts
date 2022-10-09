@@ -13,7 +13,7 @@ import { ICategoryProperty } from '../../models/product-category-property.model'
   providedIn: 'root',
 })
 export class CategoryService extends AbstractService {
-  public resourceUrl = 'https://633b0ce5e02b9b64c61e0ffa.mockapi.io/category';
+  public resourceUrl = '/api/v1/category';
   constructor(protected http: HttpClient) {
     super(http);
   }
@@ -30,13 +30,13 @@ export class CategoryService extends AbstractService {
 
   search(
     params?: ICategorySearchRequest,
-    loading = false
-  ): Observable<any> {
-    return this.http.get(`${this.resourceUrl}`);
+    loading = true
+  ): Observable<EntityResponseType<ICategory[]>> {
+    return super.get<ICategory[]>(`${this.resourceUrl}`,{params});
   }
 
   delete(id: string): Observable<EntityResponseType<any>> {
-    return super.post<ICategory>(`${this.resourceUrl}/${id}/delete`);
+    return super.delete<ICategory>(`${this.resourceUrl}/${id}`);
   }
 
   create(category: Category): Observable<EntityResponseType<ICategory>> {
@@ -47,7 +47,7 @@ export class CategoryService extends AbstractService {
     category: Category,
     id: any
   ): Observable<EntityResponseType<ICategory>> {
-    return super.post<ICategory>(`${this.resourceUrl}/${id}/update`, category);
+    return super.put<ICategory>(`${this.resourceUrl}/${id}`, category);
   }
 
   findByCategoryId(
