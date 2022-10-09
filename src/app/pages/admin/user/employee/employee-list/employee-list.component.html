@@ -1,0 +1,196 @@
+<div class="content">
+  <div class="row title mb-3">
+    <mb-table-title [title]="'model.employee.listTitle'"></mb-table-title>
+  </div>
+
+  <section class="content">
+    <div class="row mb-3">
+      <div class="col-lg-3 col-xl-3 col-md-5 col-sm-8 col-xs-12 col d-flex">
+        <nz-input-group nzPrefixIcon="search" >
+          <input
+            type="text"
+            nz-input
+            [value]="keyword"
+            (keyup.enter)="search($event)"
+            [placeholder]="'action.search' | translate"
+          />
+        </nz-input-group>
+      </div>
+      <div class="col-9 text-end">
+        <mb-button
+          class="float-end"
+          [type]="'primary'"
+          [icon]="'plus'"
+          [text]="'action.create'"
+          (click)="create()"
+        >
+        </mb-button>
+      </div>
+    </div>
+    <div class="row">
+      <div (resized)="onResized($event)" class="col-12">
+        <div class="row list_employee_content">
+          <ng-container *ngIf="employees.length > 0">
+            <div class="gird_view_container row">
+              <ng-container *ngFor="let item of employees; let i = index">
+                <div
+                  [class]="{
+                    'col-lg-3': columns === 3,
+                    'col-lg-4': columns === 4,
+                    'col-md-4': true,
+                    'col-sm-6': true,
+                    'col-xs-12': true,
+                    'mt-3': true
+                  }"
+                >
+                  <div class="grid_item mb-3 d-flex flex-column">
+                    <div class="grid_item_header d-flex align-items-center">
+                      <div class="grid_item_header_avatar me-4">
+                        <div *ngIf="!item.avatarFileUrl; else avatar">
+                          <nz-avatar
+                            (click)="detail(item)"
+                            class="avatar-none"
+                            [nzSize]="75"
+                            class="{{
+                              i % 2 == 0 ? 'avatar-yellow' : 'avatar-gray'
+                            }}"
+                            [nzText]="getFirstLetter(item.fullName)"
+                          ></nz-avatar>
+                        </div>
+                        <ng-template #avatar>
+                          <nz-avatar
+                            (click)="detail(item)"
+                            class="avatar-image"
+                            [nzSize]="75"
+                            class="{{
+                              i % 2 == 0 ? 'avatar-yellow' : 'avatar-gray'
+                            }}"
+                            [nzText]="getFirstLetter(item.fullName)"
+                            [nzSrc]="getResource(item.avatarFileUrl)"
+                          ></nz-avatar>
+                        </ng-template>
+                      </div>
+                      <div class="grid_item_header_info">
+                        <div
+                          class="grid_item_header_info_name cursor"
+                          (click)="detail(item)"
+                        >
+                          {{ item.fullName | uppercase }}
+                        </div>
+                        <span
+                          class="badge text-bg-{{
+                            item.status === 'ACTIVE' ? 'success' : 'warning'
+                          }}"
+                        >{{ item.status }}</span
+                        >
+                      </div>
+                    </div>
+                    <div class="grid_item_body">
+                      <div class="grid_item_body_info mt-3">
+                        <div class="body_info_group">
+                          <div class="body_info_group_label">
+                            <i nz-icon nzType="mail" nzTheme="outline"></i>
+                            <span class="body_info_group_label_content">
+                              {{ "model.employee.email" | translate }}:
+                            </span>
+                          </div>
+                          <div
+                            class="body_info_group_content cursor"
+                            (click)="detail(item)"
+                          >
+                            {{
+                            change
+                              ? getLimitLength(item.email, 15)
+                              : item.email
+                            }}
+                          </div>
+                        </div>
+                        <div class="body_info_group">
+                          <div class="body_info_group_label">
+                            <i nz-icon nzType="phone" nzTheme="outline"></i>
+                            <span class="body_info_group_label_content">
+                              {{ "model.employee.phoneNumber" | translate }}:
+                            </span>
+                          </div>
+                          <div
+                            class="body_info_group_content cursor"
+                            (click)="detail(item)"
+                          >
+                            {{
+                            change
+                              ? getLimitLength(item.phoneNumber, 11)
+                              : item.phoneNumber
+                            }}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-7"></div>
+                      <div class="col-5">
+                        <mb-button-action
+                          [action]="'edit'"
+                          className="first"
+                          nzTooltipTitle="{{ 'action.update' | translate }}"
+                          nzTooltipPlacement="top"
+                          nz-tooltip
+                          (click)="update(item)"
+                        >
+                        </mb-button-action>
+                        <mb-button-action
+                          [action]="'delete'"
+                          [className]="'last'"
+                          nzTooltipTitle="{{ 'action.update' | translate }}"
+                          nzTooltipPlacement="top"
+                          nz-tooltip
+                          (click)="delete(item)"
+                        >
+                        </mb-button-action>
+                        <mb-button-action
+                          [action]="
+                            item.status === 'ACTIVE' ? 'lock' : 'unlock'
+                          "
+                          nzTooltipTitle="{{
+                            (item.status === 'ACTIVE'
+                              ? 'action.lock'
+                              : 'action.unlock'
+                            ) | translate
+                          }}"
+                          nzTooltipPlacement="top"
+                          nz-tooltip
+                          (click)="lock(item)"
+                        >
+                        </mb-button-action>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </ng-container>
+            </div>
+          </ng-container>
+          <ng-container *ngIf="!employees || employees.length === 0">
+            <mb-no-data></mb-no-data>
+          </ng-container>
+        </div>
+        <mb-pagination
+          [pageIndex]="pageIndex"
+          [pageSize]="pageSize"
+          [total]="total"
+          (onChange)="onQuerySearch($event)"
+          [pageSizeOptions]="pageSizeOptions"
+        >
+        </mb-pagination>
+      </div>
+    </div>
+  </section>
+  <mb-modal
+    [title]="lockPopup.title"
+    [content]="lockPopup.content"
+    [okText]="lockPopup.okText"
+    [interpolateParams]="lockPopup.interpolateParams"
+    [isVisible]="isVisible"
+    [callBack]="this.lockPopup.callBack"
+    (emitter)="onLockAndUnlock($event)"
+  >
+  </mb-modal>
+</div>

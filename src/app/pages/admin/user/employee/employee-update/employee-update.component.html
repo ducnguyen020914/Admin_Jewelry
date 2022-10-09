@@ -1,0 +1,199 @@
+<div class="content">
+  <div *nzModalTitle>
+    <span>{{
+      (action === ROUTER_ACTIONS.update
+          ? "action.update"
+          : action === ROUTER_ACTIONS.detail
+            ? "action.detail"
+            : "action.create"
+      ) | translate
+      }}</span>
+  </div>
+  <div class="row">
+    <div class="col-12">
+      <form [formGroup]="form">
+        <div class="row">
+          <div class="col-6 mb-2">
+            <label
+            >{{ "model.guest.name" | translate }}
+              <span class="text-danger">*</span></label
+            >
+            <input
+              formControlName="name"
+              nz-input
+              [maxLength]="LENGTH_VALIDATOR.NAME_MAX_LENGTH.MAX"
+              placeholder="{{ 'model.guest.name' | translate }}"
+            />
+            <ng-container
+              *ngIf="form.get('name')?.touched || form.get('name')?.dirty"
+            >
+              <span
+                class="text-danger"
+                *ngIf="form.get('name')?.hasError('required')"
+              >
+                <mb-not-blank [value]="'model.guest.name'"></mb-not-blank>
+              </span>
+            </ng-container>
+          </div>
+          <div class="col-6 mb-2">
+            <label
+            >{{ "model.guest.email" | translate }}
+              <span class="text-danger">*</span></label
+            >
+            <input
+              formControlName="email"
+              nz-input
+              [maxLength]="LENGTH_VALIDATOR.EMAIL_MAX_LENGTH.MAX"
+              placeholder="{{ 'model.guest.email' | translate }}"
+            />
+            <ng-container
+              *ngIf="form.get('email')?.touched || form.get('email')?.dirty"
+            >
+              <span
+                class="text-danger"
+                *ngIf="form.get('email')?.hasError('required')"
+              >
+                <mb-not-blank [value]="'model.guest.email'"></mb-not-blank>
+              </span>
+              <span
+                class="text-danger"
+                *ngIf="form.get('email')?.hasError('pattern')"
+              >
+                <small>{{ "common.pattern" | translate }}</small>
+              </span>
+            </ng-container>
+          </div>
+        </div>
+        <div class="row mb-2">
+          <div class="col-12">
+            <label>{{ "model.user.dayOfBirth" | translate }}
+              <span class="text-danger">*</span>
+            </label>
+            <nz-date-picker [nzDisabled] = isUpdate
+                            formControlName="dayOfBirth"
+                            [nzId]="'datePicker'"
+                            (keyup.enter)="enterDatePicker($event)"
+                            [nzDisabledDate]="disabledAfterToday"
+                            [nzFormat]="'dd/MM/yyyy'"
+                            nzPlaceHolder="{{ 'DD/MM/YYYY' | translate }}"
+                            #datePicker
+            >
+            </nz-date-picker>
+          </div>
+        </div>
+
+        <div class="row mb-2">
+          <div class="col-12">
+            <label>{{ "model.user.gender" | translate }}</label>
+            <br />
+
+            <nz-radio-group formControlName="gender" class="ant-input gender">
+              <label
+                nz-radio
+                *ngFor="let service of employeeGender"
+                [nzValue]="service.value"
+              >{{ service.label | translate }}
+              </label>
+            </nz-radio-group>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-6 mb-2">
+            <label
+            >{{ "model.guest.phoneNumber" | translate }}
+              <span class="text-danger">*</span></label
+            >
+            <input
+              formControlName="phoneNumber"
+              nz-input
+              [maxLength]="LENGTH_VALIDATOR.PHONE_MAX_LENGTH.MAX"
+              placeholder="{{ 'model.guest.phoneNumber' | translate }}"
+            />
+            <ng-container
+              *ngIf="
+                form.get('phoneNumber')?.touched ||
+                form.get('phoneNumber')?.dirty
+              "
+            >
+              <span
+                class="text-danger"
+                *ngIf="form.get('phoneNumber')?.hasError('required')"
+              >
+                <mb-not-blank
+                  [value]="'model.guest.phoneNumber'"
+                ></mb-not-blank>
+              </span>
+              <span
+                class="text-danger"
+                *ngIf="form.get('phoneNumber')?.hasError('pattern')"
+              >
+                <small>{{ "common.pattern" | translate }}</small>
+              </span>
+            </ng-container>
+          </div>
+          <div class="col-6 mb-2">
+            <label
+            >{{ "model.guest.address" | translate }}
+              <span class="text-danger">*</span></label
+            >
+            <input
+              formControlName="address"
+              nz-input
+              [maxLength]="LENGTH_VALIDATOR.NAME_MAX_LENGTH.MAX"
+              placeholder="{{ 'model.guest.address' | translate }}"
+            />
+            <ng-container
+              *ngIf="form.get('address')?.touched || form.get('address')?.dirty"
+            >
+              <span
+                class="text-danger"
+                *ngIf="form.get('address')?.hasError('required')"
+              >
+                <mb-not-blank [value]="'model.guest.address'"></mb-not-blank>
+              </span>
+            </ng-container>
+          </div>
+        </div>
+        <div class="row">
+          <label>{{ 'model.guest.image' | translate }}</label>
+          <div class="col-12 mb-2">
+            <app-upload-image
+              [customSizeImg]="false"
+              [acceptTypeFiles]="['image']"
+              (emitter)="getFiles($event)"
+              [imageId]="employee.avatarFileId"
+              [alternateImageUrl]="avatarPlaceHolder"
+              className="image"
+              nzTooltipPlacement="top"
+              nz-tooltip
+            >
+            </app-upload-image>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-12 text-center" *nzModalFooter>
+      <button nz-button nzType="default" class="e-2" (click)="onCancel()">
+        {{
+        (action === ROUTER_ACTIONS.detail ? "action.back" : "action.cancel")
+          | translate
+        }}
+      </button>
+      <button
+        *ngIf="action !== ROUTER_ACTIONS.detail"
+        nz-button
+        nzType="primary"
+        (click)="onSubmit()"
+        [disabled]="form.invalid"
+      >
+        {{
+        (action === ROUTER_ACTIONS.update ? "action.update" : "action.create")
+          | translate
+        }}
+      </button>
+    </div>
+  </div>
+</div>
