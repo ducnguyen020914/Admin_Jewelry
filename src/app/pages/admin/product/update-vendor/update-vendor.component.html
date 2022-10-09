@@ -1,0 +1,208 @@
+<div class="content">
+  <div *nzModalTitle>
+    <span *ngIf="!isDetail">{{
+      (isUpdate ? "action.update" : "action.create") | translate
+    }}</span>
+    <span *ngIf="isDetail">{{ "action.detail" | translate }}</span>
+  </div>
+  <div class="row">
+    <div class="col-12">
+      <form [formGroup]="form">
+        <div class="row">
+          <div class="col-6 mb-2">
+            <label
+              >{{ "model.manufacture.name" | translate }}
+              <span class="text-danger">*</span></label
+            >
+            <input
+              formControlName="name"
+              nz-input
+              [maxLength]="LENGTH_VALIDATOR.NAME_MAX_LENGTH.MAX"
+              placeholder="{{ 'model.manufacture.name' | translate }}"
+            />
+            <ng-container
+              *ngIf="form.get('name')?.touched || form.get('name')?.dirty"
+            >
+              <span
+                class="text-danger"
+                *ngIf="form.get('name')?.hasError('required')"
+              >
+                <mb-not-blank [value]="'model.manufacture.name'"></mb-not-blank>
+              </span>
+            </ng-container>
+          </div>
+          <div class="col-6 mb-2">
+            <label
+              >{{ "model.manufacture.email" | translate }}
+              <span class="text-danger">*</span></label
+            >
+            <input
+              formControlName="email"
+              nz-input
+              [maxLength]="LENGTH_VALIDATOR.EMAIL_MAX_LENGTH.MAX"
+              placeholder="{{ 'model.manufacture.email' | translate }}"
+            />
+            <ng-container
+              *ngIf="form.get('email')?.touched || form.get('email')?.dirty"
+            >
+              <span
+                class="text-danger"
+                *ngIf="form.get('email')?.hasError('required')"
+              >
+                <mb-not-blank
+                  [value]="'model.manufacture.email'"
+                ></mb-not-blank>
+              </span>
+              <span
+                class="text-danger"
+                *ngIf="form.get('email')?.hasError('pattern')"
+              >
+                <small>{{ "common.pattern" | translate }}</small>
+              </span>
+            </ng-container>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-6 mb-2">
+            <label
+              >{{ "model.manufacture.phoneNumber" | translate }}
+              <span class="text-danger">*</span></label
+            >
+            <input
+              formControlName="phone"
+              nz-input
+              [maxLength]="LENGTH_VALIDATOR.PHONE_MAX_LENGTH.MAX"
+              placeholder="{{ 'model.manufacture.phoneNumber' | translate }}"
+            />
+            <ng-container
+              *ngIf="
+                form.get('phone')?.touched ||
+                form.get('phone')?.dirty
+              "
+            >
+              <span
+                class="text-danger"
+                *ngIf="form.get('phone')?.hasError('required')"
+              >
+                <mb-not-blank
+                  [value]="'model.manufacture.phoneNumber'"
+                ></mb-not-blank>
+              </span>
+              <span
+                class="text-danger"
+                *ngIf="form.get('phone')?.hasError('pattern')"
+              >
+                <small>{{ "common.pattern" | translate }}</small>
+              </span>
+            </ng-container>
+          </div>
+        
+       
+          <div class="col-6 mb-2">
+            <label
+              >{{ "model.manufacture.address" | translate }}
+              <span class="text-danger">*</span></label
+            >
+            <input
+              formControlName="address"
+              nz-input
+              [maxLength]="LENGTH_VALIDATOR.PHONE_MAX_LENGTH.MAX"
+              placeholder="{{ 'model.manufacture.address' | translate }}"
+            />
+            <ng-container
+              *ngIf="
+                form.get('address')?.touched ||
+                form.get('address')?.dirty
+              "
+            >
+              <span
+                class="text-danger"
+                *ngIf="form.get('address')?.hasError('required')"
+              >
+                <mb-not-blank
+                  [value]="'model.manufacture.address'"
+                ></mb-not-blank>
+              </span>
+            </ng-container>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-6 mb-2">
+            <label
+              >{{ "model.manufacture.bankName" | translate }}
+              <span class="text-danger">*</span></label
+            >
+            <input
+              formControlName="bankName"
+              nz-input
+              [maxLength]="LENGTH_VALIDATOR.PHONE_MAX_LENGTH.MAX"
+              placeholder="{{ 'model.manufacture.bankName' | translate }}"
+            />
+            <ng-container
+              *ngIf="
+                form.get('bankName')?.touched ||
+                form.get('bankName')?.dirty
+              "
+            >
+              <span
+                class="text-danger"
+                *ngIf="form.get('bankName')?.hasError('required')"
+              >
+                <mb-not-blank
+                  [value]="'model.manufacture.bankName'"
+                ></mb-not-blank>
+              </span>
+            </ng-container>
+          </div> 
+          <div class="col-6 mb-2">
+            <label
+              >{{ "model.manufacture.bankNumber" | translate }}
+              <span class="text-danger">*</span></label
+            >
+            <input
+              formControlName="bankNumber"
+              nz-input
+              [maxLength]="LENGTH_VALIDATOR.PHONE_MAX_LENGTH.MAX"
+              placeholder="{{ 'model.manufacture.bankNumber' | translate }}"
+            />
+            <ng-container
+              *ngIf="
+                form.get('bankNumber')?.touched ||
+                form.get('bankNumber')?.dirty
+              "
+            >
+              <span
+                class="text-danger"
+                *ngIf="form.get('bankNumber')?.hasError('required')"
+              >
+                <mb-not-blank
+                  [value]="'model.manufacture.bankNumber'"
+                ></mb-not-blank>
+              </span>
+            </ng-container>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-12 text-center" *nzModalFooter>
+      <button nz-button nzType="default" class="e-2" (click)="onCancel()">
+        {{
+          (action === ROUTER_ACTIONS.detail ? "action.back" : "action.cancel")
+            | translate
+        }}
+      </button>
+      <button
+        *ngIf="!isDetail"
+        nz-button
+        nzType="primary"
+        (click)="onSubmit()"
+        [disabled]="form.invalid"
+      >
+        {{ (isUpdate ? "action.save" : "action.save") | translate }}
+      </button>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,48 @@
+<div class="content">
+  <div *nzModalTitle>
+    <span>{{ "action.detail" | translate }}</span>
+  </div>
+
+  <div class="row">
+    <div class="col-12">
+      <div class="row">
+        <div class="col-6 mb-2">
+          <span
+            ><label>{{ "model.manufacture.name" | translate }}:&nbsp;</label
+            >{{ vendor.name }}</span
+          >
+        </div>
+        <div class="col-6 mb-2">
+          <span
+            ><label>{{ "model.manufacture.email" | translate }}:&nbsp;</label
+            >{{ vendor.email }}</span
+          >
+        </div>
+        <div class="col-6 mb-2">
+          <span>
+            <label>{{ "model.manufacture.phoneNumber" | translate }}:&nbsp;</label>
+            {{ vendor.phone }}
+          </span>
+        </div>
+        <div class="col-6 mb-2">
+          <span
+            ><label>{{ "model.manufacture.bankName" | translate }}:&nbsp;</label>
+            {{vendor.bankName }}
+          </span>
+        </div>
+      </div>
+      <div class="col-6 mb-2">
+        <span>
+          <label>{{ "model.manufacture.bankNumber" | translate }}:&nbsp;</label>
+          {{
+           vendor.bankNumber
+          }}
+        </span>
+      </div>
+        <div class="col-6 mb-2">
+          <span>
+            <label>{{ "model.manufacture.address" | translate }}:&nbsp;</label>
+            {{ vendor.address }}
+          </span>
+        </div>  
+</div>

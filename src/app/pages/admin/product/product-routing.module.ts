@@ -1,39 +1,40 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { ROUTER_UTILS } from '../../../shared/utils/router.utils';
+import { ROUTER_UTILS, ROUTER_ACTIONS } from '../../../shared/utils/router.utils';
 import { ProductComponent } from './product.component';
 import { CategoryComponent } from './category/category.component';
 import { MaterialComponent } from './material/material.component';
 import { AccessoryComponent } from './accessory/accessory.component';
 import { VendorComponent } from './vendor/vendor.component';
+import { DetailCategoryComponent } from './detail-category/detail-category.component';
 
 const routes: Routes = [
   {
     path: ROUTER_UTILS.product.productList,
     component: ProductComponent,
     data: {
-      title: 'model.product.list',
+      title: 'sidebar.product',
     },
   },
   {
     path: ROUTER_UTILS.product.category,
     component: CategoryComponent,
     data: {
-      title: 'model.product.list',
+      title: 'sidebar.category',
     },
   },
   {
     path: ROUTER_UTILS.product.material,
     component: MaterialComponent,
     data: {
-      title: 'model.product.material',
+      title: 'sidebar.material',
     },
   },
   {
     path: ROUTER_UTILS.product.accessory,
     component: AccessoryComponent,
     data: {
-      title: 'model.product.accessory',
+      title: 'sidebar.accessory',
     },
     
   },
@@ -42,9 +43,17 @@ const routes: Routes = [
     path: ROUTER_UTILS.product.vendor,
     component: VendorComponent,
     data: {
-      title: 'model.product.vendor',
+      title: 'sidebar.vendor',
     },
     
+  },
+  {
+    path: ROUTER_UTILS.product.categoryDetail,
+    component: DetailCategoryComponent,
+    data: {
+      title: 'model.category.details',
+      action: ROUTER_ACTIONS.detail,
+    },
   },
   // {
   //   path: ROUTER_UTILS.product.category,

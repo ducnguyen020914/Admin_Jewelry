@@ -20,32 +20,32 @@ import {
 import { Observable, of } from 'rxjs';
 import { IProductPropertyValue } from '../../models/product-property-value.model';
 import { VendorSearchRequest } from '../../models/request/vendor-search-request.model';
-import { IVendor } from '../../models/vendor.model';
+import { IVendor, Vendor } from '../../models/vendor.model';
 @Injectable({
   providedIn: 'root',
 })
 export class VendorService extends AbstractService {
-  public resourceUrl = "https://633b0ce5e02b9b64c61e0ffa.mockapi.io/product";
+  public resourceUrl = "/api/v1/vendor";
   constructor(protected http: HttpClient) {
     super(http);
   }
   search(
     params?: VendorSearchRequest,
     loading = false
-  ): Observable<any> {
-    return this.http.get(`${this.resourceUrl}`);
+  ): Observable<EntityResponseType<IVendor[]> >{
+    return super.get<IVendor[]>(`${this.resourceUrl}`,{params});
   }
 
-  create(dish: IVendor): Observable<EntityResponseType<IVendor>> {
-    return super.post<IVendor>(`${this.resourceUrl}`, dish);
+  create(dish: Vendor): Observable<EntityResponseType<Vendor>> {
+    return super.post<Vendor>(`${this.resourceUrl}`, dish);
   }
 
   update(id: string, dish: IVendor): Observable<EntityResponseType<IVendor>> {
-    return super.post<IVendor>(`${this.resourceUrl}/${id}/update`, dish);
+    return super.put<IVendor>(`${this.resourceUrl}/${id}`, dish);
   }
 
   delete(id: string): Observable<EntityResponseType<any>> {
-    return super.post<IVendor>(`${this.resourceUrl}/${id}/delete`);
+    return super.delete<IVendor>(`${this.resourceUrl}/${id}`);
   }
  
 }

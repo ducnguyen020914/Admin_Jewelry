@@ -12,7 +12,9 @@ import { UpdateProductComponent } from './update-product/update-product.componen
 import { AccessoryComponent } from './accessory/accessory.component';
 import { UpdateCategoryComponent } from './update-category/update-category.component';
 import { VendorComponent } from './vendor/vendor.component';
-
+import { UpdateVendorComponent } from './update-vendor/update-vendor.component';
+import { DetailVendorComponent } from './detail-vendor/detail-vendor.component';
+import { DetailCategoryComponent } from './detail-category/detail-category.component';
 @NgModule({
   imports: [
     CommonModule,
@@ -21,7 +23,6 @@ import { VendorComponent } from './vendor/vendor.component';
     NzTransferModule,
     NzDatePickerModule,
     NzSliderModule
-    
   ],
   declarations: [
     ProductComponent,
@@ -30,7 +31,10 @@ import { VendorComponent } from './vendor/vendor.component';
     UpdateProductComponent,
     AccessoryComponent,
     UpdateCategoryComponent,
-    VendorComponent
+    VendorComponent,
+    UpdateVendorComponent,
+    DetailVendorComponent,
+    DetailCategoryComponent
   ],
 })
 export class ProductModule {}

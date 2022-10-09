@@ -4,16 +4,16 @@
     <div [formGroup]="form" class="filter-element">
       <div class="row p-4">
         <div class="col-3">
-          <label>{{ getTranslate("name") }}</label>
+          <label>{{ getTranslate("keyword") }}</label>
           <input
-            formControlName="name"
-            (keyup.enter)="this.onSearch()"
+            formControlName="keyword"
+            (keyup.enter)="onSearch()"
             nz-input
             class="form-control"
             placeholder="{{ getTranslate('enterName') }}"
           />
         </div>
-        <div class="col-3">
+        <!-- <div class="col-3">
           <label>{{ "model.category.status" | translate }}</label>
           <nz-select
             formControlName="status"
@@ -38,7 +38,7 @@
               </div>
             </nz-option>
           </nz-select>
-        </div>
+        </div> -->
       </div>
       <div class="row mt-3 mb-3 text-center">
         <div class="col-12">
@@ -88,7 +88,7 @@
             <th nzAlign="center" nzColumnKey="createdAt" [nzSortFn]="true">
               {{ getTranslate("createdAt") }}
             </th>
-            <th nzAlign="left" nzColumnKey="createdBy">
+            <th nzAlign="center" nzColumnKey="createdBy" [nzSortFn]="true">
               {{ getTranslate("createdBy") }}
             </th>
             <th nzAlign="center" nzColumnKey="lastModifiedAt" [nzSortFn]="true">
@@ -117,7 +117,7 @@
               <td nzAlign="center">
                 {{ item.lastModifiedBy }}
               </td>
-              <td nzAlign="center" class="action" *hasRoles="['category:view']">
+              <td nzAlign="center" class="action">
                 <mb-button-action
                   [action]="'view'"
                   nzTooltipTitle="{{ 'action.detail' | translate }}"

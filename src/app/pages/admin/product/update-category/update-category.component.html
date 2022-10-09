@@ -31,6 +31,34 @@
               </span>
             </ng-container>
           </div> 
+           
+            <div class="row mt-2">
+              <div class="col-12 mb-2">
+                <label>{{ "model.category.description" | translate }}</label>
+                <mb-editor
+                  [placeholder]="getTranslate('description')"
+                  (data)="onChangeData('description', $event)"
+                  [isReadOnly]="isDetail"
+                  [value]="form?.get('description')?.value || ''"
+                  [maxLength]="LENGTH_VALIDATOR.CONTENT_MAX_LENGTH.MAX"
+                >
+                </mb-editor>
+                <ng-container
+                  *ngIf="
+                    form.get('description')?.touched || form.get('description')?.dirty
+                  "
+                >
+                  <span
+                    class="text-danger"
+                    *ngIf="form.get('description')?.hasError('required')"
+                  >
+                    <mb-not-blank
+                      [value]="getTranslate('description')"
+                    ></mb-not-blank>
+                  </span>
+                </ng-container>
+              </div>
+            </div>
             <label>{{ "model.category.property" | translate }} </label>
             <div formArrayName="properties" class="row">
               <div class="col-6 mb-3"
