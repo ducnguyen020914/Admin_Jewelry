@@ -127,6 +127,7 @@ export const ROUTER_UTILS = {
     category: 'category',
     categoryUpdate: 'category/:id/update',
     categoryDetail: 'category/:id/detail',
+    materialDetail: 'material/:id/detail',
     categoryCreate: 'category/create',
     accessory:'accessory',
     vendor:'vendor'
