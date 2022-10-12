@@ -1,0 +1,221 @@
+<div class="content">
+  <div *nzModalTitle>
+    <span *ngIf="!isDetail">{{
+      (isUpdate ? "action.update" : "action.create") | translate
+    }}</span>
+    <span *ngIf="isDetail">{{ "action.detail" | translate }}</span>
+  </div>
+  <div class="row">
+    <div class="col-12">
+      <form [formGroup]="form">
+        <div class="row">
+          <div class="col-6 mb-3">
+            <label
+              >{{ "model.material.name" | translate }}
+              <span class="text-danger">*</span></label
+            >
+            <input
+              formControlName="materialName"
+              nz-input
+              
+              [maxLength]="LENGTH_VALIDATOR.NAME_MAX_LENGTH.MAX"
+              placeholder="{{ 'model.material.name' | translate }}"
+            />
+            <ng-container
+              *ngIf="form.get('materialName')?.touched || form.get('materialName')?.dirty"
+            >
+              <span
+                class="text-danger"
+                *ngIf="form.get('materialName')?.hasError('required')"
+              >
+                <mb-not-blank [value]="'model.material.materialName'"></mb-not-blank>
+              </span>
+            </ng-container>
+          </div>
+          <div class="col-6 ">
+            <label>{{ "model.material.type" | translate }}</label>
+            <nz-select
+              formControlName="type"
+              nzPlaceHolder="{{ 'model.material.type' | translate }}"
+              nzAllowClear="true"
+            >
+              <ng-container *ngFor="let type of MATERIAL_TYPE ">
+                <nz-option
+                  [nzValue]="type.value"
+                  [nzLabel]="type.lable"
+                ></nz-option>
+              </ng-container>
+            </nz-select>
+            <ng-container
+            *ngIf="form.get('type')?.touched || form.get('type')?.dirty"
+          >
+            <span
+              class="text-danger"
+              *ngIf="form.get('type')?.hasError('required')"
+            >
+              <mb-not-blank [value]="'model.material.type'"></mb-not-blank>
+            </span>
+          </ng-container>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-6 mb-3">
+            <label
+              >{{ "model.material.purchasePrice" | translate }}
+              <span class="text-danger">*</span></label
+            >
+            <input
+              formControlName="purchasePrice"
+              type="number"
+              [min]="0"
+              nz-input
+              [maxLength]="LENGTH_VALIDATOR.PHONE_MAX_LENGTH.MAX"
+              placeholder="{{ 'model.material.purchasePrice' | translate }}"
+            />
+            <ng-container
+              *ngIf="
+                form.get('purchasePrice')?.touched ||
+                form.get('purchasePrice')?.dirty
+              "
+            >
+            <span
+                class="text-danger"
+                *ngIf="form.get('purchasePrice')?.hasError('min')"
+              >
+                <small>{{ "common.pattern" | translate }}</small>
+              </span>
+              <span
+                class="text-danger"
+                *ngIf="form.get('purchasePrice')?.hasError('required')"
+              >
+                <mb-not-blank
+                  [value]="'model.material.purchasePrice'"
+                ></mb-not-blank>
+              </span>
+            </ng-container>
+          </div>
+        
+       
+          <div class="col-6 mb-2">
+            <label
+              >{{ "model.material.salePrice" | translate }}
+              <span class="text-danger">*</span></label
+            >
+            <input
+              formControlName="salePrice"
+              type="number"
+              [min]="0"
+              nz-input
+              [maxLength]="LENGTH_VALIDATOR.PHONE_MAX_LENGTH.MAX"
+              placeholder="{{ 'model.material.salePrice' | translate }}"
+            />
+            <ng-container
+              *ngIf="
+                form.get('salePrice')?.touched ||
+                form.get('salePrice')?.dirty
+              "
+            >
+            <span
+                class="text-danger"
+                *ngIf="form.get('salePrice')?.hasError('min')"
+              >
+                <small>{{ "common.pattern" | translate }}</small>
+              </span>
+              <span
+                class="text-danger"
+                *ngIf="form.get('salePrice')?.hasError('required')"
+              >
+                <mb-not-blank
+                  [value]="'model.material.salePrice'"
+                ></mb-not-blank>
+              </span>
+            </ng-container>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-6 mb-2">
+            <label
+              >{{ "model.material.color" | translate }}
+              <span class="text-danger">*</span></label
+            >
+            <input
+              formControlName="color"
+              nz-input
+              [maxLength]="LENGTH_VALIDATOR.PHONE_MAX_LENGTH.MAX"
+              placeholder="{{ 'model.material.color' | translate }}"
+            />
+            <ng-container
+              *ngIf="
+                form.get('color')?.touched ||
+                form.get('color')?.dirty
+              "
+            >
+              <span
+                class="text-danger"
+                *ngIf="form.get('color')?.hasError('required')"
+              >
+                <mb-not-blank
+                  [value]="'model.material.color'"
+                ></mb-not-blank>
+              </span>
+            </ng-container>
+          </div> 
+          <div class="col-6 mb-3">
+            <label
+              >{{ "model.material.age" | translate }}
+              <span class="text-danger">*</span></label
+            >
+            <input
+              formControlName="age"
+              type="number"
+              nz-input
+              [maxLength]="LENGTH_VALIDATOR.PHONE_MAX_LENGTH.MAX"
+              placeholder="{{ 'model.material.age' | translate }}"
+            />
+            <ng-container
+              *ngIf="
+                form.get('age')?.touched ||
+                form.get('age')?.dirty
+              "
+            >
+            <span
+            class="text-danger"
+            *ngIf="form.get('age')?.hasError('min')"
+          >
+            <small>{{ "common.pattern" | translate }}</small>
+          </span>
+              <span
+                class="text-danger"
+                *ngIf="form.get('age')?.hasError('required')"
+              >
+                <mb-not-blank
+                  [value]="'model.material.age'"
+                ></mb-not-blank>
+              </span>
+            </ng-container>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-12 text-center" *nzModalFooter>
+      <button nz-button nzType="default" class="e-2" (click)="onCancel()">
+        {{
+          (action === ROUTER_ACTIONS.detail ? "action.back" : "action.cancel")
+            | translate
+        }}
+      </button>
+      <button
+        *ngIf="!isDetail"
+        nz-button
+        nzType="primary"
+        (click)="onSubmit()"
+        [disabled]="form.invalid"
+      >
+        {{ (isUpdate ? "action.save" : "action.save") | translate }}
+      </button>
+    </div>
+  </div>
+</div>
