@@ -1,12 +1,14 @@
+import { MaterialStatus } from './request/material-search-request.model';
 
 export interface IMaterial {
-  id?: string;
+  materialId?: string;
   materialName?:string;
   purchasePrice?:number;
   salePrice?:number;
   materialTypeName?:string;
   color?:string;
   type?:string;
+  status?:MaterialStatus;
   age?:number;
   createdAt?: number;
   createdBy?: string;
@@ -15,11 +17,12 @@ export interface IMaterial {
 }
 export class Material implements IMaterial {
   constructor(
-    public id?: string,
+    public materialId?: string,
     public materialName?:string,
     public purchasePrice?:number,
     public salePrice?:number,
     public  materialTypeName?:string,
+    public status?:MaterialStatus,
     public color?:string,
     public type?:string,
     public age?:number,
@@ -28,12 +31,13 @@ export class Material implements IMaterial {
     public lastModifiedAt?: number,
     public lastModifiedBy?: string,
   ) {
-    this.id = id;
+    this.materialId = materialId;
     this.materialName = materialName;
     this.purchasePrice = purchasePrice;
     this.salePrice = salePrice;
     this.materialTypeName = materialName;
     this.color = color;
+    this.status = status;
     this.type = type;
     this.age = age;
     this.createdAt = createdAt;

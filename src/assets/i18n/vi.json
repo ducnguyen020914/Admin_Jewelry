@@ -307,16 +307,25 @@
     },
     "material":{
       "name":"Tên chất liệu",
-      "purchasePrice": "Giá mua",
-      "salePrice":"Giá khuyến mại",
+      "keyword":"Nhập từ khóa tìm kiếm",
+      "purchasePrice": "Giá mua vào ",
+      "salePrice":"Giá bán ra",
       "materialTypeName":"Tên loại vật liệu",
+      "list":"Danh sách chất liệu",
       "color":"Màu sắc",
       "type":"Loại Chất liệu",
       "age":"Tuổi chất liệu",
       "createdAt":"Ngày tạo",
       "createdBy": "Người tạo",
       "lastModifiedAt": "Ngày cập nhật",
-      "lastModifiedBy": "Người cập nhật"
+      "lastModifiedBy": "Người cập nhật",
+      "lockTitle":"Xác nhận khóa chất liệu",
+      "lockContent":"Bán có muốn khóa chất liệu {{name}} không ?",
+      "unlockTitle":"Xác nhận mở khóa chất liệu",
+      "unlockContent":"Bán có muốn kmở hóa chất liệu {{name}} không ?",
+      "lockSuccess":"Khóa chất liệu sản phẩm thành công",
+      "unlockSuccess":"Mở khóa chất liệu thành công"
+      
     },
     "category": {
       "description":"Mô tả chi tiết",

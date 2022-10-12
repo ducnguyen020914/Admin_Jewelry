@@ -7,6 +7,7 @@ import { MaterialComponent } from './material/material.component';
 import { AccessoryComponent } from './accessory/accessory.component';
 import { VendorComponent } from './vendor/vendor.component';
 import { DetailCategoryComponent } from './detail-category/detail-category.component';
+import { DetailMaterialComponent } from './detail-material/detail-material.component';
 
 const routes: Routes = [
   {
@@ -52,6 +53,14 @@ const routes: Routes = [
     component: DetailCategoryComponent,
     data: {
       title: 'model.category.details',
+      action: ROUTER_ACTIONS.detail,
+    },
+  },
+  {
+    path: ROUTER_UTILS.product.materialDetail,
+    component: DetailMaterialComponent,
+    data: {
+      title: 'model.material.details',
       action: ROUTER_ACTIONS.detail,
     },
   },

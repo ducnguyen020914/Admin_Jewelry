@@ -113,4 +113,10 @@ export class UpdateCategoryComponent implements OnInit {
   onChangeData(type: string, content: string): void {
     this.form.get(type)?.setValue(content);
   }
+  onCancel(): void {
+    this.modalRef.close({
+      success: false,
+      value: null,
+    });
+  }
 }
