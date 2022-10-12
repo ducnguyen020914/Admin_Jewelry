@@ -4,14 +4,40 @@
     <div [formGroup]="form" class="filter-element">
       <div class="row p-4">
         <div class="col-3">
-          <label>{{ getTranslate("name") }}</label>
+          <label>{{ "model.accessory.name" | translate }}</label>
           <input
             formControlName="name"
             (keyup.enter)="this.onSearch()"
             nz-input
             class="form-control"
-            placeholder="{{ getTranslate('enterName') }}"
+            placeholder="{{ 'model.accessory.name' | translate }}"
           />
+        </div>
+        <div class="col-3">
+          <label>{{ "model.accessory.status" | translate }}</label>
+          <nz-select
+            formControlName="status"
+            nzAllowClear
+            appRemoveOptionTitle
+            nzPlaceHolder="{{ 'model.product.selectStatus' | translate }}"
+          >
+            <nz-option
+              *ngFor="let service of accessoryStatus"
+              [nzLabel]="service.label | translate"
+              [nzValue]="service.value"
+              [nzCustomContent]="true"
+            >
+              <div
+                container="body"
+                [animation]="false"
+                [openDelay]="100"
+                [closeDelay]="0"
+                [ngbTooltip]="service?.label! | translate"
+              >
+                {{ service?.label! | translate }}
+              </div>
+            </nz-option>
+          </nz-select>
         </div>
       </div>
       <div class="row mt-3 mb-3 text-center">
@@ -48,7 +74,7 @@
     <div class="col-12">
       <nz-table
         #table
-        [nzData]="categories"
+        [nzData]="accsessories"
         [nzNoResult]="noDataResult"
         [nzTableLayout]="'auto'"
         (nzQueryParams)="onQueryParamsChange($event)"
@@ -57,30 +83,40 @@
           <tr>
             <th nzAlign="center">{{ "common.index" | translate }}</th>
             <th nzAlign="left" nzColumnKey="name" [nzSortFn]="true">
-              {{ getTranslate("name") }}
+              {{ "model.accessory.name" | translate }}
+            </th>
+            <th nzAlign="center" nzColumnKey="price" [nzSortFn]="true">
+              {{ "model.accessory.price" | translate }}
+            </th>
+            <th nzAlign="center" nzColumnKey="color">
+              {{ "model.accessory.color" | translate }}
+            </th>
+            <th nzAlign="center" nzColumnKey="describe">
+              {{ "model.accessory.describe" | translate }}
             </th>
             <th nzAlign="center" nzColumnKey="createdAt" [nzSortFn]="true">
-              {{ getTranslate("createdAt") }}
+              {{ "model.accessory.createAt" | translate }}
             </th>
             <th nzAlign="left" nzColumnKey="createdBy">
-              {{ getTranslate("createdBy") }}
+              {{ "model.accessory.createBy" | translate }}
             </th>
             <th nzAlign="center" nzColumnKey="lastModifiedAt" [nzSortFn]="true">
-              {{ getTranslate("lastModifiedAt") }}
+              {{ "model.accessory.lastModifiedAt" | translate }}
             </th>
             <th nzAlign="center" nzColumnKey="lastModifiedBy">
-              {{ getTranslate("lastModifiedBy") }}
+              {{ "model.accessory.lastModifiedBy" | translate }}
+            </th>
+            <th nzAlign="center" nzColumnKey="status">
+              {{ "model.accessory.status" | translate }}
             </th>
             <th nzAlign="center" *hasRoles="['category:view']">
               {{ "action.msg" | translate }}
             </th>
-            <th nzAlign="center" nzColumnKey="status">
-              {{ getTranslate("status") }}
-            </th>
+
           </tr>
         </thead>
         <tbody>
-          <ng-container *ngFor="let item of categories; let i = index">
+          <ng-container *ngFor="let item of accsessories; let i = index">
             <tr>
               <td nzAlign="center">{{ getIndex(i) }}</td>
               <td nzAlign="left">{{ item.name }}</td>

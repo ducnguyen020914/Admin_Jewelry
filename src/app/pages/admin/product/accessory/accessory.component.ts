@@ -3,6 +3,7 @@ import { FormGroup } from '@angular/forms';
 import { AccessorySearchRequest } from '../../../../shared/models/request/accessory-search-request.model';
 import { TranslateService } from '@ngx-translate/core';
 import { Accessory } from '@shared/models/accesory.model';
+import {ACCESSORY_STATUS} from "@shared/constants/accsessory.constant";
 
 @Component({
   selector: 'app-accessory',
@@ -10,11 +11,11 @@ import { Accessory } from '@shared/models/accesory.model';
   styleUrls: ['./accessory.component.css']
 })
 export class AccessoryComponent implements OnInit {
-
+  accessoryStatus = ACCESSORY_STATUS;
   pathTranslate = 'model.category.';
   form:FormGroup = new FormGroup([]);
   accessorySearchRequest:AccessorySearchRequest = {};
-  categories:Accessory[] = [];
+  accsessories: Accessory[] = [];
   isVisible = false;
   total = 0;
   lockPopup = {
@@ -25,7 +26,7 @@ export class AccessoryComponent implements OnInit {
     callBack: () => {},
   };
   constructor(private translateService: TranslateService) { }
-  
+
   ngOnInit() {
   }
 

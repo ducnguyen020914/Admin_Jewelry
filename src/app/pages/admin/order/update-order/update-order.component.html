@@ -113,6 +113,41 @@
                 </nz-transfer>
               </div>
             </div>
+<!--            <div *ngIf="action !== ROUTER_ACTIONS.detail" class="row mt-2">-->
+<!--              <div class="col-12 mb-2">-->
+<!--                <label>{{'model.order.orderItems' | translate }}<span class="text-danger">*</span></label>-->
+<!--                <nz-transfer [nzDataSource]="list" nzShowSearch [nzRenderList]="[leftRenderList, null]"-->
+<!--                             [nzNotFoundContent]="'model.menu.emptyProducts' | translate "-->
+<!--                             [nzTitles]="['model.menu.availableproduct' | translate, 'model.menu.selectedProducts' | translate]"-->
+<!--                             ></nz-transfer>-->
+<!--              </div>-->
+<!--            </div>-->
+            <div *ngIf="action !== ROUTER_ACTIONS.detail" class="row mt-2">
+              <label>{{ 'model.menu.selectedProducts' | translate }}</label>
+              <nz-table #table [nzData]="list">
+                <thead>
+                <tr>
+                  <th nzAlign="center" nzColumnKey="index">{{'common.index' | translate}}</th>
+                  <th nzAlign="center" nzColumnKey="price" [nzSortFn]="true">{{'model.product.price' | translate}}</th>
+                  <th nzAlign="center" nzColumnKey="name" [nzSortFn]="true">{{'model.product.name' | translate}}</th>
+                </tr>
+                </thead>
+                <tbody>
+                <ng-container *ngFor="let item of order.purchaseOrderItems; let i = index">
+                  <tr>
+                    <td nzAlign="center">{{ (i + 1) }}</td>
+                    <td >{{ item.productPrice ?
+                      (item.productPrice |
+                        vnd) : '-' }}</td>
+                    <td nzAlign="center">{{ item.productName }}</td>
+                  </tr>
+                </ng-container>
+                </tbody>
+              </nz-table>
+              <!-- <mb-pagination [pageIndex]="productSearchRequest.pageIndex" [pageSize]="productSearchRequest.pageSize"
+                [total]="products.length" (onChange)="onQuerySearchProducts($event)">
+              </mb-pagination> -->
+            </div>
           </section>
         </form>
       </div>
