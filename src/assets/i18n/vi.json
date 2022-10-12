@@ -320,7 +320,12 @@
       "lastModifiedAt": "Ngày cập nhật",
       "lastModifiedBy": "Người cập nhật",
       "lockTitle":"Xác nhận khóa chất liệu",
-      "lockContent":"Bán có muốn xóa chất liệu {{name}} không ?"
+      "lockContent":"Bán có muốn khóa chất liệu {{name}} không ?",
+      "unlockTitle":"Xác nhận mở khóa chất liệu",
+      "unlockContent":"Bán có muốn kmở hóa chất liệu {{name}} không ?",
+      "lockSuccess":"Khóa chất liệu sản phẩm thành công",
+      "unlockSuccess":"Mở khóa chất liệu thành công"
+      
     },
     "category": {
       "description":"Mô tả chi tiết",

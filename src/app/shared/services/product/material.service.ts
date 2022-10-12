@@ -31,6 +31,9 @@ export class MaterialService extends AbstractService {
   update(id: string, dish: IMaterial): Observable<EntityResponseType<IMaterial>> {
     return super.put<IMaterial>(`${this.resourceUrl}/${id}`, dish);
   }
+  detail(id: string): Observable<EntityResponseType<IMaterial>> {
+    return super.get<IMaterial>(`${this.resourceUrl}/${id}`);
+  }
 
   delete(id: string): Observable<EntityResponseType<any>> {
     return super.delete<IMaterial>(`${this.resourceUrl}/${id}`);

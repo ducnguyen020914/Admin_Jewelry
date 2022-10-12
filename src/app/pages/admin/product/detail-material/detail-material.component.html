@@ -1,3 +1,248 @@
-<p>
-  detail-material works!
-</p>
+<div class="title mb-3">
+  <mb-table-title [showBack]="true" [title]="'action.detail'"></mb-table-title>
+</div>
+<div class="row">
+  <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+    <nz-tabset
+      [nzSelectedIndex]="tabIndex"
+      (nzSelectedIndexChange)="onChangeTab($event)"
+    >
+      <nz-tab [nzTitle]="'common.general-info' | translate">
+        <ng-container
+          [ngTemplateOutlet]="informationCategory"
+          [ngTemplateOutletContext]="{}"
+        >
+        </ng-container>
+      </nz-tab>
+      <nz-tab [nzTitle]="'common.products-category' | translate">
+        <ng-container
+          [ngTemplateOutlet]="informationProduct"
+          [ngTemplateOutletContext]="{}"
+        >
+        </ng-container>
+      </nz-tab>
+    </nz-tabset>
+    <ng-template #informationCategory>
+      <section class="content section-custom">
+        <div class="row mb-3">
+          <div class="general-p hr col-8 info_wrapper_field">
+            <div>
+              <div class="row mb-1">
+                <div class="col-lg-5 info_wrapper_field_label">
+                  <label>{{ "model.category.name" | translate }}</label>
+                </div>
+                <div class="col-lg-7 info_wrapper_field_label">
+                  <span>
+                    <p>
+                      {{
+                        category.name
+                          ? category.name
+                          : ("common.noInfo" | translate)
+                      }}
+                    </p>
+                  </span>
+                </div>
+                <hr />
+              </div>
+              <div class="row mb-1 mt-3">
+                <div class="col-lg-5 info_wrapper_field_label">
+                  <label>{{ "model.category.createdAt" | translate }}</label>
+                </div>
+                <div class="col-lg-7 info_wrapper_field_label">
+                  <span>
+                    <p>
+                      {{
+                        category.createdAt
+                          ? (category.createdAt | date: "dd/MM/yyyy")
+                          : ("common.noInfo" | translate)
+                      }}
+                    </p>
+                  </span>
+                </div>
+                <hr />
+              </div>
+              <div class="row mb-1 mt-3">
+                <div class="col-lg-5 info_wrapper_field_label">
+                  <label>{{ "model.category.createdBy" | translate }}</label>
+                </div>
+                <div class="col-lg-7 info_wrapper_field_label">
+                  <span>
+                    <p>
+                      {{
+                        category.createdBy
+                          ? category.createdBy
+                          : ("common.noInfo" | translate)
+                      }}
+                    </p>
+                  </span>
+                </div>
+                <hr />
+              </div>
+              <div class="row mb-1 mt-3">
+                <div class="col-lg-5 info_wrapper_field_label">
+                  <label>{{ "model.category.property" | translate }}</label>
+                </div>
+                <div class="col-lg-7 info_wrapper_field_label">
+                  <span>
+                    <p>
+                      {{ loadProperties() }}
+                    </p>
+                  </span>
+                </div>
+                <hr />
+              </div>
+            </div>
+          </div>
+          <div class="col-4 info_wrapper_field">
+            <div
+              style="margin-top: 8px"
+              class="row text-center info_wrapper_field"
+            >
+              <qrcode
+                class="{{ !!vCardData ? 'mt-2' : 'qr-no-content' }}"
+                #complaintQrCode
+                [qrdata]="vCardData || 'No content'"
+                [width]="220"
+                [margin]="0"
+                [errorCorrectionLevel]="'M'"
+              >
+              </qrcode>
+            </div>
+            <div class="row text-center"></div>
+          </div>
+        </div>
+        <!-- </div> -->
+      </section>
+    </ng-template>
+    <ng-template #informationProduct>
+      <section class="content section-custom">
+        <nz-table>
+          <div [formGroup]="formSearchProduct">
+            <div class="row ps-4 pt-4">
+              <div class="col-3 mb-1">
+                <label>{{ "model.product.keyword.title" | translate }}</label>
+                <input
+                  type="text"
+                  formControlName="keyword"
+                  nz-input
+                  [maxLength]="LENGTH_VALIDATOR.NAME_MAX_LENGTH.MAX"
+                  (keyup.enter)="search()"
+                  placeholder="{{ 'model.product.keyword.input' | translate }}"
+                  [placeholder]="'model.product.keyword.input' | translate"
+                />
+              </div>
+            </div>
+            <div class="row pb-3 text-center">
+              <div class="col-12">
+                <button
+                  class="me-3"
+                  nz-button
+                  nzType="default"
+                  (click)="resetSearch()"
+                >
+                  {{ "action.reset" | translate }}
+                </button>
+                <button nz-button nzType="primary" (click)="search()">
+                  {{ "common.search" | translate }}
+                </button>
+              </div>
+            </div>
+          </div>
+        </nz-table>
+        <div class="info_wrapper job_current">
+          <div class="info_wrapper_content p-2">
+            <div class="row info_wrapper_field">
+              <div class="col-lg-4 info_wrapper_field_label">
+                <label>{{ "model.category.name" | translate }}</label>
+              </div>
+              <div class="col-lg-8 info_wrapper_field_content">
+                <span>
+                  <p>
+                    {{
+                      category.name
+                        ? category.name
+                        : ("common.noInfo" | translate)
+                    }}
+                  </p>
+                </span>
+              </div>
+              <hr />
+            </div>
+            <div class="row info_wrapper_field">
+              <div class="col-lg-4 info_wrapper_field_label">
+                <label>{{ "model.manufacture.total" | translate }}</label>
+              </div>
+              <div class="col-lg-8 info_wrapper_field_content">
+                <span>
+                  <p>{{ total }}</p>
+                </span>
+              </div>
+              <hr />
+            </div>
+          </div>
+        </div>
+
+        <div class="info_wrapper products">
+          <div class="info_wrapper_title">
+            {{ "common.products-category" | translate }}
+          </div>
+          <div class="info_wrapper_content">
+            <nz-table
+              #table
+              [nzData]="products"
+              (nzQueryParams)="onChangeQueryParam($event)"
+              [nzTableLayout]="'auto'"
+            >
+              <thead>
+                <tr>
+                  <th nzAlign="center">
+                    {{ "model.product.index" | translate }}
+                  </th>
+                  <th nzAlign="left" nzColumnKey="name" [nzSortFn]="true">
+                    {{ "model.product.name" | translate }}
+                  </th>
+                  <th nzAlign="left" nzColumnKey="code" [nzSortFn]="true">
+                    {{ "model.product.code" | translate }}
+                  </th>
+                  <th nzAlign="left" nzColumnKey="price" [nzSortFn]="true">
+                    {{ "model.product.price" | translate }}
+                  </th>
+                  <th nzAlign="left">
+                    {{ "model.product.createdAt" | translate }}
+                  </th>
+                  <th nzAlign="left">
+                    {{ "model.product.lastModifiedAt" | translate }}
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <ng-container *ngFor="let product of products; let i = index">
+                  <tr>
+                    <td nzAlign="center">{{ i + 1 }}</td>
+                    <td nzAlign="left">{{ product?.name }}</td>
+                    <td nzAlign="left">{{ product?.code }}</td>
+                    <td nzAlign="left">{{ product?.price }}</td>
+                    <td nzAlign="left">
+                      {{ product.createdAt | date: "dd/MM/yyyy" }}
+                    </td>
+                    <td nzAlign="left">
+                      {{ product.lastModifiedAt | date: "dd/MM/yyyy" }}
+                    </td>
+                  </tr>
+                </ng-container>
+              </tbody>
+            </nz-table>
+            <mb-pagination
+              [pageIndex]="productSearchRequest.pageIndex"
+              [pageSize]="productSearchRequest.pageSize"
+              [total]="total"
+              (onChange)="onQuerySearch($event)"
+            >
+            </mb-pagination>
+          </div>
+        </div>
+      </section>
+    </ng-template>
+    <!--history work infomation -->
+  </div>
+</div>

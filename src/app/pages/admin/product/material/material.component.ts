@@ -211,8 +211,8 @@ lock(material:Material ): void {
     };
   } else {
     this.lockPopup = {
-      title: 'model.category.unlockTitle',
-      content: 'model.category.unlockCategoryContent',
+      title: 'model.material.unlockTitle',
+      content: 'model.material.unlockCategoryContent',
       interpolateParams: { name: material.materialName },
       okText: 'action.unlock',
       callBack: () => {
@@ -220,7 +220,7 @@ lock(material:Material ): void {
           this.materialService
             .unlock(material.materialId)
             .subscribe((next) => {
-              this.toast.success('model.material.lockSuccess');
+              this.toast.success('model.material.unlockSuccess');
               material.status = MaterialStatus.ACTIVE;
             });
         }
@@ -236,7 +236,7 @@ onLockAndUnLock(result: { success: boolean }): void {
 detail(material:Material): void {
   this.route.navigate([
     ROUTER_UTILS.product.root,
-    ROUTER_UTILS.product.category,
+    ROUTER_UTILS.product.material,
     material.materialId,
     ROUTER_ACTIONS.detail,
   ]);
