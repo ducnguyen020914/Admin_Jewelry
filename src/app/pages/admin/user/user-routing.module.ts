@@ -1,12 +1,12 @@
 import { NgModule } from "@angular/core";
 import { RouterModule } from '@angular/router';
 import { ROUTER_UTILS } from '../../../shared/utils/router.utils';
-import { EmployeeComponent } from "./employee/employee.component";
 import {UserComponent} from "@pages/admin/user/user.component";
 import {UpdateUserComponent} from "@pages/admin/user/update-user/update-user.component";
 import {CustomerListComponent} from "@pages/admin/user/customer/customer-list/customer-list.component";
 import {CustomerDetailsComponent} from "@pages/admin/user/customer/customer-details/customer-details.component";
 import {CustomerUpdateComponent} from "@pages/admin/user/customer/customer-update/customer-update.component";
+import {EmployeeListComponent} from "@pages/admin/user/employee/employee-list/employee-list.component";
 
 const routes = [
     {
@@ -25,7 +25,7 @@ const routes = [
     },
     {
         path: ROUTER_UTILS.user.employee,
-        component: EmployeeComponent,
+        component: EmployeeListComponent,
         data: {
           title: 'model.user.employee',
        }
