@@ -1,29 +1,42 @@
+import {AccessoryStatus} from "@shared/models/request/accessory-search-request.model";
 
 export interface IAccessory {
-  id?: string;
+  accessoryId?: string;
   deleted?: boolean;
   name?: string;
-  createdAt?: number;
+  createAt?: number;
   createdBy?: string;
   lastModifiedAt?: number;
   lastModifiedBy?: string;
+  description?:string;
+  color?:string;
+  price?:number;
+  status?:AccessoryStatus;
 }
 export class Accessory implements IAccessory {
   constructor(
-    public id?: string,
+    public accessoryId?: string,
     public name?: string,
     public deleted?: boolean,
-    public createdAt?: number,
+    public createAt?: number,
     public createdBy?: string,
     public lastModifiedAt?: number,
     public lastModifiedBy?: string,
+    public description?:string,
+    public color?:string,
+    public price?:number,
+    public status?:AccessoryStatus,
   ) {
-    this.id = id;
+    this.accessoryId = accessoryId;
     this.name = name;
     this.deleted = deleted;
-    this.createdAt = createdAt;
+    this.description= description;
+    this.status = status;
+    this.color = color;
+    this.createAt = createAt;
     this.createdBy = createdBy;
     this.lastModifiedAt = lastModifiedAt;
     this.lastModifiedBy = lastModifiedBy;
+    this.price = price;
   }
 }

@@ -325,7 +325,7 @@
       "unlockContent":"Bán có muốn kmở hóa chất liệu {{name}} không ?",
       "lockSuccess":"Khóa chất liệu sản phẩm thành công",
       "unlockSuccess":"Mở khóa chất liệu thành công"
-      
+
     },
     "category": {
       "description":"Mô tả chi tiết",
@@ -517,7 +517,12 @@
       "lastModifiedAt": "Ngày cập nhập",
       "lastModifiedBy": "Người cập nhật",
       "createBy": "Người tạo",
-      "status": "Trạng thái"
+      "status": "Trạng thái",
+      "statusAcc": {
+        "active": "Hoạt động",
+        "inactive": "Không hoạt động",
+        "drafts": "Bản nháp"
+      }
     },
     "product": {
       "index": "STT",

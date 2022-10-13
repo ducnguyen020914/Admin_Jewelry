@@ -6,11 +6,11 @@
         <div class="col-3">
           <label>{{ "model.accessory.name" | translate }}</label>
           <input
-            formControlName="name"
+            formControlName="keyword"
             (keyup.enter)="this.onSearch()"
             nz-input
             class="form-control"
-            placeholder="{{ 'model.accessory.name' | translate }}"
+            placeholder="{{ 'model.accessory.keyword' | translate }}"
           />
         </div>
         <div class="col-3">
@@ -91,21 +91,18 @@
             <th nzAlign="center" nzColumnKey="color">
               {{ "model.accessory.color" | translate }}
             </th>
-            <th nzAlign="center" nzColumnKey="describe">
-              {{ "model.accessory.describe" | translate }}
-            </th>
             <th nzAlign="center" nzColumnKey="createdAt" [nzSortFn]="true">
               {{ "model.accessory.createAt" | translate }}
             </th>
-            <th nzAlign="left" nzColumnKey="createdBy">
-              {{ "model.accessory.createBy" | translate }}
-            </th>
+<!--            <th nzAlign="left" nzColumnKey="createdBy">-->
+<!--              {{ "model.accessory.createBy" | translate }}-->
+<!--            </th>-->
             <th nzAlign="center" nzColumnKey="lastModifiedAt" [nzSortFn]="true">
               {{ "model.accessory.lastModifiedAt" | translate }}
             </th>
-            <th nzAlign="center" nzColumnKey="lastModifiedBy">
-              {{ "model.accessory.lastModifiedBy" | translate }}
-            </th>
+<!--            <th nzAlign="center" nzColumnKey="lastModifiedBy">-->
+<!--              {{ "model.accessory.lastModifiedBy" | translate }}-->
+<!--            </th>-->
             <th nzAlign="center" nzColumnKey="status">
               {{ "model.accessory.status" | translate }}
             </th>
@@ -120,22 +117,30 @@
             <tr>
               <td nzAlign="center">{{ getIndex(i) }}</td>
               <td nzAlign="left">{{ item.name }}</td>
+              <td nzAlign="left">{{ item.price }}</td>
+
+              <td nzAlign="center">{{item.color}}</td>
               <td nzAlign="center">
-                {{ item.createdAt | date: "dd/MM/yyyy" }}
+                {{ item.createAt | date: "dd/MM/yyyy" }}
               </td>
-              <td nzAlign="left">{{ item.createdBy }}</td>
+<!--              <td nzAlign="left">{{ item.createdBy }}</td>-->
               <td nzAlign="center">
                 {{ item.lastModifiedAt | date: "dd/MM/yyyy" }}
               </td>
+<!--              <td nzAlign="center">-->
+<!--                {{ item.lastModifiedBy }}-->
+<!--              </td>-->
               <td nzAlign="center">
-                {{ item.lastModifiedBy }}
-              </td>
-              <td nzAlign="center">
+<!--                <mb-badge-->
+<!--                  [color]="-->
+<!--                    item.status === 'ACTIVE' ? 'badge-info' : 'badge-secondary'-->
+<!--                  "-->
+<!--                  [text]="getText(item.status)"-->
+<!--                >-->
+<!--                </mb-badge>-->
                 <mb-badge
-                  [color]="
-                    item.status === 'ACTIVE' ? 'badge-info' : 'badge-secondary'
-                  "
-                  [text]="getText(item.status)"
+                  [color]="formatColor(item?.status)"
+                  [text]="format(item?.status) | translate"
                 >
                 </mb-badge>
               </td>
@@ -159,10 +164,10 @@
                   (click)="update(item)"
                 >
                 </mb-button-action>
-                <mb-button-action
+                <mb-button-action *ngIf="item.status === 'DRAFTS'"
                   [action]="'delete'"
                   [className]="'last'"
-                  nzTooltipTitle="{{ 'action.update' | translate }}"
+                  nzTooltipTitle="{{ 'action.delete' | translate }}"
                   nzTooltipPlacement="top"
                   nz-tooltip
                   (click)="delete(item)"
