@@ -1,15 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {
   AccessorySearchRequest,
   AccessoryStatus
 } from '../../../../shared/models/request/accessory-search-request.model';
-import { TranslateService } from '@ngx-translate/core';
+import {TranslateService} from '@ngx-translate/core';
 import {Accessory, IAccessory} from '@shared/models/accesory.model';
 import {ACCESSORY_STATUS} from "@shared/constants/accsessory.constant";
-import {MaterialSearchRequest} from "@shared/models/request/material-search-request.model";
 import {PAGINATION} from "@shared/constants/pagination.constants";
-import {Material} from "@shared/models/material.model";
 import {NzMarks} from "ng-zorro-antd/slider";
 import {NzModalRef, NzModalService} from "ng-zorro-antd/modal";
 import {ToastService} from "@shared/services/helpers/toast.service";
@@ -17,7 +15,9 @@ import {Router} from "@angular/router";
 import {AccessoryService} from "@shared/services/product/accessory.service";
 import {LENGTH_VALIDATOR} from "@shared/constants/validators.constant";
 import CommonUtil from "@shared/utils/common-utils";
-import {result} from "lodash";
+import {UpdateAccessoryComponent} from "@pages/admin/product/update-accessory/update-accessory.component";
+import {ROUTER_ACTIONS} from "@shared/utils/router.utils";
+import {NzTableQueryParams} from "ng-zorro-antd/table";
 
 @Component({
   selector: 'app-accessory',
@@ -97,7 +97,22 @@ export class AccessoryComponent implements OnInit {
     );
   }
 
-  update(){};
+  update(accessory: IAccessory){
+    const base= CommonUtil.modalBase(
+      UpdateAccessoryComponent,
+      {
+        isUpdate: true,
+        accessory,
+      },
+      '60%'
+    )
+    const modal: NzModalRef =this.modalService.create(base);
+    modal.afterClose.subscribe((result)=>{
+      if(result && result?.success){
+        this.loadData(this.pageIndex,this.pageSize);
+      }
+    })
+  };
   detail(){};
   delete(accessory: IAccessory):void{
     const deleteForm =CommonUtil.modalConfirm(
@@ -116,13 +131,97 @@ export class AccessoryComponent implements OnInit {
       }
     });
   };
-  lock(){
+
+  create(): void {
+    const base = CommonUtil.modalBase(
+      UpdateAccessoryComponent,
+      {
+        action: ROUTER_ACTIONS.create,
+      },
+      '60%'
+    );
+    const modal: NzModalRef = this.modalService.create(base);
+    modal.afterClose.subscribe((result) => {
+      if (result && result?.success) {
+        this.loadData(this.pageIndex,this.pageSize);
+      }
+    });
+  }
+
+  lock(accessory: IAccessory){
+    this.isVisible = true;
+    if(accessory.status === AccessoryStatus.ACTIVE){
+      this.lockPopup = {
+        title: 'model.accessory.lockTitle',
+        content: 'model.accessory.lockContent',
+        interpolateParams: { name: accessory.name },
+        okText: 'action.lock',
+        callBack:()=>{
+          if(accessory.accessoryId){
+            this.accessoryService.inactive(accessory.accessoryId,accessory).
+              subscribe(()=>{
+                this.toast.success('model.accessory.lockSuccess');
+                accessory.status =AccessoryStatus.INACTIVE;
+            })
+          }
+        }
+      }
+    }else {
+      this.lockPopup = {
+        title: 'model.accessory.unlockTitle',
+        content: 'model.accessory.unlockContent',
+        interpolateParams: { name: accessory.name },
+        okText: 'action.unlock',
+        callBack:()=>{
+          if(accessory.accessoryId){
+            this.accessoryService.active(accessory.accessoryId,accessory).
+            subscribe(()=>{
+              this.toast.success('model.accessory.uhlockSuccess');
+              accessory.status =AccessoryStatus.ACTIVE;
+            })
+          }
+        }
+      }
+    }
   };
-  onSearch(){};
-  resetSearch(){};
-  onQueryParamsChange(event:any){}
+
+  onLockAndUnLock(result: { success: boolean }): void {
+    this.lockPopup.callBack = () => {};
+    this.isVisible = false;
+  }
+  onSearch(): void {
+    this.accessorySearchRequest.keyword =
+      this.form.get('keyword')?.value;
+    this.accessorySearchRequest.status = this.form.get('status')?.value;
+    this.pageIndex = PAGINATION.PAGE_DEFAULT;
+    this.pageSize = PAGINATION.SIZE_DEFAULT;
+    this.loadData(this.pageIndex, this.pageSize);
+  }
+  resetSearch(){
+    this.form.reset();
+    this.accessorySearchRequest = {};
+    this.pageIndex = PAGINATION.PAGE_DEFAULT;
+    this.pageSize = PAGINATION.SIZE_DEFAULT;
+    this.loadData(this.pageIndex, this.pageSize);
+  };
+
+  onQueryParamsChange(params: NzTableQueryParams): void {
+    if (this.isCallFirstRequest) {
+      this.isCallFirstRequest = false;
+      return;
+    }
+    const { sort, filter } = params;
+    const currentSort = sort.find((item) => item.value !== null);
+    const sortField = (currentSort && currentSort.key) || null;
+    const sortOrder = (currentSort && currentSort.value) || null;
+    let sortBy = '';
+    if (sortField && sortOrder) {
+      sortBy = `${sortField}.${sortOrder === 'ascend' ? 'asc' : 'desc'}`;
+    }
+    this.loadData(this.pageIndex, this.pageSize, sortBy);
+  }
+
   onQuerySearch(event:any){};
-  onLockAndUnLock(event:any){};
 
   // getText(status: string): string {
   //   if(status === AccessoryStatus.ACTIVE){

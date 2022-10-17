@@ -508,6 +508,7 @@
       }
     },
     "accessory": {
+      "keyword": "Nhập tên, giá, màu sắc",
       "name": "Tên phụ kiện",
       "enterName": "Vui lòng điền tên phụ kiện",
       "price": "Giá",
@@ -518,10 +519,23 @@
       "lastModifiedBy": "Người cập nhật",
       "createBy": "Người tạo",
       "status": "Trạng thái",
+      "selectStatus": "Chọn trạng thái",
+      "description": "Ghi chú",
+      "lockTitle": "Xác nhận khoá phụ kiện",
+      "lockContent": "Bạn có muốn khoá phụ kiện <b>{{name}}<b>",
+      "unlockTitle": "Xác nhận mở khoá phụ kiện",
+      "unlockContent": "Bạn có muốn mở khoá phụ kiện <b>{{name}}<b>",
+      "lockSuccess": "Khoá thành công",
+      "unlockSuccess": "Mở khoá thành công",
+
       "statusAcc": {
         "active": "Hoạt động",
         "inactive": "Không hoạt động",
         "drafts": "Bản nháp"
+      },
+      "success": {
+        "create": "Thêm mới thành công",
+        "update": "Cập nhật thành công"
       }
     },
     "product": {

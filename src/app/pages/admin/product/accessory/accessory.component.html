@@ -91,7 +91,7 @@
             <th nzAlign="center" nzColumnKey="color">
               {{ "model.accessory.color" | translate }}
             </th>
-            <th nzAlign="center" nzColumnKey="createdAt" [nzSortFn]="true">
+            <th nzAlign="center" nzColumnKey="createAt" [nzSortFn]="true">
               {{ "model.accessory.createAt" | translate }}
             </th>
 <!--            <th nzAlign="left" nzColumnKey="createdBy">-->
@@ -156,7 +156,6 @@
                 </mb-button-action>
                 <mb-button-action
                   [action]="'edit'"
-                  *hasRoles="['category:update']"
                   className="first"
                   nzTooltipTitle="{{ 'action.update' | translate }}"
                   nzTooltipPlacement="top"

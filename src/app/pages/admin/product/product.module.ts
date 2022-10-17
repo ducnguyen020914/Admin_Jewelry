@@ -17,6 +17,7 @@ import { DetailVendorComponent } from './detail-vendor/detail-vendor.component';
 import { DetailCategoryComponent } from './detail-category/detail-category.component';
 import { UpdateMaterialComponent } from './update-material/update-material.component';
 import { DetailMaterialComponent } from './detail-material/detail-material.component';
+import { UpdateAccessoryComponent } from './update-accessory/update-accessory.component';
 @NgModule({
   imports: [
     CommonModule,
@@ -38,7 +39,8 @@ import { DetailMaterialComponent } from './detail-material/detail-material.compo
     DetailVendorComponent,
     DetailCategoryComponent,
     UpdateMaterialComponent,
-    DetailMaterialComponent
+    DetailMaterialComponent,
+    UpdateAccessoryComponent
   ],
 })
 export class ProductModule {}

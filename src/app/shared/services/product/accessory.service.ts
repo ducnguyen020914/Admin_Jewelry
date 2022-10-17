@@ -28,8 +28,8 @@ export class AccessoryService extends AbstractService {
     return super.post<IAccessory>(`${this.resourceUrl}`, dish);
   }
 
-  update(id: string, dish: IAccessory): Observable<EntityResponseType<IAccessory>> {
-    return super.put<IAccessory>(`${this.resourceUrl}/${id}`, dish);
+  update( accessory: IAccessory, id: string,): Observable<EntityResponseType<IAccessory>> {
+    return super.put<IAccessory>(`${this.resourceUrl}/${id}`, accessory);
   }
   detail(id: string): Observable<EntityResponseType<IAccessory>> {
     return super.get<IAccessory>(`${this.resourceUrl}/${id}`);
@@ -38,11 +38,11 @@ export class AccessoryService extends AbstractService {
   delete(id: string, dish: IAccessory): Observable<EntityResponseType<any>> {
     return super.put<IAccessory>(`${this.resourceUrl}/delete/${id}`,dish);
   }
-  lock(id: string): Observable<EntityResponseType<IAccessory>>{
-    return super.post<IAccessory>(`${this.resourceUrl}/${id}/lock`);
+  active(id: string, accessory: IAccessory): Observable<EntityResponseType<IAccessory>>{
+    return super.put<IAccessory>(`${this.resourceUrl}/active/${id}`,accessory);
   }
-  unlock(id: string): Observable<EntityResponseType<IAccessory>>{
-    return super.post<IAccessory>(`${this.resourceUrl}/${id}/unlock`);
+  inactive(id: string, accessory: IAccessory): Observable<EntityResponseType<IAccessory>>{
+    return super.put<IAccessory>(`${this.resourceUrl}/inactive/${id}`,accessory);
   }
 
 }
