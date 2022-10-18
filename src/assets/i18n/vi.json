@@ -261,7 +261,7 @@
       "productDelete": "Bạn có chắc chắn muốn xóa sản phẩm ?",
       "titleDelete": "Xác nhận xóa nhà cung cấp",
       "titleDeleteProduct": "Xác nhận xóa sản phẩm",
-      
+
       "product": {
         "code": "Mã sản phẩm",
         "name": "Tên sản phẩm",
@@ -325,7 +325,7 @@
       "unlockContent":"Bán có muốn kmở hóa chất liệu {{name}} không ?",
       "lockSuccess":"Khóa chất liệu sản phẩm thành công",
       "unlockSuccess":"Mở khóa chất liệu thành công"
-      
+
     },
     "category": {
       "description":"Mô tả chi tiết",
@@ -391,7 +391,7 @@
       "unlockManufactureContent": "Bạn có chắc chắn muốn mở khóa nhà sản xuất <b>{{name}}?",
       "deleteManufactureTitel": "Xác nhận xóa nhà cung cấp",
       "deleteManufactureContent": "Bạn có chắc chắn muốn xóa khóa nhà cung cấp <b>{{name}}?",
-    
+
       "status": "Trạng thái",
       "selectStatus": "Chọn trạng thái",
       "manufactureStatus": {
@@ -505,6 +505,37 @@
         "update": "Cập nhật khách thành công",
         "delete": "Xóa khách thành công",
         "cancel": "Hủy khách thành công"
+      }
+    },
+    "accessory": {
+      "keyword": "Nhập tên, giá, màu sắc",
+      "name": "Tên phụ kiện",
+      "enterName": "Vui lòng điền tên phụ kiện",
+      "price": "Giá",
+      "color": "Màu sắc",
+      "describe": "Mô tả",
+      "createAt":"Ngày tạo",
+      "lastModifiedAt": "Ngày cập nhập",
+      "lastModifiedBy": "Người cập nhật",
+      "createBy": "Người tạo",
+      "status": "Trạng thái",
+      "selectStatus": "Chọn trạng thái",
+      "description": "Ghi chú",
+      "lockTitle": "Xác nhận khoá phụ kiện",
+      "lockContent": "Bạn có muốn khoá phụ kiện <b>{{name}}<b>",
+      "unlockTitle": "Xác nhận mở khoá phụ kiện",
+      "unlockContent": "Bạn có muốn mở khoá phụ kiện <b>{{name}}<b>",
+      "lockSuccess": "Khoá thành công",
+      "unlockSuccess": "Mở khoá thành công",
+
+      "statusAcc": {
+        "active": "Hoạt động",
+        "inactive": "Không hoạt động",
+        "drafts": "Bản nháp"
+      },
+      "success": {
+        "create": "Thêm mới thành công",
+        "update": "Cập nhật thành công"
       }
     },
     "product": {
