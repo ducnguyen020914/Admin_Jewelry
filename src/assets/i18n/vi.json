@@ -186,7 +186,8 @@
     "info": "Thông tin ",
     "approve": "Chấp thuận",
     "reject": "Từ chối",
-    "add": "Thêm"
+    "add": "Thêm",
+    "createCustomer": "Thêm khách hàng"
   },
   "model": {
     "dashboard": {
@@ -631,6 +632,13 @@
       "productQuantity": "Số lượng sản phẩm",
       "pricePerProduct": "Thành tiền",
       "createdAt": "Ngày tạo",
+      "price": "Tổng tiền",
+      "date": "Ngày mua hàng",
+      "note": "Ghi chú",
+      "availableproduct": "Các sản phẩm đang có",
+      "selectedProducts": "Các sản phẩm đã chọn",
+      "staff": "Nhân viên",
+      "purchaseForm" : "Loại giao dịch",
       "created": {
         "root": "Thời gian tạo đơn",
         "startCreatedAt": "Thời gian tạo đơn từ",

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {FormBuilder, FormGroup} from "@angular/forms";
+import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {TranslateService} from "@ngx-translate/core";
 import {ToastService} from "@shared/services/helpers/toast.service";
 import {ActivatedRoute, Router} from "@angular/router";
@@ -7,8 +7,11 @@ import {ROUTER_ACTIONS} from "@shared/utils/router.utils";
 import {LENGTH_VALIDATOR} from "@shared/constants/validators.constant";
 import {IOrderSearchRequest} from "@shared/models/request/order-search-request.model";
 import {PAGINATION} from "@shared/constants/pagination.constants";
-import {IOrder} from "@shared/models/order.model";
+import {DEFAULT_QUANTITY, IOrder, Order, ProductItem, PurchaseForm} from "@shared/models/order.model";
 import {TransferItem} from "ng-zorro-antd/transfer";
+import {IUser, User} from "@shared/models/user.model";
+import {IProduct} from "@shared/models/productReal.model";
+import {NZ_TRANSFER_CONST} from "@shared/constants/common.constant";
 
 @Component({
   selector: 'app-update-order',
@@ -30,6 +33,19 @@ export class UpdateOrderComponent implements OnInit {
   status = false;
   statusIsLoading = false;
   startValue: Date | null = null;
+  orderId = '';
+  order: IOrder = new Order();
+  allProducts: IProduct[] = [];
+  productsFilteredByMenu: ProductItem[] = [];
+  selectedProducts: ProductItem[] = [];
+
+  users: IUser[] = [];
+  currentUser: IUser = new User();
+  userSearchRequest: {} = {};
+
+  NZ_TRANSFER_CONST = NZ_TRANSFER_CONST;
+
+  DEFAULT_QUANTITY = DEFAULT_QUANTITY;
 
   //menu: IMenuResponse = new MenuResponse();
   orders: IOrder[] = [];
@@ -37,7 +53,8 @@ export class UpdateOrderComponent implements OnInit {
     pageIndex: PAGINATION.PAGE_DEFAULT,
     pageSize: PAGINATION.SIZE_DEFAULT,
   }
-
+  $asTransferItems = (data: unknown): TransferItem[] => data as TransferItem[];
+  purchaseForm = PurchaseForm;
   //ERROR_CODE_I18N_MAP = ERROR_CODE_I18N_MAP;
   constructor(
     private fb: FormBuilder,
@@ -51,14 +68,19 @@ export class UpdateOrderComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    for (let i = 0; i < 20; i++) {
-      this.list.push({
-        key: i.toString(),
-        title: `content${i + 1}`,
-        description: `description of content${i + 1}`,
-        direction: Math.random() * 2 > 1 ? 'right' : undefined
-      });
-    }
+      this.initForm();
+  }
+
+  private initForm(){
+    this.form =this.fb.group({
+      date: ['', [Validators.required]
+      ],
+      totalPrice: [{value: '', disabled: true}, Validators.required],
+      staff: [{value: '', disabled: true}, Validators.required],
+    })
+    this.form.get('date')?.setValue(new Date());
+    this.form.get('totalPrice')?.setValue(0);
+
   }
 
   onCancel(): void {
@@ -116,6 +138,12 @@ export class UpdateOrderComponent implements OnInit {
 
   create(): void{
 
+  }
+
+  onChangeOrderItems(ret: {}): void {
+    this.selectedProducts = this.productsFilteredByMenu.filter(
+      (item: TransferItem) => item.direction === NZ_TRANSFER_CONST.RIGHT
+    );
   }
 
 }
