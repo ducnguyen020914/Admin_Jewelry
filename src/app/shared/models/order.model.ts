@@ -1,3 +1,5 @@
+import {TransferItem} from "ng-zorro-antd/transfer";
+import {IProduct} from "@shared/models/productReal.model";
 
 export interface IOrder {
   createdBy?: string;
@@ -81,4 +83,15 @@ export interface IPurchaseOrderHistory {
 export interface ChangeOrderStatusRequest {
   purchaseOrderIds?: string[];
 }
+
+export interface ProductItem extends TransferItem {
+  data: IProduct & { quantity?: number},
+}
+
+export const DEFAULT_QUANTITY = 1;
+
+export const PurchaseForm = [
+  { key: 'SOLD_OUT', value: 'Bán ra' },
+  { key: 'BUY_INTO', value: 'mua vào' },
+]
 

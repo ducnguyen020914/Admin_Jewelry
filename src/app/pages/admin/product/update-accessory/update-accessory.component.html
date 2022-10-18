@@ -1,0 +1,164 @@
+<div class="content">
+  <div *nzModalTitle>
+    <span >{{
+      (isUpdate ? "action.update" : "action.create") | translate
+      }}</span>
+  </div>
+  <div class="row">
+    <div class="col-12">
+      <form [formGroup]="form">
+        <div class="row">
+          <div class="col-6 mb-2">
+            <label
+            >{{ "model.accessory.name" | translate }}
+              <span class="text-danger">*</span></label
+            >
+            <input
+              formControlName="name"
+              nz-input
+              [maxLength]="LENGTH_VALIDATOR.NAME_MAX_LENGTH.MAX"
+              placeholder="{{ 'model.accessory.name' | translate }}"
+            />
+            <ng-container
+              *ngIf="form.get('name')?.touched || form.get('name')?.dirty"
+            >
+              <span
+                class="text-danger"
+                *ngIf="form.get('name')?.hasError('required')"
+              >
+                <mb-not-blank [value]="'model.accessory.name'"></mb-not-blank>
+              </span>
+            </ng-container>
+          </div>
+          <div class="col-6 mb-2">
+            <label
+            >{{ "model.accessory.color" | translate }}
+              <span class="text-danger">*</span></label
+            >
+            <input
+              formControlName="color"
+              nz-input
+              [maxLength]="LENGTH_VALIDATOR.EMAIL_MAX_LENGTH.MAX"
+              placeholder="{{ 'model.accessory.color' | translate }}"
+            />
+            <ng-container
+              *ngIf="form.get('color')?.touched || form.get('color')?.dirty"
+            >
+              <span
+                class="text-danger"
+                *ngIf="form.get('color')?.hasError('required')"
+              >
+                <mb-not-blank
+                  [value]="'model.accessory.color'"
+                ></mb-not-blank>
+              </span>
+              <span
+                class="text-danger"
+                *ngIf="form.get('color')?.hasError('pattern')"
+              >
+                <small>{{ "common.pattern" | translate }}</small>
+              </span>
+            </ng-container>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-6 mb-2">
+            <label
+            >{{ "model.accessory.price" | translate }}
+              <span class="text-danger">*</span></label
+            >
+            <input
+              appCurrencyFormatter
+              formControlName="price"
+              nz-input
+              [maxLength]="LENGTH_VALIDATOR.VALUE_MAX_LENGTH.MAX"
+              placeholder="{{ 'model.accessory.price' | translate }}"
+            />
+            <ng-container
+              *ngIf="form.get('price')?.touched || form.get('price')?.dirty"
+            >
+              <span
+                class="text-danger"
+                *ngIf="form.get('price')?.hasError('required')"
+              >
+                <mb-not-blank [value]="'model.accessory.price'"></mb-not-blank>
+              </span>
+            </ng-container>
+          </div>
+          <div class="col-6 mb-2">
+            <label
+            >{{ "model.accessory.status" | translate }}
+              <span class="text-danger">*</span></label
+            >
+            <nz-select
+              formControlName="status"
+              nzAllowClear
+              appRemoveOptionTitle
+              nzPlaceHolder="{{ 'model.accessory.selectStatus' | translate }}"
+            >
+            <nz-option
+              *ngFor="let service of accessoryStatus"
+              [nzLabel]="service.label | translate"
+              [nzValue]="service.value"
+              [nzCustomContent]="true"
+            >
+              <div
+                container="body"
+                [animation]="false"
+                [openDelay]="100"
+                [closeDelay]="0"
+                [ngbTooltip]="service?.label! | translate"
+              >
+                {{ service?.label! | translate }}
+              </div>
+            </nz-option>
+            </nz-select>
+            <ng-container
+              *ngIf="form.get('status')?.touched || form.get('status')?.dirty"
+            >
+              <span
+                class="text-danger"
+                *ngIf="form.get('status')?.hasError('required')"
+              >
+                <mb-not-blank
+                  [value]="'model.accessory.status'"
+                ></mb-not-blank>
+              </span>
+              <span
+                class="text-danger"
+                *ngIf="form.get('status')?.hasError('pattern')"
+              >
+                <small>{{ "common.pattern" | translate }}</small>
+              </span>
+            </ng-container>
+          </div>
+        </div>
+        <div class="col-12 mb-2">
+          <label>{{ "model.accessory.description" | translate }}</label>
+          <textarea
+            [rows]="12"
+            [maxLength]="LENGTH_VALIDATOR.DESC_MAX_LENGTH.MAX"
+            placeholder="{{ 'model.accessory.description' | translate }}"
+            formControlName="description"
+            nz-input
+          >
+            </textarea>
+        </div>
+      </form>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-12 text-center" *nzModalFooter>
+      <button nz-button nzType="default" class="e-2" (click)="onCancel()">
+        {{ "action.cancel" | translate }}
+      </button>
+      <button
+        nz-button
+        nzType="primary"
+        [disabled]="form.invalid"
+        (click)="onSubmit()"
+      >
+        {{ (isUpdate ? "action.save" : "action.save") | translate }}
+      </button>
+    </div>
+</div>
