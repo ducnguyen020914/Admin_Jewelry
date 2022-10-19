@@ -2,7 +2,7 @@
 <div class="row col-12">
   <!-- search -->
   <nz-table>
-    <div [formGroup]="formSearchProduct">
+    <div [formGroup]="form">
       <div class="row ms-3 mt-3">
         <div class="col-3 mb-1">
           <label>{{ "model.product.keyword.title" | translate }}</label>
@@ -16,20 +16,30 @@
             [placeholder]="'model.product.keyword.input' | translate"
           />
         </div>
-        <div class="col-3 mb-1">
-          <label>{{ "model.product.type" | translate }}</label>
+        <div class="col-3">
+          <label>{{ "model.product.status" | translate }}</label>
           <nz-select
-            formControlName="categoryId"
-            nzPlaceHolder="{{ 'model.product.type' | translate }}"
-            nzAllowClear="true"
-            (nzFocus)="loadCategory()"
+            formControlName="status"
+            nzAllowClear
+            appRemoveOptionTitle
+            nzPlaceHolder="{{ 'model.product.selectStatus' | translate }}"
           >
-            <ng-container *ngFor="let type of categories">
-              <nz-option
-                [nzValue]="type.id"
-                [nzLabel]="type.name | translate"
-              ></nz-option>
-            </ng-container>
+            <nz-option
+              *ngFor="let service of productStatus"
+              [nzLabel]="service.label | translate"
+              [nzValue]="service.value"
+              [nzCustomContent]="true"
+            >
+              <div
+                container="body"
+                [animation]="false"
+                [openDelay]="100"
+                [closeDelay]="0"
+                [ngbTooltip]="service?.label! | translate"
+              >
+                {{ service?.label! | translate }}
+              </div>
+            </nz-option>
           </nz-select>
         </div>
 
@@ -69,31 +79,54 @@
           </nz-slider>
         </div>
       </div>
-      <div class="row ps-4">
-        <div class="col-3">
-          <label>{{ "model.product.status" | translate }}</label>
+      <div class="row ps-4 mb-4 mt-3">
+      
+        <div class="col-3 mb-1">
+          <label>{{ "model.product.accessoryId" | translate }}</label>
           <nz-select
-            formControlName="status"
-            nzAllowClear
-            appRemoveOptionTitle
-            nzPlaceHolder="{{ 'model.product.selectStatus' | translate }}"
+            formControlName="accessoryId"
+            nzPlaceHolder="{{ 'model.product.accessoryId' | translate }}"
+            nzAllowClear="true"
+            (nzFocus)="loadAccessory($event)"
           >
-            <nz-option
-              *ngFor="let service of productStatus"
-              [nzLabel]="service.label | translate"
-              [nzValue]="service.value"
-              [nzCustomContent]="true"
-            >
-              <div
-                container="body"
-                [animation]="false"
-                [openDelay]="100"
-                [closeDelay]="0"
-                [ngbTooltip]="service?.label! | translate"
-              >
-                {{ service?.label! | translate }}
-              </div>
-            </nz-option>
+            <ng-container *ngFor="let type of accessories">
+              <nz-option
+                [nzValue]="type.accessoryId"
+                [nzLabel]="type.name | translate"
+              ></nz-option>
+            </ng-container>
+          </nz-select>
+        </div>
+        <div class="col-3 mb-1">
+          <label>{{ "model.product.material" | translate }}</label>
+          <nz-select
+            formControlName="materialId"
+            nzPlaceHolder="{{ 'model.product.material' | translate }}"
+            nzAllowClear="true"
+            (nzFocus)="loadMaterial()"
+          >
+            <ng-container *ngFor="let type of materials">
+              <nz-option
+                [nzValue]="type.materialId"
+                [nzLabel]="type.materialName| translate"
+              ></nz-option>
+            </ng-container>
+          </nz-select>
+        </div>
+        <div class="col-3 mb-1">
+          <label>{{ "model.product.type" | translate }}</label>
+          <nz-select
+            formControlName="categoryId"
+            nzPlaceHolder="{{ 'model.product.type' | translate }}"
+            nzAllowClear="true"
+            (nzFocus)="loadCategory()"
+          >
+            <ng-container *ngFor="let type of categories">
+              <nz-option
+                [nzValue]="type.categoryId"
+                [nzLabel]="type.name | translate"
+              ></nz-option>
+            </ng-container>
           </nz-select>
         </div>
       </div>
@@ -139,23 +172,23 @@
           <th nzAlign="center" nzColumnKey="code" [nzSortFn]="true">
             {{ "model.product.code" | translate }}
           </th>
-          <th nzAlign="center" nzColumnKey="name" [nzSortFn]="true">
+          <th nzAlign="center" nzColumnKey="nameProduct" [nzSortFn]="true">
             {{ "model.product.name" | translate }}
           </th>
-          <th nzAlign="center" nzColumnKey="price" [nzSortFn]="true">
-            {{ "model.product.price" | translate }}
+          <th nzAlign="center" nzColumnKey="gender" [nzSortFn]="true">
+            {{ "model.product.gender" | translate }}
           </th>
-          <th nzAlign="center" nzColumnKey="manufacture_id">
-            {{ "model.product.manufactureId" | translate }}
-          </th>
-          <th nzAlign="center" nzColumnKey="color">
-            {{ "model.product.color" | translate }}
-          </th>
-          <th nzAlign="center" nzColumnKey="dimensions">
-            {{ "model.product.dimensions" | translate }}
+          <th nzAlign="center" nzColumnKey="salary" [nzSortFn]="true">
+            {{ "model.product.salary" | translate }}
           </th>
           <th nzAlign="center" nzColumnKey="material">
             {{ "model.product.material" | translate }}
+          </th>
+          <th nzAlign="center" nzColumnKey="material">
+            {{ "model.product.vendorId" | translate }}
+          </th>
+          <th nzAlign="center" nzColumnKey="material">
+            {{ "model.product.accessoryId" | translate }}
           </th>
           <th nzAlign="center" nzColumnKey="categories">
             {{ "model.product.category" | translate }}
@@ -163,6 +196,7 @@
           <th nzAlign="center" nzColumnKey="status">
             {{ "model.product.status" | translate }}
           </th>
+       
           <!--        <th nzAlign="center" nzColumnKey="type" [nzSortFn]="true">{{'model.product.type' | translate}}</th>-->
           <th nzAlign="center" nzColumnKey="action">
             {{ "action.msg" | translate }}
@@ -174,24 +208,24 @@
           <tr>
             <td nzAlign="center">{{ getIndex(i) }}</td>
             <td nzAlign="center">{{ item.code }}</td>
-            <td nzAlign="center">{{ item.name | limitWord: 25 }}</td>
+            <td nzAlign="center">{{ item.nameProduct | limitWord: 25 }}</td>
             <td nzAlign="center">
-              {{ item.purchase_price > 0 ? (item.purchase_price | vnd) : "-" }}
+              {{ item.gender }}
             </td>
             <td nzAlign="center">
-              {{ '' }}
-            </td>
-            <td nzAlign="center">
-              {{ item.color != null ? item.color : "-" }}
-            </td>
-            <td nzAlign="center">
-              {{ item.amount != null ? item.amount : "-" }}
-            </td>
-            <td nzAlign="center">
-              {{ item.gender != null ? item.gender : "-" }}
+              {{ item.salary }}
             </td>
             <td nzAlign="center" class="col-1">
-             {{item.categoryId}}
+              {{item.material.materialName }}
+             </td>
+             <td nzAlign="center" class="col-1">
+              {{item.vendor.name}}
+             </td>
+             <td nzAlign="center" class="col-1">
+              {{item.accessory.name}}
+             </td>
+            <td nzAlign="center" class="col-1">
+             {{item.category.name}}
             </td>
 
             <td nzAlign="center">
@@ -228,6 +262,19 @@
               >
               </mb-button-action>
               <mb-button-action
+              [action]="item.status === 'ACTIVE' ? 'lock' : 'unlock'"
+              *hasRoles="['product.update']"
+              nzTooltipTitle="{{
+                (item.status === 'ACTIVE' ? 'action.lock' : 'action.unlock')
+                  | translate
+              }}"
+              nzTooltipPlacement="top"
+              nz-tooltip
+              (click)="lock(item)"
+            >
+            </mb-button-action>
+              <mb-button-action
+              *ngIf="item.status === 'INACTIVE'"
                 [action]="'delete'"
                 [className]="'last'"
                 nzTooltipTitle="{{ 'action.update' | translate }}"
@@ -236,18 +283,7 @@
                 (click)="delete(item)"
               >
               </mb-button-action>
-              <mb-button-action
-                [action]="item.status === 'ACTIVE' ? 'lock' : 'unlock'"
-                *hasRoles="['product.update']"
-                nzTooltipTitle="{{
-                  (item.status === 'ACTIVE' ? 'action.lock' : 'action.unlock')
-                    | translate
-                }}"
-                nzTooltipPlacement="top"
-                nz-tooltip
-                (click)="lock(item)"
-              >
-              </mb-button-action>
+           
             </td>
           </tr>
         </ng-container>

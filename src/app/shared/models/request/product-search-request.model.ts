@@ -1,42 +1,36 @@
-import { ProductStatus } from '../enums/productStatus.enum';
+import { ProductStatus, ProductGender } from '../productReal.model';
 
 
 export interface IProductSearchRequest {
-  name?: string;
-  type?: string;
+  vendorId?: string;
   startPrice?: number;
   endPrice?: number;
   pageIndex?: number;
   pageSize?: number;
   sortBy?: string;
   keyword?: string;
-  manufactureId?: string;
   categoryId?: string;
-  color?: string;
-  material?: string;
-  dimensions?: string;
+  accessoryId?: string;
+  materialId?: string;
   status?: ProductStatus;
+  gender?: ProductGender;
 }
 
 export class ProductSearchRequest implements IProductSearchRequest {
   constructor(
-    public name?: string,
-    public type?: string,
+    public  vendorId?: string,
     public startPrice?: number,
-    public endPrice?: number,
+    public  endPrice?: number,
     public pageIndex?: number,
-    public pageSize?: number,
+    public  pageSize?: number,
     public sortBy?: string,
-    public keyword?: string,
-    public manufactureId?: string,
-    public categoryId?: string,
-    public color?: string,
-    public material?: string,
-    public dimensions?: string,
-    public status?: ProductStatus
+    public  keyword?: string,
+    public  categoryId?: string,
+    public accessoryId?: string,
+    public  materialId?: string,
+    public status?: ProductStatus,
+    public gender?: ProductGender,
   ) {
-    this.name = name;
-    this.type = type;
     this.startPrice = startPrice;
     this.endPrice = endPrice;
     this.pageIndex = pageIndex;
@@ -44,10 +38,10 @@ export class ProductSearchRequest implements IProductSearchRequest {
     this.sortBy = sortBy;
     this.keyword = keyword;
     this.categoryId = categoryId;
-    this.manufactureId = manufactureId;
-    this.color = color;
-    this.material = material;
-    this.dimensions = dimensions;
+    this.materialId = materialId;
     this.status = status;
+    this.accessoryId = accessoryId;
+    this.vendorId = vendorId;
+    this.gender = gender; 
   }
 }

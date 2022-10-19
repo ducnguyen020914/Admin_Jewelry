@@ -1,26 +1,32 @@
 
 export interface IAccessory {
-  id?: string;
-  deleted?: boolean;
+  accessoryId?: string;
+  color?: string;
   name?: string;
+  price?:number;
   createdAt?: number;
   createdBy?: string;
+  status?:string;
   lastModifiedAt?: number;
   lastModifiedBy?: string;
 }
 export class Accessory implements IAccessory {
   constructor(
-    public id?: string,
+    public accessoryId?: string,
     public name?: string,
-    public deleted?: boolean,
+    public color?: string,
+    public status?:string,
+    public price?:number,
     public createdAt?: number,
     public createdBy?: string,
     public lastModifiedAt?: number,
     public lastModifiedBy?: string,
   ) {
-    this.id = id;
+    this.accessoryId = accessoryId;
     this.name = name;
-    this.deleted = deleted;
+    this.color = color;
+    this.status = status;
+    this.price = price;
     this.createdAt = createdAt;
     this.createdBy = createdBy;
     this.lastModifiedAt = lastModifiedAt;

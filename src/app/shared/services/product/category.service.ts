@@ -66,11 +66,10 @@ export class CategoryService extends AbstractService {
     );
   }
   getPropertiesByCategoryIds(
-    ids: string[]
+    id: string
   ): Observable<EntityResponseType<ICategoryProperty>> {
-    return super.post<ICategoryProperty>(
-      `${this.resourceUrl}/category-properties`,
-      ids
+    return super.get<ICategoryProperty>(
+      `${this.resourceUrl}/${id}/properties`,
     );
   }
 

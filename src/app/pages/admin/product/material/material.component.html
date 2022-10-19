@@ -146,7 +146,7 @@
               {{ getTranslate("salePrice") }}
             </th>
             <th nzAlign="center" nzColumnKey="type" [nzSortFn]="true">
-              {{ getTranslate("materialTypeName") }}
+              {{ getTranslate("type") }}
             </th>
             <th nzAlign="center" nzColumnKey="color" [nzSortFn]="true">
               {{ getTranslate("color") }}
@@ -156,7 +156,7 @@
               {{ getTranslate("age") }}
             </th>
             <th nzAlign="center" nzColumnKey="type" [nzSortFn]="true">
-              {{ getTranslate("type") }}
+              {{ getTranslate("status") }}
             </th>
             <th nzAlign="center" >
               {{ "action.msg" | translate }}
@@ -169,9 +169,9 @@
               <td nzAlign="center">{{ getIndex(i) }}</td>
               <td nzAlign="left">{{ item.materialName }}</td>
               <td nzAlign="left">
-                {{ item.purchasePrice }}
+                {{ item.purchasePrice | vnd }}/Chỉ
               </td>
-              <td nzAlign="left">{{ item.salePrice }}</td>
+              <td nzAlign="left">{{ item.salePrice| vnd  }}/Chỉ</td>
               <td nzAlign="center">
                 {{ item.type}}
               </td>

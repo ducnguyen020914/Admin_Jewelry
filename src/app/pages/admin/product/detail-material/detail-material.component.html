@@ -29,14 +29,14 @@
             <div>
               <div class="row mb-1">
                 <div class="col-lg-5 info_wrapper_field_label">
-                  <label>{{ "model.category.name" | translate }}</label>
+                  <label>{{ "model.material.name" | translate }}</label>
                 </div>
                 <div class="col-lg-7 info_wrapper_field_label">
                   <span>
                     <p>
                       {{
-                        category.name
-                          ? category.name
+                        material.materialName
+                          ? material.materialName
                           : ("common.noInfo" | translate)
                       }}
                     </p>
@@ -46,14 +46,14 @@
               </div>
               <div class="row mb-1 mt-3">
                 <div class="col-lg-5 info_wrapper_field_label">
-                  <label>{{ "model.category.createdAt" | translate }}</label>
+                  <label>{{ "model.material.purchasePrice" | translate }}</label>
                 </div>
                 <div class="col-lg-7 info_wrapper_field_label">
                   <span>
                     <p>
                       {{
-                        category.createdAt
-                          ? (category.createdAt | date: "dd/MM/yyyy")
+                        material.purchasePrice
+                          ? (material.purchasePrice | vnd ) + ' đ'
                           : ("common.noInfo" | translate)
                       }}
                     </p>
@@ -63,14 +63,14 @@
               </div>
               <div class="row mb-1 mt-3">
                 <div class="col-lg-5 info_wrapper_field_label">
-                  <label>{{ "model.category.createdBy" | translate }}</label>
+                  <label>{{ "model.material.salePrice" | translate }}</label>
                 </div>
                 <div class="col-lg-7 info_wrapper_field_label">
                   <span>
                     <p>
                       {{
-                        category.createdBy
-                          ? category.createdBy
+                        material.salePrice
+                          ? material.salePrice
                           : ("common.noInfo" | translate)
                       }}
                     </p>
@@ -80,12 +80,50 @@
               </div>
               <div class="row mb-1 mt-3">
                 <div class="col-lg-5 info_wrapper_field_label">
-                  <label>{{ "model.category.property" | translate }}</label>
+                  <label>{{ "model.material.status" | translate }}</label>
                 </div>
                 <div class="col-lg-7 info_wrapper_field_label">
                   <span>
                     <p>
-                      {{ loadProperties() }}
+                      {{
+                        material.status
+                          ? material.status
+                          : ("common.noInfo" | translate)
+                      }}
+                    </p>
+                  </span>
+                </div>
+                <hr />
+              </div>
+              <div class="row mb-1 mt-3">
+                <div class="col-lg-5 info_wrapper_field_label">
+                  <label>{{ "model.material.age" | translate }}</label>
+                </div>
+                <div class="col-lg-7 info_wrapper_field_label">
+                  <span>
+                    <p>
+                      {{
+                        material.age
+                          ? material.age
+                          : ("common.noInfo" | translate)
+                      }}
+                    </p>
+                  </span>
+                </div>
+                <hr />
+              </div>
+              <div class="row mb-1 mt-3">
+                <div class="col-lg-5 info_wrapper_field_label">
+                  <label>{{ "model.material.color" | translate }}</label>
+                </div>
+                <div class="col-lg-7 info_wrapper_field_label">
+                  <span>
+                    <p>
+                      {{
+                        material.color
+                          ? material.color
+                          : ("common.noInfo" | translate)
+                      }}
                     </p>
                   </span>
                 </div>
@@ -95,11 +133,11 @@
           </div>
           <div class="col-4 info_wrapper_field">
             <div
-              style="margin-top: 8px"
+              style="margin-top: 40px"
               class="row text-center info_wrapper_field"
             >
               <qrcode
-                class="{{ !!vCardData ? 'mt-2' : 'qr-no-content' }}"
+                class="{{ !!vCardData ? 'mt-5' : 'qr-no-content' }}"
                 #complaintQrCode
                 [qrdata]="vCardData || 'No content'"
                 [width]="220"
@@ -158,11 +196,11 @@
               <div class="col-lg-8 info_wrapper_field_content">
                 <span>
                   <p>
-                    {{
+                    <!-- {{
                       category.name
                         ? category.name
                         : ("common.noInfo" | translate)
-                    }}
+                    }} -->
                   </p>
                 </span>
               </div>

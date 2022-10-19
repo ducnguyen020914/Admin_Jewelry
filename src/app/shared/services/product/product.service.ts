@@ -23,15 +23,15 @@ import { IProductPropertyValue } from '../../models/product-property-value.model
   providedIn: 'root',
 })
 export class ProductService extends AbstractService {
-  public resourceUrl = "https://633b0ce5e02b9b64c61e0ffa.mockapi.io/product";
+  public resourceUrl = "/api/v1/product";
   constructor(protected http: HttpClient) {
     super(http);
   }
   search(
     params?: ProductSearchRequest,
     loading = false
-  ): Observable<any> {
-    return this.http.get(`${this.resourceUrl}`);
+  ): Observable<EntityResponseType<IProduct[]>> {
+    return super.get<IProduct>(`${this.resourceUrl}`,{params ,loading});
   }
 
   create(dish: IProduct): Observable<EntityResponseType<IProduct>> {
@@ -39,11 +39,11 @@ export class ProductService extends AbstractService {
   }
 
   update(id: string, dish: IProduct): Observable<EntityResponseType<IProduct>> {
-    return super.post<IProduct>(`${this.resourceUrl}/${id}/update`, dish);
+    return super.put<IProduct>(`${this.resourceUrl}/${id}`, dish);
   }
 
   delete(id: string): Observable<EntityResponseType<any>> {
-    return super.post<IProduct>(`${this.resourceUrl}/${id}/delete`);
+    return super.delete<IProduct>(`${this.resourceUrl}/${id}`);
   }
 
   sortAndPaginateProducts(
@@ -107,10 +107,8 @@ export class ProductService extends AbstractService {
     id: string,
     loading = false
   ): Observable<EntityResponseType<IProduct>> {
-    return super.post<IProduct>(
-      `${this.resourceUrl}/${id}/inactive`,
-      {},
-      { loading }
+    return super.get<IProduct>(
+      `${this.resourceUrl}/${id}/unlock`,
     );
   }
   getProperties(
@@ -126,10 +124,14 @@ export class ProductService extends AbstractService {
     id: string,
     loading = false
   ): Observable<EntityResponseType<IProduct>> {
-    return super.post<IProduct>(
-      `${this.resourceUrl}/${id}/active`,
-      {},
-      { loading }
+    return super.get<IProduct>(
+      `${this.resourceUrl}/${id}/lock`
     );
   }
+  detail(id:string): Observable<EntityResponseType<IProduct>>{
+    return super.get<IProduct>(
+      `${this.resourceUrl}/${id}`
+    );
+  }
+
 }

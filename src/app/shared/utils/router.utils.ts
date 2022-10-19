@@ -130,7 +130,9 @@ export const ROUTER_UTILS = {
     materialDetail: 'material/:id/detail',
     categoryCreate: 'category/create',
     accessory:'accessory',
-    vendor:'vendor'
+    vendor:'vendor',
+    productCreate: 'create',
+    productUdate: ':id/update'
   },
   room: {
     root: 'room',
