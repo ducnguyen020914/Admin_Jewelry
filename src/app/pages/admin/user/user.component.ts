@@ -117,6 +117,7 @@ export class UserComponent implements OnInit {
       (response: any) => {
         const data = response?.body?.data;
         const page = response?.body?.page;
+        console.log(data)
         if (data.length > 0) {
           data.map((user: User): any => (user.checked = false));
         }
@@ -175,13 +176,7 @@ export class UserComponent implements OnInit {
 
   update(user: IUser): void {
     const authenticType = user.authenticationType;
-    const accounntType = user.accountType;
     let type = '';
-    if (accounntType === this.userEmployee) {
-      type = this.userProfileInternal;
-    } else {
-      type = this.userProfileLdap;
-    }
     const dataObject = {
       queryParams: {
         typeUser: type,
@@ -228,10 +223,8 @@ export class UserComponent implements OnInit {
     }
   }
 
-  format(value: any, type: string): string | any {
-    if (type === 'date') {
-      return CommonUtil.formatArrayToDate(value);
-    } else if (type === 'status') {
+  format(value: any, type: string): any {
+    if (value && type === 'status') {
       return this.translateService.instant(
         ['common', value.toLowerCase()].join('.')
       );

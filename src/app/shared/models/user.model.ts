@@ -4,33 +4,26 @@ import {UserPrimary} from './user-primary.model';
 
 export interface IUser {
   id?: string;
-  username?: string;
+  userName?: string;
   fullName?: string;
   password?: string;
   email?: string;
   phoneNumber?: string;
-  roles?: Array<Role>;
-  // buildings?: Array<Building>;
-  organization?: Array<Customer>;
+  role?: string;
   authorities?: any;
   authenticationType?: string;
-  accountType?: string;
   contactId?: string;
-  companyName?: string;
   // Thêm mới, cập nhật tài khoản nội bộ
   dayOfBirth?: string;
   gender?: string;
   repeatPassword?: string;
-  roleIds?: Array<string>;
   organizationId?: string;
   employeeCode?: string;
   title?: string;
   description?: string;
   status?: string;
   departmentName?: string;
-  avatarFileId?: string;
-  file?: any;
-  avatarFileUrl?: string;
+  imageFileUrl?: string;
   deleted?: boolean;
   checked?: boolean;
   disabled?: boolean;
