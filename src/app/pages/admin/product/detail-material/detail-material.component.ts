@@ -4,7 +4,7 @@ import { Product } from '../../../../shared/models/productReal.model';
 import { ProductSearchRequest } from '../../../../shared/models/request/product-search-request.model';
 import { PAGINATION } from '../../../../shared/constants/pagination.constants';
 import { LENGTH_VALIDATOR } from '../../../../shared/constants/validators.constant';
-import { FormGroup, FormBuilder } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ProductService } from '../../../../shared/services/product/product.service';
 import { ActivatedRoute } from '@angular/router';
 import { MaterialService } from '../../../../shared/services/product/material.service';
@@ -57,7 +57,7 @@ export class DetailMaterialComponent implements OnInit {
 
   initForm(): void {
     this.formSearchProduct = this.fb.group({
-      keyword: [this.productSearchRequest.keyword || null],
+      keyword: [this.productSearchRequest.keyword || null,],
     });
   }
 
@@ -65,6 +65,8 @@ export class DetailMaterialComponent implements OnInit {
     this.materialService
       .detail(id)
       .subscribe((response: any) => {
+        console.log(response);
+        
         this.material = response.body?.data;
         this.getContactQRCode(this.material);
       });
@@ -96,13 +98,18 @@ export class DetailMaterialComponent implements OnInit {
   }
 
   // Set infomation to vcard qrCode
-  getContactQRCode(category: ICategory): void {
-    const name = category.name ? category.name?.toUpperCase() : 'Category';
+  getContactQRCode(material:Material): void {
+    const name = material.materialName ? material.materialName?.toUpperCase() : 'Matrial';
     this.vCardData =
       `BEGIN:VCARD` +
       `\nN:${name}` +
-      `\nN:${category.categoryId}` +
-      `\nN:${category.properties}` +
+      `\nN:${material.materialId}` +
+      `\nN:${material.purchasePrice}` +
+      `\nN:${material.salePrice}` +
+      `\nN:${material.type}` +
+      `\nN:${material.color}` +
+      `\nN:${material.age}` +
+      `\nN:${material.status}` +
       `\nVERSION:3.0\nEND:VCARD`;
   }
 

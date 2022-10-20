@@ -8,6 +8,7 @@ import { AccessoryComponent } from './accessory/accessory.component';
 import { VendorComponent } from './vendor/vendor.component';
 import { DetailCategoryComponent } from './detail-category/detail-category.component';
 import { DetailMaterialComponent } from './detail-material/detail-material.component';
+import { ProductUpdateComponent } from './product-update/product-update.component';
 
 const routes: Routes = [
   {
@@ -64,6 +65,23 @@ const routes: Routes = [
       action: ROUTER_ACTIONS.detail,
     },
   },
+  {
+    path: ROUTER_UTILS.product.productCreate,
+    component: ProductUpdateComponent,
+    data: {
+      title: 'model.product.list',
+      action: ROUTER_ACTIONS.create,
+    },
+   
+  },{
+    
+      path: ROUTER_UTILS.product.productUdate,
+      component: ProductUpdateComponent,
+      data: {
+        title: 'model.product.list',
+        action: ROUTER_ACTIONS.update,
+      },
+  }
   // {
   //   path: ROUTER_UTILS.product.category,
   //   component: CategoryComponent,

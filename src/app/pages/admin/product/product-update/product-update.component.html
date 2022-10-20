@@ -1,0 +1,441 @@
+<div class="title mb-3">
+  <mb-table-title [showBack]="true" [title]="getTitle()"></mb-table-title>
+</div>
+<section class="content">
+  <div class="row mt-3">
+    <div class="col-12">
+      <form [formGroup]="form">
+        <div class="row">
+          <div class="col-6 mb-4">
+            <label
+              >{{ "model.product.name" | translate }}
+              <span class="text-danger">*</span></label
+            >
+            <input
+              formControlName="nameProduct"
+              nz-input
+              [maxLength]="LENGTH_VALIDATOR.NAME_MAX_LENGTH.MAX"
+              placeholder="{{ 'model.product.name' | translate }}"
+            />
+            <ng-container
+              *ngIf="
+                form.get('nameProduct')?.touched ||
+                form.get('nameProduct')?.dirty
+              "
+            >
+              <span
+                class="text-danger"
+                *ngIf="form.get('nameProduct')?.hasError('required')"
+              >
+                <mb-not-blank [value]="'model.product.name'"></mb-not-blank>
+              </span>
+            </ng-container>
+          </div>
+          <div class="col-6 mb-4">
+            <label
+              >{{ "model.product.salary" | translate }}
+              <span class="text-danger">*</span></label
+            >
+            <input
+              type="number"
+              formControlName="salary"
+              nz-input
+              [maxLength]="LENGTH_VALIDATOR.NAME_MAX_LENGTH.MAX"
+              placeholder="{{ 'model.product.salary' | translate }}"
+            />
+            <ng-container
+              *ngIf="form.get('salary')?.touched || form.get('salary')?.dirty"
+            >
+              <span
+                class="text-danger"
+                *ngIf="form.get('salary')?.hasError('required')"
+              >
+                <mb-not-blank [value]="'model.product.salary'"></mb-not-blank>
+              </span>
+            </ng-container>
+          </div>
+        </div>
+        <div class="row">
+         
+          <div class="col-6 mb-4">
+            <label
+              >{{ "model.product.gender" | translate }}
+              <span class="text-danger">*</span></label
+            >
+            <nz-select
+              nzShowSearch
+              nzAllowClear
+              appDebounceKeyUp
+              maxlength="LENGTH_VALIDATOR.NAME_MAX_LENGTH.MAX"
+              formControlName="gender"
+              [nzPlaceHolder]="'model.product.gender' | translate"
+            >
+              <ng-container *ngFor="let gender of PRODUCT_GENDER">
+                <nz-option
+                  [nzValue]="gender.value"
+                  [nzLabel]="gender.label"
+                ></nz-option>
+              </ng-container>
+            </nz-select>
+
+            <ng-container
+              *ngIf="
+                form.get('gender')?.touched || form.get('gender')?.dirty
+              "
+            >
+              <span
+                class="text-danger"
+                *ngIf="form.get('gender')?.hasError('required')"
+              >
+                <mb-not-blank [value]="'model.product.type'"></mb-not-blank>
+              </span>
+            </ng-container>
+          </div>
+          <div class="col-6 mb-4">
+            <label
+              >{{ "model.product.vendorId" | translate }}
+              <span class="text-danger">*</span></label
+            >
+            <nz-select
+              formControlName="vendorId"
+              [nzPlaceHolder]="'model.product.vendorId' | translate"
+            >
+              <ng-container *ngFor="let v of vendors">
+                <nz-option
+                  [nzValue]="v.vendorId"
+                  [nzLabel]="v.name"
+                ></nz-option>
+              </ng-container>
+            </nz-select>
+            <ng-container
+              *ngIf="
+                form.get('vendorId')?.touched || form.get('vendorId')?.dirty
+              "
+            >
+              <span
+                class="text-danger"
+                *ngIf="form.get('vendorId')?.hasError('required')"
+              >
+                <mb-not-blank
+                  [value]="'model.product.manufacture'"
+                ></mb-not-blank>
+              </span>
+            </ng-container>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-6 mb-4">
+            <label
+              >{{ "model.product.material" | translate }}
+              <span class="text-danger">*</span></label
+            >
+            <nz-select
+              nzShowSearch
+              nzAllowClear
+              appDebounceKeyUp
+              maxlength="LENGTH_VALIDATOR.NAME_MAX_LENGTH.MAX"
+              formControlName="materialId"
+              [nzPlaceHolder]="'model.product.material' | translate"
+              (ngModelChange)="getMaterial()"
+            >
+              <ng-container *ngFor="let type of materials">
+                <nz-option
+                  [nzValue]="type.materialId"
+                  [nzLabel]="type.materialName"
+                ></nz-option>
+              </ng-container>
+            </nz-select>
+
+            <ng-container
+              *ngIf="
+                form.get('materialId')?.touched || form.get('materialId')?.dirty
+              "
+            >
+              <span
+                class="text-danger"
+                *ngIf="form.get('materialId')?.hasError('required')"
+              >
+                <mb-not-blank [value]="'model.product.type'"></mb-not-blank>
+              </span>
+            </ng-container>
+          </div>
+          <div class="col-6 mb-4">
+            <label
+              >{{ "model.product.accessoryId" | translate }}
+              <span class="text-danger">*</span></label
+            >
+            <nz-select
+              nzShowSearch
+              nzAllowClear
+              appDebounceKeyUp
+              formControlName="accessoryId"
+              [nzPlaceHolder]="'model.product.accessoryId' | translate"
+              (nzFocus)="loadAccessory($event)"
+              (ngModelChange)="getMaterial()"
+            >
+              <ng-container *ngFor="let type of accessories">
+                <nz-option
+                  [nzValue]="type.accessoryId"
+                  [nzLabel]="type.name"
+                ></nz-option>
+              </ng-container>
+            </nz-select>
+
+            <ng-container
+              *ngIf="
+                form.get('accessoryId')?.touched ||
+                form.get('accessoryId')?.dirty
+              "
+            >
+              <span
+                class="text-danger"
+                *ngIf="form.get('accessoryId')?.hasError('required')"
+              >
+                <mb-not-blank [value]="'model.product.type'"></mb-not-blank>
+              </span>
+            </ng-container>
+          </div>
+        </div>
+       
+        <div class="row">
+          <div class="col-6 mb-4">
+            <label
+              >{{ "model.product.sizeId" | translate }}
+              <span class="text-danger">*</span></label
+            >
+            <nz-select
+              nzShowSearch
+              nzAllowClear
+              appDebounceKeyUp
+              maxlength="LENGTH_VALIDATOR.NAME_MAX_LENGTH.MAX"
+              nzMode="multiple"
+              formControlName="sizeIds"
+              [nzMaxTagCount]="2"
+              [nzPlaceHolder]="'model.product.sizeId' | translate"
+              (ngModelChange)="loadSizeProduct()"
+            >
+              <ng-container *ngFor="let size of sizes">
+                <nz-option
+                  [nzValue]="size.sizeId"
+                  [nzLabel]="size.size"
+                ></nz-option>
+              </ng-container>
+            </nz-select>
+            <ng-container
+              *ngIf="form.get('sizeIds')?.touched || form.get('sizeIds')?.dirty"
+            >
+              <span
+                class="text-danger"
+                *ngIf="form.get('sizeIds')?.hasError('required')"
+              >
+                <mb-not-blank [value]="'model.product.sizeId'"></mb-not-blank>
+              </span>
+            </ng-container>
+          </div>
+          <div class="col-6 mb-4">
+            <label>{{ "model.product.event" | translate }} </label>
+            <nz-select
+              formControlName="eventId"
+              [nzPlaceHolder]="'model.product.event' | translate"
+            >
+              <ng-container *ngFor="let event of events">
+                <nz-option
+                  [nzValue]="event.eventId"
+                  [nzLabel]="event.name"
+                ></nz-option>
+              </ng-container>
+            </nz-select>
+            <ng-container
+              *ngIf="form.get('eventId')?.touched || form.get('eventId')?.dirty"
+            >
+              <span
+                class="text-danger"
+                *ngIf="form.get('eventId')?.hasError('required')"
+              >
+                <mb-not-blank [value]="'model.product.event'"></mb-not-blank>
+              </span>
+            </ng-container>
+          </div>
+        </div>
+        
+          <div class="row"
+            *ngFor="let item of sizeProduct.controls; let i = index"
+          >
+            <div class="col-6">
+              <label
+                >{{ "model.product.sizeName" | translate }}
+                {{ item.value.sizeName }}
+              </label>
+              <input
+              type="number"
+                nz-input
+                [maxLength]="LENGTH_VALIDATOR.NAME_MAX_LENGTH.MAX"
+                placeholder="{{'Số lượng sản phẩm của kích thước ' + item.value.sizeName }}"
+                value="{{ item.value.quantity }}"
+                min="0"
+                max="10000"
+                (change)="setValueSize(i, item.value.sizeId,item.value.sizeName, $event)"
+              />
+            </div>
+            <div class="col-6" >
+              <label
+                >{{ "model.product.weightProduct" | translate }}
+                {{ item.value.sizeName }}<i class="text-danger"> (đơn vị: Chỉ)</i>
+              </label>
+              <input
+              type="number"
+                nz-input
+                [maxLength]="LENGTH_VALIDATOR.NAME_MAX_LENGTH.MAX"
+                placeholder="{{ item.value.weight }}"
+                value="{{ item.value.weight }}"
+                (input)="loadPurchasePriceAndSalePrice(i,$event)"
+                min="0"
+                max="10000"
+              />
+            </div>
+              <div class="col-6 mb-4 mt-3">
+                <label style="font-size: 18px;"
+                  >{{ "model.product.purchasePrice" | translate }}:
+                  <strong>{{ item.value.purchasePrice | vnd }}  </strong></label
+                >
+              </div>
+              <div class="col-6 mb-4  mt-3" style="font-size: 18px;">
+                <label
+                  >{{ "model.product.salePrice" | translate }}:
+                  <strong>{{ item.value.salePrice | vnd }} </strong></label
+                >
+              </div>
+            </div>   
+            <div class="row">
+              <div class="col-6 mb-4">
+                <label
+                  >{{ "model.product.type" | translate }}
+                  <span class="text-danger">*</span></label
+                >
+                <nz-select
+                  nzShowSearch
+                  nzAllowClear
+                  appDebounceKeyUp
+                  maxlength="LENGTH_VALIDATOR.NAME_MAX_LENGTH.MAX"
+                  formControlName="categoryId"
+                  [nzPlaceHolder]="'model.product.type' | translate"
+                  (ngModelChange)="loadPropertyByCategory()"
+                >
+                  <ng-container *ngFor="let type of categories">
+                    <nz-option
+                      [nzValue]="type.categoryId"
+                      [nzLabel]="type.name"
+                    ></nz-option>
+                  </ng-container>
+                </nz-select>
+    
+                <ng-container
+                  *ngIf="
+                    form.get('categoryId')?.touched || form.get('categoryId')?.dirty
+                  "
+                >
+                  <span
+                    class="text-danger"
+                    *ngIf="form.get('categoryId')?.hasError('required')"
+                  >
+                    <mb-not-blank [value]="'model.product.type'"></mb-not-blank>
+                  </span>
+                </ng-container>
+              </div>
+              <div
+              class="col-6 mb-4"
+              *ngFor="let item of propertyProduct.controls; let i = index"
+            >
+              <div>
+                <label>{{ item.value.name }} </label>
+                <input
+                  nz-input
+                  [maxLength]="LENGTH_VALIDATOR.NAME_MAX_LENGTH.MAX"
+                  placeholder="{{ item.value.name }}"
+                  value="{{ item.value.value }}"
+                  (change)="setValue(i, item.value.name, $event)"
+                />
+              </div>
+            </div>
+            </div>
+        <div class="col-12 mb-2">
+          <label>{{ "model.product.note" | translate }}</label>
+          <textarea rows="4" nz-input formControlName="note"></textarea>
+        </div>
+        <div class="row">
+          <div class="col-6">
+            <label>{{ "common.attachedFiles" | translate }}</label>
+            <app-upload-file
+              [multiple]="true"
+              (emitter)="getFiles($event)"
+              [filesOrigin]="fileOrigin"
+              [disable]="fileOrigin?.length + files?.length > 5"
+              [acceptTypeFiles] = "'image'"
+            ></app-upload-file>
+          </div>
+         <div class="col-12 text-center mt-3">
+          <img *ngFor="let url of imageTam"
+          nz-image
+          width="200px"
+          height="200px"
+          [nzSrc]="url"
+          alt=""
+          class="me-2"
+        />
+         </div>
+        </div>
+      </form>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-12 text-center" *nzModalFooter>
+      <button nz-button nzType="default" class="e-2" (click)="onCancel()">
+        {{
+          (action === ROUTER_ACTIONS.detail ? "action.back" : "action.cancel")
+            | translate
+        }}
+      </button>
+      <button
+        *ngIf="action !== ROUTER_ACTIONS.detail"
+        nz-button
+        nzType="primary"
+        (click)="onSubmit()"
+        [disabled]="form.invalid"
+      >
+        {{
+          (action === ROUTER_ACTIONS.update ? "action.update" : "action.create")
+            | translate
+        }}
+      </button>
+    </div>
+  </div>
+  <div class="row mt-5">
+    <div class="col-12 text-center">
+      <button nz-button nzType="default" class="me-2" (click)="onCancel()">
+        {{ "action.back" | translate }}
+      </button>
+      <button
+        *ngIf="action !== ROUTER_ACTIONS.detail"
+        nz-button
+        nzType="primary"
+        (click)="onSubmit()"
+      >
+        {{
+          (action === ROUTER_ACTIONS.update ? "action.update" : "action.create")
+            | translate
+        }}
+      </button>
+    </div>
+  </div>
+</section>
+<mb-modal
+  [title]="lockPopup.title"
+  [content]="lockPopup.content"
+  [interpolateParams]="lockPopup.interpolateParams"
+  [okText]="lockPopup.okText"
+  [btnCentered]="true"
+  [callBack]="this.lockPopup.callBack"
+  [isVisible]="isVisible"
+  (emitter)="onLockAndUnLock($event)"
+>
+</mb-modal>
