@@ -44,5 +44,13 @@ export class MaterialService extends AbstractService {
   unlock(id: string): Observable<EntityResponseType<IMaterial>>{
     return super.post<IMaterial>(`${this.resourceUrl}/${id}/unlock`);
   }
+
+  autoComplete(
+    params?: MaterialSearchRequest,
+    loading = true
+  ): Observable<EntityResponseType<IMaterial[]> >{
+    return super.get<IMaterial[]>(`${this.resourceUrl}/auto-complete`,{params});
+  }
+
  
 }

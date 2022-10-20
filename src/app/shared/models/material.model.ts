@@ -5,7 +5,6 @@ export interface IMaterial {
   materialName?:string;
   purchasePrice?:number;
   salePrice?:number;
-  materialTypeName?:string;
   color?:string;
   type?:string;
   status?:MaterialStatus;
@@ -21,7 +20,6 @@ export class Material implements IMaterial {
     public materialName?:string,
     public purchasePrice?:number,
     public salePrice?:number,
-    public  materialTypeName?:string,
     public status?:MaterialStatus,
     public color?:string,
     public type?:string,
@@ -35,7 +33,6 @@ export class Material implements IMaterial {
     this.materialName = materialName;
     this.purchasePrice = purchasePrice;
     this.salePrice = salePrice;
-    this.materialTypeName = materialName;
     this.color = color;
     this.status = status;
     this.type = type;

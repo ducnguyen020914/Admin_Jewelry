@@ -47,5 +47,12 @@ export class VendorService extends AbstractService {
   delete(id: string): Observable<EntityResponseType<any>> {
     return super.delete<IVendor>(`${this.resourceUrl}/${id}`);
   }
+
+  autoComplete(
+    params?: VendorSearchRequest,
+    loading = false
+  ): Observable<EntityResponseType<IVendor[]> >{
+    return super.get<IVendor[]>(`${this.resourceUrl}/auto-complete`,{params});
+  }
  
 }

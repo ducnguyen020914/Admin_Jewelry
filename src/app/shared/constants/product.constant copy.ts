@@ -15,6 +15,11 @@ export const CATEGORY_STATUS = [
   {value: ACTIVE, label: 'model.category.categoryStatus.active'},
   {value: INACTIVE, label: 'model.category.categoryStatus.inactive'},
 ];
+export const PRODUCT_GENDER =  [
+  {value: 'FEMALE', label: 'Nữ'},
+  {value: 'MALE', label: 'Nam'},
+  {value: 'FEMALE_AND_MALE', label: 'Nam và nữ'},
+]
 
 
 

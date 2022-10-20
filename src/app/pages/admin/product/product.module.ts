@@ -8,7 +8,6 @@ import { SharedModule } from '../../../shared/shared.module';
 import { NzTransferModule } from 'ng-zorro-antd/transfer';
 import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
 import { NzSliderModule } from 'ng-zorro-antd/slider';
-import { UpdateProductComponent } from './update-product/update-product.component';
 import { AccessoryComponent } from './accessory/accessory.component';
 import { UpdateCategoryComponent } from './update-category/update-category.component';
 import { VendorComponent } from './vendor/vendor.component';
@@ -17,6 +16,7 @@ import { DetailVendorComponent } from './detail-vendor/detail-vendor.component';
 import { DetailCategoryComponent } from './detail-category/detail-category.component';
 import { UpdateMaterialComponent } from './update-material/update-material.component';
 import { DetailMaterialComponent } from './detail-material/detail-material.component';
+import { ProductUpdateComponent } from './product-update/product-update.component';
 import { UpdateAccessoryComponent } from './update-accessory/update-accessory.component';
 @NgModule({
   imports: [
@@ -31,7 +31,6 @@ import { UpdateAccessoryComponent } from './update-accessory/update-accessory.co
     ProductComponent,
     CategoryComponent,
     MaterialComponent,
-    UpdateProductComponent,
     AccessoryComponent,
     UpdateCategoryComponent,
     VendorComponent,
@@ -40,6 +39,7 @@ import { UpdateAccessoryComponent } from './update-accessory/update-accessory.co
     DetailCategoryComponent,
     UpdateMaterialComponent,
     DetailMaterialComponent,
+    ProductUpdateComponent,
     UpdateAccessoryComponent
   ],
 })
