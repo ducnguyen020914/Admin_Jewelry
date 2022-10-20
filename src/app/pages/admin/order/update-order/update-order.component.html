@@ -2,10 +2,11 @@
 <div class="row">
   <div class="col-8 title">
     <mb-table-title [showBack]="true"
-                    title="{{(action === ROUTER_ACTIONS.update ? 'model.menu.update' : action === ROUTER_ACTIONS.detail ? 'model.menu.detail' : 'model.menu.create' ) | translate }}">
+                    title="{{(action === ROUTER_ACTIONS.update ? 'model.order.update' : action === ROUTER_ACTIONS.detail ? 'model.order.detail' : 'model.order.create' ) | translate }}">
     </mb-table-title>
   </div>
 </div>
+
 <nz-tabset
   [(nzSelectedIndex)]="selectedIndex"
   nzType="editable-card"
@@ -17,7 +18,7 @@
       <div class="col-12">
         <section class="content mt-3">
           <div>
-            <label>{{ 'model.menu.publish' | translate }}</label>
+            <label>{{ 'model.order.publish' | translate }}</label>
             <div class="ms-1">
               <!-- <nz-switch [(ngModel)]="status" (click)="onPublishChange()" [nzControl]="true" [nzLoading]="statusIsLoading">
               </nz-switch> -->
@@ -33,7 +34,23 @@
       <div class="col-12">
         <form [formGroup]="form" >
           <section class="content mt-3">
-            <div class="col-7 mb-2">
+            <div class="col-12 mb-2">
+              <label>{{ 'model.order.purchaseForm' | translate }} </label>
+              <nz-select
+                nzAllowClear
+                nzPlaceHolder="{{'model.order.purchaseForm' | translate}}"
+                formControlName="purchaseForm"
+              >
+                <nz-option
+                  *ngFor="let service of purchaseForm"
+                  [nzValue]="service.key"
+                  [nzLabel]="service.value"
+                >
+                </nz-option>
+              </nz-select>
+            </div>
+            <div class="row">
+              <div class="col-7 mb-2">
               <label>{{ 'model.order.customer' | translate }} <span class="text-danger">*</span></label>
               <nz-select
                 nzShowSearch
@@ -46,72 +63,146 @@
                   *ngFor="let customer of customers"
                   [nzValue]="customer"
                   [nzLabel]="customer">
-<!--                  [nzValue]="customer.id"-->
-<!--                  [nzLabel]="customer.phoneNumber + ' - ' + customer.name"-->
+                  <!--                  [nzValue]="customer.id"-->
+                  <!--                  [nzLabel]="customer.phoneNumber + ' - ' + customer.name"-->
 
                 </nz-option>
               </nz-select>
-<!--              <ng-container-->
-<!--                *ngIf="-->
-<!--                  form.get('customerId')?.touched || form.get('customerId')?.dirty-->
-<!--                "-->
-<!--              >-->
-<!--                <span-->
-<!--                  class="text-danger"-->
-<!--                  *ngIf="form.get('customerId')?.hasError('customerId')"-->
-<!--                >-->
-<!--                  <mb-not-blank-->
-<!--                    [value]="getTranslate('customerId')"-->
-<!--                  ></mb-not-blank>-->
-<!--                </span>-->
-<!--              </ng-container>-->
+              <!--              <ng-container-->
+              <!--                *ngIf="-->
+              <!--                  form.get('customerId')?.touched || form.get('customerId')?.dirty-->
+              <!--                "-->
+              <!--              >-->
+              <!--                <span-->
+              <!--                  class="text-danger"-->
+              <!--                  *ngIf="form.get('customerId')?.hasError('customerId')"-->
+              <!--                >-->
+              <!--                  <mb-not-blank-->
+              <!--                    [value]="getTranslate('customerId')"-->
+              <!--                  ></mb-not-blank>-->
+              <!--                </span>-->
+              <!--              </ng-container>-->
             </div>
-            <div class="col-3 mb-2">
-              <button
-                nz-button
-                nzType="text"
-                class="mt-4"
-                nzPrimary
-                (click)="create()"
-              >
-                Tạo mới KH
-              </button>
-            </div>
+              <div class="col-3 mb-2">
+                <button
+                  nz-button nzType="text" class="mt-4" nzPrimary
+                  (click)="create()"
+                >
+                  {{ ('action.createCustomer') | translate }}
+                </button>
+              </div> </div>
+
             <div class="row mt-2">
               <div class="col-4 mb-2">
-                <label>{{ 'model.menu.price' | translate }} <span class="text-danger">*</span></label>
-                <input nz-input class="form-control"
-                       [maxLength]="LENGTH_VALIDATOR.LABEL_MAX_LENGTH.MAX" placeholder="{{ 'model.menu.price' | translate }}" />
+                <label>{{ 'model.order.price' | translate }} <span class="text-danger">*</span></label>
+                <input appCurrencyFormatter  nz-input disabled="disabled" formControlName="totalPrice"
+                       [maxLength]="LENGTH_VALIDATOR.LABEL_MAX_LENGTH.MAX"  />
               </div>
               <div class="col-4 mb-2">
-                <label>{{ 'model.menu.closedAt' | translate }} <span class="text-danger"
-                                                                     *ngIf="!(action === ROUTER_ACTIONS.detail)">*</span></label>
-                <nz-date-picker  nzShowTime nzFormat="yyyy-MM-dd HH:mm:ss"
-                                  nzPlaceHolder="Start">
-                </nz-date-picker>
+                <label>{{ 'model.order.date' | translate}}</label>
+                <div class="date-picker">
+                  <nz-date-picker
+                    formControlName="date"
+                    [nzId]="'startDatePicker'"
+                    [nzFormat]="'dd/MM/yyyy'"
+                    nzPlaceHolder="DD/MM/YYYY"
+                    [nzDisabled]="true"
+                  >
+                  </nz-date-picker>
+                </div>
+              </div>
+              <div class="col-4 mb-2">
+                <label>{{ 'model.order.staff' | translate }} </label>
+                <input
+                  nz-input
+                  disabled="disabled"
+                  [maxLength]="LENGTH_VALIDATOR.NAME_MAX_LENGTH.MAX"
+                  placeholder="{{ 'model.order.staff' | translate }}"
+                  formControlName="staff"
+                />
               </div>
             </div>
             <div class="row mt-2">
               <div class="col-12 mb-2">
-                <label>{{ 'model.menu.note' | translate }} <span class="text-danger">*</span></label>
+                <label>{{ 'model.order.note' | translate }} </label>
                 <textarea nz-input class="form-control"
                           [maxLength]="LENGTH_VALIDATOR.LABEL_MAX_LENGTH.MAX"
-                          placeholder="{{ 'model.menu.note' | translate }}"></textarea>
+                          placeholder="{{ 'model.order.note' | translate }}"></textarea>
               </div>
             </div>
-            <div *ngIf="!(action === ROUTER_ACTIONS.detail)" class="row mt-2">
+
+<!--            <div *ngIf="!(action === ROUTER_ACTIONS.detail)" class="row mt-2">-->
+<!--              <div class="col-12 mb-2">-->
+<!--                <label>{{ 'model.order.chooseProducts' | translate }} <span class="text-danger"-->
+<!--                        *ngIf="!(action === ROUTER_ACTIONS.detail)">*</span></label>-->
+<!--                <nz-transfer [nzRenderList]="[leftRenderList, null]" [nzListStyle]="{ 'height.px': 500 }"-->
+<!--                             [nzDataSource]="list" [nzDisabled]="(action === ROUTER_ACTIONS.detail)" nzShowSearch-->
+<!--                             [nzNotFoundContent]="'model.order.emptyProducts' | translate "-->
+<!--                             [nzTitles]="['model.order.availableproduct' | translate, 'model.order.selectedProducts' | translate]"-->
+<!--                             (nzSearchChange)="search($event)"-->
+<!--                             (nzSelectChange)="select($event)"-->
+<!--                             (nzChange)="change($event)">-->
+<!--                </nz-transfer>-->
+<!--              </div>-->
+<!--            </div>-->
+<!--            <div *ngIf="action !== ROUTER_ACTIONS.detail" class="row mt-2">-->
+<!--              <div class="col-12 mb-2">-->
+<!--                <label>{{'model.order.orderItems' | translate }}<span class="text-danger">*</span></label>-->
+<!--                <nz-transfer [nzDataSource]="list" nzShowSearch [nzRenderList]="[leftRenderList, null]"-->
+<!--                             [nzNotFoundContent]="'model.order.emptyProducts' | translate "-->
+<!--                             [nzTitles]="['model.order.availableproduct' | translate, 'model.order.selectedProducts' | translate]"-->
+<!--                             ></nz-transfer>-->
+<!--              </div>-->
+<!--            </div>-->
+            <div *ngIf="action !== ROUTER_ACTIONS.detail" class="row mt-2">
               <div class="col-12 mb-2">
-                <label>{{ 'model.menu.chooseProducts' | translate }} <span class="text-danger"
-                        *ngIf="!(action === ROUTER_ACTIONS.detail)">*</span></label>
-                <nz-transfer [nzRenderList]="[leftRenderList, null]" [nzListStyle]="{ 'height.px': 500 }"
-                             [nzDataSource]="list" [nzDisabled]="(action === ROUTER_ACTIONS.detail)" nzShowSearch
-                             [nzNotFoundContent]="'model.menu.emptyProducts' | translate "
-                             [nzTitles]="['model.menu.availableproduct' | translate, 'model.menu.selectedProducts' | translate]"
-                             (nzSearchChange)="search($event)"
-                             (nzSelectChange)="select($event)"
-                             (nzChange)="change($event)">
+                <label>{{'model.order.orderItems' | translate }}<span class="text-danger">*</span></label>
+                <nz-transfer [nzDataSource]="productsFilteredByMenu" nzShowSearch [nzRenderList]="[renderList, renderList]"
+                             [nzNotFoundContent]="'model.order.emptyProducts' | translate "
+                             [nzTitles]="['model.order.availableproduct' | translate, 'model.order.selectedProducts' | translate]"
+                             (nzChange)="onChangeOrderItems($event)">
+
+                  <ng-template #renderList let-items let-direction="direction" let-stat="stat" let-disabled="disabled"
+                               let-onItemSelectAll="onItemSelectAll" let-onItemSelect="onItemSelect">
+                    <nz-table #t [nzData]="$asTransferItems(items)" [nzNoResult]="noDataResult">
+                      <thead>
+                      <tr>
+                        <th [nzDisabled]="disabled" [nzChecked]="stat.checkAll" [nzIndeterminate]="stat.checkHalf"
+                            (nzCheckedChange)="onItemSelectAll($event)"></th>
+                        <th>{{ 'model.product.image' | translate }}</th>
+                        <th>{{ 'model.product.name' | translate }}</th>
+                        <th>{{ 'model.product.price' | translate }}</th>
+                        <th>{{ 'model.order.productQuantity' | translate }}
+                        </th>
+                      </tr>
+                      </thead>
+                      <tbody>
+                      <tr *ngFor="let product of t.data">
+                        <td (click)="onItemSelect(product)" [nzChecked]="!!product.checked"
+                            [nzDisabled]="disabeld || product.disabled" (nzCheckedChange)="onItemSelect(product)"></td>
+                        <td nzAlign="center">
+                          <img height="44px" id="productDetailLink" (click)="showProductDetail(product.data)"
+                               [src]="getImageUrl(product.data.imageUrl)" />
+                        </td>
+                        <td>{{product.data.name}}</td>
+                        <td>{{product.data.price}}</td>
+                        <td *ngIf="direction === NZ_TRANSFER_CONST.RIGHT">
+                          <input type="nu7mber" [(ngModel)]="product.data.quantity" nz-input
+                                 [maxLength]="LENGTH_VALIDATOR.NAME_MAX_LENGTH.MAX"
+                                 [placeholder]="'model.order.title' | translate">
+                        </td>
+                        <td *ngIf="direction === NZ_TRANSFER_CONST.LEFT">
+                          <nz-tag>{{product.data.quantity}}</nz-tag>
+                        </td>
+                      </tr>
+                      </tbody>
+                    </nz-table>
+                  </ng-template>
                 </nz-transfer>
               </div>
+              <!-- <mb-pagination [pageIndex]="productSearchRequest.pageIndex" [pageSize]="productSearchRequest.pageSize"
+                [total]="products.length" (onChange)="onQuerySearchProducts($event)">
+              </mb-pagination> -->
             </div>
           </section>
         </form>
