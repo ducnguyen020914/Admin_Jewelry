@@ -96,7 +96,7 @@ export class UserComponent implements OnInit {
 
   search(): void {
     this.userRequest.keyword = this.form.get('keyword')?.value;
-    this.userRequest.roleIds = this.form.get('roleIds')?.value;
+    this.userRequest.roleIds = this.form.get('role')?.value;
     this.userRequest.status = this.form.get('status')?.value;
     this.pageIndex = PAGINATION.PAGE_DEFAULT;
     this.loadData(this.pageIndex, this.pageSize);

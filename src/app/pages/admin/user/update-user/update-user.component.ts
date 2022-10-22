@@ -31,6 +31,9 @@ import * as moment from 'moment';
 import { NzDatePickerComponent } from 'ng-zorro-antd/date-picker';
 import {AVATAR_PLACEHOLDER_FILE} from "@shared/constants/images.contrant";
 import {ROLES} from "@shared/constants/role.constant";
+import {finalize} from "rxjs/operators";
+import {AngularFireStorage} from "@angular/fire/compat/storage";
+import {Observable} from "rxjs";
 
 @Component({
   selector: 'app-update-user',
@@ -51,7 +54,7 @@ export class UpdateUserComponent implements OnInit {
   form: UntypedFormGroup = new UntypedFormGroup({});
   passwordVisible = false;
   rePasswordVisible = false;
-  files: [] | any;
+  avatarFile: any;
   userStatus = USER_STATUS;
   userGender = USER_GENDER;
   userType = USER_TYPE;
@@ -61,6 +64,7 @@ export class UpdateUserComponent implements OnInit {
   userProfileLdap = USER_PROFILE_LDAP;
   contactObject: User = new User();
   ACTION_TYPE = ACTION_TYPE;
+  dowloadUrl!: Observable<string>;
   groupConfirmUser = {
     title: 'model.user.managerUser.create',
     content: 'common.confirmSave',
@@ -75,7 +79,6 @@ export class UpdateUserComponent implements OnInit {
   urlJoinTelegramBot = '';
   avatarPlaceHolder = AVATAR_PLACEHOLDER_FILE;
   rolesSelect = ROLES;
-
   @ViewChild('datePicker') datePicker!: NzDatePickerComponent;
 
   constructor(
@@ -90,6 +93,7 @@ export class UpdateUserComponent implements OnInit {
     private loadingService: LoadingService,
     private authService: AuthService,
     private notificationService: NotificationService,
+    private storage: AngularFireStorage
   ) {
     this.contactObject = this.routerLink?.getCurrentNavigation()?.extras
       ?.state as User;
@@ -381,35 +385,12 @@ export class UpdateUserComponent implements OnInit {
     const user: User = {
       ...this.form.getRawValue(),
       file: null,
-      avatarFileId: null,
+      avatarFileUrl: this.imageUrl,
       contactId: null
     };
 
     if (this.form.get('dayOfBirth')?.value) {
       user.dayOfBirth = moment(user.dayOfBirth).format('yyyy-MM-DD');
-    }
-    if (this.files) {
-      this.fileService
-        .uploadFile(this.files, this.ownerId, this.userType)
-        .subscribe((res: any) => {
-          const file = res.body?.data;
-          user.avatarFileId = file.id;
-          // if (this.isInternal) {
-          //   this.createInternal(user);
-          // } else if (this.isLdap && this.contact) {
-          //   this.createContact(user);
-          // } else {
-          this.createLdap(user);
-          // }
-        });
-    } else {
-      // if (this.isInternal) {
-      //   this.createInternal(user);
-      // } else if (this.isLdap && this.contact) {
-      //   this.createContact(user);
-      // } else {
-      this.createLdap(user);
-      // }
     }
   }
 
@@ -452,17 +433,6 @@ export class UpdateUserComponent implements OnInit {
     if (this.form.get('dayOfBirth')?.value) {
       user.dayOfBirth = moment(user.dayOfBirth).format('yyyy-MM-DD');
     }
-    if (this.files) {
-      this.fileService
-        .uploadFile(this.files, this.ownerId, this.userType)
-        .subscribe((res: any) => {
-          const file = res.body?.data;
-          user.avatarFileId = file.id;
-          this.onUpdate(user);
-        });
-    } else {
-      this.onUpdate(user);
-    }
   }
 
   onUpdate(user: User): void {
@@ -490,20 +460,36 @@ export class UpdateUserComponent implements OnInit {
   // Lấy file **/
   getFiles(files: any): void {
     if (files) {
-      this.files = files[0];
-      this.getBase64(files[0]).then((data) => {
-        this.imageUrl = data;
-      });
+      this.avatarFile = files[0];
+      const url = URL.createObjectURL(this.avatarFile);
+      this.uploadFile();
+
     }
   }
 
-  getBase64(image: any): Promise<unknown> {
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.readAsDataURL(image);
-      reader.onload = () => resolve(reader.result);
-      reader.onerror = (error) => reject(error);
-    });
+  uploadFile(){
+    const n = Date.now();
+    const filePath = `Image/${this.avatarFile.name}_${n}`;
+    const fileRef = this.storage.ref(filePath);
+    const task = this.storage.upload(filePath, this.avatarFile);
+
+    task
+      .snapshotChanges()
+      .pipe(
+        finalize(() => {
+          this.dowloadUrl = fileRef.getDownloadURL();
+          this.dowloadUrl.subscribe((url) => {
+            if (url) {
+              this.imageUrl.push(url);
+            }
+          });
+        })
+      )
+      .subscribe((url) => {
+        if (url) {
+          console.log(url);
+        }
+      });
   }
 
   // Nút hủy **/
