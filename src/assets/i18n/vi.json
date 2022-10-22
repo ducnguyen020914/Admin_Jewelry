@@ -1,6 +1,6 @@
 {
   "common": {
-    "title": "MB AMC - Hệ thống quản lý tòa nhà",
+    "title": "Hệ thống vàng bạc Toản Huyền",
     "spinningTip": "Hệ thống đang hoạt động ...",
     "success": "Thành công",
     "info": "Thông tin",
@@ -76,7 +76,8 @@
       "manager": "Trưởng phòng",
       "vice_manager": "Phó phòng",
       "leader": "Trưởng nhóm"
-    }
+    },
+    "maxOrder": "Tối đa {{count}} hoá đơn"
   },
   "status": {
     "title": "Trạng thái",

@@ -14,7 +14,7 @@ import { IUser, User } from '../models/user.model';
   providedIn: 'root',
 })
 export class UserService extends AbstractService {
-  public resourceUrl = SERVICE.IAM + '/users';
+  public resourceUrl = '/api/v1/user';
 
   constructor(protected http: HttpClient) {
     super(http);
@@ -31,7 +31,7 @@ export class UserService extends AbstractService {
     params?: IUserRequest,
     loading = false
   ): Observable<EntityResponseType<IUser[]>> {
-    return super.get<IUser[]>(`${this.resourceUrl}/search`, {
+    return super.get<IUser[]>(`${this.resourceUrl}`, {
       params,
       loading,
     });
@@ -111,15 +111,15 @@ export class UserService extends AbstractService {
     );
   }
 
-  searchUsersAutoComplete(
-    params?: any,
-    loading = false
-  ): Observable<EntityResponseType<IUser[]>> {
-    return super.get<IUser[]>(`${this.resourceUrl}/auto-complete`, {
-      params,
-      loading,
-    });
-  }
+  // searchUsersAutoComplete(
+  //   params?: any,
+  //   loading = false
+  // ): Observable<EntityResponseType<IUser[]>> {
+  //   return super.get<IUser[]>(`${this.resourceUrl}/auto-complete`, {
+  //     params,
+  //     loading,
+  //   });
+  // }
 
   findCustomersByBuildings(
     ids: { ids: string[] },

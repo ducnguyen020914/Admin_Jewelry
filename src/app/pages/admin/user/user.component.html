@@ -74,8 +74,8 @@
           <th nzAlign="left" nzColumnKey="username" [nzSortFn]="true">
             {{ "model.user.username" | translate }}
           </th>
-          <th nzAlign="left" nzColumnKey="accountType" [nzSortFn]="true">
-            {{ "model.user.accountType" | translate }}
+          <th nzAlign="left" nzColumnKey="role" [nzSortFn]="true">
+            {{ "model.user.role" | translate }}
           </th>
           <th nzAlign="center">{{ "model.user.phoneNumber" | translate }}</th>
           <th nzAlign="left" nzColumnKey="email" [nzSortFn]="true">
@@ -108,8 +108,8 @@
             >
               {{ getLimitLength(item.fullName!) }}
             </td>
-            <td nzAlign="left">{{ item.username }}</td>
-            <td nzAlign="left">{{item.authenticationType }}</td>
+            <td nzAlign="left">{{ item.userName }}</td>
+            <td nzAlign="left">{{item.role }}</td>
             <td nzAlign="center">{{ item.phoneNumber }}</td>
             <td
               nzAlign="left"
