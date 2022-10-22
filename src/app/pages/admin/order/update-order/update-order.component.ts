@@ -7,11 +7,12 @@ import {ROUTER_ACTIONS} from "@shared/utils/router.utils";
 import {LENGTH_VALIDATOR} from "@shared/constants/validators.constant";
 import {IOrderSearchRequest} from "@shared/models/request/order-search-request.model";
 import {PAGINATION} from "@shared/constants/pagination.constants";
-import {DEFAULT_QUANTITY, IOrder, Order, ProductItem, PurchaseForm} from "@shared/models/order.model";
 import {TransferItem} from "ng-zorro-antd/transfer";
 import {IUser, User} from "@shared/models/user.model";
 import {IProduct} from "@shared/models/productReal.model";
 import {NZ_TRANSFER_CONST} from "@shared/constants/common.constant";
+import { IOrder, Order, DEFAULT_QUANTITY } from '../../../../shared/models/order.model';
+import { ProductItem, PurchaseForm } from '@shared/models/order.model';
 
 @Component({
   selector: 'app-update-order',

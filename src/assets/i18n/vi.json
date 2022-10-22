@@ -625,6 +625,7 @@
     "order": {
       "list": "Danh sách đơn đặt hàng",
       "code": "Mã đơn đặt",
+      "payment":"Hình thức thanh toán",
       "title": "Tiêu đề",
       "create": "Đặt sản phẩm",
       "createdBy": "Người tạo",

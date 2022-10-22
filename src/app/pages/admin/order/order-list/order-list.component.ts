@@ -11,9 +11,12 @@ import CommonUtil from '@shared/utils/common-utils';
 import { ROUTER_ACTIONS, ROUTER_UTILS } from '@shared/utils/router.utils';
 import { NzModalRef, NzModalService } from 'ng-zorro-antd/modal';
 import { NzTableQueryParams } from 'ng-zorro-antd/table';
-import {IOrder} from "@shared/models/order.model";
+import {IOrder, PaymentMethod, StatusEnum} from "@shared/models/order.model";
 import {IOrderSearchRequest} from "@shared/models/request/order-search-request.model";
 import {ORDER_STATUS} from "@shared/constants/order.constant";
+import { OrderService } from '../../../../shared/services/order/order.service';
+import { OrderSearchRequest } from '../../../../shared/models/request/order-search-request.model';
+import { OrderType } from '../../../../shared/models/order.model';
 
 @Component({
   selector: 'app-order-list',
@@ -21,8 +24,8 @@ import {ORDER_STATUS} from "@shared/constants/order.constant";
   styleUrls: ['./order-list.component.scss'],
 })
 export class OrderListComponent implements OnInit {
-  formSearchOrder = new FormGroup({});
-  orderSearchRequest: IOrderSearchRequest = {
+  formSearchOrder:FormGroup = new FormGroup({});
+  orderSearchRequest: OrderSearchRequest = {
     pageIndex: PAGINATION.PAGE_DEFAULT,
     pageSize: PAGINATION.SIZE_DEFAULT,
   };
@@ -30,6 +33,8 @@ export class OrderListComponent implements OnInit {
   orderStatus = ORDER_STATUS;
   selectedOrderId = '';
   total = 0;
+  minPrice = 0;
+  maxPrice = 100000000;
   groupPopup = {
     title: '',
     content: '',
@@ -45,7 +50,8 @@ export class OrderListComponent implements OnInit {
     private route: ActivatedRoute,
     private modalService: NzModalService,
     private userService: UserService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private orderService:OrderService
   ) {
     this.initForm();
     // this.menuService.searchAutoComplete({}).subscribe((menusResponse: any) => {
@@ -58,25 +64,44 @@ export class OrderListComponent implements OnInit {
   }
 
   initForm(): void {
-    // this.formSearchOrder = this.fb.group({
-    //   type: [this.orderSearchRequest.type || null],
-    //   status: [this.orderSearchRequest.status || null],
-    //   menuId: [this.orderSearchRequest.menuId || null],
-    //   startCreatedAt: [this.orderSearchRequest.startCreatedAt || null],
-    //   endCreatedAt: [this.orderSearchRequest.endCreatedAt || null],
-    //   userId: [this.orderSearchRequest.userId || null],
-    // });
+    this.formSearchOrder = this.fb.group({
+      purchaseType : [this.orderSearchRequest.purchaseType || null],
+      status: [this.orderSearchRequest.status || null],
+      payMethod: [this.orderSearchRequest.payMethod || null],
+      startDate: [this.orderSearchRequest.startDate || null],
+      endDate: [this.orderSearchRequest.endDate || null],
+      startPrice: [this.orderSearchRequest.startPrice || this.maxPrice],
+      endPrice: [this.orderSearchRequest.startPrice || this.minPrice],
+      keyword: [this.orderSearchRequest.keyword || null],
+      userId: [this.orderSearchRequest.userId || null],
+    });
   }
 
   private loadData() {
-    // this.orderService
-    //   .search(this.orderSearchRequest)
-    //   .subscribe((response: any) => {
-    //     this.orders = response?.body?.data;
-    //     this.total = response.body.page.total;
-    //   });
+    this.orderService
+      .search(this.orderSearchRequest)
+      .subscribe((response: any) => {
+        this.orders = response?.body?.data;
+        this.total = response.body.page.total;
+        console.log(this.orders);
+        console.log(response);
+        
+      });
   }
 
+  formatterPrice = (value: number): string =>
+  CommonUtil.moneyFormat(value + '') + ' đ';
+parserPrice = (value: string): number => CommonUtil.formatToNumber(value);
+onChangeRangePrice(): void {
+  console.log(this.formSearchOrder.get('rangePrice')?.value);
+  
+  this.formSearchOrder
+    .get('startPrice')
+    ?.setValue(this.formSearchOrder.get('rangePrice')?.value[0]);
+  this.formSearchOrder
+    .get('endPrice')
+    ?.setValue(this.formSearchOrder.get('rangePrice')?.value[1]);
+}
   create(): void {
     this.router.navigate([ROUTER_UTILS.order.root, ROUTER_ACTIONS.create]);
   }
@@ -211,13 +236,54 @@ export class OrderListComponent implements OnInit {
     //     this.users = res.body?.data as Array<IUser>;
     //   });
   }
-
-  getIndex(index: number): any {
-    // return CommonUtil.getIndex(
-    //   index,
-    //   this.orderSearchRequest.pageIndex,
-    //   this.orderSearchRequest.pageSize
-    // );
+  getIndex(index: number): number {
+    return CommonUtil.getIndex(
+      index,
+      this.orderSearchRequest.pageIndex,
+      this.orderSearchRequest.pageSize
+    );
+  }
+  getColor(status:StatusEnum): string{
+    if(status === StatusEnum.CHO_XAC_NHAN){
+      return 'badge-warning'
+    }else if(status === StatusEnum.DANG_GIAO){
+      return 'badge-infor'
+    }else if(status === StatusEnum.DA_GIAO){
+      return 'badge-success'
+    }else if(status === StatusEnum.XAC_NHAN){
+      return "badge-default"
+    }else {
+      return 'badge-danger';
+    }
+  }
+  getStatus(status:StatusEnum): string{
+    if(status === StatusEnum.CHO_XAC_NHAN){
+      return 'Chờ xác nhận';
+    }else if(status === StatusEnum.DANG_GIAO){
+      return 'Đang giao'
+    }else if(status === StatusEnum.DA_GIAO){
+      return 'Đã giao'
+    }else if(status === StatusEnum.XAC_NHAN){
+      return "Đã xác nhận"
+    }else {
+      return 'Đã hủy';
+    }
+  }
+  getPurchaseType(item:any):string{
+    if(item === OrderType.DIRECT_TYPE){
+      return "Mua trực tiếp";
+    }else if(item === OrderType.ONLINE){
+      return "Mua online"
+    }
+    return '';
+  }
+  getpayment(item:any):string{
+    if(item === PaymentMethod.CARD){
+      return 'Thanh Toán ATM'
+    }else if(item === PaymentMethod.MONEY){
+      return 'Thanh toán tiền mặt'
+    }
+    return '';
   }
 
   onChangeCreateDate(rangeDate: { fromDate?: Date; toDate?: Date }): void {

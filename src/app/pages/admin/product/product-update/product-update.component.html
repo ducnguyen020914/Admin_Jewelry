@@ -42,7 +42,8 @@
               nz-input
               [maxLength]="LENGTH_VALIDATOR.NAME_MAX_LENGTH.MAX"
               placeholder="{{ 'model.product.salary' | translate }}"
-            />
+             (input)="getMaterial()"
+              />
             <ng-container
               *ngIf="form.get('salary')?.touched || form.get('salary')?.dirty"
             >

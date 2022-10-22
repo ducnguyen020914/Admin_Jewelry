@@ -98,6 +98,7 @@ export class ProductUpdateComponent implements OnInit {
     this.activatedRoute.data.subscribe((res) => {
       this.action = res.action;
     });
+    
   }
   ngOnInit() {
     this.initForm();
@@ -158,6 +159,9 @@ export class ProductUpdateComponent implements OnInit {
   get propertyProduct(): FormArray {
     return this.form.get('productProperties') as FormArray;
   }
+  get salary(): any {
+    return this.form.get('salary') as any ;
+  }
   get sizeProduct(): FormArray {
     return this.form.get('sizeProducts') as FormArray;
   }
@@ -188,7 +192,7 @@ export class ProductUpdateComponent implements OnInit {
     if (materialSalePrice.length === 0) {
       materialSalePrice[0] = 0;
     }
-    this.sizeProduct.controls[i].get('purchasePrice')?.setValue((material[0]*weight) + accessory[0]);
+    this.sizeProduct.controls[i].get('purchasePrice')?.setValue((material[0]*weight) + accessory[0]) ;
     this.sizeProduct.controls[i].get('salePrice')?.setValue(materialSalePrice[0]*weight + accessory[0]);
   }
 
@@ -260,11 +264,16 @@ export class ProductUpdateComponent implements OnInit {
       const accessory = this.accessories
       .filter((accessory) => accessory.accessoryId === this.accessoryId)
       .map((accessory) => accessory.price as number);
+      let salary = this.form.get('salary')?.value as number
+      if(salary == null){
+        salary = 0;
+      }
+      
       if (accessory.length === 0) {
         accessory[0] = 0;
       }
-      control.get('purchasePrice')?.setValue((material[0]* weight) + accessory[0]);
-      control.get('salePrice')?.setValue((material[0]* weight) + accessory[0])
+      control.get('purchasePrice')?.setValue((material[0]* weight) + accessory[0]  );
+      control.get('salePrice')?.setValue((material[0]* weight) + accessory[0] + salary)
     })
   }
  

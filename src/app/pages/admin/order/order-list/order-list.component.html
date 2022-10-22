@@ -82,8 +82,9 @@
         <th nzAlign="center">{{'model.order.orderer' | translate}}</th>
         <th nzAlign="center">{{'model.order.createdAt' | translate}}</th>
         <th nzAlign="center" nzColumnKey="totalPrice" [nzSortFn]="true">{{'model.order.totalPrice' | translate}}</th>
-        <th nzAlign="center" nzColumnKey="status" [nzSortFn]="true">{{'model.order.status.root' | translate}}</th>
         <th nzAlign="center" nzColumnKey="type" [nzSortFn]="true">{{'model.order.type.root' | translate}}</th>
+        <th nzAlign="center" nzColumnKey="paymentMethod" [nzSortFn]="true">{{'model.order.payment' | translate}}</th>
+        <th nzAlign="center" nzColumnKey="status" [nzSortFn]="true">{{'model.order.status.root' | translate}}</th>
         <th nzAlign="center">{{'action.msg' | translate}}</th>
       </tr>
       </thead>
@@ -91,14 +92,16 @@
       <ng-container *ngFor="let item of orders; let i = index">
         <tr>
           <td nzAlign="center">{{ getIndex(i) }}</td>
-          <td nzAlign="center">{{item.code}}</td>
-          <td nzAlign="center">{{item.createdUserFullName}}</td>
-          <td nzAlign="center">{{item.createdAt | date:"dd-MM-yyyy"}}</td>
-          <td nzAlign="center">{{item.totalPrice ? (item.totalPrice ) : "-"}}</td>
+          <td nzAlign="center">{{item.orderCode}}</td>
+          <td nzAlign="center">{{item.user.fullName}}</td>
+          <td nzAlign="center">{{item.createAt | date:"dd-MM-yyyy"}}</td>
+          <td nzAlign="center">{{item.total ? (item.total ) : "-"}}</td>
+          <td nzAlign="center">{{getPurchaseType(item.purchaseType)}}</td>
+          <td nzAlign="center">{{getpayment(item.paymentMethod)}}</td>
           <td nzAlign="center">
-            <mb-badge [color]="formatColor(item.status)" [text]="pipeStatus(item.status) | translate"></mb-badge>
+            <mb-badge [color]="getColor(item?.status)" [text]="getStatus(item?.status)"></mb-badge>
           </td>
-          <td nzAlign="center">{{pipeType(item.type) |translate}}</td>
+        
           <td nzAlign="center">
             <mb-button-action [action]="'view'" className="first" nzTooltipTitle="{{'action.view' | translate}}"
                               nzTooltipPlacement="top" (click)="detail(item.id)">
