@@ -130,7 +130,7 @@
     "guest":"Quản lý khách hàng",
     "register":"Đăng ký khách ra vào",
     "material":"Quản lý chất liệu",
-    "refun":"Quản lý đổi trả",
+    "exchange":"Quản lý thu đổi",
     "accessory":"Quản lý phụ kiện",
     "statistical":"Báo cáo thống kê"
   },
@@ -199,6 +199,36 @@
       },
       "error": {
         "msg": "Lỗi"
+      }
+    },
+    "exchange": {
+      "list": "Danh sách thu đổi",
+      "type": {
+        "root": "Kênh bán",
+        "received": "Đã nhận và nhập kho"
+      },
+      "exchangeCode": "Mã thu đổi",
+      "staff": "Người bán",
+      "staffUpdate": "Người đổi",
+      "custommer": "Khách hàng",
+      "createAt": "Thời gian tạo",
+      "lastModifiedAt": "Thời gian chỉnh sửa",
+      "needPay": "Cần trả khách",
+      "keyword": "Từ khoá",
+      "searchKeyword": "Theo mã thu đổi, mã hoá đơn, mã vận đơn, mã hàng, tên hàng",
+      "user": "Khách hàng",
+      "userPlace": "Nhập tên hoặc SĐT khách hàng",
+      "created": {
+        "root": "Ngày tạo phiếu thu đổi"
+      },
+      "selectStatus": "Chọn trạng thái thu đổi",
+      "status": {
+        "exchangeRequest": "Yêu cầu thu đổi",
+        "root": "Trạng thái thu đổi",
+        "to_ship": "Đang vận chuyển về cửa hàng",
+        "requestReceived": "Đã tiếp nhận yêu cầu",
+        "refuseExchange": "Từ chối thu đổi",
+        "receivedAndImported": "Đã nhận hàng và nhập kho"
       }
     },
     "contract": {
@@ -656,6 +686,7 @@
       "selectedProducts": "Các sản phẩm đã chọn",
       "staff": "Nhân viên",
       "purchaseForm" : "Loại giao dịch",
+      "exchange": "Quản lý thu đổi",
       "created": {
         "root": "Thời gian tạo đơn",
         "startCreatedAt": "Thời gian tạo đơn từ",

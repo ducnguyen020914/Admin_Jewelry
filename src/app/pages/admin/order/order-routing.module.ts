@@ -2,9 +2,9 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import {ROUTER_ACTIONS, ROUTER_UTILS} from '../../../shared/utils/router.utils';
 import { OrderComponent } from './order.component';
-import { RefunComponent } from './refun/refun.component';
 import {OrderListComponent} from "@pages/admin/order/order-list/order-list.component";
 import {UpdateOrderComponent} from "@pages/admin/order/update-order/update-order.component";
+import {ExchangeListComponent} from "@pages/admin/order/exchange-list/exchange-list.component";
 
 const routes: Routes = [
   {
@@ -15,10 +15,10 @@ const routes: Routes = [
     }
   },
   {
-    path: ROUTER_UTILS.order.refun,
-    component: RefunComponent,
+    path: ROUTER_UTILS.order.exchange,
+    component: ExchangeListComponent,
     data: {
-      title: 'model.order.refun',
+      title: 'model.order.exchange',
     }
   },
   {

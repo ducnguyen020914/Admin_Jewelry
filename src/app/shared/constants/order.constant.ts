@@ -13,3 +13,17 @@ export const ORDER_STATUS = [
   {value: CANCELLED, label: 'model.order.status.cancelled'},
   {value: RETURN_REFUND, label: 'model.order.status.return_refund'},
   ]
+
+export const EXCHANGE_REQUEST = 'EXCHANGE_REQUEST';
+export const TO_SHIP_EXCHANGE = 'TO_SHIP_EXCHANGE';
+export const REQUEST_RECEIVED = 'REQUEST_RECEIVED';
+export const REFUSE_EXCHANGE = 'REFUSE_EXCHANGE';
+export const RECEIVED_AND_IMPORTED = 'RECEIVED_AND_IMPORTED';
+
+export const EXCHANGE_STATUS = [
+  {value: EXCHANGE_REQUEST, label: 'model.exchange.status.exchangeRequest'},
+  {value: TO_SHIP_EXCHANGE, label: 'model.exchange.status.to_ship'},
+  {value: REQUEST_RECEIVED, label: 'model.exchange.status.requestReceived'},
+  {value: REFUSE_EXCHANGE, label: 'model.exchange.status.refuseExchange'},
+  {value: RECEIVED_AND_IMPORTED, label: 'model.exchange.status.receivedAndImported'},
+]

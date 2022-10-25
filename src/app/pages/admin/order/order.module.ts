@@ -10,6 +10,7 @@ import {ToastService} from "@shared/services/helpers/toast.service";
 import {SharedModule} from "@shared/shared.module";
 import { UpdateOrderComponent } from './update-order/update-order.component';
 import {NzTransferModule} from "ng-zorro-antd/transfer";
+import { ExchangeListComponent } from './exchange-list/exchange-list.component';
 
 
 @NgModule({
@@ -24,6 +25,7 @@ import {NzTransferModule} from "ng-zorro-antd/transfer";
     OrderComponent,
     OrderListComponent,
     UpdateOrderComponent,
+    ExchangeListComponent,
   ],
   providers: [
     ToastService,
