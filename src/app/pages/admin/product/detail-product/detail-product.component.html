@@ -1,0 +1,172 @@
+<div class="content">
+  <div *nzModalTitle>
+    <span>{{ "action.detail" | translate }}</span>
+  </div>
+  <div class="row">
+    <div class="col-12 ">
+      <div class="row ms-5">
+        <div class="col-6 mb-2">
+          <span
+            ><label>{{ "model.product.name" | translate }}:&nbsp;</label
+            >{{ product.nameProduct }}</span
+          >
+        </div>
+        <div class="col-6 mb-2">
+          <span
+            ><label>{{ "model.product.code" | translate }}:&nbsp;</label
+            >{{ product.code }}</span
+          >
+        </div>
+        <div class="col-6 mb-2">
+          <span
+            ><label>{{ "model.product.type" | translate }}:&nbsp;</label
+            >{{
+              product.category?.name
+            }}</span
+          >
+        </div>
+        <div class="col-6 mb-2">
+          <span
+            ><label>{{ "model.product.material" | translate }}:&nbsp;</label
+            >{{
+              product.material?.materialName
+            }}</span
+          >
+        </div>
+        <div class="col-6 mb-2">
+          <span
+            ><label>{{ "model.product.accessoryId" | translate }}:&nbsp;</label
+            >{{
+              product.accessory?.name
+            }}</span
+          >
+        </div>
+        <div class="col-6 mb-2">
+          <span
+            ><label>{{ "model.product.accessoryId" | translate }}:&nbsp;</label
+            >{{
+              product.accessory?.name
+            }}</span
+          >
+        </div>
+        <div class="col-6 mb-2">
+          <span
+            ><label>{{ "model.product.gender" | translate }}:&nbsp;</label
+            >{{
+              product.gender
+            }}</span
+          >
+        </div>
+        <div class="col-6 mb-2">
+          <span
+            ><label>{{ "model.product.vendor" | translate }}:&nbsp;</label
+            >{{
+              product.vendor?.name
+            }}</span
+          >
+        </div>
+        <div class="col-6 mb-2">
+          <span
+            ><label>{{ "model.product.status" | translate }}:&nbsp;</label
+            >{{
+              product.status === 'INACTIVE' ? 'Không hoạt động' : 'Hoạt động' 
+            }}</span
+          >
+        </div>
+        <div class="col-6 mb-2">
+          <span
+            ><label>{{ "model.product.salary" | translate }}:&nbsp;</label
+            >{{
+              product.salary | vnd 
+            }}</span
+          >
+        </div>
+        
+        <div class="col-6 mb-2" *ngFor="let item of product.productProperties">
+          <span
+            ><label>{{item.name}}: </label
+            > {{
+              item.value
+            }}</span
+          >
+        </div>
+        <div class="col-6 mb-2">
+          <span
+            ><label>{{ "model.product.sizeId" | translate }}:&nbsp;</label
+            >{{
+            getSize()
+            }}</span
+          >
+        </div>
+        <div class="col-6 mb-2">
+          <span
+            ><label>{{ "model.product.note" | translate }}:&nbsp;</label
+            >{{
+            product.note
+            }}</span
+          >
+        </div>
+        <!-- <div class="col-6 mb-2">
+          <span
+            ><label>{{ "model.product.subType" | translate }}:&nbsp;</label
+            >{{
+              product.subType ? (pipeSubType(product.subType) | translate) : "-"
+            }}</span
+          >
+        </div> -->
+      </div>
+      <!-- <div class="row">
+        <div class="col-6 mb-2">
+          <span>
+            <label>{{ "model.product.price" | translate }}:&nbsp;</label>
+            {{ product.price ? (product.price | vnd) : "-" }}
+          </span>
+        </div>
+        <div class="col-6 mb-2">
+          <span>
+            <label>{{ "model.product.createdAt" | translate }}:&nbsp;</label>
+            {{
+              product.createdAt
+                ? (product.createdAt | date: "dd-MM-yyyy HH:mm")
+                : "-"
+            }}
+          </span>
+        </div>
+      </div> -->
+      <div class="rơw  ms-5">
+        <div class="col-12 ms-2">
+          <label>{{ "model.product.image" | translate }}:&nbsp;</label>
+        </div>
+        <div class="col-12 mb-2">
+          <!-- <img style="max-width: 100%; max-height: 100%; height: auto;" nz-image [nzSrc]="product.imageUrl" alt="" /> -->
+          <!-- <app-upload-image
+            [customSizeImg]="false"
+            [displayButton]="false"
+            [imageId]="product.imageId"
+            [alternateImageUrl]="alternateImg"
+            className=" image"
+            nzTooltipPlacement="top"
+            nz-tooltip
+          >
+          </app-upload-image> -->
+          <div class="col-12 text-center mt-3">
+            <img *ngFor="let url of product.productImages"
+            nz-image
+            width="200px"
+            height="200px"
+            [nzSrc]="url.imageUrl"
+            alt=""
+            class="me-2"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-12 text-center" *nzModalFooter>
+      <button nz-button nzType="default" (click)="onCancel()">
+        {{ "action.back" | translate }}
+      </button>
+    </div>
+  </div>
+</div>

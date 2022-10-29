@@ -33,7 +33,16 @@ export class ProductService extends AbstractService {
   ): Observable<EntityResponseType<IProduct[]>> {
     return super.get<IProduct>(`${this.resourceUrl}`,{params ,loading});
   }
-
+  autoComlete(
+    params?: ProductSearchRequest,
+    loading = false
+  ): Observable<EntityResponseType<IProduct[]>> {
+    return super.get<IProduct[]>(`${this.resourceUrl}/autoComplete`,{params ,loading});
+  }
+  productOrders(
+  ): Observable<EntityResponseType<IProduct[]>> {
+    return super.get<IProduct[]>(`${this.resourceUrl}/product-order`);
+  }
   create(dish: IProduct): Observable<EntityResponseType<IProduct>> {
     return super.post<IProduct>(`${this.resourceUrl}`, dish);
   }

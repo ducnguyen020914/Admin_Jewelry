@@ -63,6 +63,7 @@
               [ngStyle]="{ marginLeft: '16px', width: '35%' }"
               [nzFormatter]="formatterPrice"
               [nzParser]="parserPrice"
+              
             >
             </nz-input-number>
           </label>
@@ -104,6 +105,7 @@
             nzPlaceHolder="{{ 'model.product.material' | translate }}"
             nzAllowClear="true"
             (nzFocus)="loadMaterial()"
+            
           >
             <ng-container *ngFor="let type of materials">
               <nz-option

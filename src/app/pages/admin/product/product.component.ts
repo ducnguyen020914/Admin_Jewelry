@@ -24,6 +24,7 @@ import { Size } from '../../../shared/models/size.model';
 import { SizeService } from '../../../shared/services/product/size.service';
 import { TranslateService } from '@ngx-translate/core';
 import { ToastService } from '../../../shared/services/helpers/toast.service';
+import { DetailProductComponent } from './detail-product/detail-product.component';
 
 @Component({
   selector: 'app-product',
@@ -245,6 +246,19 @@ export class ProductComponent implements OnInit {
       this.productSearchRequest.pageSize
     );
   }
+  detail(product: IProduct): void {
+    const base = CommonUtil.modalBase(
+      DetailProductComponent,
+      {
+        action: ROUTER_ACTIONS.detail,
+        product,
+      },
+      '50%'
+    );
+
+    const modal: NzModalRef = this.modalService.create(base);
+    modal.afterClose.subscribe((result) => {});
+  }
   lock(item: IProduct) {
     this.isVisible = true;
     if (item.status === ProductStatus.ACTIVE) {
@@ -265,7 +279,7 @@ export class ProductComponent implements OnInit {
     } else {
       this.lockPopup = {
         title: 'model.product.unlockProductTitle',
-        content: 'model.product.unlockProductTitle',
+        content: 'model.product.unlockProductContent',
         interpolateParams: { name: item.nameProduct },
         okText: 'action.unlock',
         callBack: () => {

@@ -182,7 +182,7 @@ export class UserComponent implements OnInit {
         typeUser: type,
       },
     };
-    this.router.navigate([`setting/user/${user.id}/update`], dataObject);
+    this.router.navigate([`setting/user/${user.userId}/update`], dataObject);
   }
 
   lock(user: IUser): void {
@@ -206,13 +206,13 @@ export class UserComponent implements OnInit {
   onLockAndUnLock(result: { success: boolean }): void {
     if (result && result?.success) {
       if (this.user.status === STATUS_ACTIVE) {
-        this.userService.inactive(this.user.id).subscribe((res: any) => {
+        this.userService.inactive(this.user.userId).subscribe((res: any) => {
           this.toast.success('model.user.success.inactive');
           this.loadData(this.pageIndex, this.pageSize);
           this.isVisible = false;
         });
       } else {
-        this.userService.active(this.user.id).subscribe((res: any) => {
+        this.userService.active(this.user.userId).subscribe((res: any) => {
           this.toast.success('model.user.success.active');
           this.loadData(this.pageIndex, this.pageSize);
           this.isVisible = false;

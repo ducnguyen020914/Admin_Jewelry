@@ -234,11 +234,11 @@ export const ORDER_TYPE_STR: {
 export const ORDER_TYPE: { label: string; value: string; }[] = [
   {
     label: 'model.order.type.orderSet',
-    value: 'ORDER_SET',
+    value: 'DIRECT_TYPE',
   },
   {
     label: 'model.order.type.orderBuffet',
-    value: 'ORDER_BUFFET',
+    value: 'ONLINE',
   },
 ]
 

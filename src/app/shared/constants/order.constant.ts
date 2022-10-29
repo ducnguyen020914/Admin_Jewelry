@@ -6,10 +6,14 @@ export const CANCELLED = 'CANCELLED';
 export const RETURN_REFUND = 'RETURN_REFUND';
 
 export const ORDER_STATUS = [
-  {value: TO_PAY, label: 'model.order.status.to_pay'},
-  {value: TO_SHIP, label: 'model.order.status.to_ship'},
-  {value: TO_RECEIVE, label: 'model.order.status.to_receive'},
-  {value: COMPLETED, label: 'model.order.status.completed'},
-  {value: CANCELLED, label: 'model.order.status.cancelled'},
-  {value: RETURN_REFUND, label: 'model.order.status.return_refund'},
+  {value: 'CHO_XAC_NHAN', label: 'model.order.status.to_pay'},
+  {value: 'XAC_NHAN', label: 'model.order.status.to_ship'},
+  {value: 'DANG_GIAO', label: 'model.order.status.to_receive'},
+  {value: 'DA_GIAO', label: 'model.order.status.completed'},
+  {value: 'HUY', label: 'model.order.status.cancelled'},
   ]
+  export const paymentMethod = [
+    {value: 'MONEY', label: 'model.order.paymentMethod.money'},
+    {value: 'CARD', label: 'model.order.paymentMethod.card'},
+    
+    ]

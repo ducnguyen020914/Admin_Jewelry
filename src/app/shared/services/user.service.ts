@@ -72,6 +72,9 @@ export class UserService extends AbstractService {
   find(id: any, loading = false): Observable<EntityResponseType<IUser>> {
     return super.get<IUser>(`${this.resourceUrl}/${id}`, { loading });
   }
+  findCustomer( ): Observable<EntityResponseType<IUser[]>> {
+    return super.get<IUser[]>(`${this.resourceUrl}/customer`);
+  }
 
   // deleteUsers(ids: any, loading = false): Observable<EntityResponseType<Void>> {
   //   return super.post<Void>(`${this.resourceUrl}/delete-by-ids`, ids, {loading});
