@@ -35,6 +35,7 @@ import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { Observable } from 'rxjs';
 import { finalize } from 'rxjs/operators';
 import { NzUploadFile } from 'ng-zorro-antd/upload';
+import { DetailProductComponent } from '../detail-product/detail-product.component';
 
 @Component({
   selector: 'app-product-update',
@@ -467,4 +468,6 @@ export class ProductUpdateComponent implements OnInit {
     this.lockPopup.callBack = () => {};
     this.isVisible = false;
   }
+ 
+  
 }

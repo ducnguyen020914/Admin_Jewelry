@@ -2,8 +2,8 @@ export interface IOrderSearchRequest {
   status?: string;
   payMethod?: string;
   purchaseType?: boolean;
-  startDate?: number;
-  endDate?: number;
+  startDate?: Date | string;
+  endDate?: Date | string;
   startPrice?:number;
   endPrice?:number;
   pageIndex?: number;
@@ -24,8 +24,8 @@ export class OrderSearchRequest implements IOrderSearchRequest {
     public status?: string,
     public payMethod?: string,
     public purchaseType?: boolean,
-    public startDate?: number,
-    public endDate?: number,
+    public startDate?: Date | string,
+    public endDate?: Date | string,
     public startPrice?:number,
     public endPrice?:number,
     public  userId?:String

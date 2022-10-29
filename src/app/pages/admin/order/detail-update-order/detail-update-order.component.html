@@ -1,0 +1,193 @@
+<div class="row">
+  <div class="col-8 title">
+    <mb-table-title
+      [showBack]="true"
+      title="{{
+        (action === ROUTER_ACTIONS.update
+          ? 'model.order.update'
+          : action === ROUTER_ACTIONS.detail
+          ? 'model.order.detail'
+          : 'model.order.create'
+        ) | translate
+      }}"
+    >
+    </mb-table-title>
+  </div>
+</div>
+<div class="row mt-3">
+  <div class="col-12">
+    <form [formGroup]="form">
+      <section class="content mt-3">
+        <div class="row">
+          <div class="col-7 mb-2">
+            <label
+              >{{ "model.order.customer" | translate }}
+              <span class="text-danger">*</span></label
+            >
+            <nz-select
+              nzShowSearch
+              nzAllowClear
+              nzPlaceHolder="{{ 'model.order.customerSelect' | translate }}"
+              formControlName="userId"
+              (ngModelChange)="showCustomer()"
+              
+            >
+              <nz-option
+                *ngFor="let customer of users"
+                [nzValue]="customer.userId"
+                [nzLabel]="customer.fullName + ' - ' + customer.phoneNumber"
+              >
+              </nz-option>
+            </nz-select>
+            <ng-container
+              *ngIf="
+                form.get('userId')?.touched || form.get('userId')?.dirty
+              "
+            >
+              <span
+                class="text-danger"
+                *ngIf="form.get('userId')?.hasError('userId')"
+              >
+                <mb-not-blank
+                  [value]="'model.product.userId'"
+                ></mb-not-blank>
+              </span>
+            </ng-container>
+          </div>
+
+          <!-- <div class="col-3 mb-2">
+            <button
+              nz-button
+              nzType="text"
+              class="mt-4"
+              nzPrimary
+              (click)="create()"
+            >
+              {{ "action.createCustomer" | translate }}
+            </button>
+          </div> -->
+        </div>
+        <div class="row mt-2" *ngIf="this.form.value.userId">
+          <div class="col-4 mb-2">
+            <label>{{ "model.user.fullName" | translate }} </label>
+            <input
+              appCurrencyFormatter
+              nz-input
+              [maxLength]="LENGTH_VALIDATOR.LABEL_MAX_LENGTH.MAX"
+              [value]="this.currentUser.fullName"
+              readonly
+            />
+          </div>
+          <div class="col-4 mb-2">
+            <label>{{ "model.user.phoneNumber" | translate }}</label>
+            <div>
+              <input
+                appCurrencyFormatter
+                nz-input
+                [maxLength]="LENGTH_VALIDATOR.LABEL_MAX_LENGTH.MAX"
+                [value]="this.currentUser.phoneNumber"
+                readonly
+              />
+            </div>
+          </div>
+          <div class="col-4 mb-2">
+            <label>{{ "model.user.email" | translate }} </label>
+            <input
+              nz-input
+              [maxLength]="LENGTH_VALIDATOR.NAME_MAX_LENGTH.MAX"
+              placeholder="{{ 'model.order.staff' | translate }}"
+              [value]="this.currentUser.email"
+              readonly
+            />
+          </div>
+        </div>
+        <div class="row mt-2">
+          <div class="col-4 mb-2">
+            <label
+              >{{ "model.order.payMethod" | translate }}
+              <span class="text-danger">*</span></label
+            >
+            <nz-select
+              nzShowSearch
+              nzAllowClear
+              nzPlaceHolder="{{ 'model.order.payMethod' | translate }}"
+              formControlName="paymentMethod"
+              
+            >
+              <nz-option
+                *ngFor="let method of PAYMENT_METHOD"
+                [nzValue]="method.value"
+                [nzLabel]="method.label | translate"
+              >
+              </nz-option>
+            </nz-select>
+            <ng-container
+            *ngIf="
+              form.get('paymentMethod')?.touched || form.get('paymentMethod')?.dirty
+            "
+          >
+            <span
+              class="text-danger"
+              *ngIf="form.get('paymentMethod')?.hasError('paymentMethod')"
+            >
+              <mb-not-blank
+                [value]="'model.product.paymentMethod'"
+              ></mb-not-blank>
+            </span>
+          </ng-container>
+          </div>
+          <div class="col-4 mb-2">
+            <label>{{ "model.order.date" | translate }}</label>
+            <div class="date-picker">
+              <nz-date-picker
+                [nzId]="'startDatePicker'"
+                [nzFormat]="'dd/MM/yyyy'"
+                nzPlaceHolder="DD/MM/YYYY"
+                [nzInputReadOnly]="true"
+                formControlName="date"
+              >
+              </nz-date-picker>
+            </div>
+          </div>
+          <div class="col-4 mb-2">
+            <label>{{ "model.order.staff" | translate }} </label>
+            <input
+              nz-input
+              disabled="disabled"
+              [maxLength]="LENGTH_VALIDATOR.NAME_MAX_LENGTH.MAX"
+              placeholder="{{ 'model.order.staff' | translate }}"
+            />
+          </div>
+          <div class="col-4 ">
+            <label>{{ "model.product.event" | translate }} </label>
+            <nz-select
+              formControlName="eventId"
+              nzAllowClear 
+              [nzPlaceHolder]="'model.product.event' | translate"
+              (ngModelChange)="getTotal($event)"
+              
+            >
+              <ng-container *ngFor="let event of events">
+                <nz-option
+                  [nzValue]="event.eventId"
+                  [nzLabel]="event.name + ' - ' + 'Giảm ' + event.discount + '%'"
+                ></nz-option>
+              </ng-container>
+            </nz-select>
+            <ng-container
+              *ngIf="form.get('eventId')?.touched || form.get('eventId')?.dirty"
+            >
+              <span
+                class="text-danger"
+                *ngIf="form.get('eventId')?.hasError('required')"
+              >
+                <mb-not-blank [value]="'model.product.event'"></mb-not-blank>
+              </span>
+            </ng-container>
+          </div>
+        </div>
+      </section>
+      
+    </form>
+  </div>
+</div>

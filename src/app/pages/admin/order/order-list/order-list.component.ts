@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { ORDER_TYPE } from '@shared/constants/common.constant';
+import { ORDER_TYPE, SORT } from '@shared/constants/common.constant';
 import { PAGINATION } from '@shared/constants/pagination.constants';
 import { IUser } from '@shared/models/user.model';
 import { ToastService } from '@shared/services/helpers/toast.service';
@@ -13,10 +13,13 @@ import { NzModalRef, NzModalService } from 'ng-zorro-antd/modal';
 import { NzTableQueryParams } from 'ng-zorro-antd/table';
 import {IOrder, PaymentMethod, StatusEnum} from "@shared/models/order.model";
 import {IOrderSearchRequest} from "@shared/models/request/order-search-request.model";
-import {ORDER_STATUS} from "@shared/constants/order.constant";
+import {ORDER_STATUS, paymentMethod} from "@shared/constants/order.constant";
 import { OrderService } from '../../../../shared/services/order/order.service';
 import { OrderSearchRequest } from '../../../../shared/models/request/order-search-request.model';
 import { OrderType } from '../../../../shared/models/order.model';
+import { NzMarks } from 'ng-zorro-antd/slider';
+import { formatDate } from '@angular/common';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-order-list',
@@ -26,15 +29,18 @@ import { OrderType } from '../../../../shared/models/order.model';
 export class OrderListComponent implements OnInit {
   formSearchOrder:FormGroup = new FormGroup({});
   orderSearchRequest: OrderSearchRequest = {
-    pageIndex: PAGINATION.PAGE_DEFAULT,
-    pageSize: PAGINATION.SIZE_DEFAULT,
+  
   };
+  pageIndex =  PAGINATION.PAGE_DEFAULT;
+  pageSize = PAGINATION.SIZE_DEFAULT;
   types = ORDER_TYPE;
   orderStatus = ORDER_STATUS;
+  payMethods = paymentMethod;
   selectedOrderId = '';
   total = 0;
   minPrice = 0;
   maxPrice = 100000000;
+  isFirstFetch = false;
   groupPopup = {
     title: '',
     content: '',
@@ -42,7 +48,14 @@ export class OrderListComponent implements OnInit {
   };
   orders: IOrder[] = [];
   users: IUser[] = [];
-
+  marks: NzMarks = {
+    0: '0đ',
+    20000000: '20.000.000đ',
+    40000000: '40.000.000đ',
+    60000000: '60.000.000đ',
+    80000000: '80.000.000đ',
+    100000000: '100.000.000đ',
+  };
   constructor(
     private translateService: TranslateService,
     private toast: ToastService,
@@ -60,7 +73,8 @@ export class OrderListComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.loadData();
+    this.loadData(this.pageIndex,this.pageSize);
+    this.loadCustomer();
   }
 
   initForm(): void {
@@ -70,14 +84,19 @@ export class OrderListComponent implements OnInit {
       payMethod: [this.orderSearchRequest.payMethod || null],
       startDate: [this.orderSearchRequest.startDate || null],
       endDate: [this.orderSearchRequest.endDate || null],
-      startPrice: [this.orderSearchRequest.startPrice || this.maxPrice],
-      endPrice: [this.orderSearchRequest.startPrice || this.minPrice],
+      rangePrice: [[this.minPrice,this.maxPrice]],
+      startPrice: [this.orderSearchRequest.startPrice || this.minPrice],
+      endPrice: [this.orderSearchRequest.endPrice || this.maxPrice],
       keyword: [this.orderSearchRequest.keyword || null],
       userId: [this.orderSearchRequest.userId || null],
     });
   }
 
-  private loadData() {
+  private loadData(pageIndex:number,pageSize:number,sortBy?:string) {
+    this.orderSearchRequest.pageIndex  =pageIndex;
+    this.orderSearchRequest.pageSize  =pageSize;
+    this.orderSearchRequest.sortBy  =sortBy;
+    
     this.orderService
       .search(this.orderSearchRequest)
       .subscribe((response: any) => {
@@ -87,6 +106,11 @@ export class OrderListComponent implements OnInit {
         console.log(response);
         
       });
+  }
+  private loadCustomer(){
+    this.userService.findCustomer().subscribe((res :any) => {
+      this.users = res.body?.data;
+    })
   }
 
   formatterPrice = (value: number): string =>
@@ -138,12 +162,11 @@ onChangeRangePrice(): void {
   }
 
   update(id: string): void {
-    // this.router.navigate([
-    //   ROUTER_UTILS.booking.root,
-    //   ROUTER_UTILS.booking.order,
-    //   id,
-    //   ROUTER_ACTIONS.update,
-    // ]);
+    this.router.navigate([
+      ROUTER_UTILS.order.root,
+      id,
+      ROUTER_ACTIONS.update,
+    ]);
   }
 
   delete(id: string): void {
@@ -191,39 +214,69 @@ onChangeRangePrice(): void {
   }
 
   resetSearch(): void {
-    // this.formSearchOrder.reset();
-    //
-    // this.orderSearchRequest = {
-    //   pageIndex: PAGINATION.PAGE_DEFAULT,
-    //   pageSize: PAGINATION.SIZE_DEFAULT,
-    // };
-    // this.search();
+    this.formSearchOrder.reset();
+    
+    this.orderSearchRequest = {
+      pageIndex: PAGINATION.PAGE_DEFAULT,
+      pageSize: PAGINATION.SIZE_DEFAULT,
+    };
+    this.search();
   }
 
   search(): void {
-    // this.orderSearchRequest.type = this.formSearchOrder.get('type')?.value;
-    // this.orderSearchRequest.status = this.formSearchOrder.get('status')?.value;
-    // this.orderSearchRequest.menuId = this.formSearchOrder.get('menuId')?.value;
-    // this.orderSearchRequest.startCreatedAt =
-    //   this.formSearchOrder.get('startCreatedAt')?.value;
-    // this.orderSearchRequest.endCreatedAt =
-    //   this.formSearchOrder.get('enCreatedAt')?.value;
-    // this.orderSearchRequest.userId = this.formSearchOrder.get('userId')?.value;
-    // this.loadData();
+    console.log(this.formSearchOrder.value);
+    
+    this.orderSearchRequest.purchaseType = this.formSearchOrder.get('purchaseType')?.value;
+    this.orderSearchRequest.status = this.formSearchOrder.get('status')?.value;
+    this.orderSearchRequest.payMethod = this.formSearchOrder.get('payMethod')?.value;
+    this.orderSearchRequest.userId = this.formSearchOrder.get('userId')?.value;
+    const endCreatedAt = this.formSearchOrder.get('endDate')?.value;
+    const startCreatedAt = this.formSearchOrder.get('startDate')?.value;
+    if (startCreatedAt) {
+      this.orderSearchRequest.startDate = moment(startCreatedAt).format('yyyy/MM/DD');
+    } else {
+      this.orderSearchRequest.startDate = '';
+    }
+    if (endCreatedAt) {
+      this.orderSearchRequest.endDate = moment(endCreatedAt).format('yyyy/MM/DD');
+    } else {
+      this.orderSearchRequest.endDate = '';
+    }
+    console.log(this.orderSearchRequest);
+    
+    this.loadData(this.pageIndex,this.pageSize);
   }
 
-  onQuerySearch(params: NzTableQueryParams): void {
-    // const { pageIndex, pageSize } = params;
-    // const sortBy = CommonUtil.getSortStringFromParamObject(params);
-    //
-    // this.orderSearchRequest = {
-    //   ...this.orderSearchRequest,
-    //   pageIndex,
-    //   pageSize,
-    //   sortBy,
-    // };
-    //
-    // this.loadData();
+  onQuerySearch(params: { pageIndex: number; pageSize: number }): void {
+    const { pageIndex, pageSize } = params;
+    this.orderSearchRequest.pageIndex = pageIndex;
+    this.orderSearchRequest.pageSize = pageSize;
+
+    this.loadData(pageIndex,pageSize);
+  }
+  onChangeQueryParam(params: NzTableQueryParams): void {
+    console.log(params);
+    
+    if (this.isFirstFetch) {
+      this.isFirstFetch = false;
+      return;
+    }
+
+    const { pageIndex, pageSize, sort, filter } = params;
+
+    const currentSort = sort.find((item) => item.value !== null);
+    const sortField = (currentSort && currentSort.key) || null;
+    const sortOrder = (currentSort && currentSort.value) || null;
+    let sortBy = '';
+    if (sortField && sortOrder) {
+      sortBy = `${sortField}.${
+        sortOrder === SORT.ASCEND ? SORT.ASC : SORT.DESC
+      }`;
+    } else {
+      sortBy = '';
+    }
+    this.orderSearchRequest.sortBy = sortBy;
+    this.loadData(pageIndex,pageSize,sortBy);
   }
 
   searchUsers(keyword: string): void {
@@ -287,9 +340,8 @@ onChangeRangePrice(): void {
   }
 
   onChangeCreateDate(rangeDate: { fromDate?: Date; toDate?: Date }): void {
-    // this.orderSearchRequest.startCreatedAt = rangeDate.fromDate?.valueOf();
-    // this.orderSearchRequest.endCreatedAt = rangeDate.toDate?.valueOf();
-    // this.formSearchOrder.get('startCreatedAt')?.setValue(rangeDate.fromDate);
-    // this.formSearchOrder.get('endCreatedAt')?.setValue(rangeDate.toDate);
+    this.formSearchOrder.get('startDate')?.setValue(rangeDate.fromDate);
+    this.formSearchOrder.get('endDate')?.setValue(rangeDate.toDate);
   }
+  
 }

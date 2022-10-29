@@ -14,7 +14,7 @@ import { IUser, User } from '../models/user.model';
   providedIn: 'root',
 })
 export class UserService extends AbstractService {
-  public resourceUrl = SERVICE.IAM + '/users';
+  public resourceUrl = '/api/v1/user';
 
   constructor(protected http: HttpClient) {
     super(http);
@@ -71,6 +71,9 @@ export class UserService extends AbstractService {
 
   find(id: any, loading = false): Observable<EntityResponseType<IUser>> {
     return super.get<IUser>(`${this.resourceUrl}/${id}`, { loading });
+  }
+  findCustomer( ): Observable<EntityResponseType<IUser[]>> {
+    return super.get<IUser[]>(`${this.resourceUrl}/customer`);
   }
 
   // deleteUsers(ids: any, loading = false): Observable<EntityResponseType<Void>> {

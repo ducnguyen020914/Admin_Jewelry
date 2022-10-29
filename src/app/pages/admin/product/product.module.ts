@@ -18,6 +18,8 @@ import { UpdateMaterialComponent } from './update-material/update-material.compo
 import { DetailMaterialComponent } from './detail-material/detail-material.component';
 import { ProductUpdateComponent } from './product-update/product-update.component';
 import { UpdateAccessoryComponent } from './update-accessory/update-accessory.component';
+import { OrderListComponent } from '../order/order-list/order-list.component';
+import { DetailProductComponent } from './detail-product/detail-product.component';
 @NgModule({
   imports: [
     CommonModule,
@@ -40,7 +42,8 @@ import { UpdateAccessoryComponent } from './update-accessory/update-accessory.co
     UpdateMaterialComponent,
     DetailMaterialComponent,
     ProductUpdateComponent,
-    UpdateAccessoryComponent
+    UpdateAccessoryComponent,
+    DetailProductComponent,
   ],
 })
 export class ProductModule {}

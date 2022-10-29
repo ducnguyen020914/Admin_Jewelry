@@ -89,8 +89,8 @@ export const ROUTER_UTILS = {
   order: {
     root: 'order',
     orderList: 'list',
-    orderUpdate: 'order/:id/update',
-    orderDetail: 'order/:id/detail',
+    orderUpdate: ':id/update',
+    orderDetail: ':id/detail',
     orderCreate: 'create',
     refun:"refun"
   },

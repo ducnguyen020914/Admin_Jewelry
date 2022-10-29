@@ -5,6 +5,7 @@ import { OrderComponent } from './order.component';
 import { RefunComponent } from './refun/refun.component';
 import {OrderListComponent} from "@pages/admin/order/order-list/order-list.component";
 import {UpdateOrderComponent} from "@pages/admin/order/update-order/update-order.component";
+import { DetailUpdateOrderComponent } from './detail-update-order/detail-update-order.component';
 
 const routes: Routes = [
   {
@@ -38,7 +39,7 @@ const routes: Routes = [
   },
   {
     path: ROUTER_UTILS.order.orderUpdate,
-    component: UpdateOrderComponent,
+    component: DetailUpdateOrderComponent,
     data: {
       title: 'model.order.update',
       action: ROUTER_ACTIONS.update,

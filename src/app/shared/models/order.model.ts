@@ -1,4 +1,4 @@
-import {TransferItem} from "ng-zorro-antd/transfer";
+import {TransferDirection, TransferItem} from "ng-zorro-antd/transfer";
 import {IProduct} from "@shared/models/productReal.model";
 import { User } from "./user.model";
 export enum PaymentMethod {
@@ -33,6 +33,8 @@ export interface IOrder {
   address?:string;
   user?:User;
   event?:Event;
+  orderDetaiDTOList?:IProductOrder[];
+
 }
 
 export class Order implements IOrder {
@@ -52,7 +54,8 @@ export class Order implements IOrder {
    public eventId?:string,
    public address?:string,
    public user?:User,
-   public event?:Event
+   public event?:Event,
+   public  orderDetaiDTOList?:IProductOrder[],
     ){
       this.createdAt = createdAt;
       this.createdBy = createdBy;
@@ -70,6 +73,7 @@ export class Order implements IOrder {
       this.address  = address;
       this.user = user;
       this.event = event;
+      this.orderDetaiDTOList = orderDetaiDTOList;
     }
 }
 
@@ -126,13 +130,36 @@ export interface IPurchaseOrderHistory {
   status?: string;
   deleted?: boolean;
 }
-
+export class IProductOrder    {
+ constructor(public id?:string,
+  public productId?:String,
+  public imageUrl?:string[],
+  public price?:number,
+  public nameProduct?:string,
+  public quantity?:number,
+  public size?:string,
+  public sizeId?:string,
+  public quantityBy?:number,
+  public total?:number ){
+    this.id = id;
+    this.productId = productId;
+    this.imageUrl = imageUrl;
+    this.price = price;
+    this.nameProduct = nameProduct;
+    this.quantity  = quantity;
+    this.quantityBy = quantityBy;
+    this.size = size;
+    this.sizeId  = sizeId,
+    this.total = total
+  }
+  
+}
 export interface ChangeOrderStatusRequest {
   purchaseOrderIds?: string[];
 }
 
 export interface ProductItem extends TransferItem {
-  data: IProduct & { quantity?: number},
+  data: IProductOrder,
 }
 
 export const DEFAULT_QUANTITY = 1;
