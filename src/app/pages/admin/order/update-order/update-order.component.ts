@@ -88,6 +88,7 @@ export class UpdateOrderComponent implements OnInit {
   NZ_TRANSFER_CONST = NZ_TRANSFER_CONST;
 
   DEFAULT_QUANTITY = DEFAULT_QUANTITY;
+  maxOrder = 5;
 
   //menu: IMenuResponse = new MenuResponse();
   orders: IOrder[] = [];
@@ -198,6 +199,11 @@ export class UpdateOrderComponent implements OnInit {
     if (this.tabs.length < 5) {
       this.selectedIndex = this.tabs.length + 1;
       this.tabs.push('Hoá đơn ' + this.selectedIndex);
+    }
+    else {
+      this.toast.warning('common.maxOrder', {
+        count: this.maxOrder,
+      });
     }
     //gọi lại hàm load product
     // for (let i = 0; i < 20; i++) {

@@ -133,15 +133,14 @@ export class ProductUpdateComponent implements OnInit {
         this.imageTam = this.product.productImages?.map((image:any) => image.imageUrl) as string[];
       });
     }
-    
+
   }
   initForm(): void {
     const dataObject =
       this.action === this.ROUTER_ACTIONS.create
         ? this.initalState
         : this.product;
-        console.log(dataObject);   
-    const sizeIds = dataObject.productSizes?.map((s) => s.sizeId);   
+    const sizeIds = dataObject.productSizes?.map((s) => s.sizeId);
     this.form = this.fb.group({
       nameProduct: [dataObject.nameProduct, [Validators.required]],
       salary: [dataObject?.salary, [Validators.required, Validators.min(0)]],
@@ -277,7 +276,7 @@ export class ProductUpdateComponent implements OnInit {
       control.get('salePrice')?.setValue((material[0]* weight) + accessory[0] + salary)
     })
   }
- 
+
   loadSizeProduct() {
     this.sizeProduct.clear();
     const sizeIds: string[] = this.form.get('sizeIds')?.value;
@@ -455,14 +454,6 @@ export class ProductUpdateComponent implements OnInit {
    if (this.files) {
     this.uploadFiles();
   }
-  }
-  getBase64(image: any): Promise<unknown> {
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.readAsDataURL(image);
-      reader.onload = () => resolve(reader.result);
-      reader.onerror = (error) => reject(error);
-    });
   }
   onLockAndUnLock(result: { success: boolean }): void {
     this.lockPopup.callBack = () => {};
