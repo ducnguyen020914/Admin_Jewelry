@@ -36,6 +36,7 @@ import { OrderService } from '../../../../shared/services/order/order.service';
 import CommonUtil from '../../../../shared/utils/common-utils';
 import { NzModalRef, NzModalService } from 'ng-zorro-antd/modal';
 import { LocalStorageService } from 'ngx-webstorage';
+import { ROUTER_UTILS } from '../../../../shared/utils/router.utils';
 
 @Component({
   selector: 'app-update-order',
@@ -53,6 +54,7 @@ export class UpdateOrderComponent implements OnInit {
   menuId = '';
 
   ROUTER_ACTIONS = ROUTER_ACTIONS;
+  ROUTER_UTILS = ROUTER_UTILS;
   form: FormGroup = new FormGroup({});
   LENGTH_VALIDATOR = LENGTH_VALIDATOR;
   PAYMENT_METHOD = paymentMethod;
@@ -122,6 +124,9 @@ export class UpdateOrderComponent implements OnInit {
       this.productOrders = res.body?.data;
       this.productOrders = this.productOrders.filter((res) => res.quantity as number > 0)
       this.selectedProducts = JSON.parse(this.localStorage.retrieve('selectedProducts'));
+      if(this.selectedProducts=== null){
+        this.selectedProducts = [];
+      }
       this.changePrice();
       this.selectedProducts.map((item) => item.id).forEach(item => {
         this.productOrders =   this.productOrders.filter((item1) => item1.id !== item)
@@ -165,7 +170,12 @@ export class UpdateOrderComponent implements OnInit {
         this.currentUser = data;
       });
   }
-  onCancel(): void {}
+  onCancel(): void {
+    this.router.navigate([
+      this.ROUTER_UTILS.order.root,
+      this.ROUTER_UTILS.order.orderList
+    ])
+  }
 
   onSubmit(): void {
     if (this.selectedProducts.length === 0) {
@@ -265,7 +275,9 @@ export class UpdateOrderComponent implements OnInit {
   }
 
   getChange(event: any) {
+    console.log(event);
     const id = event.nzValue + '';
+    event.nzValue = '';
     this.productOrders
       .filter((item) => item.id === id)
       .forEach((item) => {
@@ -280,14 +292,6 @@ export class UpdateOrderComponent implements OnInit {
           this.productOrderFilter = this.productOrders;
           return;
         }
-        this.value =
-          item.nameProduct === this.value
-            ? this.value
-            : item.nameProduct +
-              ' - size ' +
-              item.size +
-              ' - số lượng ' +
-              item.quantity;
         item.quantityBy = 1;
         this.selectedProducts.push(item);
         this.localStorage.store("selectedProducts",JSON.stringify(this.selectedProducts));
@@ -296,7 +300,6 @@ export class UpdateOrderComponent implements OnInit {
         );
         this.productOrderFilter = this.productOrders;
        this.changePrice();
-       this.value = ' '
       });
   }
   fiter(event: any) {
@@ -345,9 +348,10 @@ export class UpdateOrderComponent implements OnInit {
         this.localStorage.store("selectedProducts",JSON.stringify(this.selectedProducts));
         this.productOrderFilter.push(item);
         this.changePrice();
-        this.value = '';
+        this.value = '     ';
       }
     });
   }
+
 
 }

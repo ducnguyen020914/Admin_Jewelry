@@ -160,7 +160,7 @@
           <td nzAlign="center">{{item.orderCode}}</td>
           <td nzAlign="center">{{item.user.fullName}}</td>
           <td nzAlign="center">{{item.createAt | date:"dd-MM-yyyy"}}</td>
-          <td nzAlign="center">{{item.total ? (item.total ) : "-"}}</td>
+          <td nzAlign="center">{{item.total ? (item.total | vnd) : "-"}}</td>
           <td nzAlign="center">{{getPurchaseType(item.purchaseType)}}</td>
           <td nzAlign="center">{{getpayment(item.paymentMethod)}}</td>
           <td nzAlign="center">
@@ -171,12 +171,13 @@
             <mb-button-action [action]="'view'" className="first" nzTooltipTitle="{{'action.view' | translate}}"
                               nzTooltipPlacement="top" (click)="detail(item.id)">
             </mb-button-action>
-            <mb-button-action [action]="'edit'" className="center" nzTooltipTitle="{{'action.update' | translate}}"
+            <mb-button-action *ngIf="item.status !== status.DA_GIAO && item.status !== status.HUY "
+             [action]="'edit'" className="center" nzTooltipTitle="{{'action.update' | translate}}"
                               nzTooltipPlacement="top" (click)="update(item.id)">
             </mb-button-action>
-            <mb-button-action [action]="'delete'" className="last" nzTooltipTitle="{{'action.delete' | translate}}"
+            <!-- <mb-button-action [action]="'delete'" className="last" nzTooltipTitle="{{'action.delete' | translate}}"
                               nzTooltipPlacement="top" (click)="delete(item.id)">
-            </mb-button-action>
+            </mb-button-action> -->
           </td>
         </tr>
       </ng-container>

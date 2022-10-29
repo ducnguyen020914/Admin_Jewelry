@@ -31,9 +31,10 @@ export interface IOrder {
   status?: StatusEnum;
   eventId?:string;
   address?:string;
+  userId?:string;
   user?:User;
   event?:Event;
-  orderDetaiDTOList?:IProductOrder[];
+  orderDetailDTOList?:IProductOrder[];
 
 }
 
@@ -53,9 +54,10 @@ export class Order implements IOrder {
    public status?: StatusEnum,
    public eventId?:string,
    public address?:string,
+   public userId?:string,
    public user?:User,
    public event?:Event,
-   public  orderDetaiDTOList?:IProductOrder[],
+   public  orderDetailDTOList?:IProductOrder[],
     ){
       this.createdAt = createdAt;
       this.createdBy = createdBy;
@@ -73,7 +75,8 @@ export class Order implements IOrder {
       this.address  = address;
       this.user = user;
       this.event = event;
-      this.orderDetaiDTOList = orderDetaiDTOList;
+      this.orderDetailDTOList = orderDetailDTOList;
+      this.userId = userId;
     }
 }
 

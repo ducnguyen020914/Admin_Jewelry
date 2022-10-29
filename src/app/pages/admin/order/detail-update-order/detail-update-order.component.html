@@ -22,7 +22,7 @@
           <div class="col-7 mb-2">
             <label
               >{{ "model.order.customer" | translate }}
-              <span class="text-danger">*</span></label
+              </label
             >
             <nz-select
               nzShowSearch
@@ -30,6 +30,7 @@
               nzPlaceHolder="{{ 'model.order.customerSelect' | translate }}"
               formControlName="userId"
               (ngModelChange)="showCustomer()"
+              [nzDisabled]="true"
               
             >
               <nz-option
@@ -75,7 +76,7 @@
               nz-input
               [maxLength]="LENGTH_VALIDATOR.LABEL_MAX_LENGTH.MAX"
               [value]="this.currentUser.fullName"
-              readonly
+              [disabled]="true"
             />
           </div>
           <div class="col-4 mb-2">
@@ -86,7 +87,7 @@
                 nz-input
                 [maxLength]="LENGTH_VALIDATOR.LABEL_MAX_LENGTH.MAX"
                 [value]="this.currentUser.phoneNumber"
-                readonly
+                [disabled]="true"
               />
             </div>
           </div>
@@ -97,7 +98,7 @@
               [maxLength]="LENGTH_VALIDATOR.NAME_MAX_LENGTH.MAX"
               placeholder="{{ 'model.order.staff' | translate }}"
               [value]="this.currentUser.email"
-              readonly
+              [disabled]="true"
             />
           </div>
         </div>
@@ -105,13 +106,14 @@
           <div class="col-4 mb-2">
             <label
               >{{ "model.order.payMethod" | translate }}
-              <span class="text-danger">*</span></label
+             </label
             >
             <nz-select
               nzShowSearch
               nzAllowClear
               nzPlaceHolder="{{ 'model.order.payMethod' | translate }}"
               formControlName="paymentMethod"
+              [nzDisabled]="true"
               
             >
               <nz-option
@@ -145,6 +147,7 @@
                 nzPlaceHolder="DD/MM/YYYY"
                 [nzInputReadOnly]="true"
                 formControlName="date"
+                [nzDisabled]="true"
               >
               </nz-date-picker>
             </div>
@@ -165,6 +168,7 @@
               nzAllowClear 
               [nzPlaceHolder]="'model.product.event' | translate"
               (ngModelChange)="getTotal($event)"
+              [nzDisabled]="true"
               
             >
               <ng-container *ngFor="let event of events">
@@ -185,9 +189,135 @@
               </span>
             </ng-container>
           </div>
+          <div class="col-4 mb-2">
+            <label>{{ "model.order.address" | translate }} </label>
+            
+            <input
+              nz-input
+              [disabled]="true"
+              [value]="this.order.address"
+              [maxLength]="LENGTH_VALIDATOR.NAME_MAX_LENGTH.MAX"
+              placeholder="{{ 'model.order.address' | translate }}"
+            />
+          </div>
+          <div class="col-4 mb-2">
+            <label>{{ "model.order.status.root" | translate }} </label>
+            <nz-select
+            formControlName="status"
+            [nzPlaceHolder]="'model.product.status.roor' | translate"
+            (ngModelChange)="getTotal($event)"
+            [nzDisabled]="this.order.status === status.DA_GIAO ||this.order.status === status.HUY "
+
+          >
+            <ng-container *ngFor="let item of ORDER_STATUS">
+              <nz-option
+                [nzValue]="item.value"
+                [nzLabel]="item.label | translate"
+              ></nz-option>
+            </ng-container>
+          </nz-select>
+           
+          </div>
         </div>
       </section>
       
     </form>
   </div>
+  
+  <section class="content">
+        
+    <div class="row">
+      <div class="col-8">
+        <div class="example-input">
+         <label for="">Danh sách sản phẩm đã chọn</label>
+        <nz-table
+        #table [nzData]="selectedProducts" [nzNoResult]="selectedProducts"  [nzScroll]="{ y: '440px' }"
+            >
+              <thead>
+                <tr>
+                  <th nzAlign="center" >{{'common.index' | translate}}</th>
+                  <th>{{ "model.product.image" | translate }}</th>
+                  <th>{{ "model.product.name" | translate }}</th>
+                  <th>{{ "model.product.sizeId" | translate }}</th>
+                  <th>{{ "model.product.price" | translate }}</th>
+                  <th>{{ "model.order.quantityBy" | translate }}</th>
+                  <th>{{ "model.order.thanhtien" | translate }}</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let product of selectedProducts; let i = index">
+                 <td nzAlign="center" >{{i+1}}</td>
+                  <td nzAlign="center">
+                    <img
+                      nz-image
+                      height="70px"
+                      width="90px"
+                      id="productDetailLink"
+                      (click)="showProductDetail(product)"
+                      [nzSrc]="getImage(product.imageUrl[0])"
+                      style="border: 2px; border-radius: 5px"
+                    />
+                  </td>
+                  <td>{{ product.nameProduct }}</td>
+                  <td nzAlign="center">
+                    <nz-tag nzColor="default">{{
+                      product.size
+                    }}</nz-tag>
+                  </td>
+                  <td>{{ product.price | vnd }}</td>
+                  <td nzAlign="center">
+                    {{ product.quantity }} sản phẩm
+                  </td>
+                  <td>{{ (product.price * product.quantity) | vnd }}</td>
+                </tr>
+              </tbody>
+            </nz-table>
+          </div>
+      </div>
+      <div class="col-4 mt-4" style="font-size: 15px;">
+       
+        <nz-card nzAlign="center" nzTitle="Bảng giá" [nzExtra]="extraTemplate" >
+          <label class="mb-3" style="width:'13rem'">Số lượng sản phẩm:</label> <span class="fw-bold">{{this.selectedProducts ? this.selectedProducts.length : 0 }} sản phẩm</span>
+          <br>
+          <label class="mb-3" style="width:'13rem'">Tổng tiền: </label> <span class="fw-bold">{{this.thanhtien + (this.discount/100 * this.thanhtien) | vnd}}</span> 
+          <br> 
+          <label  class="mb-1" style="width:'13rem'">Giảm giá:</label> <span class="fw-bold">{{this.discount + '%'}}</span>
+          <hr>
+          <label class="fw-bold" style="width:'13rem'">Thành tiền :</label><span class="fw-bold">{{this.thanhtien |vnd}}</span>
+        </nz-card>
+      </div>
+      
+    </div>
+   
+    
+  </section>
+  <section class="content"  *ngIf="action === ROUTER_ACTIONS.update">
+     
+    <div class="row">
+      <div class="col-12 text-center">
+        <button nz-button nzType="default" (click)="onCancel()">
+          {{
+            (action === ROUTER_ACTIONS.detail
+              ? "action.back"
+              : "action.cancel"
+            ) | translate
+          }}
+        </button>
+        <button
+       
+          (click)="onSubmit()"
+          class="ms-3"
+          nz-button
+          nzType="primary"
+        >
+          {{
+          
+               "action.update" | translate
+          }}
+        </button>
+      </div>
+    </div>
+  </section>
+  
+ 
 </div>

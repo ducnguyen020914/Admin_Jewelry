@@ -38,5 +38,12 @@ export class OrderService extends AbstractService {
   ): Observable<EntityResponseType<IOrder>>{
     return super.post<IOrder>(`${this.resourceUrl}`,params);
   }
+  updateOrder(
+    id:string,
+    params?: any,
+    loading = true,
+  ): Observable<EntityResponseType<IOrder>>{
+    return super.post<IOrder>(`${this.resourceUrl}/${id}`,params);
+  }
  
 }

@@ -45,6 +45,14 @@ const routes: Routes = [
       action: ROUTER_ACTIONS.update,
     }
   },
+  {
+    path: ROUTER_UTILS.order.orderDetail,
+    component: DetailUpdateOrderComponent,
+    data: {
+      title: 'model.order.detail',
+      action: ROUTER_ACTIONS.detail,
+    }
+  },
 ];
 
 @NgModule({

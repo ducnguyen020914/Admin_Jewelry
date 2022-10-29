@@ -232,7 +232,7 @@
 </nz-autocomplete>  </div>
 <label for="" class="mt-3">Danh sách sản phẩm đã chọn</label>
               <nz-table
-              #table [nzData]="this.selectedProducts" [nzNoResult]="noDataResult"    (nzQueryParams)="onChangeQueryParam($event)" [nzScroll]="{ y: '440px' }"
+              #table [nzData]="this.selectedProducts" [nzNoResult]="this.selectedProducts"  [nzScroll]="{ y: '440px' }"
                   >
                     <thead>
                       <tr>
@@ -253,8 +253,8 @@
                         <td nzAlign="center">
                           <img
                             nz-image
-                            height="70px"
-                            width="90px"
+                            height="90px"
+                            width="120px"
                             id="productDetailLink"
                             (click)="showProductDetail(product)"
                             [nzSrc]="getImage(product.imageUrl[0])"
@@ -290,7 +290,7 @@
             </div>
             <div class="col-4" style="font-size: 15px;">
              
-              <nz-card nzAlign="center" nzTitle="Bảng giá" [nzExtra]="extraTemplate" >
+              <nz-card nzAlign="center" nzTitle="Bảng giá hóa đơn" [nzExtra]="extraTemplate" >
                 <label class="mb-3" style="width:'13rem'">Số lượng sản phẩm:</label> <span class="fw-bold">{{this.selectedProducts ? this.selectedProducts.length : 0 }} sản phẩm</span>
                 <br>
                 <label class="mb-3" style="width:'13rem'">Tổng tiền: </label> <span class="fw-bold">{{this.total | vnd}}</span> 
@@ -308,9 +308,8 @@
        
       </div>
     </div>
-    <section class="content mt-3">
-     
-      <div class="row mt-5">
+    <section class="content">
+      <div class="row">
         <div class="col-12 text-center">
           <button nz-button nzType="default" (click)="onCancel()">
             {{

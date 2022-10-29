@@ -36,6 +36,7 @@ export class OrderListComponent implements OnInit {
   types = ORDER_TYPE;
   orderStatus = ORDER_STATUS;
   payMethods = paymentMethod;
+  status = StatusEnum;
   selectedOrderId = '';
   total = 0;
   minPrice = 0;
@@ -189,12 +190,11 @@ onChangeRangePrice(): void {
   }
 
   detail(id: string): void {
-    // this.router.navigate([
-    //   ROUTER_UTILS.booking.root,
-    //   ROUTER_UTILS.booking.order,
-    //   id,
-    //   ROUTER_ACTIONS.detail,
-    // ]);
+    this.router.navigate([
+      ROUTER_UTILS.order.root,
+      id,
+      ROUTER_ACTIONS.detail,
+    ]);
   }
 
   pipeType(orderTypeCode: string) {
@@ -230,6 +230,8 @@ onChangeRangePrice(): void {
     this.orderSearchRequest.status = this.formSearchOrder.get('status')?.value;
     this.orderSearchRequest.payMethod = this.formSearchOrder.get('payMethod')?.value;
     this.orderSearchRequest.userId = this.formSearchOrder.get('userId')?.value;
+    this.orderSearchRequest.startPrice = this.formSearchOrder.get('startPrice')?.value;
+    this.orderSearchRequest.endPrice = this.formSearchOrder.get('endPrice')?.value;
     const endCreatedAt = this.formSearchOrder.get('endDate')?.value;
     const startCreatedAt = this.formSearchOrder.get('startDate')?.value;
     if (startCreatedAt) {
@@ -255,8 +257,6 @@ onChangeRangePrice(): void {
     this.loadData(pageIndex,pageSize);
   }
   onChangeQueryParam(params: NzTableQueryParams): void {
-    console.log(params);
-    
     if (this.isFirstFetch) {
       this.isFirstFetch = false;
       return;
@@ -300,9 +300,9 @@ onChangeRangePrice(): void {
     if(status === StatusEnum.CHO_XAC_NHAN){
       return 'badge-warning'
     }else if(status === StatusEnum.DANG_GIAO){
-      return 'badge-infor'
-    }else if(status === StatusEnum.DA_GIAO){
       return 'badge-success'
+    }else if(status === StatusEnum.DA_GIAO){
+      return 'badge-info'
     }else if(status === StatusEnum.XAC_NHAN){
       return "badge-default"
     }else {

@@ -668,6 +668,9 @@
       "createOrderTitle":"Xác nhận thêm hóa đơn",
       "createOrderContent":"Bạn có muốn thêm hóa đơn này không ?",
       "thanhtien":"Thành tiền",
+      "address":"Địa chỉ nhận hóa đơn",
+      "updateOrderTitle":"Cập nhật hóa đơn",
+      "updateOrderContent":"Bạn có muốn cập nhật hóa đơn này không ?",
       "paymentMethod" : {
         "money":"Tiền mặt",
         "card":"Thanh toán thẻ"
