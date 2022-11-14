@@ -1,6 +1,7 @@
 import {TransferDirection, TransferItem} from "ng-zorro-antd/transfer";
 import {IProduct} from "@shared/models/productReal.model";
 import { User } from "./user.model";
+import { Exchange } from './exchange.model';
 export enum PaymentMethod {
   MONEY="MONEY",
   CARD = "CARD",
@@ -35,13 +36,14 @@ export interface IOrder {
   user?:User;
   event?:Event;
   orderDetailDTOList?:IProductOrder[];
+  isRepurchase?:boolean;
 
 }
 
 export class Order implements IOrder {
   constructor( 
-   public createdBy?: string,
-   public createdAt?: number,
+   public createBy?: string,
+   public createAt?: number,
    public lastModifiedBy?: string,
    public lastModifiedAt?: number,
    public id?: string,
@@ -58,9 +60,10 @@ export class Order implements IOrder {
    public user?:User,
    public event?:Event,
    public  orderDetailDTOList?:IProductOrder[],
+   public isRepurchase?:boolean,
     ){
-      this.createdAt = createdAt;
-      this.createdBy = createdBy;
+      this.createAt = createAt;
+      this.createBy = createBy;
       this.customerMoney = customerMoney;
       this.eventId = eventId;
       this.lastModifiedAt = lastModifiedAt;
@@ -77,6 +80,7 @@ export class Order implements IOrder {
       this.event = event;
       this.orderDetailDTOList = orderDetailDTOList;
       this.userId = userId;
+      this.isRepurchase = isRepurchase;
     }
 }
 
@@ -138,6 +142,7 @@ export class IProductOrder    {
   public productId?:String,
   public imageUrl?:string[],
   public price?:number,
+  public pricePurchase?:number,
   public nameProduct?:string,
   public quantity?:number,
   public size?:string,
@@ -148,6 +153,7 @@ export class IProductOrder    {
     this.productId = productId;
     this.imageUrl = imageUrl;
     this.price = price;
+    this.pricePurchase = pricePurchase;
     this.nameProduct = nameProduct;
     this.quantity  = quantity;
     this.quantityBy = quantityBy;
@@ -163,6 +169,27 @@ export interface ChangeOrderStatusRequest {
 
 export interface ProductItem extends TransferItem {
   data: IProductOrder,
+}
+export interface IExchangeProduct extends IProductOrder{
+  selected?:boolean
+}
+export class ExchangeProduct implements IExchangeProduct{
+    constructor(public productOrder?:IProductOrder,
+                public quantityExchange?:number,
+                public selected?:boolean){
+                  this.selected  = selected;
+                  this.productOrder = productOrder;
+                  this.quantityExchange = quantityExchange;
+                }
+}
+export class ExchangeDetail {
+  constructor(public productId?:string,
+               public sizeId?:string,
+              public quantity?:number){
+                this.productId = productId;
+                this.quantity = quantity;
+                this.sizeId = sizeId;
+              }
 }
 
 export const DEFAULT_QUANTITY = 1;

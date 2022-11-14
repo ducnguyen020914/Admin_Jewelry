@@ -1,0 +1,130 @@
+<div class="content">
+  <mb-table-title [title]="'model.exchange.list' | translate"></mb-table-title>
+  <!-- search -->
+  <nz-table class="content mt-3">
+    <div [formGroup]="formSearchExchange">
+      <div class="row p-4">
+        <div class="col-3 mb-2">
+          <label>{{"model.exchange.keyword" | translate}}</label>
+          <input formControlName ="keyword"
+                 (keyup.enter)= "this.search()" nz-input class="form-control"
+                 placeholder="{{ 'model.exchange.searchKeyword' | translate }}">
+        </div>
+        <div class="col-3 mb-2">
+          <label>{{'model.exchange.status.root' | translate}}</label>
+          <nz-select
+            formControlName="status"
+            nzAllowClear
+            appRemoveOptionTitle
+            nzPlaceHolder="{{ 'model.exchange.selectStatus' | translate }}"
+          >
+            <nz-option
+              *ngFor="let service of EXCHANGE_STATUS"
+              [nzLabel]="service.label | translate"
+              [nzValue]="service.value"
+              [nzCustomContent]="true"
+            >
+              <div
+                container="body"
+                [animation]="false"
+                [openDelay]="100"
+                [closeDelay]="0"
+                [ngbTooltip]="service?.label! | translate"
+              >
+                {{ service?.label! | translate }}
+              </div>
+            </nz-option>
+          </nz-select>
+        </div>
+        <div class="col-6 mb-2">
+          <label>{{'model.exchange.created.root' | translate}}</label>
+          <app-date-range-picker [fromDate]="this.formSearchExchange?.get('startDate')?.value"
+                                 [toDate]="this.formSearchExchange?.get('endDate')?.value" (rangeDateChange)="onChangeCreateDate($event)">
+          </app-date-range-picker>
+        </div>
+      </div>
+    </div>
+    <div class="row pb-3 text-center">
+      <div class="col-12">
+        <button class="me-3" nz-button nzType="default" (click)="resetSearch()">
+          {{ "action.reset" | translate }}
+        </button>
+        <button nz-button nzType="primary" (click)="search()">
+          {{ "common.search" | translate }}
+        </button>
+      </div>
+    </div>
+  </nz-table>
+  <!-- end-search -->
+  <!-- Create exchange-->
+  <div class="col-12 text-end mt-3">
+    <mb-button nz-button nz-dropdown [icon]="'plus'" [text]="'action.create'" (click)="create()"></mb-button>
+  </div>
+
+  <div class="row mt-3">
+    <div class="col-12">
+      <nz-table
+        #table
+        [nzData]="exchanges"
+        [nzNoResult]="noDataResult"
+        [nzTableLayout]="'auto'"
+        (nzQueryParams)="onQueryParamsChange($event)"
+      >
+        <thead>
+        <tr>
+          <th nzAlign="center">{{ "common.index" | translate }}</th>
+          <th nzAlign="center"
+          >{{ "model.order.code" | translate }}</th>
+          <th nzAlign="center" nzColumnKey="createBy" [nzSortFn]="true"
+          >{{ "model.order.orderer" | translate }}</th>
+          <th nzAlign="left" nzColumnKey="createBy" [nzSortFn]="true">
+            {{ "model.exchange.staff" | translate }}
+          </th>
+          <th nzAlign="center" nzColumnKey="createAt" [nzSortFn]="true">
+            {{ "model.exchange.createAt" | translate }}
+          </th>
+       
+        <th nzAlign="center" nzColumnKey="reason" [nzSortFn]="true">
+          {{ "model.exchange.reason" | translate }}
+        </th>
+          <th nzAlign="center"  nzColumnKey="status" [nzSortFn]="true">
+            {{ "model.exchange.status.root" | translate }}
+          </th>
+          <th nzAlign="center" >
+            {{ "action.msg" | translate }}
+          </th>
+
+        </tr>
+        </thead>
+        <tbody>
+        <ng-container *ngFor="let item of exchanges; let i = index">
+          <tr>
+            <td nzAlign="center">{{ getIndex(i) }}</td>
+            <td nzAlign="center">{{ item.orderDTO.orderCode }}</td>
+            <td nzAlign="center">{{ item.orderDTO.createBy }}</td>
+            <td nzAlign="center">{{ item.createBy }}</td>
+            <td nzAlign="center">{{ item.createAt | date:'dd/MM/yyyy' }}</td>
+            <td nzAlign="center">{{ item.reason }}</td>
+            <td nzAlign="center"> <mb-badge [color]="getColor(item?.status)" [text]="getStatus(item?.status)"></mb-badge> </td>
+            <td nzAlign="center">
+              <mb-button-action [action]="'view'" className="first" nzTooltipTitle="{{'action.view' | translate}}"
+                                nzTooltipPlacement="top" (click)="detail(item.id)">
+              </mb-button-action>
+            </td>
+          </tr>
+        </ng-container>
+        </tbody>
+      </nz-table>
+     <mb-pagination
+       [pageIndex]="exchangeSearchRequest.pageIndex"
+       [pageSize]="exchangeSearchRequest.pageSize"
+       [total]="total"
+       (onChange)="onQuerySearch($event)"
+     >
+     </mb-pagination>
+    </div>
+  </div>
+</div>
+<ng-template #noDataResult>
+  <mb-no-data></mb-no-data>
+</ng-template>

@@ -15,19 +15,23 @@ import { paymentMethod, ORDER_STATUS } from '../../../../shared/constants/order.
 import { LENGTH_VALIDATOR } from '../../../../shared/constants/validators.constant';
 import { IEvent } from '../../../../shared/models/event.model';
 import CommonUtil from '../../../../shared/utils/common-utils';
+import { ExchangeProduct, ExchangeDetail } from '../../../../shared/models/order.model';
+import { ExchangeEnum } from '../../../../shared/models/exchange.model';
+import { ExchangeService } from '../../../../shared/services/order/exchange.service';
 import {
   Order,
   OrderType,
   StatusEnum,
   IProductOrder,
 } from '../../../../shared/models/order.model';
-
 @Component({
-  selector: 'app-detail-update-order',
-  templateUrl: './detail-update-order.component.html',
-  styleUrls: ['./detail-update-order.component.css'],
+  selector: 'app-repurchase-create-before',
+  templateUrl: './repurchase-create-before.component.html',
+  styleUrls: ['./repurchase-create-before.component.css']
 })
-export class DetailUpdateOrderComponent implements OnInit {
+export class RepurchaseCreateBeforeComponent implements OnInit {
+
+
   @Input() action = '';
   id = '';
   ROUTER_ACTIONS = ROUTER_ACTIONS;
@@ -45,6 +49,9 @@ export class DetailUpdateOrderComponent implements OnInit {
   selectedProducts: IProductOrder[] = [];
   extraTemplate: any;
   thanhtien = 0;
+  productExchange : ExchangeProduct[] = [];
+  note = '';
+  reason = '';
   constructor(
     private fb: FormBuilder,
     private translateService: TranslateService,
@@ -56,7 +63,8 @@ export class DetailUpdateOrderComponent implements OnInit {
     private eventService: EventService,
     private orderService: OrderService,
     private modalService: NzModalService,
-    private localStorage: LocalStorageService
+    private localStorage: LocalStorageService,
+    private exchangeService:ExchangeService
   ) {
     this.route.paramMap.subscribe((res) => {
       this.id = res.get('id') || '';
@@ -71,16 +79,28 @@ export class DetailUpdateOrderComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log(this.action);
-    
     this.loadOrder();
+
+  }
+  getPayMethod(): string{
+    let payment = '';
+    this.PAYMENT_METHOD.filter((pay) => pay.value = this.order.paymentMethod +'').forEach((pay) => {
+      payment = this.translateService.instant(pay.label);
+    })
+    return payment;
+  }
+  getEvent(): string{
+    let event = '';
+    this.events.filter((e) => e.eventId === this.order.eventId).forEach((e) => event = e.name + ' - Giảm ' + e.discount +'%' )
+    return event;
   }
   loadOrder() {
     this.orderService.findOne(this.id).subscribe((res: any) => {
       this.order = res.body?.data;
       this.selectedProducts = this.order.orderDetailDTOList as IProductOrder[];
-      console.log('Order', this.order);
-      console.log('Selected', this.selectedProducts);
+      this.productExchange = this.selectedProducts.map((product) => new ExchangeProduct(product,1,false));
+     console.log(this.order);
+     
       this.form.get('userId')?.setValue(this.order.userId);
       this.form.get('paymentMethod')?.setValue(this.order.paymentMethod);
       this.form.get('eventId')?.setValue(this.order.eventId);
@@ -90,9 +110,8 @@ export class DetailUpdateOrderComponent implements OnInit {
       this.form.get('purchaseType')?.setValue(this.order.purchaseType);
       this.form.get('transportFee')?.setValue(this.order.transportFee);
       this.thanhtien = this.order.total ? this.order.total : 0;
-      this.getStatus(this.form.get('status')?.value);
       this.getTotal(this.form.get('eventId')?.value);
-      
+      this.users.filter((u) => u.userId === this.order.userId).forEach((user) => this.currentUser = user)
     });
   }
   private initForm() {
@@ -113,12 +132,12 @@ export class DetailUpdateOrderComponent implements OnInit {
     // this.form.get('date')?.setValue(new Date());
     this.form.get('total')?.setValue(0);
   }
-  getStatus(status:StatusEnum){
-  if(status === StatusEnum.DANG_GIAO){
-    this.ORDER_STATUS = this.ORDER_STATUS.filter((item,index) => item.value !== StatusEnum.CHO_XAC_NHAN && item.value !== StatusEnum.XAC_NHAN);
-  }else if(status  === StatusEnum.XAC_NHAN){
-    this.ORDER_STATUS = this.ORDER_STATUS.filter((item,index) => item.value !== StatusEnum.CHO_XAC_NHAN);
-  }
+  getStatus():string{
+    let status = '';
+    this.ORDER_STATUS.filter((stas) => stas.value === this.order.status).forEach((item) => {
+      status = this.translateService.instant(item.label);
+    })
+    return status;
   }
   private loadCustomer() {
     this.userService.findCustomer().subscribe((res: any) => {
@@ -129,13 +148,6 @@ export class DetailUpdateOrderComponent implements OnInit {
     this.eventService.getAll().subscribe((res: any) => {
       this.events = res.body?.data;
     });
-  }
-  showCustomer() {
-    this.users
-      .filter((data: IUser) => data.userId === this.form.get('userId')?.value)
-      .forEach((data) => {
-        this.currentUser = data;
-      });
   }
   getTotal(eventId: any) {
     const selectEvent = this.events.filter(
@@ -152,29 +164,60 @@ export class DetailUpdateOrderComponent implements OnInit {
   onCancel(){
     this.router.navigate([
       ROUTER_UTILS.order.root,
-      ROUTER_UTILS.order.orderList
+      ROUTER_UTILS.order.exchange
     ])
   }
   onSubmit(){
-    const createForm = CommonUtil.modalConfirm(
-      this.translateService,
-      'model.order.updateOrderTitle',
-      'model.order.updateOrderContent'
-    );
-
-    const modal: NzModalRef = this.modalService.create(createForm);
-    modal.afterClose.subscribe((result: { success: boolean; data: any }) => {
-      if (result?.success) {
-        const order = {
-          status:this.form.value.status
-        }   
-        console.log(this.id);
+   const products =  this.productExchange.filter((item) => item.selected).map((item) => item.productOrder?.id);
+   
+  if(products.length === 0){
+    this.toast.error("Không có sản phẩm nào được chọn");
+    return;
+  }
+  let check = false;
+  this.productExchange.filter((item) => item.selected).forEach((item) => {
+    if(!item.quantityExchange){
+      this.toast.error(`Sản phẩm ${item.productOrder?.nameProduct} chưa nhập số lượng đổi`);
+      check = true;
+      return;
+    }
+  })
+  if(check){
+    return;
+  }
+  if(this.reason === null || this.reason.trim() === ''){
+    this.toast.error("Hãy nhập lý do đổi hàng");
+    return;
+  }
+ 
+   const exchanges: {                                                                                        
+      orderId?: string ;
+      products:ExchangeDetail[]; 
+      status: ExchangeEnum; reason: string;
+      note: string; } = {
+      orderId: this.order.id,
+      products:  this.productExchange.filter((item) => item.selected).map((item) => new ExchangeDetail(item.productOrder?.productId+'',item.productOrder?.sizeId,item.quantityExchange)),
+      status: ExchangeEnum.THANH_CONG,
+      reason: this.reason,
+      note: this.note
+      };
+      const createForm = CommonUtil.modalConfirm(
+        this.translateService,
+        'model.exchange.updateExchangeTitle',
+        'model.exchange.updateExchangeContent'
+      );
+      const modal: NzModalRef = this.modalService.create(createForm);
+      modal.afterClose.subscribe((result: { success: boolean; data: any }) => {
+        if (result?.success) {
+          const order = {
+            status:this.form.value.status
+          }   
+            this.exchangeService.createExchange(exchanges).subscribe((item) => {
+              this.onCancel();
+           })
+         }});    
+  
         
-        this.orderService.updateOrder(this.id+'',order).subscribe((res) => {
-          this.toast.success(`Cập nhật hóa đơn mã  thành công`);
-           this.onCancel()
-        });
-      }
-    });
-  };
+  }
+
 }

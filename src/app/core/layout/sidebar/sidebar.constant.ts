@@ -20,8 +20,13 @@ export const SidebarConstant = [
         root: true,
       },
       {
-        path: `${ROUTER_UTILS.order.root}/${ROUTER_UTILS.order.refun}`,
-        title: 'sidebar.refun',
+        path: `${ROUTER_UTILS.order.root}/${ROUTER_UTILS.order.exchange}`,
+        title: 'sidebar.exchange',
+        root: true,
+      },
+      {
+        path: `${ROUTER_UTILS.order.root}/${ROUTER_UTILS.order.repurchase}`,
+        title: 'sidebar.purchase',
         root: true,
       }
     ]
@@ -56,7 +61,7 @@ export const SidebarConstant = [
         title: 'sidebar.vendor',
         root: true,
       }
-      
+
     ]
   },
   {

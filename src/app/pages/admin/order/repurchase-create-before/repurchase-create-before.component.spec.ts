@@ -3,21 +3,21 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
 
-import { RefunComponent } from './refun.component';
+import { RepurchaseCreateBeforeComponent } from './repurchase-create-before.component';
 
-describe('RefunComponent', () => {
-  let component: RefunComponent;
-  let fixture: ComponentFixture<RefunComponent>;
+describe('RepurchaseCreateBeforeComponent', () => {
+  let component: RepurchaseCreateBeforeComponent;
+  let fixture: ComponentFixture<RepurchaseCreateBeforeComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ RefunComponent ]
+      declarations: [ RepurchaseCreateBeforeComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(RefunComponent);
+    fixture = TestBed.createComponent(RepurchaseCreateBeforeComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

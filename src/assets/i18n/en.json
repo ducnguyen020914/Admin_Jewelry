@@ -113,7 +113,8 @@
     "room":"Rooms",
     "meet":"Meets",
     "calender":"My calender",
-    "order": "Food order list",
+    "order": "Order list",
+    "exchange":"Order exchange",
     "booking": "Food order list",
     "product": "Product list",
     "menu": "Menu list",
@@ -123,7 +124,8 @@
     "category":"Category List",
     "register":"Register",
     "guest":"Guest List",
-    "manufacture":"Manufacture List"
+    "manufacture":"Manufacture List",
+    "statistical":"Statistical"
   },
   "error": {
     "msg": "Error",
@@ -597,8 +599,14 @@
       "emptyProducts": "Products list is empty"
     },
     "order": {
+      "customer":"Customer infor",
+      "staff":"Employee",
+      "date":"Date ",
       "list": "Order list",
       "code": "Order code",
+      "payMethod":"Payment Method",
+      "payment":"Payment Method",
+      "selectStatus":"Please select a status",
       "title": "Title",
       "create": "Order food",
       "createdBy":"Create by",
@@ -626,7 +634,7 @@
         "endCreatedAt": "Time created order to"
       },
       "type": {
-        "root": "Food type",
+        "root": "Purchase Type",
         "orderSet": "Order dessert",
         "orderBuffet": "Order rice"
       },

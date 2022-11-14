@@ -161,7 +161,7 @@
               placeholder="{{ 'model.order.staff' | translate }}"
             />
           </div>
-          <div class="col-4 ">
+          <div class="col-4 " *ngIf="!this.order.isRepurchase">
             <label>{{ "model.product.event" | translate }} </label>
             <nz-select
               formControlName="eventId"

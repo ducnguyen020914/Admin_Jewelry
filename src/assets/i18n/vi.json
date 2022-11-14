@@ -130,9 +130,10 @@
     "guest":"Quản lý khách hàng",
     "register":"Đăng ký khách ra vào",
     "material":"Quản lý chất liệu",
-    "refun":"Quản lý đổi trả",
+    "exchange":"Quản lý đổi hàng",
     "accessory":"Quản lý phụ kiện",
-    "statistical":"Báo cáo thống kê"
+    "statistical":"Báo cáo thống kê",
+    "purchase":"Quản lý đơn hàng mua lại"
   },
   "error": {
     "msg": "Lỗi",
@@ -151,6 +152,7 @@
   "action": {
     "msg": "Hành động",
     "save": "Lưu",
+    "updateExchange":"Cập nhật trạng thái",
     "create": "Tạo mới",
     "update": "Cập nhật",
     "delete": "Xóa",
@@ -199,6 +201,53 @@
       },
       "error": {
         "msg": "Lỗi"
+      }
+    },
+    "repurchase": {
+       "before48h": "Tạo hóa đơn mua lại trước 2 ngày",
+       "orderList":"Danh sách hóa đơn mua lại",
+       "repurchaseOrder":"Danh sách hóa đơn có thể mua lại ",
+       "create":"Tạo hóa đơn mua lại",
+       "pricePurchase":"Đơn giá mua lại",
+       "createRepurchaseTitle":"Tạo hóa đơn mua lại",
+       "createRepurchaseContent":"Bạn có muốn tạo hóa đơn mua lại này?",
+       "date":"Ngày tạo"
+    },
+    "exchange": {
+      "list": "Danh sách thu đổi",
+      "type": {
+        "root": "Kênh bán",
+        "received": "Đã nhận và nhập kho"
+      },
+      "exchangeCode": "Mã thu đổi",
+      "staff": "Người bán",
+      "productOrderExchange":"Sản phẩm trong hóa đơn đổi trả",
+      "staffUpdate": "Người đổi",
+      "custommer": "Khách hàng",
+      "createAt": "Thời gian tạo",
+      "lastModifiedAt": "Thời gian chỉnh sửa",
+      "needPay": "Cần trả khách",
+      "productOrder":"Sản phẩm trong hóa đơn",
+      "reason":"Lý do đổi hàng",
+      "updateExchangeTitle":"Tạo mới hóa đơn đổi hàng",
+      "updateExchangeContent":"Bạn có muốn tạo hóa đơn đổi trả này không ?",
+      "updateExchangeDetailTitle":"Cập nhật trạng thái hóa đơn đổi trả",
+      "updateExchangeDetailContent":"Bạn có muốn cập nhật trạng thái hóa đơn đổi trả này không ?",
+      "keyword": "Từ khoá",
+      "searchKeyword": "Theo lý do đổi hàng",
+      "user": "Khách hàng",
+      "userPlace": "Nhập tên hoặc SĐT khách hàng",
+      "created": {
+        "root": "Ngày tạo phiếu thu đổi"
+      },
+      "selectStatus": "Chọn trạng thái thu đổi",
+      "status": {
+        "exchangeRequest": "Yêu cầu thu đổi",
+        "root": "Trạng thái thu đổi",
+        "to_ship": "Đang vận chuyển về cửa hàng",
+        "requestReceived": "Đã tiếp nhận yêu cầu",
+        "refuseExchange": "Từ chối thu đổi",
+        "receivedAndImported": "Đã nhận hàng và nhập kho"
       }
     },
     "contract": {
@@ -627,8 +676,15 @@
       "deleteProductTitle": "Xóa sản phẩm",
       "deleteProductContent": "Bạn có chắc chắn xóa sản phẩm {{name}} không?"
     },
+   
     "order": {
+      "reason":"Lý do đổi hàng",
+      "selectProduct":"Chọn sản phẩm muốn đổi",
       "list": "Danh sách đơn đặt hàng",
+      "orderListExchange":"Danh sách hóa đơn",
+      "orderExchange":"Danh sách hóa đơn được thu đổi",
+      "orderExchangeDetail":"Quản lý đổi hàng",
+      "createExchange":"Hóa đơn thu đổi",
       "code": "Mã đơn đặt",
       "payment":"Hình thức thanh toán",
       "title": "Tiêu đề",
@@ -671,11 +727,13 @@
       "thanhtien":"Thành tiền",
       "address":"Địa chỉ nhận hóa đơn",
       "updateOrderTitle":"Cập nhật hóa đơn",
+      "repurchase":"Quản lý hóa đơn mua lại",
       "updateOrderContent":"Bạn có muốn cập nhật hóa đơn này không ?",
       "paymentMethod" : {
         "money":"Tiền mặt",
         "card":"Thanh toán thẻ"
       },
+      "exchange": "Quản lý đổi hàng",
       "created": {
         "root": "Thời gian tạo đơn",
         "startCreatedAt": "Thời gian tạo đơn từ",

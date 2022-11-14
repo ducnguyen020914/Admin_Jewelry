@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ROUTER_ACTIONS, ROUTER_UTILS } from '../../../../shared/utils/router.utils';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { IUser } from '../../../../shared/models/user.model';
+import { IUser, User } from '../../../../shared/models/user.model';
 import { TranslateService } from '@ngx-translate/core';
 import { ToastService } from '../../../../shared/services/helpers/toast.service';
 import { ProductService } from '../../../../shared/services/product/product.service';
@@ -11,10 +11,13 @@ import { EventService } from '../../../../shared/services/product/event.service'
 import { OrderService } from '../../../../shared/services/order/order.service';
 import { NzModalService, NzModalRef } from 'ng-zorro-antd/modal';
 import { LocalStorageService } from 'ngx-webstorage';
-import { paymentMethod, ORDER_STATUS } from '../../../../shared/constants/order.constant';
+import { paymentMethod, ORDER_STATUS, EXCHANGE_STATUS } from '../../../../shared/constants/order.constant';
 import { LENGTH_VALIDATOR } from '../../../../shared/constants/validators.constant';
 import { IEvent } from '../../../../shared/models/event.model';
 import CommonUtil from '../../../../shared/utils/common-utils';
+import { ExchangeProduct, ExchangeDetail } from '../../../../shared/models/order.model';
+import { ExchangeEnum, IExchange } from '../../../../shared/models/exchange.model';
+import { ExchangeService } from '../../../../shared/services/order/exchange.service';
 import {
   Order,
   OrderType,
@@ -23,20 +26,21 @@ import {
 } from '../../../../shared/models/order.model';
 
 @Component({
-  selector: 'app-detail-update-order',
-  templateUrl: './detail-update-order.component.html',
-  styleUrls: ['./detail-update-order.component.css'],
+  selector: 'app-exchange-order-detail',
+  templateUrl: './exchange-order-detail.component.html',
+  styleUrls: ['./exchange-order-detail.component.css']
 })
-export class DetailUpdateOrderComponent implements OnInit {
+export class ExchangeOrderDetailComponent implements OnInit {
   @Input() action = '';
   id = '';
   ROUTER_ACTIONS = ROUTER_ACTIONS;
   PAYMENT_METHOD = paymentMethod;
   ORDER_STATUS = ORDER_STATUS
-  status = StatusEnum;
+  status = ExchangeEnum;
+  EXCHANGE_STATUS = EXCHANGE_STATUS
   LENGTH_VALIDATOR = LENGTH_VALIDATOR;
   form: FormGroup = new FormGroup({});
-  order: Order = {};
+  exchange: IExchange = {};
   users: IUser[] = [];
   currentUser: IUser = {};
   events: IEvent[] = [];
@@ -45,6 +49,9 @@ export class DetailUpdateOrderComponent implements OnInit {
   selectedProducts: IProductOrder[] = [];
   extraTemplate: any;
   thanhtien = 0;
+  productExchange : ExchangeProduct[] = [];
+  note = '';
+  reason = '';
   constructor(
     private fb: FormBuilder,
     private translateService: TranslateService,
@@ -56,7 +63,8 @@ export class DetailUpdateOrderComponent implements OnInit {
     private eventService: EventService,
     private orderService: OrderService,
     private modalService: NzModalService,
-    private localStorage: LocalStorageService
+    private localStorage: LocalStorageService,
+    private exchangeService:ExchangeService
   ) {
     this.route.paramMap.subscribe((res) => {
       this.id = res.get('id') || '';
@@ -71,28 +79,43 @@ export class DetailUpdateOrderComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log(this.action);
-    
     this.loadOrder();
+
+  }
+  getPayMethod(): string{
+    let payment = '';
+    this.PAYMENT_METHOD.filter((pay) => pay.value = this.exchange.orderDTO?.paymentMethod +'').forEach((pay) => {
+      payment = this.translateService.instant(pay.label);
+    })
+    return payment;
+  }
+  getEvent(): string{
+    let event = '';
+    this.events.filter((e) => e.eventId === this.exchange.orderDTO?.eventId).forEach((e) => event = e.name + ' - Giảm ' + e.discount +'%' )
+    return event;
   }
   loadOrder() {
-    this.orderService.findOne(this.id).subscribe((res: any) => {
-      this.order = res.body?.data;
-      this.selectedProducts = this.order.orderDetailDTOList as IProductOrder[];
-      console.log('Order', this.order);
-      console.log('Selected', this.selectedProducts);
-      this.form.get('userId')?.setValue(this.order.userId);
-      this.form.get('paymentMethod')?.setValue(this.order.paymentMethod);
-      this.form.get('eventId')?.setValue(this.order.eventId);
-      this.form.get('address')?.setValue(this.order.address);
-      this.form.get('status')?.setValue(this.order.status);
-      this.form.get('createdAt')?.setValue(this.order.createAt);
-      this.form.get('purchaseType')?.setValue(this.order.purchaseType);
-      this.form.get('transportFee')?.setValue(this.order.transportFee);
-      this.thanhtien = this.order.total ? this.order.total : 0;
-      this.getStatus(this.form.get('status')?.value);
+    this.exchangeService.findOne(this.id).subscribe((res: any) => {     
+      this.exchange = res.body?.data;
+      this.currentUser = this.exchange.orderDTO?.user as User;
+      this.selectedProducts = this.exchange.productOrderDtoList as IProductOrder[];
+     console.log(this.exchange.productOrderDtoList);
+     
+      this.productExchange = this.selectedProducts.map((product) => new ExchangeProduct(product,1,false));
+      this.form.get('userId')?.setValue(this.exchange.orderDTO?.userId);
+      this.form.get('paymentMethod')?.setValue(this.exchange.orderDTO?.paymentMethod);
+      this.form.get('eventId')?.setValue(this.exchange.orderDTO?.eventId);
+      this.form.get('address')?.setValue(this.exchange.orderDTO?.address);
+      this.form.get('status')?.setValue(this.exchange.status);
+      this.form.get('createdAt')?.setValue(this.exchange.orderDTO?.createAt);
+      this.form.get('purchaseType')?.setValue(this.exchange.orderDTO?.purchaseType);
+      this.form.get('transportFee')?.setValue(this.exchange.orderDTO?.transportFee);
+      this.thanhtien = this.exchange.orderDTO?.total ? this.exchange.orderDTO?.total : 0;
       this.getTotal(this.form.get('eventId')?.value);
-      
+      this.users.filter((u) => u.userId === this.exchange.orderDTO?.userId).forEach((user) => this.currentUser = user)
+      if(this.exchange.status  === ExchangeEnum.XAC_NHAN){
+        this.EXCHANGE_STATUS = this.EXCHANGE_STATUS.filter((item,index) => item.value !== ExchangeEnum.CHO_XAC_NHAN);
+      }
     });
   }
   private initForm() {
@@ -113,12 +136,12 @@ export class DetailUpdateOrderComponent implements OnInit {
     // this.form.get('date')?.setValue(new Date());
     this.form.get('total')?.setValue(0);
   }
-  getStatus(status:StatusEnum){
-  if(status === StatusEnum.DANG_GIAO){
-    this.ORDER_STATUS = this.ORDER_STATUS.filter((item,index) => item.value !== StatusEnum.CHO_XAC_NHAN && item.value !== StatusEnum.XAC_NHAN);
-  }else if(status  === StatusEnum.XAC_NHAN){
-    this.ORDER_STATUS = this.ORDER_STATUS.filter((item,index) => item.value !== StatusEnum.CHO_XAC_NHAN);
-  }
+  getStatus():string{
+    let status = '';
+    this.EXCHANGE_STATUS.filter((stas) => stas.value === this.exchange.status).forEach((item) => {
+      status = this.translateService.instant(item.label);
+    })
+    return status;
   }
   private loadCustomer() {
     this.userService.findCustomer().subscribe((res: any) => {
@@ -129,13 +152,6 @@ export class DetailUpdateOrderComponent implements OnInit {
     this.eventService.getAll().subscribe((res: any) => {
       this.events = res.body?.data;
     });
-  }
-  showCustomer() {
-    this.users
-      .filter((data: IUser) => data.userId === this.form.get('userId')?.value)
-      .forEach((data) => {
-        this.currentUser = data;
-      });
   }
   getTotal(eventId: any) {
     const selectEvent = this.events.filter(
@@ -152,29 +168,27 @@ export class DetailUpdateOrderComponent implements OnInit {
   onCancel(){
     this.router.navigate([
       ROUTER_UTILS.order.root,
-      ROUTER_UTILS.order.orderList
+      ROUTER_UTILS.order.exchange
     ])
   }
   onSubmit(){
-    const createForm = CommonUtil.modalConfirm(
-      this.translateService,
-      'model.order.updateOrderTitle',
-      'model.order.updateOrderContent'
-    );
-
-    const modal: NzModalRef = this.modalService.create(createForm);
-    modal.afterClose.subscribe((result: { success: boolean; data: any }) => {
-      if (result?.success) {
-        const order = {
-          status:this.form.value.status
-        }   
-        console.log(this.id);
+     const createForm = CommonUtil.modalConfirm(
+    this.translateService,
+    'model.exchange.updateExchangeDetailTitle',
+    'model.exchange.updateExchangeDetailContent'
+  );
+  const modal: NzModalRef = this.modalService.create(createForm);
+  modal.afterClose.subscribe((result: { success: boolean; data: any }) => {
+    if (result?.success) {
+      const exchange = {
+        status:this.form.value.status
+      }   
+        this.exchangeService.updateExchange(this.id,exchange).subscribe((item) => {
+          this.toast.success(`Cập nhật hóa đơn đổi trả thành công`);
+          this.onCancel();
+       })
+     }});    
         
-        this.orderService.updateOrder(this.id+'',order).subscribe((res) => {
-          this.toast.success(`Cập nhật hóa đơn mã  thành công`);
-           this.onCancel()
-        });
-      }
-    });
-  };
+  }
+
 }

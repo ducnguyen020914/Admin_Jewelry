@@ -89,10 +89,18 @@ export const ROUTER_UTILS = {
   order: {
     root: 'order',
     orderList: 'list',
+    orderListExchange: 'list/exchange',
+    repurchaseOrder: 'list/repurchase',
+    repurchase:'repurchase',
+    orderExchange: ':id/exchange',
+    repurchaseExchange: ':id/repurchaseCreate',
+    orderExchangeDetail:":id/exchange-detail",
     orderUpdate: ':id/update',
     orderDetail: ':id/detail',
     orderCreate: 'create',
-    refun:"refun"
+    exchange:"exchange",
+    repurchaseCreate:'repurchase/create'
+    
   },
   user:{
     root:"user",

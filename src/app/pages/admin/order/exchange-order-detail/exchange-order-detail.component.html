@@ -1,0 +1,216 @@
+<div class="row">
+  <div class="col-8 title">
+    <mb-table-title
+      [showBack]="true"
+      title="{{ 'model.order.createExchange' }}"
+    >
+    </mb-table-title>
+  </div>
+</div>
+<div class="row mt-3">
+  <div class="col-12">
+    <form [formGroup]="form">
+      <section class="content mt-3">
+        <div class="row">
+          <div class="col-7 mb-2">
+            <label
+              >{{ "model.order.customer" | translate }}:
+              <strong>{{ this.currentUser.fullName }}</strong>
+            </label>
+          </div>
+        </div>
+        <div class="row mt-2" *ngIf="this.form.value.userId">
+          <div class="col-4 mb-2">
+            <label
+              >{{ "model.user.fullName" | translate }}:
+              <strong> {{ this.currentUser.fullName }}</strong>
+            </label>
+          </div>
+          <div class="col-4 mb-2">
+            <label
+              >{{ "model.user.phoneNumber" | translate }}:
+              <strong>{{ this.currentUser.phoneNumber }}</strong>
+            </label>
+          </div>
+          <div class="col-4 mb-2">
+            <label
+              >{{ "model.user.email" | translate }}:
+              <strong>{{ this.currentUser.email }}</strong>
+            </label>
+          </div>
+        </div>
+        <div class="row mt-2">
+          <div class="col-4 mb-2">
+            <label
+              >{{ "model.order.payMethod" | translate }}:
+              <strong>{{ this.getPayMethod() }}</strong>
+            </label>
+          </div>
+          <div class="col-4 mb-2">
+            <label
+              >{{ "model.order.date" | translate }}:
+              <strong>{{
+                this.exchange.orderDTO?.createAt | date: "dd/MM/yyyy"
+              }}</strong></label
+            >
+          </div>
+          <div class="col-4 mb-3">
+            <label
+              >{{ "model.order.staff" | translate }}:
+              <strong>{{ this.exchange.orderDTO?.createBy }}</strong></label
+            >
+          </div>
+          <div class="col-4 mt-2">
+            <label
+              >{{ "model.product.event" | translate }}:
+              <strong>{{ getEvent() }}</strong>
+            </label>
+          </div>
+          <div class="col-4 mt-2">
+            <label 
+              >{{ "model.order.address" | translate }}:
+              <strong>{{ this.exchange.orderDTO?.address }}</strong>
+            </label>
+          </div>
+          <div class="col-4">
+            <div class="row">
+              <label class="{{(this.exchange.status === status.THANH_CONG || this.exchange.status === status.HUY ) ? 'col-12 mt-2': 'col-4 mt-2'}}"
+                >{{ "model.order.status.root" | translate }}:
+                <strong
+                  *ngIf="
+                    this.exchange.status === status.THANH_CONG || this.exchange.status === status.HUY
+                  "
+                  >{{ getStatus() }}</strong
+                >
+              </label>
+              <DIV class="col-8"   *ngIf="
+              this.exchange.status !== status.THANH_CONG && this.exchange.status !== status.HUY
+            ">
+              <nz-select
+            
+                formControlName="status"
+                [nzPlaceHolder]="'model.order.status.root' | translate"
+              >
+                <ng-container *ngFor="let item of EXCHANGE_STATUS">
+                  <nz-option
+                    [nzValue]="item.value"
+                    [nzLabel]="item.label | translate"
+                  ></nz-option>
+                </ng-container>
+              </nz-select>
+            </DIV>
+            </div>
+          </div>
+        </div>
+      </section>
+    </form>
+  </div>
+  <section class="content">
+    <div class="row">
+      <div class="col-9">
+        <div class="example-input">
+          <label for="">{{
+            "model.exchange.productOrderExchange" | translate
+          }}</label>
+          <nz-table
+            #table
+            [nzData]="selectedProducts"
+            [nzNoResult]="selectedProducts"
+            [nzScroll]="{ y: '440px' }"
+          >
+            <thead>
+              <tr>
+                <th nzAlign="center">{{ "common.index" | translate }}</th>
+                <th nzAlign="center">
+                  {{ "model.product.image" | translate }}
+                </th>
+                <th nzAlign="center">{{ "model.product.name" | translate }}</th>
+                <th nzAlign="center">
+                  {{ "model.product.sizeId" | translate }}
+                </th>
+                <th nzAlign="center">
+                  {{ "model.product.price" | translate }}
+                </th>
+                <th nzAlign="center">
+                  {{ "model.order.quantityBy" | translate }}
+                </th>
+                <th nzAlign="center">
+                  {{ "model.order.thanhtien" | translate }}
+                </th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <tr *ngFor="let product of this.selectedProducts; let i = index">
+                <td nzAlign="center">{{ i + 1 }}</td>
+                <td nzAlign="center">
+                  <img
+                    nz-image
+                    height="70px"
+                    width="90px"
+                    id="productDetailLink"
+                    (click)="showProductDetail(product)"
+                    [nzSrc]="getImage(product.imageUrl[0])"
+                    style="border: 2px; border-radius: 5px"
+                  />
+                </td>
+                <td nzAlign="center">{{ product.nameProduct }}</td>
+                <td nzAlign="center">
+                  <nz-tag nzColor="default">{{ product.size }}</nz-tag>
+                </td>
+                <td nzAlign="center">{{ product.price | vnd }}</td>
+                <td nzAlign="center">
+                  <nz-input-number
+                    *ngIf="product.selected"
+                    nzBorderless
+                    [(ngModel)]="product.quantityExchange"
+                    [nzMin]="1"
+                    [nzMax]="product.quantity"
+                    [nzStep]="1"
+                    style="width: 40px"
+                  ></nz-input-number>
+                  <span *ngIf="product.selected">/</span>{{ product.quantity }}
+                </td>
+                <td nzAlign="center">
+                  {{ product.price * product.quantity | vnd }}
+                </td>
+              </tr>
+            </tbody>
+          </nz-table>
+        </div>
+      </div>
+      <div class="col-3 mt-2">
+        <label for=""
+          >{{ "model.order.reason" | translate }}
+          <span class="text-danger">*</span></label
+        >
+        <br />
+        <strong>{{ this.exchange.reason }}</strong>
+        <br />
+        <label for="" class="mt-4">{{ "model.order.note" | translate }} </label>
+        <br />
+        <strong>{{ this.exchange.note }}</strong>
+      </div>
+    </div>
+  </section>
+  <section class="content">
+    <div class="row">
+      <div class="col-12 text-center">
+        <button nz-button nzType="default" (click)="onCancel()">
+          {{
+           
+            (this.exchange.status !== status.THANH_CONG && this.exchange.status !== status.HUY )
+           ? "Hủy" : "action.back"
+              | translate
+          }}
+        </button>
+        <button  *ngIf="
+        (this.exchange.status !== status.THANH_CONG && this.exchange.status !== status.HUY )
+      "
+          (click)="onSubmit()" class="ms-3" nz-button nzType="primary">
+          {{ "action.updateExchange" | translate }}
+        </button>
+      </div>
+    </div>
+  </section>
+</div>

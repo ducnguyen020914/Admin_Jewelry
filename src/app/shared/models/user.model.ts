@@ -3,13 +3,8 @@ import {Role} from './role.model';
 import {UserPrimary} from './user-primary.model';
 
 export interface IUser {
-<<<<<<< HEAD
   userId?: string;
   username?: string;
-=======
-  id?: string;
-  userName?: string;
->>>>>>> d0cca55d90010d46fdb05a3d7ee6a5865f629878
   fullName?: string;
   password?: string;
   email?: string;

@@ -13,6 +13,14 @@ import {NzTransferModule} from "ng-zorro-antd/transfer";
 import { NzTagModule } from 'ng-zorro-antd/tag';
 import { NzAutocompleteModule } from 'ng-zorro-antd/auto-complete';
 import { DetailUpdateOrderComponent } from './detail-update-order/detail-update-order.component';
+import { ExchangeListComponent } from './exchange-list/exchange-list.component';
+import { OrderListExchangeComponent } from './order-list-exchange/order-list-exchange.component';
+import { ExchangeOrderComponent } from './exchange-order/exchange-order.component';
+import { RepurchaseListComponent } from './repurchase-list/repurchase-list.component';
+import { ExchangeOrderDetailComponent } from './exchange-order-detail/exchange-order-detail.component';
+import { RepurchaseCreateComponent } from './repurchase-create/repurchase-create.component';
+import { RepurchaseOrderComponent } from './repurchase-order/repurchase-order.component';
+import { RepurchaseCreateBeforeComponent } from './repurchase-create-before/repurchase-create-before.component';
 
 
 @NgModule({
@@ -31,7 +39,15 @@ import { DetailUpdateOrderComponent } from './detail-update-order/detail-update-
     OrderComponent,
     OrderListComponent,
     UpdateOrderComponent,
-    DetailUpdateOrderComponent
+    DetailUpdateOrderComponent,
+    ExchangeListComponent,
+    OrderListExchangeComponent,
+    ExchangeOrderComponent,
+    RepurchaseListComponent,
+    ExchangeOrderDetailComponent,
+    RepurchaseCreateComponent,
+    RepurchaseOrderComponent,
+    RepurchaseCreateBeforeComponent
   ],
   providers: [
     ToastService,
