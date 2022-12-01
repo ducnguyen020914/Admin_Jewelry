@@ -96,7 +96,7 @@ export class UserComponent implements OnInit {
 
   search(): void {
     this.userRequest.keyword = this.form.get('keyword')?.value;
-    this.userRequest.roleIds = this.form.get('role')?.value;
+    this.userRequest.role = this.form.get('role')?.value;
     this.userRequest.status = this.form.get('status')?.value;
     this.pageIndex = PAGINATION.PAGE_DEFAULT;
     this.loadData(this.pageIndex, this.pageSize);
@@ -185,43 +185,25 @@ export class UserComponent implements OnInit {
     this.router.navigate([`setting/user/${user.userId}/update`], dataObject);
   }
 
-  lock(user: IUser): void {
-    this.isVisible = true;
-    this.user = user;
-    if (user.status === STATUS_ACTIVE) {
-      this.groupLockPopup = {
-        title: 'model.user.lock',
-        content: 'model.user.inActiveUserContent',
-        okText: 'action.lock',
-      };
-    } else {
-      this.groupLockPopup = {
-        title: 'model.user.unlock',
-        content: 'model.user.activeUserContent',
-        okText: 'action.unlock',
-      };
-    }
-  }
+  // lock(user: IUser): void {
+  //   this.isVisible = true;
+  //   this.user = user;
+  //   if (user.status === STATUS_ACTIVE) {
+  //     this.groupLockPopup = {
+  //       title: 'model.user.lock',
+  //       content: 'model.user.inActiveUserContent',
+  //       okText: 'action.lock',
+  //     };
+  //   } else {
+  //     this.groupLockPopup = {
+  //       title: 'model.user.unlock',
+  //       content: 'model.user.activeUserContent',
+  //       okText: 'action.unlock',
+  //     };
+  //   }
+  // }
 
-  onLockAndUnLock(result: { success: boolean }): void {
-    if (result && result?.success) {
-      if (this.user.status === STATUS_ACTIVE) {
-        this.userService.inactive(this.user.userId).subscribe((res: any) => {
-          this.toast.success('model.user.success.inactive');
-          this.loadData(this.pageIndex, this.pageSize);
-          this.isVisible = false;
-        });
-      } else {
-        this.userService.active(this.user.userId).subscribe((res: any) => {
-          this.toast.success('model.user.success.active');
-          this.loadData(this.pageIndex, this.pageSize);
-          this.isVisible = false;
-        });
-      }
-    } else {
-      this.isVisible = false;
-    }
-  }
+
 
   format(value: any, type: string): any {
     if (value && type === 'status') {

@@ -1,6 +1,6 @@
 <div class="content">
   <mb-table-title [title]="'model.user.list'"></mb-table-title>
-  <!-- filter element -->
+  <!-- filter element
   <nz-table class="content mt-3">
     <div [formGroup]="form" class="filter-element">
       <div class="row p-4">
@@ -127,7 +127,7 @@
                       ? 'badge-info'
                       : 'badge-secondary'
                   "
-                [text]="format(item.status, 'status')"
+                [text]="item.status"
               >
               </mb-badge>
             </td>
@@ -204,10 +204,9 @@
   [okText]="groupLockPopup.okText"
   [btnCentered]="true"
   [isVisible]="isVisible"
-  (emitter)="onLockAndUnLock($event)"
 >
 </mb-modal>
 
 <ng-template #noDataResult>
   <mb-no-data></mb-no-data>
-</ng-template>
+</ng-template> -->

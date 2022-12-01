@@ -57,7 +57,7 @@ export class CustomerUpdateComponent implements OnInit {
     this.initForm();
   }
   initForm(): void {
-    if (this.customer.id) {
+    if (this.customer.userId) {
       this.isUpdate = true;
     } else {
       this.isUpdate = false;
@@ -68,7 +68,7 @@ export class CustomerUpdateComponent implements OnInit {
         ? this.initalState
         : this.customer;
     this.form = this.fb.group({
-      name: [
+      fullName: [
         dataObject.fullName,
         [
           Validators.required,
@@ -91,9 +91,9 @@ export class CustomerUpdateComponent implements OnInit {
           Validators.pattern(VALIDATORS.EMAIL),
         ],
       ],
-      dayOfBirth: [
+      birthday: [
         // this.action === this.ROUTER_ACTIONS.update ? new Date(this.customer.dayOfBirth as Date) : '',
-        dataObject.dayOfBirth,
+        dataObject.birthday,
         [Validators.maxLength(LENGTH_VALIDATOR.BIRTH_MAX_LENGTH.MAX)],
       ],
       gender: [
@@ -104,6 +104,12 @@ export class CustomerUpdateComponent implements OnInit {
         dataObject.address,
         [
           Validators.maxLength(LENGTH_VALIDATOR.ADDRESS_MAX_LENGTH.MAX),
+          Validators.required,
+        ],
+      ],
+      cccd: [
+        dataObject.cccd,
+        [
           Validators.required,
         ],
       ],
@@ -127,7 +133,7 @@ export class CustomerUpdateComponent implements OnInit {
           avatarFileId: file.id,
         };
         if (this.form.get('dayOfBirth')?.value) {
-          customer.dayOfBirth = moment(customer.dayOfBirth).format('yyyy-MM-DD');
+          customer.birthday = moment(customer.birthday).format('yyyy-MM-DD');
         }
         if (this.action === this.ROUTER_ACTIONS.update) {
           this.update(customer);
@@ -138,7 +144,7 @@ export class CustomerUpdateComponent implements OnInit {
     } else {
       const customer: Customer = {
         ...this.form.value,
-        avatarFileId: this.customer.avatarFileId,
+        avatarFileId: this.customer.imageUrl,
       };
       if (this.action === this.ROUTER_ACTIONS.update) {
         this.update(customer);
@@ -158,7 +164,7 @@ export class CustomerUpdateComponent implements OnInit {
 
   private update(customer: ICustomer): void {
     this.customerService
-      .update(customer, this.customer.id || '')
+      .update(customer, this.customer.userId || '')
       .subscribe((res: any) => {
         this.toast.success('model.customer.success.update');
         this.closeModal(res.body.data);
@@ -196,7 +202,7 @@ export class CustomerUpdateComponent implements OnInit {
     if (files) {
       this.file = files[0];
       this.getBase64(files[0]).then((data) => {
-        this.customer.avatarFileId = data as string;
+      //  this.customer.avatarFileId = data as string;
         // this.imageUrl = data;
       });
     }

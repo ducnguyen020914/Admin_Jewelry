@@ -36,6 +36,8 @@ export class RepurchaseService extends AbstractService {
     params?: any,
     loading = true,
   ): Observable<EntityResponseType<IOrder>>{
+    console.log(params);
+    
     return super.post<IOrder>(`${this.resourceUrl}`,params);
   }
   updateOrder(

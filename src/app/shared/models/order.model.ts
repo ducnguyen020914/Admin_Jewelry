@@ -148,7 +148,8 @@ export class IProductOrder    {
   public size?:string,
   public sizeId?:string,
   public quantityBy?:number,
-  public total?:number ){
+  public total?:number,
+  public salary?:number ){
     this.id = id;
     this.productId = productId;
     this.imageUrl = imageUrl;
@@ -159,7 +160,8 @@ export class IProductOrder    {
     this.quantityBy = quantityBy;
     this.size = size;
     this.sizeId  = sizeId,
-    this.total = total
+    this.total = total,
+    this.salary = salary;
   }
   
 }

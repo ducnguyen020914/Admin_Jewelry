@@ -231,16 +231,18 @@
             </td>
 
             <td nzAlign="center">
-              {{item.status}}
-              <!-- <mb-badge
+              <mb-badge
                 [color]="
-                  item.status === productActive
+                  item.status === 'ACTIVE'
                     ? 'badge-info'
                     : 'badge-secondary'
                 "
-                [text]="getText(item.status)"
+                [text]="item.status === 'ACTIVE'
+                ? 'Hoạt động'
+                : 'Không hoạt động'
+            "
               >
-              </mb-badge> -->
+              </mb-badge>
             </td>
 
             <!--          <td nzAlign="center">{{ pipeType(item.type) | translate }}</td>-->

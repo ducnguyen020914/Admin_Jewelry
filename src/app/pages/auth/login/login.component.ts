@@ -33,7 +33,7 @@ export class LoginComponent implements OnInit {
     private router: Router,
     private eventManagerService: EventManagerService
   ) {
-    this.isTokenUnexpired();
+    // this.isTokenUnexpired();
   }
 
   ngOnInit(): void {

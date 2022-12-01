@@ -25,7 +25,6 @@ import {
   ROUTER_ACTIONS,
   ROUTER_UTILS,
 } from '../../../../shared/utils/router.utils';
-import { List } from 'echarts';
 import { ProductStatus } from '../../../../shared/models/productReal.model';
 import { PRODUCT_GENDER } from '../../../../shared/constants/product.constant copy';
 import { VendorService } from '../../../../shared/services/product/vendorservice';

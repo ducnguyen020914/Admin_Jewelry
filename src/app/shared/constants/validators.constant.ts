@@ -21,7 +21,7 @@ export const LENGTH_VALIDATOR = {
     MIN: 4,
   },
   NAME_MAX_LENGTH: {
-    MAX: 100,
+    MAX: 50,
   },
   PASSWORD_MIN_LENGTH: {
     MIN: 3,

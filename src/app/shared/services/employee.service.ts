@@ -10,7 +10,7 @@ import {ICustomer} from "@shared/models/customer.model";
   providedIn: 'root',
 })
 export class EmployeeService extends AbstractService {
-  public resourceUrl = SERVICE.CUSTOMER + '/employee';
+  public resourceUrl = '/api/v1/user';
   constructor(protected http: HttpClient) {
     super(http);
   }

@@ -70,12 +70,13 @@
                       nz-input
                       [maxLength]="LENGTH_VALIDATOR.NAME_MAX_LENGTH.MAX"
                       placeholder="{{ 'model.category.property' | translate }}{{
-                        '  ' + i
+                        '  ' + (i+1)
                       }}"/>
               </div>
             </div>
           <button
             class="col-1 mx-3 mt-3"
+            *ngIf="properties?.controls.length < 5"
             nz-button
             nzType="primary"
             (click)="addProperties()"

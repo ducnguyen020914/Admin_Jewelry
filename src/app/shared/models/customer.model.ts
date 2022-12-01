@@ -2,94 +2,72 @@ import {Role} from "@shared/models/role.model";
 import {UserPrimary} from "@shared/models/user-primary.model";
 
 export interface ICustomer {
-  id?: string;
-  username?: string;
+  userId?: string;
+  userName?: string;
   fullName?: string;
   password?: string;
   email?: string;
   phoneNumber?: string;
-  roles?: string;
-  authorities?: any;
-  authenticationType?: string;
-  accountType?: string;
-  contactId?: string;
-  dayOfBirth?: string;
+  role?: string;
+  birthday?: string;
   gender?: string;
-  repeatPassword?: string;
-  roleIds?: Array<string>;
-  employeeCode?: string;
-  title?: string;
-  description?: string;
-  status?: string;
-  departmentName?: string;
-  avatarFileId?: string;
-  file?: any;
-  avatarFileUrl?: string;
-  deleted?: boolean;
-  checked?: boolean;
-  disabled?: boolean;
-  departmentId?: string;
-  paper?: string;
+  confirmPassword?: string;
+  cccd?:string,
+  imageUrl?:string,
+  note?:string,
+  maNV?:string,
+  deleted?:boolean,
+  createAt?:number,
+  createBy?:string,
+  lastModifiedAt?:number,
+  lastModifiedBy?:string,
   address?: string;
 }
 
 export class Customer implements ICustomer {
   constructor(
-    public id?: string,
-    public username?: string,
-    public fullName?: string,
-    public password?: string,
-    public email?: string,
-    public phoneNumber?: string,
-    public role?: string,
-    public authorities?: any,
-    public authenticationType?: string,
-    public accountType?: string,
-    public contactId?: string,
-    public dayOfBirth?: string,
-    public gender?: string,
-    public repeatPassword?: string,
-    public organizationId?: string,
-    public employeeCode?: string,
-    public title?: string,
-    public description?: string,
-    public status?: string,
-    public avatarFileId?: string,
-    public file?: any,
-    public avatarFileUrl?: string,
-    public deleted?: boolean,
-    public checked?: boolean,
-    public disabled?: boolean,
-    public paper?: string,
+    public userId?: string,
+    public userName?: string,
+    public  fullName?: string,
+    public  password?: string,
+    public  email?: string,
+    public  phoneNumber?: string,
+    public  role?: string,
+    public birthday?: string,
+    public  gender?: string,
+    public confirmPassword?: string,
+    public cccd?:string,
+    public imageUrl?:string,
+    public note?:string,
+    public   maNV?:string,
+    public deleted?:boolean,
+    public createAt?:number,
+    public createBy?:string,
+    public lastModifiedAt?:number,
+    public lastModifiedBy?:string,
     public address?: string
+  
   ) {
-    this.id = id;
-    this.username = username;
+   this.userId = userId;
+   this.userName = userName
     this.fullName = fullName;
     this.password = password;
     this.email = email;
     this.phoneNumber = phoneNumber;
-    this.authorities = authorities;
-    this.authenticationType = authenticationType;
-    this.accountType = accountType;
-    this.contactId = contactId;
-    this.dayOfBirth = dayOfBirth;
     this.gender = gender;
-    this.repeatPassword = repeatPassword;
     this.role =role;
-    this.organizationId = organizationId;
-    this.employeeCode = employeeCode;
-    this.title = title;
-    this.description = description;
-    this.status = status;
-    this.avatarFileId = avatarFileId;
-    // Thong tin anh trong tai khoan
-    this.file = file;
-    this.avatarFileUrl = avatarFileUrl;
+    this.address = address;
     this.deleted = deleted;
-    this.checked = checked;
-    this.disabled = disabled;
-    this.paper =paper;
-    this.address =address;
+    this.maNV = maNV;
+    this.cccd = cccd;
+    this.imageUrl = imageUrl;
+    this.note = note;
+    this.birthday= birthday;
+    this.confirmPassword = confirmPassword;
+    this.createBy = createBy;
+    this.lastModifiedAt = lastModifiedAt;
+    this.lastModifiedBy = lastModifiedBy;
+    this.createAt = createAt;
+   
   }
 }

@@ -1,198 +1,198 @@
 <div class="content">
-  <div class="row title mb-3">
-    <mb-table-title [title]="'model.guest.listTitle'"></mb-table-title>
-  </div>
-
-  <section class="content">
-    <div class="row mb-3">
-      <div class="col-lg-3 col-xl-3 col-md-5 col-sm-8 col-xs-12 col d-flex">
-        <nz-input-group nzPrefixIcon="search" *hasRoles="['guest:view']">
-          <input
-            type="text"
-            nz-input
-            [value]="keyword"
-            (keyup.enter)="search($event)"
-            [placeholder]="'action.search' | translate"
-          />
-        </nz-input-group>
-      </div>
-      <div class="col-9 text-end">
-        <mb-button
-          class="float-end"
-          [type]="'primary'"
-          [icon]="'plus'"
-          [text]="'action.create'"
-          (click)="create()"
-          *hasRoles="['guest:create']"
-        >
-        </mb-button>
-      </div>
-    </div>
-    <div class="row">
-      <div (resized)="onResized($event)" class="col-12">
-        <div class="row list_guest_content">
-          <ng-container *ngIf="customers.length > 0">
-            <div class="gird_view_container row">
-              <ng-container *ngFor="let item of customers; let i = index">
-                <div
-                  [class]="{
-                    'col-lg-3': columns === 3,
-                    'col-lg-4': columns === 4,
-                    'col-md-4': true,
-                    'col-sm-6': true,
-                    'col-xs-12': true,
-                    'mt-3': true
-                  }"
-                >
-                  <div class="grid_item mb-3 d-flex flex-column">
-                    <div class="grid_item_header d-flex align-items-center">
-                      <div class="grid_item_header_avatar me-4">
-                        <div *ngIf="!item.avatarFileUrl; else avatar">
-                          <nz-avatar
-                            (click)="detail(item)"
-                            class="avatar-none"
-                            [nzSize]="75"
-                            class="{{
-                              i % 2 == 0 ? 'avatar-yellow' : 'avatar-gray'
-                            }}"
-                            [nzText]="getFirstLetter(item.fullName)"
-                          ></nz-avatar>
-                        </div>
-                        <ng-template #avatar>
-                          <nz-avatar
-                            (click)="detail(item)"
-                            class="avatar-image"
-                            [nzSize]="75"
-                            class="{{
-                              i % 2 == 0 ? 'avatar-yellow' : 'avatar-gray'
-                            }}"
-                            [nzText]="getFirstLetter(item.fullName)"
-                            [nzSrc]="getResource(item.avatarFileUrl)"
-                          ></nz-avatar>
-                        </ng-template>
-                      </div>
-                      <div class="grid_item_header_info">
-                        <div
-                          class="grid_item_header_info_name cursor"
-                          (click)="detail(item)"
-                        >
-                          {{ item.fullName | uppercase }}
-                        </div>
-                        <span
-                          class="badge text-bg-{{
-                            item.status === 'ACTIVE' ? 'success' : 'warning'
-                          }}"
-                          >{{ item.status }}</span
-                        >
-                      </div>
-                    </div>
-                    <div class="grid_item_body">
-                      <div class="grid_item_body_info mt-3">
-                        <div class="body_info_group">
-                          <div class="body_info_group_label">
-                            <i nz-icon nzType="mail" nzTheme="outline"></i>
-                            <span class="body_info_group_label_content">
-                              {{ "model.employee.email" | translate }}:
-                            </span>
-                          </div>
-                          <div
-                            class="body_info_group_content cursor"
-                            (click)="detail(item)"
-                          >
-                            {{
-                              change
-                                ? getLimitLength(item.email, 15)
-                                : item.email
-                            }}
-                          </div>
-                        </div>
-                        <div class="body_info_group">
-                          <div class="body_info_group_label">
-                            <i nz-icon nzType="phone" nzTheme="outline"></i>
-                            <span class="body_info_group_label_content">
-                              {{ "model.employee.phoneNumber" | translate }}:
-                            </span>
-                          </div>
-                          <div
-                            class="body_info_group_content cursor"
-                            (click)="detail(item)"
-                          >
-                            {{
-                              change
-                                ? getLimitLength(item.phoneNumber, 11)
-                                : item.phoneNumber
-                            }}
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="row">
-                      <div class="col-7"></div>
-                      <div class="col-5">
-                        <mb-button-action
-                          [action]="'edit'"
-                          className="first"
-                          nzTooltipTitle="{{ 'action.update' | translate }}"
-                          nzTooltipPlacement="top"
-                          nz-tooltip
-                          (click)="update(item)"
-                        >
-                        </mb-button-action>
-                        <mb-button-action
-                          [action]="'delete'"
-                          [className]="'last'"
-                          nzTooltipTitle="{{ 'action.update' | translate }}"
-                          nzTooltipPlacement="top"
-                          nz-tooltip
-                          (click)="delete(item)"
-                        >
-                        </mb-button-action>
-                        <mb-button-action
-                          [action]="
-                            item.status === 'ACTIVE' ? 'lock' : 'unlock'
-                          "
-                          *hasRoles="['guest.update']"
-                          nzTooltipTitle="{{
-                            (item.status === 'ACTIVE'
-                              ? 'action.lock'
-                              : 'action.unlock'
-                            ) | translate
-                          }}"
-                          nzTooltipPlacement="top"
-                          nz-tooltip
-                          (click)="lock(item)"
-                        >
-                        </mb-button-action>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </ng-container>
-            </div>
-          </ng-container>
-          <ng-container *ngIf="!customers || customers.length === 0">
-            <mb-no-data></mb-no-data>
-          </ng-container>
+  <mb-table-title [title]="'model.guest.list'"></mb-table-title>
+  <!-- filter element -->
+  <nz-table class="content mt-3">
+    <div [formGroup]="form" class="filter-element">
+      <div class="row p-4">
+        <div class="col-3">
+          <label>{{ "common.keyword" | translate }}</label>
+          <input type="text" nz-input formControlName="keyword" [placeholder]="'model.user.searchTitle' | translate"
+                 (keyup.enter)="this.search()"/>
         </div>
-        <mb-pagination
-          [pageIndex]="pageIndex"
-          [pageSize]="pageSize"
-          [total]="total"
-          (onChange)="onQuerySearch($event)"
-          [pageSizeOptions]="pageSizeOptions"
-        >
-        </mb-pagination>
+        <div class="col-3">
+          <label>{{ 'model.user.status' | translate }}</label>
+          <br>
+          <nz-select formControlName="status" nzAllowClear removeOptionTitle
+                     nzPlaceHolder="{{ 'model.user.service.selectStatus' | translate }}">
+            <nz-option *ngFor="let service of userStatus" [nzLabel]="service.label | translate"
+                       [nzValue]="service.value" [nzCustomContent]="true">
+              <div container="body" [animation]="false" [openDelay]="100" [closeDelay]="0"
+                   [ngbTooltip]="(service?.label!) | translate">{{(service?.label!) | translate}}</div>
+            </nz-option>
+          </nz-select>
+        </div>
+      </div>
+      <div class="row mt-3 mb-3 text-center">
+        <div class="col-12">
+          <button class="me-3" nz-button nzType="default" (click)="resetSearch()">
+            {{ "action.reset" | translate }}
+          </button>
+          <button nz-button nzType="primary" (click)="search()">
+            {{ "common.search" | translate }}
+          </button>
+        </div>
       </div>
     </div>
-  </section>
-  <mb-modal
-    [title]="lockPopup.title"
-    [content]="lockPopup.content"
-    [okText]="lockPopup.okText"
-    [interpolateParams]="lockPopup.interpolateParams"
-    [isVisible]="isVisible"
-    [callBack]="this.lockPopup.callBack"
-    (emitter)="onLockAndUnlock($event)"
-  >
-  </mb-modal>
+  </nz-table>
+  <div class="row mt-3">
+    <div class="col-12 text-end" *hasRoles="['survey:update']">
+      <mb-button [type]="'primary'" class="me-3" [icon]="'plus'" [text]="'action.create'" *hasRoles="['user:create']"
+                 (click)="create(userProfileLdap)">
+      </mb-button>
+      <!-- <mb-button [type]="'primary'" [icon]="'plus'" [text]="'action.import'" *hasRoles="['user:create']"
+                 (click)="import()">
+      </mb-button> -->
+    </div>
+  </div>
+  <!--end filter element -->
+  <div class="row mt-3">
+    <div class="col-12">
+      <nz-table
+        #table
+        [nzData]="users"
+        [nzNoResult]="noDataResult"
+        [nzTableLayout]="'auto'"
+        (nzQueryParams)="onQueryParamsChange($event)"
+      >
+        <thead>
+        <tr>
+          <th nzAlign="center">{{ "common.index" | translate }}</th>
+          <th nzAlign="center" nzColumnKey="fullName" [nzSortFn]="true">
+            {{ "model.user.fullName" | translate }}
+          </th>
+          <th nzAlign="center" nzColumnKey="userName" [nzSortFn]="true">
+            {{ "model.user.username" | translate }}
+          </th>
+          <th nzAlign="center" nzColumnKey="role" [nzSortFn]="true">
+            {{ "model.user.role" | translate }}
+          </th>
+          <th nzAlign="center" nzColumnKey="phoneNumber" [nzSortFn]="true">
+            {{ "model.user.phoneNumber" | translate }}</th>
+          <th nzAlign="center" nzColumnKey="email" [nzSortFn]="true">
+            {{ "model.user.email" | translate }}
+          </th>
+          <th nzAlign="center" nzColumnKey="status" [nzSortFn]="true">
+            {{ "common.status" | translate }}
+          </th>
+          <th
+            nzAlign="center"
+            [nzWidth]="'180px'"
+            *hasRoles="['user:update']"
+          >
+            {{ "action.msg" | translate }}
+          </th>
+        </tr>
+        </thead>
+        <tbody>
+        <ng-container *ngFor="let item of users; let i = index">
+          <tr>
+            <td nzAlign="center">{{ getIndex(i) }}</td>
+            <td
+              nzAlign="left"
+              [nzTooltipTitle]="item.fullName"
+              nzTooltipPlacement="top"
+              nz-tooltip
+            >
+              {{ getLimitLength(item.fullName!) }}
+            </td>
+            <td nzAlign="left">{{ item.userName }}</td>
+            <td nzAlign="left">Khách hàng</td>
+            <td nzAlign="center">{{ item.phoneNumber }}</td>
+            <td
+              nzAlign="left"
+              [nzTooltipTitle]="item.email"
+              nzTooltipPlacement="top"
+              nz-tooltip
+            >
+              {{ item.email }}
+            </td>
+            <td nzAlign="center">
+              <mb-badge
+                [color]="
+                    item.status 
+                      ? 'badge-danger'
+                      : 'badge-info'
+                  "
+                [text]="item.status ? 'Không hoạt động' : 'Hoạt động'"
+              >
+              </mb-badge>
+            </td>
+            <td nzAlign="center">
+              <!--<i class="icon icon-edit"-->
+              <!--(click)="update(item)"-->
+              <!--nz-icon nzType="edit"-->
+              <!--nzTheme="fill"-->
+              <!--nzTooltipTitle="{{'action.update' | translate}}"-->
+              <!--nzTooltipPlacement="top"-->
+              <!--nz-tooltip></i>-->
+              <mb-button-action
+                [action]="'edit'"
+                className="first"
+                nzTooltipTitle="{{ 'action.update' | translate }}"
+                nzTooltipPlacement="top"
+                nz-tooltip
+                (click)="update(item)"
+              >
+              </mb-button-action>
+              <mb-button-action
+                [action]="item.status === false ? 'lock' : 'unlock'"
+                className="{{
+                    item.authenticationType === USER_INTERNAL
+                      ? 'center'
+                      : 'last'
+                  }}"
+                nzTooltipTitle="{{
+                    (item.status === userActive
+                      ? 'action.lock'
+                      : 'action.unlock'
+                    ) | translate
+                  }}"
+                nzTooltipPlacement="top"
+                nz-tooltip
+                (click)="lock(item)"
+              >
+              </mb-button-action>
+              <ng-container *ngIf="item.authenticationType === USER_INTERNAL">
+                <mb-button-action
+                  [action]="'key'"
+                  className="last"
+                  (click)="openChangePassword(item)"
+                  nzTooltipTitle="{{
+                      'model.user.changePassword' | translate
+                    }}"
+                  nzTooltipPlacement="top"
+                  nz-tooltip
+                >
+                </mb-button-action>
+              </ng-container>
+            </td>
+          </tr>
+        </ng-container>
+        </tbody>
+      </nz-table>
+      <mb-pagination
+        [pageIndex]="pageIndex"
+        [pageSize]="pageSize"
+        [total]="total"
+        (onChange)="onQuerySearch($event)"
+      >
+      </mb-pagination>
+    </div>
+  </div>
 </div>
+
+<mb-modal
+[title]="lockPopup.title"
+[content]="lockPopup.content"
+[interpolateParams]="lockPopup.interpolateParams"
+[okText]="lockPopup.okText"
+[btnCentered]="true"
+[callBack]="this.lockPopup.callBack"
+[isVisible]="isVisible"
+  (emitter)="onLockAndUnLock($event)"
+>
+</mb-modal>
+
+<ng-template #noDataResult>
+  <mb-no-data></mb-no-data>
+</ng-template>

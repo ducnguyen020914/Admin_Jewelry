@@ -46,7 +46,7 @@
                   <div class="grid_item mb-3 d-flex flex-column">
                     <div class="grid_item_header d-flex align-items-center">
                       <div class="grid_item_header_avatar me-4">
-                        <div *ngIf="!item.avatarFileUrl; else avatar">
+                        <div *ngIf="!item.imageUrl else avatar">
                           <nz-avatar
                             (click)="detail(item)"
                             class="avatar-none"
@@ -66,7 +66,7 @@
                               i % 2 == 0 ? 'avatar-yellow' : 'avatar-gray'
                             }}"
                             [nzText]="getFirstLetter(item.fullName)"
-                            [nzSrc]="getResource(item.avatarFileUrl)"
+                            [nzSrc]="getResource(item.imageUrl)"
                           ></nz-avatar>
                         </ng-template>
                       </div>
@@ -79,9 +79,9 @@
                         </div>
                         <span
                           class="badge text-bg-{{
-                            item.status === 'ACTIVE' ? 'success' : 'warning'
+                            !item.status ? 'success' : 'warning'
                           }}"
-                        >{{ item.status }}</span
+                        >{{ !item.status ? 'Hoạt động' : 'Không hoạt động'}}</span
                         >
                       </div>
                     </div>
@@ -137,15 +137,7 @@
                           (click)="update(item)"
                         >
                         </mb-button-action>
-                        <mb-button-action
-                          [action]="'delete'"
-                          [className]="'last'"
-                          nzTooltipTitle="{{ 'action.update' | translate }}"
-                          nzTooltipPlacement="top"
-                          nz-tooltip
-                          (click)="delete(item)"
-                        >
-                        </mb-button-action>
+                     
                         <mb-button-action
                           [action]="
                             item.status === 'ACTIVE' ? 'lock' : 'unlock'

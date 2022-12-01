@@ -70,7 +70,7 @@
               <span class="text-danger">*</span>
             </label>
             <nz-date-picker [nzDisabled] = isUpdate
-              formControlName="dayOfBirth"
+              formControlName="birthday"
               [nzId]="'datePicker'"
               (keyup.enter)="enterDatePicker($event)"
               [nzDisabledDate]="disabledAfterToday"
@@ -161,7 +161,6 @@
               [customSizeImg]="false"
               [acceptTypeFiles]="['image']"
               (emitter)="getFiles($event)"
-              [imageId]="customer.avatarFileId"
               [alternateImageUrl]="avatarPlaceHolder"
               className="image"
               nzTooltipPlacement="top"

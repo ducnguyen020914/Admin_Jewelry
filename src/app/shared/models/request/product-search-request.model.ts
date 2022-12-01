@@ -15,6 +15,23 @@ export interface IProductSearchRequest {
   status?: ProductStatus;
   gender?: ProductGender;
 }
+export interface IWaitingProductSearch {
+  productId?:string;
+
+  sizeId?:string;
+
+  startDate?: Date | string;
+
+  endDate?: Date | string;
+
+  keyword?:string;
+
+  pageSize?:number;
+
+  pageIndex?:number;
+
+  sortBy?:string;
+}
 
 export class ProductSearchRequest implements IProductSearchRequest {
   constructor(

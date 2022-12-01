@@ -38,6 +38,7 @@ import { NzModalRef, NzModalService } from 'ng-zorro-antd/modal';
 import { LocalStorageService } from 'ngx-webstorage';
 import { ROUTER_UTILS } from '../../../../shared/utils/router.utils';
 import { RepurchaseService } from '../../../../shared/services/order/repurchase.service';
+import { EmployeeUpdateComponent } from '@pages/admin/user/employee/employee-update/employee-update.component';
 
 @Component({
   selector: 'app-repurchase-create',
@@ -159,6 +160,23 @@ export class RepurchaseCreateComponent implements OnInit {
   private loadCustomer() {
     this.userService.findCustomer().subscribe((res: any) => {
       this.users = res.body?.data;
+    });
+  }
+  createCustomer(): void {
+    const base = CommonUtil.modalBase(
+      EmployeeUpdateComponent,
+      {
+        action: ROUTER_ACTIONS.create,
+      },
+      '50%'
+    );
+    const modal: NzModalRef = this.modalService.create(base);
+    modal.afterClose.subscribe((result) => {
+      if (result && result?.success) {
+        this.loadCustomer();
+        this.form.get('userId')?.setValue(result.value.userId);
+        this.currentUser = result.value
+      }
     });
   }
   loadevent() {

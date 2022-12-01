@@ -91,6 +91,7 @@
   },
   "sidebar": {
     "vendor": "Quản lý nhà cung cấp",
+    "productProcessed":"Quản lý sản phẩm cần gia công",
     "dashboard": "Trang chủ",
     "contract": "Quản lý hợp đồng",
     "building": "Quản lý tòa nhà",
@@ -505,6 +506,7 @@
       }
     },
     "guest": {
+      "list":"Danh sách khách hàng",
       "title": "Quản lý khách hàng",
       "listTitle": "Danh sách khách hàng",
       "register": "Đăng ký khách ra vào",
@@ -513,6 +515,10 @@
       "endday":"Ngày kết thúc",
       "rangeDate":"Thời gian",
       "guest":"Khách đăng ký",
+      "userName":"Tên tài khoản",
+      "password":"Mật khẩu",
+      "confirmPassword":"Mật khẩu xác nhận",
+      "cccd":"Căn cước công dân",
       "employee":"Nhân viên",
       "update":"Cập nhật đăng ký khách ra vào",
       "date":"Ngày Vào",
@@ -609,6 +615,8 @@
       "meat": "Món mặn",
       "vegetable": "Món rau",
       "weightProduct":"Cân nặng của kích thước ",
+      "sendProductTitle":"Thêm danh sách bán hàng",
+      "sendProductContent":"Bạn có muốn thêm sản phẩm {{name}} vào danh sách bán hàng ?",
       "lunch": "Cơm trưa",
       "sizeId":"Kích thước",
       "event":"Sự kiện",

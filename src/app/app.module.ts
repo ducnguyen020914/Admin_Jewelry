@@ -16,11 +16,11 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { IconDefinition } from '@ant-design/icons-angular';
 import * as AllIcons from '@ant-design/icons-angular/icons';
 import { CoreModule } from '@core/core.module';
-import {
-  ErrorInterceptor,
-  JwtInterceptor,
-  LoadingInterceptor,
-} from '@core/interceptor';
+// import {
+//   ErrorInterceptor,
+//   JwtInterceptor,
+//   LoadingInterceptor,
+// } from '@core/interceptor';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
@@ -78,13 +78,14 @@ const icons: IconDefinition[] = Object.keys(antDesignIcons).map(
     NzSpinModule,
     AngularFireStorageModule,
     AngularFireModule.initializeApp(environment.firebaseConfig,"cloud"),
-    AngularFireDatabaseModule
+    AngularFireDatabaseModule,
+    
   ],
   providers: [
     { provide: LocationStrategy, useClass: HashLocationStrategy },
-    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
-    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
-    { provide: HTTP_INTERCEPTORS, useClass: LoadingInterceptor, multi: true },
+    // { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
+    // { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
+    // { provide: HTTP_INTERCEPTORS, useClass: LoadingInterceptor, multi: true },
     { provide: NZ_I18N, useValue: vi_VN },
     { provide: NZ_ICONS, useValue: icons },
     {

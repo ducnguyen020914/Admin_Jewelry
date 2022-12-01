@@ -85,7 +85,7 @@ export class UserService extends AbstractService {
     loading = false
   ): Observable<EntityResponseType<boolean>> {
     return super.post<boolean>(
-      `${this.resourceUrl}/${userId}/active`,
+      `${this.resourceUrl}/${userId}/unlock`,
       {},
       { loading }
     );
@@ -96,7 +96,7 @@ export class UserService extends AbstractService {
     loading = false
   ): Observable<EntityResponseType<boolean>> {
     return super.post<boolean>(
-      `${this.resourceUrl}/${userId}/inactive`,
+      `${this.resourceUrl}/${userId}/lock`,
       {},
       { loading }
     );

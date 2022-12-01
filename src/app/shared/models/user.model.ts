@@ -21,7 +21,7 @@ export interface IUser {
   employeeCode?: string;
   title?: string;
   description?: string;
-  status?: string;
+  status?: boolean;
   departmentName?: string;
   imageFileUrl?: string;
   deleted?: boolean;
@@ -57,7 +57,7 @@ export class User implements IUser {
     public employeeCode?: string,
     public title?: string,
     public description?: string,
-    public status?: string,
+    public status?: boolean,
     public departmentName?: string,
     public avatarFileId?: string,
     public file?: any,

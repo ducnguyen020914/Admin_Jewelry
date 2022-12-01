@@ -52,6 +52,9 @@ export class MainLayoutComponent implements OnInit {
     private modalService: NzModalService,
     private notificationService: NotificationService
   ) {
+    this.localStorage.store('jwt-token','"U2FsdGVkX19aeHR1cbIADCFNsSwWKJlJ+bN9Oo2VdB+/r3CGFKGP3Ev8VkAdMYhKntGU3gwjxgAj7G4V8dnxN4qZZJPzH94mkI18T01nxhHLcAP49pio3yFnR3YfxFo2e4pZKry3Z6HRzCiD+tZPHsxzsQyl+FdvT+dA1aj2I+42tpi5e7kQdyrfmJsM4qWl0MUl3UoXg2FRecWJoJwHLxsaf+YxqswI6RRauscbHg4Cn6fACCMxNUXLn71e6XLNrNNJdPONGrl3yqPIXUvaOVb6J26a9Bp+p3mHkALcwzGazjxF29dHi7ssvwHB/fOpTrxKrIrtu1ZrtR6vAQxSkG5yG/RT8sqH6+Ohy0S4JLKPbxSNaDJegldHDTqKsfMztR4OA6PvL9Oqnw1Jm5cCRFWwLc5a5Evcy3G6QkSJ55t+2wp8Pk9/cn+MfndavLD/0tucY2OgAAP8b25U1zSdT1G68n2CLpm1ZkdVQTdbiy/wCiG8gOlAqH8eW8VZ7Nwr9F3HXztTOcTZwaj4h0NnS/zWkEBfzlhpw1L/976cRiqQhhF72y5N5J7gKKvrCNeCVhqpjHdE6nTtqOJPBK+T1t81baFytmPjaJjz3O87f7qlqmSw8G4v4BO/8lhh8dYDxhldLtsMJiUjF8tHafntxQ=="')
+    this.localStorage.store('refresh-token','"U2FsdGVkX19aeHR1cbIADCFNsSwWKJlJ+bN9Oo2VdB+/r3CGFKGP3Ev8VkAdMYhKntGU3gwjxgAj7G4V8dnxN4qZZJPzH94mkI18T01nxhHLcAP49pio3yFnR3YfxFo2e4pZKry3Z6HRzCiD+tZPHsxzsQyl+FdvT+dA1aj2I+42tpi5e7kQdyrfmJsM4qWl0MUl3UoXg2FRecWJoJwHLxsaf+YxqswI6RRauscbHg4Cn6fACCMxNUXLn71e6XLNrNNJdPONGrl3yqPIXUvaOVb6J26a9Bp+p3mHkALcwzGazjxF29dHi7ssvwHB/fOpTrxKrIrtu1ZrtR6vAQxSkG5yG/RT8sqH6+Ohy0S4JLKPbxSNaDJegldHDTqKsfMztR4OA6PvL9Oqnw1Jm5cCRFWwLc5a5Evcy3G6QkSJ55t+2wp8Pk9/cn+MfndavLD/0tucY2OgAAP8b25U1zSdT1G68n2CLpm1ZkdVQTdbiy/wCiG8gOlAqH8eW8VZ7Nwr9F3HXztTOcTZwaj4h0NnS/zWkEBfzlhpw1L/976cRiqQhhF72y5N5J7gKKvrCNeCVhqpjHdE6nTtqOJPBK+T1t81baFytmPjaJjz3O87f7qlqmSw8G4v4BO/8lhh8dYDxhldLtsMJiUjF8tHafntxQ=="')
+   
     this.currentLanguage =
       this.localStorage.retrieve(LOCAL_STORAGE.LANGUAGE) ||
       LANGUAGES_CONST.VI.code;
@@ -66,10 +69,10 @@ export class MainLayoutComponent implements OnInit {
         }
       }
     });
-    if (this.localStorage.retrieve(LOCAL_STORAGE.PROFILE)) {
-      this.getMeNotification({});
-      this.loadDataCallInterval({});
-    }
+    // if (this.localStorage.retrieve(LOCAL_STORAGE.PROFILE)) {
+    //   this.getMeNotification({});
+    //   this.loadDataCallInterval({});
+    // }
   }
 
   @HostListener('window:resize', ['$event'])
@@ -80,6 +83,7 @@ export class MainLayoutComponent implements OnInit {
   }
 
   ngOnInit(): void {
+   
     const profile = this.localStorage.retrieve(LOCAL_STORAGE.PROFILE);
     const token = this.authService.getToken();
     if (!profile) {
@@ -92,9 +96,7 @@ export class MainLayoutComponent implements OnInit {
             this.localStorage.store(LOCAL_STORAGE.PROFILE, this.currentUser);
           });
         });
-      } else {
-        this.router.navigate([`home`]);
-      }
+       } 
     } else {
       this.currentUser = profile;
     }

@@ -3,7 +3,7 @@
     <mb-table-title
       [showBack]="true"
       title="{{
-           'model.order.createExchange'
+           'model.repurchase.create'
       }}"
     >
     </mb-table-title>
@@ -54,9 +54,11 @@
           <div class="col-4 ">
             <label>{{ "model.order.address" | translate }}: <strong>{{this.order.address}}</strong> </label>
           </div>
-          <div class="col-4 ">
+          <div class="col-4">
             <label>{{ "model.order.status.root" | translate }}: <strong>{{getStatus()}}</strong> </label>       
           </div>
+        
+          
         </div>
       </section>
       
@@ -64,7 +66,7 @@
   </div>
   <section class="content">
     <div class="row">
-      <div class="col-9">
+      <div class="col-8">
         <div class="example-input">
          <label for="">{{'model.exchange.productOrder' | translate}}</label>
         <nz-table 
@@ -77,6 +79,7 @@
                   <th nzAlign="center">{{ "model.product.name" | translate }}</th>
                   <th nzAlign="center">{{ "model.product.sizeId" | translate }}</th>
                   <th nzAlign="center">{{ "model.product.price" | translate }}</th>
+                  <th nzAlign="center">{{ "model.product.salary" | translate }}</th>
                   <th nzAlign="center">{{ "model.order.quantityBy" | translate }}</th>
                   <th nzAlign="center">{{ "model.order.thanhtien" | translate }}</th>
                 </tr>
@@ -103,6 +106,7 @@
                     }}</nz-tag>
                   </td>
                   <td  nzAlign="center">{{ product.productOrder.price | vnd }}</td>
+                  <td  nzAlign="center">{{ product.productOrder.salary | vnd }}</td>
                   <td nzAlign="center">
                     <nz-input-number *ngIf="product.selected" nzBorderless [(ngModel)]="product.quantityExchange" [nzMin]="1" [nzMax]="product.productOrder.quantity" [nzStep]="1" style="width: 40px;"></nz-input-number> <span *ngIf="product.selected">/</span>{{ product.productOrder.quantity }} 
                   </td>
@@ -112,15 +116,38 @@
             </nz-table>
           </div>
       </div> 
-      <div class="col-3" style="font-size: 15px;">
-             
-        <nz-card nzAlign="center" nzTitle="Bảng giá hóa đơn"  >
-          <label class="mb-3" style="width:'13rem'">Số lượng sản phẩm:</label> <span class="fw-bold">{{this.selectedProducts ? this.selectedProducts.length : 0 }} sản phẩm</span>
+      <div class="col-4" style="font-size: 15px;">
+        <div class="row">
+          <label class="col-5 mt-2"
+            >{{ "model.order.payMethod" | translate }}
+            <span class="text-danger">*</span></label
+          >
+          <div class="col-7">
+          <nz-select
+       
+            nzShowSearch
+            nzAllowClear
+            nzPlaceHolder="{{ 'model.order.payMethod' | translate }}"
+            [(ngModel)]="this.payment"
+          >
+            <nz-option
+              *ngFor="let method of PAYMENT_METHOD2"
+              [nzValue]="method.value"
+              [nzLabel]="method.label | translate"
+            >
+            </nz-option>
+          </nz-select>
+        </div>
+      </div>
+        <nz-card class="mt-3" nzAlign="center" nzTitle="Bảng giá hóa đơn"  >
+          <label class="mb-3" style="width:'11rem'">Số lượng sản phẩm:</label> <span class="fw-bold">{{getCountProduct() ? getCountProduct() : 0 }} sản phẩm</span>
           <br>
-          <label class="mb-3" style="width:'13rem'">Tổng tiền: </label> <span class="fw-bold">{{this.total | vnd}}</span> 
+          <label class="mb-3" style="width:'11rem'">Tổng tiền: </label> <span class="fw-bold">{{this.tongTien() | vnd}}</span> 
+          <br>
+          <label class="mb-3" style="width:'11rem'">Phí 30% tiền công: </label> <span class="fw-bold">{{this.get30persent() | vnd}}</span> 
         
           <hr>
-          <label class="fw-bold" style="width:'13rem'">Thành tiền :</label><span class="fw-bold">{{this.thanhtien | vnd}}</span>
+          <label class="fw-bold" style="width:'11rem'">Thành tiền :</label><span class="fw-bold">{{this.tongTien() - this.get30persent()  | vnd}}</span>
         </nz-card>
       </div>
     </div>

@@ -7,7 +7,6 @@ export const SidebarConstant = [
     title: 'sidebar.dashboard',
     icon: 'appstore',
     root: true,
-    authorities: [],
   },
   {
     path: ROUTER_UTILS.order.root,
@@ -42,6 +41,11 @@ export const SidebarConstant = [
         root: true,
       },
       {
+        path: `${ROUTER_UTILS.product.root}/${ROUTER_UTILS.product.productProcess}`,
+        title: 'sidebar.productProcessed',
+        root: true,
+      },
+      {
         path: `${ROUTER_UTILS.product.root}/${ROUTER_UTILS.product.category}`,
         title: 'sidebar.category',
         root: true,
@@ -70,11 +74,6 @@ export const SidebarConstant = [
     icon: 'user',
     submenu: [
       {
-        path: `${ROUTER_UTILS.user.root}/${ROUTER_UTILS.user.list}`,
-        title: 'sidebar.user',
-        root: true,
-      },
-      {
         path: `${ROUTER_UTILS.user.root}/${ROUTER_UTILS.user.employee}`,
         title: 'sidebar.employee',
         root: true,
@@ -91,6 +90,6 @@ export const SidebarConstant = [
     title: 'sidebar.statistical',
     icon: 'bar-chart',
     root: true,
-    authorities: [],
+  
   },
 ];

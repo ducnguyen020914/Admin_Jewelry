@@ -17,6 +17,9 @@ import CommonUtil from "@shared/utils/common-utils";
 import {differenceInCalendarDays} from "date-fns";
 import {ROUTER_ACTIONS} from "@shared/utils/router.utils";
 import { DEFAULT_DATE_FORMAT } from '@shared/constants/common.constant';
+import { ICustomer, Customer } from '../../../../../shared/models/customer.model';
+import { AngularFireStorage } from '@angular/fire/compat/storage';
+import { finalize } from 'rxjs/operators';
 
 @Component({
   selector: 'app-employee-update',
@@ -25,45 +28,68 @@ import { DEFAULT_DATE_FORMAT } from '@shared/constants/common.constant';
 })
 export class EmployeeUpdateComponent implements OnInit {
   @ViewChild('datePicker') datePicker!: NzDatePickerComponent;
-  @Input() employee: IEmployee = new Employee();
+  @Input() employee: ICustomer = new Customer();
   @Input() action = '';
   isUpdate = false;
   employeeGender = USER_GENDER;
   form: UntypedFormGroup = new UntypedFormGroup({});
   LENGTH_VALIDATOR = LENGTH_VALIDATOR;
   ROUTER_ACTIONS = ROUTER_ACTIONS;
-  initalState: IEmployee = new Employee('', '', '');
+  initalState: ICustomer ={};
   imageUrl?: any;
   file?: File;
   avatarPlaceHolder = AVATAR_PLACEHOLDER_FILE;
   isVisible = false;
-  dayOfBirth = moment().toDate();
+  birthday = moment().toDate();
   DEFAULT_DATE_FORMAT = DEFAULT_DATE_FORMAT;
+  foodPlaceholder =  `assets/images/icon/fast-food.png`;
+  dowloadUrl:any;
   constructor(
     private fb: UntypedFormBuilder,
     private translate: TranslateService,
     private employeeService: EmployeeService,
     private modalRef: NzModalRef,
     private toast: ToastService,
-    private fileService: FileService
+    private fileService: FileService,
+    private storage: AngularFireStorage
   ) {}
 
   ngOnInit(): void {
     this.initForm();
+    console.log(this.employee);
+    
   }
   initForm(): void {
-    if (this.employee.id) {
-      this.isUpdate = true;
-    } else {
-      this.isUpdate = false;
-    }
-    console.log(this.employee);
     const dataObject =
       this.action === this.ROUTER_ACTIONS.create
         ? this.initalState
         : this.employee;
     this.form = this.fb.group({
-      name: [
+      userName: [
+        dataObject.userName || "",
+        [
+          Validators.required,
+        ],
+      ],
+      password: [
+        dataObject.password,
+        [
+          Validators.required,
+        ],
+      ],
+      confirmPassword: [
+        dataObject.password,
+        [
+          Validators.required,
+        ],
+      ],
+      cccd: [
+        dataObject.cccd,
+        [
+          Validators.required,
+        ],
+      ],
+      fullName: [
         dataObject.fullName,
         [
           Validators.required,
@@ -86,10 +112,10 @@ export class EmployeeUpdateComponent implements OnInit {
           Validators.pattern(VALIDATORS.EMAIL),
         ],
       ],
-      dayOfBirth: [
-        // this.action === this.ROUTER_ACTIONS.update ? new Date(this.employee.dayOfBirth as Date) : '',
-        dataObject.dayOfBirth,
-        [Validators.maxLength(LENGTH_VALIDATOR.BIRTH_MAX_LENGTH.MAX)],
+      birthday: [
+        // this.action === this.ROUTER_ACTIONS.update ? new Date(this.employee.birthday as Date) : '',
+        dataObject.birthday,
+        [ Validators.required,Validators.maxLength(LENGTH_VALIDATOR.BIRTH_MAX_LENGTH.MAX)],
       ],
       gender: [
         dataObject.gender,
@@ -113,51 +139,36 @@ export class EmployeeUpdateComponent implements OnInit {
   }
 
   private onSubmit(): void {
-    console.log(this.file);
-    if (this.file) {
-      this.fileService.uploadFile(this.file).subscribe((response: any) => {
-        const file = response.body?.data;
-        const employee: Employee = {
+        const customer:ICustomer = {
           ...this.form.value,
-          avatarFileId: file.id,
-        };
-        if (this.form.get('dayOfBirth')?.value) {
-          employee.dayOfBirth = moment(employee.dayOfBirth).format('yyyy-MM-DD');
+          note:"note",
+          role:"CUSTOMER",
+          imageUrl:this.imageUrl ? this.imageUrl :null
+        }
+        console.log(customer);
+        
+        if (this.form.get('birthday')?.value) {
+          customer.birthday = moment(customer.birthday).format('yyyy-MM-DD');
         }
         if (this.action === this.ROUTER_ACTIONS.update) {
-          this.update(employee);
+          this.update(customer);
         } else {
-          this.create(employee);
+          this.create(customer);
         }
-      });
-    } else {
-      const employee: Employee = {
-        ...this.form.value,
-        avatarFileId: this.employee.avatarFileId,
-      };
-      if (this.action === this.ROUTER_ACTIONS.update) {
-        this.update(employee);
-      } else {
-        this.create(employee);
-      }
-    }
   }
 
-  private create(employee: IEmployee): void {
-    console.log(employee);
+  private create(employee: ICustomer): void {;
     this.employeeService.create(employee).subscribe((res: any) => {
-      this.toast.success('model.employee.success.create');
+      this.toast.success('Thêm Khách hàng thành công');
       this.closeModal(res.body.data);
     });
   }
 
   private update(employee: IEmployee): void {
-    this.employeeService
-      .update(employee, this.employee.id || '')
-      .subscribe((res: any) => {
-        this.toast.success('model.employee.success.update');
-        this.closeModal(res.body.data);
-      });
+    this.employeeService.update(employee,this.employee.userId).subscribe((res: any) => {
+      this.toast.success('Cập nhật khách hàng thành công');
+      this.closeModal(res.body.data);
+    });
   }
 
   private closeModal(employee: IEmployee): void {
@@ -169,16 +180,16 @@ export class EmployeeUpdateComponent implements OnInit {
   enterDatePicker(event: any): void {
     const date = event?.target?.value;
     if (CommonUtil.newDate(date).toString() === 'Invalid Date') {
-      this.form.controls.dayOfBirth.setValue(
-        this.form.controls.dayOfBirth.value
+      this.form.controls.birthday.setValue(
+        this.form.controls.birthday.value
       );
       this.datePicker.close();
     } else if (!this.disabledAfterToday(CommonUtil.newDate(date))) {
-      this.form.controls.dayOfBirth.setValue(CommonUtil.newDate(date));
+      this.form.controls.birthday.setValue(CommonUtil.newDate(date));
       this.datePicker.close();
     } else {
-      this.form.controls.dayOfBirth.setValue(
-        this.form.controls.dayOfBirth.value
+      this.form.controls.birthday.setValue(
+        this.form.controls.birthday.value
       );
       this.datePicker.close();
     }
@@ -191,9 +202,27 @@ export class EmployeeUpdateComponent implements OnInit {
     if (files) {
       this.file = files[0];
       this.getBase64(files[0]).then((data) => {
-        this.employee.avatarFileId = data as string;
-        // this.imageUrl = data;
+        this.employee.imageUrl = data as string;
       });
+      const n = Date.now();
+      const filePath = `User/${this.file?.name}_${n}`;
+      const fileRef = this.storage.ref(filePath);
+      const task = this.storage.upload(filePath, this.file);
+      task
+        .snapshotChanges()
+        .pipe(
+          finalize(() => {
+            this.dowloadUrl = fileRef.getDownloadURL();
+            this.dowloadUrl.subscribe((url:any) => {
+              this.imageUrl = url;
+            });
+          })
+        )
+        .subscribe((url) => {
+          if (url) {
+            console.log(url);
+          }
+        });
     }
   }
 

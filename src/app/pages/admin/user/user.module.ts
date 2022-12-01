@@ -12,6 +12,8 @@ import {CustomerDetailsComponent} from "@pages/admin/user/customer/customer-deta
 import { EmployeeListComponent } from './employee/employee-list/employee-list.component';
 import { EmployeeUpdateComponent } from './employee/employee-update/employee-update.component';
 import { EmployeeDetailsComponent } from './employee/employee-details/employee-details.component';
+import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
+import { EmployeeUpdateComponent1 } from './employee/employee-update1/employee-update1.component';
 @NgModule({
   declarations: [
     UserComponent,
@@ -21,12 +23,14 @@ import { EmployeeDetailsComponent } from './employee/employee-details/employee-d
     CustomerDetailsComponent,
     EmployeeListComponent,
     EmployeeUpdateComponent,
-    EmployeeDetailsComponent
+    EmployeeDetailsComponent,
+    EmployeeUpdateComponent1
   ],
   imports: [
     CommonModule,
     SharedModule,
     NzAlertModule,
+    NzDatePickerModule,
     NzAvatarModule,
     UserRoutingModule
   ],

@@ -1,0 +1,113 @@
+<div class="content">
+  <div *nzModalTitle>
+    <span *ngIf="!isDetail">{{
+      (action === 'update' ? "action.update" : "action.create") | translate
+    }}</span>
+    <span *ngIf="isDetail">{{ "action.detail" | translate }}</span>
+  </div>
+ 
+    <div class="row">
+      <form [formGroup]="form">
+        <div class="row">
+          <div class="col-6 mb-2">
+            <label
+              ><strong>{{ "model.product.name" | translate }}</strong>: {{this.product?.product?.nameProduct}}
+              </label>
+          </div> 
+          <div class="col-6 mb-2">
+            <label
+              ><strong>{{ "model.product.code" | translate }}</strong>: {{this.product?.product?.code}}
+              </label>
+          </div> 
+          <div class="col-6 mb-2">
+            <label
+              ><strong>{{ "model.product.sizeId" | translate }}</strong>: {{this.product?.size.size}}
+              </label>
+          </div> 
+          <div class="col-6 mb-2">
+            <label
+              ><strong>{{ "model.product.gender" | translate }}</strong>: {{this.product?.product.gender === 'MALE' ? 'Nam' : 'Nữ' }}
+              </label>
+          </div> 
+          <div class="col-6 mb-2">
+            <label
+              ><strong>{{ "model.order.productQuantity" | translate }}</strong>: {{this.product?.quantity}}
+              </label>
+          </div> 
+          <div class="col-6 mb-2">
+            <label
+              ><strong>{{ "model.product.material" | translate }}</strong>: {{this.product?.product.material.materialName}}
+              </label>
+          </div> 
+          <div class="col-6 mb-2">
+            <label
+              ><strong>{{ "model.product.createdAt" | translate }}</strong>: {{this.product?.createAt | date:'dd-MM-yyyy'}}
+              </label>
+          </div> 
+          <div class="col-6 mb-2">
+            <label
+              ><strong>{{ "model.product.category" | translate }}</strong>: {{this.product?.product.category.name}}
+              </label>
+          </div> 
+          <div class="col-6 mb-2">
+            <label
+              ><strong>{{ "model.product.accessoryId" | translate }}</strong>: {{this.product?.product.accessory.name}}
+              </label>
+          </div> 
+          <div class="col-6 mb-2" *ngFor="let item of this.product?.product.productProperties">
+            <label
+              ><strong>{{ item.name }}</strong>: {{item.value}}
+              </label>
+          </div> 
+         
+        </div>
+           
+            <div class="row mt-2">
+              <div class="col-12 mb-2">
+               <label> <strong>{{ "model.product.note" | translate }}</strong></label>
+                <mb-editor
+                  [placeholder]="getTranslate('description')"
+                  (data)="onChangeData('description', $event)"
+                  [isReadOnly]="isDetail"
+                  [value]="this.product.note || ''"
+                  [maxLength]="LENGTH_VALIDATOR.CONTENT_MAX_LENGTH.MAX"
+                >
+                </mb-editor>
+                <ng-container
+                  *ngIf="
+                    form.get('description')?.touched || form.get('description')?.dirty
+                  "
+                >
+                  <span
+                    class="text-danger"
+                    *ngIf="form.get('description')?.hasError('required')"
+                  >
+                    <mb-not-blank
+                      [value]="getTranslate('description')"
+                    ></mb-not-blank>
+                  </span>
+                </ng-container>
+              </div>
+            </div>
+      </form>
+    </div>
+  <div class="row">
+    <div class="col-12 text-center" *nzModalFooter>
+      <button nz-button nzType="default" class="e-2" (click)="onCancel()">
+        {{
+          (action === ROUTER_ACTIONS.detail ? "action.back" : "action.cancel")
+            | translate
+        }}
+      </button>
+      <button
+        *ngIf="!isDetail"
+        nz-button
+        nzType="primary"
+        (click)="onSubmit()"
+        [disabled]="form.invalid"
+      >
+        {{ (isUpdate ? "action.save" : "action.save") | translate }}
+      </button>
+    </div>
+  </div>
+</div>

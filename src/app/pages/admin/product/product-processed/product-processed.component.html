@@ -1,0 +1,228 @@
+<mb-table-title [title]="'model.product.list'"></mb-table-title>
+<div class="row col-12">
+  <!-- search -->
+  <nz-table>
+    <div [formGroup]="form">
+      <div class="row ms-3 mt-3">
+        <div class="col-3 mb-1">
+          <label>{{ "model.order.note" | translate }}</label>
+          <input
+            type="text"
+            formControlName="keyword"
+            nz-input
+            [maxLength]="LENGTH_VALIDATOR.NAME_MAX_LENGTH.MAX"
+            (keyup.enter)="search()"
+            [placeholder]="'Nhập ghi chú'"
+          />
+        </div>
+        <div class="col-3">
+          <label>{{ "model.product.name" | translate }}</label>
+          <nz-select
+            formControlName="productId"
+            nzAllowClear
+            appRemoveOptionTitle
+            nzPlaceHolder="{{ 'model.product.name' | translate }}"
+          >
+            <nz-option
+              *ngFor="let service of this.productAutos"
+              [nzLabel]="service.nameProduct"
+              [nzValue]="service.productId"
+              [nzCustomContent]="true"
+            >
+              <div
+                container="body"
+                [animation]="false"
+                [openDelay]="100"
+                [closeDelay]="0"
+                [ngbTooltip]="service?.nameProduct"
+              >
+                {{ service?.nameProduct }}
+              </div>
+            </nz-option>
+          </nz-select>
+        </div>
+        <div class="col-6 mb-2">
+          <label>{{'model.exchange.created.root' | translate}}</label>
+          <app-date-range-picker [fromDate]="this.form?.get('startDate')?.value"
+                                 [toDate]="this.form?.get('endDate')?.value" (rangeDateChange)="onChangeCreateDate($event)">
+          </app-date-range-picker>
+        </div>
+        <div class="col-3">
+          <label>{{ "model.product.sizeId" | translate }}</label>
+          <nz-select
+            formControlName="sizeId"
+            nzAllowClear
+            appRemoveOptionTitle
+            nzPlaceHolder="{{ 'model.product.sizeId' | translate }}"
+            
+          >
+            <nz-option
+              *ngFor="let service of this.sizes"
+              [nzLabel]="service.size"
+              [nzValue]="service.sizeId"
+              [nzCustomContent]="true"
+            >
+              <div
+                container="body"
+                [animation]="false"
+                [openDelay]="100"
+                [closeDelay]="0"
+                [ngbTooltip]="service?.size! "
+              >
+                {{ service?.size!  }}
+              </div>
+            </nz-option>
+          </nz-select>
+        </div>
+      </div>
+    </div>
+
+    <div class="row pb-3 text-center">
+      <div class="col-12">
+        <button class="me-3" nz-button nzType="default" (click)="resetSearch()">
+          {{ "action.reset" | translate }}
+        </button>
+        <button nz-button nzType="primary" (click)="search()">
+          {{ "common.search" | translate }}
+        </button>
+      </div>
+    </div>
+  </nz-table>
+  <!-- end-search -->
+  <!-- <div class="col-12 text-end mt-3">
+    <mb-button
+      nz-button
+      nz-dropdown
+      [nzDropdownMenu]="dropMenu"
+      [type]="'primary'"
+      *hasRoles="['product:create']"
+      [icon]="'plus'"
+      [text]="'action.create'"
+      (click)="create()"
+    >
+    </mb-button>
+  </div> -->
+  <div class="col-12 mt-2">
+    <nz-table
+      #table
+      [nzData]="products"
+      (nzQueryParams)="onChangeQueryParam($event)"
+      [nzNoResult]="noDataResult"
+    >
+      <thead>
+        <tr>
+          <th nzAlign="center" nzColumnKey="index">
+            {{ "common.index" | translate }}
+          </th>
+          <th nzAlign="center" nzColumnKey="code" [nzSortFn]="true">
+            {{ "model.product.code" | translate }}
+          </th>
+          <th nzAlign="center" nzColumnKey="nameProduct" [nzSortFn]="true">
+            {{ "model.product.name" | translate }}
+          </th>
+          <th nzAlign="center" nzColumnKey="nameProduct" [nzSortFn]="true">
+            {{ "model.product.sizeId" | translate }}
+          </th>
+          <th nzAlign="center" nzColumnKey="gender" [nzSortFn]="true">
+            {{ "model.order.productQuantity" | translate }}
+          </th>
+          <th nzAlign="center" nzColumnKey="material">
+            {{ "model.product.material" | translate }}
+          </th>
+          <th nzAlign="center" nzColumnKey="material">
+            {{ "model.product.createdAt" | translate }}
+          </th>
+          <th nzAlign="center" nzColumnKey="categories">
+            {{ "model.product.category" | translate }}
+          </th>
+          <th nzAlign="center" nzColumnKey="material">
+            {{ "model.product.note" | translate }}
+          </th>
+    
+          <!--        <th nzAlign="center" nzColumnKey="type" [nzSortFn]="true">{{'model.product.type' | translate}}</th>-->
+          <th nzAlign="center" nzColumnKey="action">
+            {{ "action.msg" | translate }}
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <ng-container *ngFor="let item of products; let i = index">
+          <tr>
+            <td nzAlign="center">{{ getIndex(i) }}</td>
+            <td nzAlign="center">{{ item.product.code }}</td>
+            <td nzAlign="center">{{ item.product.nameProduct | limitWord: 25 }}</td>
+            <td nzAlign="center">{{item.size.size}}</td>
+            <td nzAlign="center">{{item.quantity}}</td>
+            <td nzAlign="center" >
+              {{item.product.material.materialName }}
+             </td>
+             <td nzAlign="center" >
+              {{item.createAt | date:'dd-MM-yyyy'}}
+             </td>
+            <td nzAlign="center" >
+             {{item.product.category.name}}
+            </td>
+            <td nzAlign="center" [innerHTML]="item.note">
+             </td>
+            <!--          <td nzAlign="center">{{ pipeType(item.type) | translate }}</td>-->
+            <td nzAlign="center" class="action">
+              <mb-button-action
+                [action]="'view'"
+                className="first"
+                nzTooltipTitle="{{ 'action.detail' | translate }}"
+                nzTooltipPlacement="top"
+                nz-tooltip
+                (click)="detail(item)"
+              >
+              </mb-button-action>
+              <mb-button-action
+                [action]="'edit'"
+                className="first"
+                nzTooltipTitle="{{ 'action.update' | translate }}"
+                nzTooltipPlacement="top"
+                nz-tooltip
+                (click)="update(item)"
+              >
+              </mb-button-action>
+              <mb-button-action
+              [action]="'send'"
+              className="first"
+              nzTooltipTitle="{{ 'action.update' | translate }}"
+              nzTooltipPlacement="top"
+              nz-tooltip
+              (click)="send(item)"
+            >
+            </mb-button-action>
+            </td>
+          </tr>
+        </ng-container>
+      </tbody>
+    </nz-table>
+    <mb-pagination
+      [pageIndex]="productSearchRequest.pageIndex"
+      [pageSize]="productSearchRequest.pageSize"
+      [total]="total"
+      (onChange)="onQuerySearch($event)"
+    >
+    </mb-pagination>
+  </div>
+</div>
+
+<mb-modal
+  [title]="lockPopup.title"
+  [content]="lockPopup.content"
+  [okText]="lockPopup.okText"
+  [interpolateParams]="lockPopup.interpolateParams"
+  [isVisible]="isVisible"
+  [callBack]="this.lockPopup.callBack"
+  (emitter)="onLockAndUnlock($event)"
+>
+</mb-modal>
+
+<!--<mb-modal [title]="groupPopup.title" [content]="groupPopup.content" [okText]="groupPopup.okText" [btnCentered]="true"-->
+<!--  [interpolateParams]="groupPopup.interpolateParams" [isVisible]="isDeletePopupVisible"-->
+<!--  (emitter)="onDeleteProduct($event)">-->
+<!--</mb-modal> -->
+<ng-template #noDataResult>
+  <mb-no-data></mb-no-data>
+</ng-template>

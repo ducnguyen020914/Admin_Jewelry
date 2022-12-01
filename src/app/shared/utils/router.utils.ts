@@ -140,7 +140,8 @@ export const ROUTER_UTILS = {
     accessory:'accessory',
     vendor:'vendor',
     productCreate: 'create',
-    productUdate: ':id/update'
+    productUdate: ':id/update',
+    productProcess:"processed"
   },
   room: {
     root: 'room',

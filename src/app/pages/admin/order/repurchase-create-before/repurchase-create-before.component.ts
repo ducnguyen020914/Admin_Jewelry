@@ -15,9 +15,11 @@ import { paymentMethod, ORDER_STATUS } from '../../../../shared/constants/order.
 import { LENGTH_VALIDATOR } from '../../../../shared/constants/validators.constant';
 import { IEvent } from '../../../../shared/models/event.model';
 import CommonUtil from '../../../../shared/utils/common-utils';
-import { ExchangeProduct, ExchangeDetail } from '../../../../shared/models/order.model';
+import { ExchangeProduct, ExchangeDetail, PaymentMethod } from '../../../../shared/models/order.model';
 import { ExchangeEnum } from '../../../../shared/models/exchange.model';
 import { ExchangeService } from '../../../../shared/services/order/exchange.service';
+import { saveAs } from 'file-saver';
+import { RepurchaseService } from '../../../../shared/services/order/repurchase.service';
 import {
   Order,
   OrderType,
@@ -36,8 +38,14 @@ export class RepurchaseCreateBeforeComponent implements OnInit {
   id = '';
   ROUTER_ACTIONS = ROUTER_ACTIONS;
   PAYMENT_METHOD = paymentMethod;
+  PAYMENT_METHOD2  = [
+    {value: 'MONEY', label: 'model.order.paymentMethod.money'},
+    {value: 'CARD', label: 'model.order.paymentMethod.card'},
+    
+    ];
   ORDER_STATUS = ORDER_STATUS
   status = StatusEnum;
+  payment!:PaymentMethod;
   LENGTH_VALIDATOR = LENGTH_VALIDATOR;
   form: FormGroup = new FormGroup({});
   order: Order = {};
@@ -64,7 +72,7 @@ export class RepurchaseCreateBeforeComponent implements OnInit {
     private orderService: OrderService,
     private modalService: NzModalService,
     private localStorage: LocalStorageService,
-    private exchangeService:ExchangeService
+    private repurchaseService:RepurchaseService
   ) {
     this.route.paramMap.subscribe((res) => {
       this.id = res.get('id') || '';
@@ -80,6 +88,8 @@ export class RepurchaseCreateBeforeComponent implements OnInit {
 
   ngOnInit() {
     this.loadOrder();
+    console.log(this.PAYMENT_METHOD);
+    
 
   }
   getPayMethod(): string{
@@ -99,8 +109,6 @@ export class RepurchaseCreateBeforeComponent implements OnInit {
       this.order = res.body?.data;
       this.selectedProducts = this.order.orderDetailDTOList as IProductOrder[];
       this.productExchange = this.selectedProducts.map((product) => new ExchangeProduct(product,1,false));
-     console.log(this.order);
-     
       this.form.get('userId')?.setValue(this.order.userId);
       this.form.get('paymentMethod')?.setValue(this.order.paymentMethod);
       this.form.get('eventId')?.setValue(this.order.eventId);
@@ -164,9 +172,35 @@ export class RepurchaseCreateBeforeComponent implements OnInit {
   onCancel(){
     this.router.navigate([
       ROUTER_UTILS.order.root,
-      ROUTER_UTILS.order.exchange
+      'repurchase'
     ])
   }
+  getCountProduct(){
+    const productSelected = this.productExchange.filter((product) => product.selected === true);
+   return productSelected.length;
+  }
+  tongTien(){
+    const productSelected = this.productExchange.filter((product) => product.selected === true);
+    let total = 0;
+    productSelected.forEach((product) => 
+    {
+      const price = product.productOrder?.price as number;
+    total = total + price;
+  })
+    return total;
+  }
+  get30persent(){
+    const productSelected = this.productExchange.filter((product) => product.selected === true);
+    let total = 0;
+    productSelected.forEach((product) => 
+    {
+      const quantity = product.quantityExchange as number;
+      const salary = product.productOrder?.salary as number;
+    total =total + (salary * 0.3  * quantity  );
+  })
+    return Math.round(total);
+  }
+  
   onSubmit(){
    const products =  this.productExchange.filter((item) => item.selected).map((item) => item.productOrder?.id);
    
@@ -185,34 +219,44 @@ export class RepurchaseCreateBeforeComponent implements OnInit {
   if(check){
     return;
   }
-  if(this.reason === null || this.reason.trim() === ''){
-    this.toast.error("Hãy nhập lý do đổi hàng");
+  if(!this.payment){
+    this.toast.error("Hãy chọn hình thức thanh toán");
     return;
   }
- 
-   const exchanges: {                                                                                        
-      orderId?: string ;
-      products:ExchangeDetail[]; 
-      status: ExchangeEnum; reason: string;
-      note: string; } = {
-      orderId: this.order.id,
-      products:  this.productExchange.filter((item) => item.selected).map((item) => new ExchangeDetail(item.productOrder?.productId+'',item.productOrder?.sizeId,item.quantityExchange)),
-      status: ExchangeEnum.THANH_CONG,
-      reason: this.reason,
-      note: this.note
-      };
+
       const createForm = CommonUtil.modalConfirm(
         this.translateService,
-        'model.exchange.updateExchangeTitle',
-        'model.exchange.updateExchangeContent'
+        'model.purchase.updateExchangeTitle',
+        'model.purchase.updateExchangeContent'
       );
       const modal: NzModalRef = this.modalService.create(createForm);
       modal.afterClose.subscribe((result: { success: boolean; data: any }) => {
         if (result?.success) {
           const order = {
-            status:this.form.value.status
+             userId:this.order.userId,
+             paymentMethod:this.payment,
+             total: this.tongTien() - this.get30persent(),
+             purchaseType:OrderType.DIRECT_TYPE,
+             transportFee: 0,
+             status:StatusEnum.DA_GIAO,
+             address:"Tại cửa hàng",
+             customerMoney:0,
+             orderDetailList: this.productExchange.filter((product) => product.selected ).map((product) => {
+              const price = product.productOrder?.price as number;
+              const productDetail: IProductOrder = {
+                productId: product.productOrder?.productId,
+                quantity: product.quantityExchange,
+                price: price,
+                sizeId: product.productOrder?.sizeId,
+                total: ((product.quantityExchange as number) * price) as number,
+              };
+              return productDetail;
+            }),
           }   
-            this.exchangeService.createExchange(exchanges).subscribe((item) => {
+          console.log(order);
+          
+            this.repurchaseService.createOrder(order).subscribe((item) => {
+              this.toast.success("Tạo hóa đơn mua lại thành công");
               this.onCancel();
            })
          }});    

@@ -18,8 +18,11 @@ import {ResizedEvent} from "angular-resize-event";
 import CommonUtil from "@shared/utils/common-utils";
 import {ROUTER_ACTIONS, ROUTER_UTILS} from "@shared/utils/router.utils";
 import {CustomerUpdateComponent} from "@pages/admin/user/customer/customer-update/customer-update.component";
-import {EmployeeRequest} from "@shared/models/request/employee-request.model";
+import {EmployeeRequest, Role} from "@shared/models/request/employee-request.model";
 import {EmployeeUpdateComponent} from "@pages/admin/user/employee/employee-update/employee-update.component";
+import { EmployeeUpdateComponent1 } from '../employee-update1/employee-update1.component';
+import { UserService } from '../../../../../shared/services/user.service';
+import { IUser } from '../../../../../shared/models/user.model';
 
 @Component({
   selector: 'app-employee-list',
@@ -53,7 +56,7 @@ export class EmployeeListComponent implements OnInit {
   };
   constructor(
     private fileService: FileService,
-    private employeeService: EmployeeService,
+    private employeeService: UserService,
     private router: Router,
     private translateService: TranslateService,
     private modalService: NzModalService,
@@ -79,6 +82,7 @@ export class EmployeeListComponent implements OnInit {
       this.employeeRequest.pageIndex = pageNumber;
       this.employeeRequest.pageSize = size;
       this.employeeRequest.sortBy = sortBy;
+      this.employeeRequest.role = Role.EMPLOYEE;
       this.loading = isLoading;
       this.employeeService.search(this.employeeRequest, (isLoading = true)).subscribe(
         (respone: any) => {
@@ -160,12 +164,12 @@ export class EmployeeListComponent implements OnInit {
     update(employee: IEmployee): void {
       console.log(this.employees);
       const base = CommonUtil.modalBase(
-        EmployeeUpdateComponent,
+        EmployeeUpdateComponent1,
         {
           action: ROUTER_ACTIONS.update,
           employee,
         },
-        '40%'
+        '50%'
       );
       const modal: NzModalRef = this.modalService.create(base);
       modal.afterClose.subscribe((result) => {
@@ -177,11 +181,11 @@ export class EmployeeListComponent implements OnInit {
 
     create(): void {
       const base = CommonUtil.modalBase(
-        EmployeeUpdateComponent,
+        EmployeeUpdateComponent1,
         {
           action: ROUTER_ACTIONS.create,
         },
-        '40%'
+        '50%'
       );
       const modal: NzModalRef = this.modalService.create(base);
       modal.afterClose.subscribe((result) => {
@@ -190,42 +194,47 @@ export class EmployeeListComponent implements OnInit {
         }
       });
     }
-    lock(item: IEmployee) {
+    lock(user: IUser): void {
       this.isVisible = true;
-      if (item.status === STATUS_ACTIVE) {
-        console.log('hello');
-        this.lockPopup = {
-          title: 'model.employee.lockemployeeTitle',
-          content: 'model.employee.lockemployeeContent',
-          interpolateParams: { name: item.fullName },
-          okText: 'action.lock',
-          callBack: () => {
-            if (item.id) {
-              this.employeeService.inactive(item.id).subscribe((next) => {
+    if (!user.status) {
+      this.lockPopup = {
+        title: 'model.employee.lockTitle',
+        content: 'model.employee.lockContent',
+        interpolateParams: { name: user.fullName },
+        okText: 'action.lock',
+        callBack: () => {
+          if (user.userId) {
+            this.employeeService
+              .inactive(user.userId)
+              .subscribe((next) => {
                 this.toast.success('model.employee.lockSuccess');
-                item.status = 'INACTIVE';
+                user.status = true
+                
               });
-            }
-          },
-        };
-      } else {
-        this.lockPopup = {
-          title: 'model.employee.unlockemployeeTitle',
-          content: 'model.employee.unlockemployeeTitle',
-          interpolateParams: { name: item.fullName },
-          okText: 'action.unlock',
-          callBack: () => {
-            if (item.id) {
-              this.employeeService.active(item.id).subscribe((next) => {
+          }
+        },
+      };
+    } else {
+      this.lockPopup = {
+        title: 'model.employee.unlockTitle',
+        content: 'model.employee.unlockContent',
+        interpolateParams: { name:user.fullName  },
+        okText: 'action.unlock',
+        callBack: () => {
+          if (user.userId) 
+          console.log(user.userId);
+          {
+            this.employeeService
+              .active(user.userId)
+              .subscribe((next) => {
                 this.toast.success('model.employee.unlockSuccess');
-                item.status = 'ACTIVE';
+                user.status = false
               });
-            }
-          },
-        };
-      }
+          }
+        },
+      };
     }
-
+  }
     onLockAndUnlock(result: { success: boolean }): void {
       this.lockPopup.callBack = () => {};
       this.isVisible = false;

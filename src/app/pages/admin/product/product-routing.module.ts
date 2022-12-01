@@ -9,6 +9,7 @@ import { VendorComponent } from './vendor/vendor.component';
 import { DetailCategoryComponent } from './detail-category/detail-category.component';
 import { DetailMaterialComponent } from './detail-material/detail-material.component';
 import { ProductUpdateComponent } from './product-update/product-update.component';
+import { ProductProcessedComponent } from './product-processed/product-processed.component';
 
 const routes: Routes = [
   {
@@ -46,6 +47,14 @@ const routes: Routes = [
     component: VendorComponent,
     data: {
       title: 'sidebar.vendor',
+    },
+    
+  },
+  {
+    path: ROUTER_UTILS.product.productProcess,
+    component: ProductProcessedComponent,
+    data: {
+      title: 'sidebar.productProcessed',
     },
     
   },

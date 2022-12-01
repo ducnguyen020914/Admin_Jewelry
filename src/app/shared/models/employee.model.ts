@@ -15,7 +15,7 @@ export interface IEmployee {
   roleIds?: Array<string>;
   employeeCode?: string;
   description?: string;
-  status?: string;
+  status?: boolean;
   departmentName?: string;
   avatarFileId?: string;
   file?: any;
@@ -42,7 +42,7 @@ export class Employee implements IEmployee {
     public employeeCode?: string,
     public title?: string,
     public description?: string,
-    public status?: string,
+    public status?: boolean,
     public avatarFileId?: string,
     public file?: any,
     public avatarFileUrl?: string,

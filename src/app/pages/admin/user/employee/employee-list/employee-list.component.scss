@@ -1,89 +1,88 @@
-.hr hr {
-  margin-left: 12px;
-  margin-top: 0;
-  margin-right: 0;
-  margin-bottom: 0;
+.avatar-blue {
+  background-color: lightblue;
 }
 
-#hr-description {
-  margin-left: 6px;
-  margin-top: 3px;
-  margin-right: 0;
-  margin-bottom: 0;
+.avatar-yellow {
+  background-color: yellowgreen;
 }
 
-.card-header {
-  padding: 1rem 1.35rem;
-  margin-bottom: 0;
-  background-color: rgba(33, 40, 50, 0.03);
-  border-bottom: 1px solid rgba(33, 40, 50, 0.125);
+.avatar-gray {
+  background-color: #ccc;
 }
-
-.ant-input,
-.ant-input-affix-wrapper,
-.ant-picker {
-  //pointer-events: none;
-  //border: none;
+.gird_view_container{
 }
-
-.label-style {
-  font-size: 16px;
-  font-weight: 550;
-}
-
-.section-custom {
-  border-radius: 0;
-  padding-bottom: 5px !important
-}
-
-.status {
-  margin-bottom: 6px;
-}
-
-.padding-top-8 {
-  padding-top: 8px;
-}
-
-.avatar {
-  display: flex;
-  text-align: center;
-  justify-content: center;
-  margin-top: 12px;
-}
-
-.general-p p {
-  margin-bottom: 0;
-}
-
-.relative {
+.grid_item {
+  border-radius: 10px;
+  box-shadow: 1px 1px 5px #bbb;
+  padding: 13px 20px;
   position: relative;
+  transition: all 0.2s;
+  z-index: 1;
+  height: 100%;
 }
 
-.general-title {
-  font-size: 20px;
-  font-weight: 500;
-  padding-left: 0;
-}
-// info job
-.info_wrapper_title{
-  font-weight: 500;
+.grid_item_header {}
+
+.grid_item_header_info {}
+
+.grid_item_header_info_name {
+  font-weight: 600;
   font-size: 16px;
-  margin-bottom: 8px;
 }
-.info_header {
-  font-size: 15px;
-  font-weight: bold;
-  text-transform: uppercase;
-  margin-bottom: 20px;
+.grid_item_header_avatar{
+  cursor: pointer;
 }
-.info_wrapper_content{
-  overflow-x: scroll;
+.cursor{
+  cursor: pointer;
 }
-.info_wrapper_field {
-  font-weight: 400;
-  color: #3f4254;
+.cursor:hover {
+  color: rgb(43, 168, 168);
+}
 
-  .info_wrapper_field_label {
-    color: inherit;
-  }
+.grid_item_header_info_jobTitle {
+  color: #B5B5C3;
+}
+
+.grid_item_body {}
+
+.grid_item_body_description {
+  height: 70px;
+  text-align: justify;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.grid_item_body_info {}
+
+.body_info_group {
+  margin-top: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.body_info_group_label {
+  font-weight: 600;
+}
+
+.body_info_group_label_content {
+  text-align: right;
+
+}
+
+.body_info_group_content {
+  color: #707083;
+}
+
+.btn_detail:hover {
+  background-color: rgb(43, 168, 168);
+  border: none;
+  color: white;
+}
+
+.grid_item_footer {
+  margin-top: auto !important;
 }

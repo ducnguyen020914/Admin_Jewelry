@@ -8,7 +8,7 @@ export interface IUserRequest {
   status?: string;
   accountType?: string;
   departmentIds?: string;
-  roleIds?: string;
+  role?: string;
   groupIds?: string[];
   searchByGroup?: boolean;
 }
@@ -24,7 +24,7 @@ export class UserRequest {
     public status?: string,
     public accountType?: string,
     public departmentIds?: string,
-    public roleIds?: string,
+    public role?: string,
     public groupIds?: string[],
     public searchByGroup?: boolean
   ) {
@@ -37,7 +37,7 @@ export class UserRequest {
     this.status = status;
     this.accountType = accountType;
     this.departmentIds = departmentIds;
-    this.roleIds = roleIds;
+    this.role = role;
     this.groupIds = groupIds;
     this.searchByGroup = searchByGroup;
   }

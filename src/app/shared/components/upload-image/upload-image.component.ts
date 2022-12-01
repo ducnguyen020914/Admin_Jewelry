@@ -92,7 +92,7 @@ export class UploadImageComponent implements OnInit {
   }
 
   getSource() {
-    return this.enrichImageUrl(this.imageId, this.imageUrl, this.alternateImageUrl);
+   return this.imageId ? this.imageId : this.defaultImageUrl
   }
 
   private enrichImageUrl(imageId?: string, imageUrl?: string, alternateImageUrl?: string): string {

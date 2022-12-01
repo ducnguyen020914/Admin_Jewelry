@@ -37,6 +37,7 @@ import CommonUtil from '../../../../shared/utils/common-utils';
 import { NzModalRef, NzModalService } from 'ng-zorro-antd/modal';
 import { LocalStorageService } from 'ngx-webstorage';
 import { ROUTER_UTILS } from '../../../../shared/utils/router.utils';
+import { EmployeeUpdateComponent } from '@pages/admin/user/employee/employee-update/employee-update.component';
 
 @Component({
   selector: 'app-update-order',
@@ -264,6 +265,23 @@ export class UpdateOrderComponent implements OnInit {
           this.toast.success('Thêm hóa đơn thành công');
           this.localStorage.clear("selectedProducts");
         });
+      }
+    });
+  }
+  createCustomer(): void {
+    const base = CommonUtil.modalBase(
+      EmployeeUpdateComponent,
+      {
+        action: ROUTER_ACTIONS.create,
+      },
+      '50%'
+    );
+    const modal: NzModalRef = this.modalService.create(base);
+    modal.afterClose.subscribe((result) => {
+      if (result && result?.success) {
+        this.loadCustomer();
+        this.form.get('userId')?.setValue(result.value.userId);
+        this.currentUser = result.value
       }
     });
   }

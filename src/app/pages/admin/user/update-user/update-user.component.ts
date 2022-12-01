@@ -125,7 +125,7 @@ export class UpdateUserComponent implements OnInit {
   // Load data
   initData(): void {
     this.getDataParam();
-    this.findId();
+    // this.findId();
   }
 
   initForm(): void {
@@ -314,31 +314,31 @@ export class UpdateUserComponent implements OnInit {
   }
 
   /*Tim thông tin cua user do*/
-  findId(): void {
-    if (
-      !this.id &&
-      window.location.href.includes(
-        `${ROUTER_UTILS.setting.root}/${ROUTER_UTILS.setting.myProfile}`
-      )
-    ) {
-      this.id = this.authService.getTokenPrivateKey();
-      this.isChangeMyself = true;
-    }
-    if (!!this.id) {
-      this.userService.find(this.id, true).subscribe((res: any) => {
-        this.user = res.body?.data;
-        // this.getAvatarFile(this.user.avatarFileId || '');
-        if (this.user?.avatarFileUrl) {
-          this.imageUrl = this.fileService.getFileResource(this.user.avatarFileUrl);
-        }
-        this.searchRoles(this.keyword, true);
-        this.initForm();
-        // this.clearValid();
-      });
-    } else {
-      this.searchDepartments();
-    }
-  }
+  // findId(): void {
+  //   if (
+  //     !this.id &&
+  //     window.location.href.includes(
+  //       `${ROUTER_UTILS.setting.root}/${ROUTER_UTILS.setting.myProfile}`
+  //     )
+  //   ) {
+  //     this.id = this.authService.getTokenPrivateKey();
+  //     this.isChangeMyself = true;
+  //   }
+  //   if (!!this.id) {
+  //     this.userService.find(this.id, true).subscribe((res: any) => {
+  //       this.user = res.body?.data;
+  //       // this.getAvatarFile(this.user.avatarFileId || '');
+  //       if (this.user?.avatarFileUrl) {
+  //         this.imageUrl = this.fileService.getFileResource(this.user.avatarFileUrl);
+  //       }
+  //       this.searchRoles(this.keyword, true);
+  //       this.initForm();
+  //       // this.clearValid();
+  //     });
+  //   } else {
+  //     this.searchDepartments();
+  //   }
+  // }
 
   // Lấy thông tin của tài khoản đang đăng nhập **/
   getProfile(): void {

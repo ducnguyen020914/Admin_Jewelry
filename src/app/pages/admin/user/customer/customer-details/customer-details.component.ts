@@ -70,10 +70,10 @@ export class CustomerDetailsComponent implements OnInit {
       name: this.customer.fullName,
       email: this.customer.email,
       phoneNumber: this.customer.phoneNumber,
-      dayOfBirth: this.customer.dayOfBirth,
+      dayOfBirth: this.customer.birthday,
       gender: this.customer.gender,
-      avatarFileId: this.customer.avatarFileId,
-      avatarFileUrl: this.customer.avatarFileUrl,
+      avatarFileId: this.customer.imageUrl,
+      avatarFileUrl: this.customer.imageUrl,
     });
   }
 
@@ -82,9 +82,9 @@ export class CustomerDetailsComponent implements OnInit {
       this.getContactQRCode(res.body?.data);
       this.customer = res.body?.data;
       console.log(this.customer);
-      if (this.customer?.avatarFileUrl) {
+      if (this.customer?.imageUrl) {
         this.imageUrl = this.fileService.getFileResource(
-          this.customer.avatarFileUrl
+          this.customer.imageUrl
         );
       }
       this.initForm();
@@ -102,7 +102,7 @@ export class CustomerDetailsComponent implements OnInit {
       `\nN:${name}` +
       `\nTEL;TYPE=work,VOICE:${customer.phoneNumber}` +
       `\nEMAIL:${customer.email}` +
-      `\nBDAY:${customer.dayOfBirth}` +
+      `\nBDAY:${customer.birthday}` +
       `\nVERSION:3.0\nEND:VCARD`;
   }
 

@@ -20,6 +20,9 @@ import { ProductUpdateComponent } from './product-update/product-update.componen
 import { UpdateAccessoryComponent } from './update-accessory/update-accessory.component';
 import { OrderListComponent } from '../order/order-list/order-list.component';
 import { DetailProductComponent } from './detail-product/detail-product.component';
+import { ProductProcessedComponent } from './product-processed/product-processed.component';
+import { UpdateWaitingProductComponent } from './update-waitingProduct/update-waitingProduct.component';
+import { DetailWaitingProductComponent } from './detail-waitingProduct/detail-waitingProduct.component';
 @NgModule({
   imports: [
     CommonModule,
@@ -44,6 +47,9 @@ import { DetailProductComponent } from './detail-product/detail-product.componen
     ProductUpdateComponent,
     UpdateAccessoryComponent,
     DetailProductComponent,
+    ProductProcessedComponent,
+    UpdateWaitingProductComponent,
+    DetailWaitingProductComponent
   ],
 })
 export class ProductModule {}
