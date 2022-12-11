@@ -124,14 +124,13 @@ export class UserService extends AbstractService {
   //   });
   // }
 
-  findCustomersByBuildings(
-    ids: { ids: string[] },
+  findByUserName(
+    params:any,
     loading = false
-  ): Observable<EntityResponseType<IUser[]>> {
-    return super.post<IUser[]>(
-      `${this.resourceUrl}/find-customer-by-building-ids`,
-      ids,
-      { loading }
+  ): Observable<EntityResponseType<IUser>> {
+    return super.get<IUser  >(
+      `${this.resourceUrl}/findByUsername`,
+      { params}
     );
   }
 

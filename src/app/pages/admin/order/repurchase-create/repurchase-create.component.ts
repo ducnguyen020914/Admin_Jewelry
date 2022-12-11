@@ -53,7 +53,9 @@ export class RepurchaseCreateComponent implements OnInit {
   list: IProductOrder[] = [];
   disabled = false;
   menuId = '';
-
+  cost=0;
+  
+  phi = false;
   ROUTER_ACTIONS = ROUTER_ACTIONS;
   ROUTER_UTILS = ROUTER_UTILS;
   form: FormGroup = new FormGroup({});
@@ -61,12 +63,14 @@ export class RepurchaseCreateComponent implements OnInit {
   PAYMENT_METHOD = paymentMethod;
   startValue: Date | null = null;
   orderId = '';
+  staffCurrent = '';
   order: IOrder = new Order();
   productSearch: ProductSearchRequest = {};
   productsFilteredByMenu: IProduct[] = [];
   selectedProducts: IProductOrder[] = [];
   currentDate = new Date();
   users: IUser[] = [];
+  
   currentUser: IUser = {};
   userSearchRequest: {} = {};
   productOrders: IProductOrder[] = [];
@@ -119,6 +123,7 @@ export class RepurchaseCreateComponent implements OnInit {
     this.loadCustomer();
     this.loadProductOrder();
     this.loadevent();
+   this.staffCurrent =  this.localStorage.retrieve('username');
    
   }
   loadProductOrder() {
@@ -157,10 +162,16 @@ export class RepurchaseCreateComponent implements OnInit {
     // this.form.get('date')?.setValue(new Date());
     this.form.get('total')?.setValue(0);
   }
+  formatterPrice = (value: number): string =>
+    CommonUtil.moneyFormat(value + '') + ' đ';
+  parserPrice = (value: string): number => CommonUtil.formatToNumber(value);
   private loadCustomer() {
     this.userService.findCustomer().subscribe((res: any) => {
       this.users = res.body?.data;
     });
+  }
+   tongTien(){
+    return this.total;
   }
   createCustomer(): void {
     const base = CommonUtil.modalBase(
@@ -259,6 +270,7 @@ export class RepurchaseCreateComponent implements OnInit {
     const order: Order = {
       ...this.form.value,
       total: this.thanhtien,
+      cost:this.cost,
       orderDetailList: this.selectedProducts.map((res: any) => {
         const price = res.price as number;
         const productDetail: IProductOrder = {
@@ -345,7 +357,8 @@ export class RepurchaseCreateComponent implements OnInit {
       const q =  item.quantityBy as number;
        this.total = this.total + (item.pricePurchase as number * q) 
      })
-     this.thanhtien = this.total - (this.total * this.discount/100);
+   
+     this.thanhtien = this.total - (this.total * this.discount/100) - this.cost;
   }
   delete(item:IProductOrder,i:number){
         const form = CommonUtil.modalConfirm(

@@ -21,6 +21,9 @@ import { ExchangeOrderDetailComponent } from './exchange-order-detail/exchange-o
 import { RepurchaseCreateComponent } from './repurchase-create/repurchase-create.component';
 import { RepurchaseOrderComponent } from './repurchase-order/repurchase-order.component';
 import { RepurchaseCreateBeforeComponent } from './repurchase-create-before/repurchase-create-before.component';
+import { AddOrderComponent } from './add-order/add-order.component';
+import { UpdateHoaDonChoComponent } from './update-hoa-don-cho/update-hoa-don-cho.component';
+import { RepurchaseDetailComponent } from './repurchase-detail/repurchase-detail.component';
 
 
 @NgModule({
@@ -47,7 +50,10 @@ import { RepurchaseCreateBeforeComponent } from './repurchase-create-before/repu
     ExchangeOrderDetailComponent,
     RepurchaseCreateComponent,
     RepurchaseOrderComponent,
-    RepurchaseCreateBeforeComponent
+    RepurchaseCreateBeforeComponent,
+    AddOrderComponent,
+    UpdateHoaDonChoComponent,
+    RepurchaseDetailComponent
   ],
   providers: [
     ToastService,

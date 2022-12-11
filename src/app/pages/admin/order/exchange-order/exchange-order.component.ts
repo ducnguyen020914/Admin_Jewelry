@@ -34,7 +34,11 @@ export class ExchangeOrderComponent implements OnInit {
   @Input() action = '';
   id = '';
   ROUTER_ACTIONS = ROUTER_ACTIONS;
-  PAYMENT_METHOD = paymentMethod;
+  PAYMENT_METHOD = [
+    {value: 'MONEY', label: 'model.order.paymentMethod.money'},
+    {value: 'CARD', label: 'model.order.paymentMethod.card'},
+    
+    ];
   ORDER_STATUS = ORDER_STATUS
   status = StatusEnum;
   LENGTH_VALIDATOR = LENGTH_VALIDATOR;
@@ -191,6 +195,7 @@ export class ExchangeOrderComponent implements OnInit {
  
    const exchanges: {                                                                                        
       orderId?: string ;
+      createAt?:string;
       products:ExchangeDetail[]; 
       status: ExchangeEnum; reason: string;
       note: string; } = {
@@ -198,7 +203,8 @@ export class ExchangeOrderComponent implements OnInit {
       products:  this.productExchange.filter((item) => item.selected).map((item) => new ExchangeDetail(item.productOrder?.productId+'',item.productOrder?.sizeId,item.quantityExchange)),
       status: ExchangeEnum.THANH_CONG,
       reason: this.reason,
-      note: this.note
+      note: this.note,
+      createAt:this.localStorage.retrieve('username') as string
       };
       const createForm = CommonUtil.modalConfirm(
         this.translateService,

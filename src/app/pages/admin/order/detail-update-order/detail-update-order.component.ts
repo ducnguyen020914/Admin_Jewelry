@@ -86,7 +86,7 @@ export class DetailUpdateOrderComponent implements OnInit {
       this.form.get('eventId')?.setValue(this.order.eventId);
       this.form.get('address')?.setValue(this.order.address);
       this.form.get('status')?.setValue(this.order.status);
-      this.form.get('createdAt')?.setValue(this.order.createAt);
+      this.form.get('staff')?.setValue(this.order.createBy);
       this.form.get('purchaseType')?.setValue(this.order.purchaseType);
       this.form.get('transportFee')?.setValue(this.order.transportFee);
       this.thanhtien = this.order.total ? this.order.total : 0;

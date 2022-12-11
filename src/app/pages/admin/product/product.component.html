@@ -150,9 +150,7 @@
     <mb-button
       nz-button
       nz-dropdown
-      [nzDropdownMenu]="dropMenu"
       [type]="'primary'"
-      *hasRoles="['product:create']"
       [icon]="'plus'"
       [text]="'action.create'"
       (click)="create()"
@@ -267,7 +265,6 @@
               </mb-button-action>
               <mb-button-action
               [action]="item.status === 'ACTIVE' ? 'lock' : 'unlock'"
-              *hasRoles="['product.update']"
               nzTooltipTitle="{{
                 (item.status === 'ACTIVE' ? 'action.lock' : 'action.unlock')
                   | translate

@@ -1,6 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ROUTER_UTILS } from '@shared/utils/router.utils';
 import { SidebarConstant } from './sidebar.constant';
+import { Role } from '../../../shared/models/request/employee-request.model';
+import { LocalStorageService } from 'ngx-webstorage';
 
 @Component({
   selector: 'app-sidebar',
@@ -10,9 +12,12 @@ import { SidebarConstant } from './sidebar.constant';
 export class SidebarComponent implements OnInit {
   @Input() isCollapsed = false;
   sidebar = SidebarConstant;
-
+  role = Role;
+  isAdmin = false;
   ROUTER_UTILS = ROUTER_UTILS;
-  constructor() {}
+  constructor(private localStorage:LocalStorageService) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+ 
+  }
 }

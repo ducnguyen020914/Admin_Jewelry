@@ -32,6 +32,18 @@ export class StatisticalService extends AbstractService {
   ): Observable<EntityResponseType<Revenue[]>> {
     return super.get<Revenue[]>(`${this.resourceUrl}/material`);
   }
+  top5product(
+    param:any,
+    loading = true
+  ): Observable<EntityResponseType<any>> {
+    return super.get<any>(`${this.resourceUrl}/productTop5?year=${param}`);
+  }
+  top5user(
+    param:any,
+    loading = true
+  ): Observable<EntityResponseType<any>> {
+    return super.get<any>(`${this.resourceUrl}/userTop5?year=${param}`);
+  }
 
  
 }

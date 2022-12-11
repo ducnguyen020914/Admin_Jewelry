@@ -1,0 +1,85 @@
+<mb-table-title [title]="'model.statistical.list'"></mb-table-title>
+<div class="row text-center mt-4">
+  <section class="mx-5 me-5 mt-3 content col-5">
+    <div echarts [options]="option1"></div>
+</section>
+<section class="mt-3  ms-5 content col-5">
+    <div echarts [options]="option2"></div>
+</section>
+  <section class="mt-3 content col-6">
+    <div class="col-6 mb-3" style="margin-left: 200px;">
+      <nz-select
+      appRemoveOptionTitle
+      nzPlaceHolder="Chọn năm"
+      [(ngModel)]="d"
+      (ngModelChange)="loadproductTop5($event)"
+      
+    >
+      <nz-option
+        *ngFor="let c of this.curent"
+        [nzLabel]="c"
+        [nzValue]="c"
+        [nzCustomContent]="true"
+      >
+        <div
+          container="body"
+          [animation]="false"
+          [openDelay]="100"
+          [closeDelay]="0"
+          [ngbTooltip]="service?.label! | translate"
+        >
+          {{ "Năm " + c }}
+        </div>
+      </nz-option>
+    </nz-select>
+    </div>
+      <div echarts [options]="option"></div>
+      <div
+         style="
+           font-size: 25px;
+           font-weight: bold;
+           font-family: Arial, Helvetica, sans-serif;
+         "
+       >
+         Thống kê Top 5 sản phẩm bán chạy trong năm
+       </div>
+  </section>
+  <section class="mt-3 content col-6">
+    <div class="col-6 mb-3" style="margin-left: 200px;">
+      <nz-select
+      appRemoveOptionTitle
+      nzPlaceHolder="Chọn năm"
+      [(ngModel)]="d2"
+      (ngModelChange)="this.loadUserTop5($event)"
+      
+    >
+      <nz-option
+        *ngFor="let c of this.curent"
+        [nzLabel]="c"
+        [nzValue]="c"
+        [nzCustomContent]="true"
+      >
+        <div
+          container="body"
+          [animation]="false"
+          [openDelay]="100"
+          [closeDelay]="0"
+          [ngbTooltip]="service?.label! | translate"
+        >
+          {{ "Năm " + c }}
+        </div>
+      </nz-option>
+    </nz-select>
+  </div>
+    <div echarts [options]="optionu"></div>
+    <div
+       style="
+         font-size: 25px;
+         font-weight: bold;
+         font-family: Arial, Helvetica, sans-serif;
+       "
+     >
+       Thống kê Top 5 khách hàng mua nhiều nhất trong năm
+     </div>
+</section>
+</div>

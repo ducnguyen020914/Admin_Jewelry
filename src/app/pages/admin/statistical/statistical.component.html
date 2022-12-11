@@ -1,30 +1,27 @@
 <mb-table-title [title]="'model.statistical.list'"></mb-table-title>
-<div class="row">
-  <section class="ms-4 content col-2 text-center">
+<div class="row text-center">
+  <section class=" content col-3 text-center">
     <h5>Số lượng sản phẩm</h5>
     <br />
-    <p>9</p>
+    <h3>{{this.product}}</h3>
   </section>
-  <section class="ms-5 content col-2 text-center">
+  <section class=" content col-3 text-center">
     <h5>Số lượng khách hàng</h5>
     <br />
-    <p>9</p>
+    <h3>{{this.customer}}</h3>
   </section>
-  <section class="ms-5 content col-2 text-center">
-    <h5>Hóa đơn</h5>
+  <section class="content col-3 text-center">
+    <h5>Hóa đơn bán hàng</h5>
     <br />
-    <p>9</p>
+    <h3>{{this.order}}</h3>
   </section>
-  <section class="ms-5 content col-2 text-center">Hóa đơn đổi trả</section>
+  <section class="content col-3 text-center"><h5>Hóa đơn đổi trả</h5>
+    <br />
+    <h3>{{this.exchange}}</h3>
+  </section>
 </div>
-<div class="row text-center mt-3">
-  <section class="mx-2 mt-3 content" style="width: 620px;">
-      <div echarts [options]="option1"></div>
-  </section>
-  <section class="mt-3 content" style="width: 620px;">
-      <div echarts [options]="option2"></div>
-  </section>
-  <section class="col-12 mt-3 content text-center">
+<div class="row text-center mt-4">
+  <section class="col-12 mt-5 content text-center">
    <div class="row">
     <div class="col-5"></div>
     <div class=" col-2 mb-4">

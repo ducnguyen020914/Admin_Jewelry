@@ -16,6 +16,9 @@ export const ROUTER_UTILS = {
     root: 'authentication',
     login: 'login',
   },
+  appointment:{
+    appointment:'appointment'
+  },
   ticket: {
     root: 'ticket',
     create: 'create',
@@ -53,7 +56,8 @@ export const ROUTER_UTILS = {
   },
   statistical:{
     root:'',
-    statistical:"statistical"
+    statistical:"statistical",
+    statisticalTop:'statisticalTop'
   },
   notification: {
     root: 'notification',
@@ -99,7 +103,9 @@ export const ROUTER_UTILS = {
     orderDetail: ':id/detail',
     orderCreate: 'create',
     exchange:"exchange",
-    repurchaseCreate:'repurchase/create'
+    repurchaseCreate:'repurchase/create',
+    updateWaitOrder:":id/updatewait",
+    detailrepurchase:':id/detail-repurchase'
     
   },
   user:{

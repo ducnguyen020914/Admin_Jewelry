@@ -91,17 +91,14 @@ export class AuthService {
   ): Observable<any> {
     return this.http
       .post<any>(
-        `${API_IAM}/authenticate`,
+        `http://localhost:8080/auth/login`,
         {
           username,
           password,
           rememberMe,
+          loading:true
         },
-        {
-          headers: CommonUtil.headers(true),
-        }
-      )
-      .pipe(map(this.authenticateSuccess.bind(this, rememberMe)));
+      );
   }
 
   logout(): Observable<any> {
@@ -131,33 +128,10 @@ export class AuthService {
       );
       this.router.navigate(['/authentication/login']);
     } else {
-      if (!!refreshToken) {
-        const endCodeRefreshToken = CommonUtil.encryptMessage(
-          refreshToken,
-          this.getTokenPrivateKey()
-        );
-        this.$localStorage.store(
-          LOCAL_STORAGE.REFRESH_TOKEN,
-          endCodeRefreshToken
-        );
-      }
-      if (accessToken) {
-        this.storeAuthenticationToken(accessToken, rememberMe);
-        return accessToken;
-      }
     }
   }
 
   storeAuthenticationToken(jwt: any, rememberMe: boolean): void {
-    const endCodeAccessToken = CommonUtil.encryptMessage(
-      jwt,
-      this.getTokenPrivateKey()
-    );
-    if (rememberMe) {
-      this.$localStorage.store(LOCAL_STORAGE.JWT_TOKEN, endCodeAccessToken);
-    } else {
-      this.$sessionStorage.store(SESSION_STORAGE.JWT_TOKEN, endCodeAccessToken);
-    }
   }
 
   clear(): void {
@@ -220,10 +194,7 @@ export class AuthService {
     const accessTokenEncode =
       this.$localStorage.retrieve(LOCAL_STORAGE.JWT_TOKEN) ||
       this.$sessionStorage.retrieve(SESSION_STORAGE.JWT_TOKEN);
-    return CommonUtil.decryptMessage(
-      accessTokenEncode,
-      this.getTokenPrivateKey()
-    );
+    return ''
   }
 
   refreshToken(refreshToken: any): Observable<any> {
@@ -237,22 +208,6 @@ export class AuthService {
           },
         }
       )
-      .pipe(
-        tap(
-          (res) => {
-            const endCodeRefreshToken = CommonUtil.encryptMessage(
-              res?.data?.refreshToken,
-              this.getTokenPrivateKey()
-            );
-            this.$localStorage.store(
-              LOCAL_STORAGE.REFRESH_TOKEN,
-              endCodeRefreshToken
-            );
-            this.storeAuthenticationToken(res?.data?.accessToken, true);
-          },
-          (err) => throwError(err)
-        )
-      );
   }
 
   resetPassword(
@@ -272,14 +227,12 @@ export class AuthService {
     let tokenPrivateKey = '';
     if (!this.tokenPrivateKey) {
       // nếu không có key tồn tại thì lấy key từ userProfile local storage
-      console.error('Token private key is not defined');
       const user = this.getCurrentUser();
       if (user) {
         tokenPrivateKey = user.id as string;
         this.tokenPrivateKey = tokenPrivateKey;
       } else {
         // nếu trong local storage không có user thì xoá hết thông tin profile
-        console.warn('User is not defined');
         this.clear();
       }
     } else {
@@ -289,19 +242,7 @@ export class AuthService {
   }
 
   public storeToken(accessToken?: string, refreshToken?: string): void {
-    if (!!refreshToken) {
-      const endCodeRefreshToken = CommonUtil.encryptMessage(
-        refreshToken,
-        this.getTokenPrivateKey()
-      );
-      this.$localStorage.store(
-        LOCAL_STORAGE.REFRESH_TOKEN,
-        endCodeRefreshToken
-      );
-    }
-    if (accessToken) {
-      this.storeAuthenticationToken(accessToken, true);
-    }
+   
   }
 
 }

@@ -2,11 +2,13 @@ import {TransferDirection, TransferItem} from "ng-zorro-antd/transfer";
 import {IProduct} from "@shared/models/productReal.model";
 import { User } from "./user.model";
 import { Exchange } from './exchange.model';
+import { IEvent } from "./event.model";
 export enum PaymentMethod {
   MONEY="MONEY",
   CARD = "CARD",
 }
 export enum StatusEnum {
+  HOA_DON_CHO = "HOA_DON_CHO",
   CHO_XAC_NHAN = "CHO_XAC_NHAN",
   XAC_NHAN = "XAC_NHAN",
   DANG_GIAO = "DANG_GIAO",
@@ -34,9 +36,10 @@ export interface IOrder {
   address?:string;
   userId?:string;
   user?:User;
-  event?:Event;
+  event?:IEvent;
   orderDetailDTOList?:IProductOrder[];
   isRepurchase?:boolean;
+  cost?:number;
 
 }
 
@@ -58,9 +61,10 @@ export class Order implements IOrder {
    public address?:string,
    public userId?:string,
    public user?:User,
-   public event?:Event,
+   public event?:IEvent,
    public  orderDetailDTOList?:IProductOrder[],
    public isRepurchase?:boolean,
+   public cost?:number
     ){
       this.createAt = createAt;
       this.createBy = createBy;
@@ -81,6 +85,7 @@ export class Order implements IOrder {
       this.orderDetailDTOList = orderDetailDTOList;
       this.userId = userId;
       this.isRepurchase = isRepurchase;
+      this.cost = cost;
     }
 }
 

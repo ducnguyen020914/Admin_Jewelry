@@ -11,6 +11,7 @@ import { AuthService } from '@shared/services/auth/auth.service';
 import { EventManagerService } from '@shared/services/helpers/event-manager.service';
 import { ToastService } from '@shared/services/helpers/toast.service';
 import { LocalStorageService, SessionStorageService } from 'ngx-webstorage';
+import { UserService } from '../../../shared/services/user.service';
 
 @Component({
   selector: 'app-login',
@@ -25,6 +26,7 @@ export class LoginComponent implements OnInit {
 
   constructor(
     private fb: UntypedFormBuilder,
+    private userService:UserService,
     private authService: AuthService,
     private localStorage: LocalStorageService,
     private sessionStorage: SessionStorageService,
@@ -63,10 +65,24 @@ export class LoginComponent implements OnInit {
           this.f.password.value,
           this.f.rememberMe.value
         )
-        .subscribe((token) => {
-          if (token) {
-            this.authService.storeProfile('/dashboard');
-          }
+        .subscribe((token:any) => {
+         this.localStorage.store("jwt-token",token.data.token);
+         this.localStorage.store("userName",token.data.username)
+         this.localStorage.store("role",token.data.roles);
+         const data ={
+          userName:token.data.username
+         }
+         this.userService.findByUserName(data).subscribe((res:any) => {
+          this.localStorage.store("profile",res.body.data);
+          this.toast.success("Đăng nhập thành công");
+          window.location.assign("facebook.com")
+         })
+         if(token.data.roles.length > 0){
+         const isAdmin = token.data.roles[0].role === 'MANAGER' ? true :false;
+           this.localStorage.store("isAdmin",isAdmin);
+           console.log(localStorage.getItem('isadmin'));
+           
+         }
         });
     } else {
       Object.values(this.loginForm.controls).forEach((control) => {

@@ -43,6 +43,12 @@ const routes: Routes = [
         )
       },
       {
+        path:ROUTER_UTILS.appointment.appointment,
+        loadChildren : () => import('@pages/admin/apoiment/apoiment.module').then(
+          (m) => m.ApoimentModule
+        )
+      },
+      {
         path:ROUTER_UTILS.statistical.statistical,
         loadChildren : () => import('@pages/admin/statistical/statistical.module').then(
           (m) => m.StatisticalModule

@@ -17,9 +17,18 @@ export class DashboardComponent implements OnInit {
     private authService: AuthService,
     private router: Router,
     private localStorage: LocalStorageService
-  ) {}
+  ) { }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+
+    this.checkLogin();
+  }
+
+  checkLogin(){
+    if(this.localStorage.retrieve("username") === null){
+      this.router.navigate(['authentication','login'])
+    }
+  }
 
   download(value: string): void {
     if (value === this.APP_STORE) {

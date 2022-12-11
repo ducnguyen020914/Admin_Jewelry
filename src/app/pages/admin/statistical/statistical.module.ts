@@ -6,6 +6,7 @@ import { SharedModule } from '../../../shared/shared.module';
 import { NzTransferModule } from 'ng-zorro-antd/transfer';
 import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
 import { NgxEchartsModule } from 'ngx-echarts';
+import { StatisticalTopComponent } from './statistical-top/statistical-top.component';
 
 
 @NgModule({
@@ -25,6 +26,6 @@ import { NgxEchartsModule } from 'ngx-echarts';
     }),
 
   ],
-  declarations: [StatisticalComponent],
+  declarations: [StatisticalComponent,StatisticalTopComponent],
 })
 export class StatisticalModule { }

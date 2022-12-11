@@ -23,9 +23,9 @@
     </div>
   </nz-table>
   <div class="row mt-3">
-    <div class="col-12 text-end" *hasRoles="['survey:update']">
-      <mb-button [type]="'primary'" class="me-3" [icon]="'plus'" [text]="'action.create'" *hasRoles="['user:create']"
-                 (click)="create(userProfileLdap)">
+    <div class="col-12 text-end">
+      <mb-button [type]="'primary'" class="me-3" [icon]="'plus'" [text]="'action.create'"
+                 (click)="create()">
       </mb-button>
     </div>
   </div>
@@ -63,7 +63,6 @@
           <th
             nzAlign="center"
             [nzWidth]="'180px'"
-            *hasRoles="['user:update']"
           >
             {{ "action.msg" | translate }}
           </th>
@@ -108,7 +107,6 @@
             </mb-button-action>
               <mb-button-action
                   [action]="'edit'"
-                  *hasRoles="['manufacture:update']"
                   className="first"
                   nzTooltipTitle="{{ 'action.update' | translate }}"
                   nzTooltipPlacement="top"

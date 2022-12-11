@@ -6,6 +6,7 @@ export const CANCELLED = 'CANCELLED';
 export const RETURN_REFUND = 'RETURN_REFUND';
 
 export const ORDER_STATUS = [
+  {value: 'HOA_DON_CHO', label: 'Hóa đơn chờ'},
   {value: 'CHO_XAC_NHAN', label: 'model.order.status.to_pay'},
   {value: 'XAC_NHAN', label: 'model.order.status.to_ship'},
   {value: 'DANG_GIAO', label: 'model.order.status.to_receive'},

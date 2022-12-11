@@ -90,7 +90,6 @@
           <th
             nzAlign="center"
             [nzWidth]="'180px'"
-            *hasRoles="['user:update']"
           >
             {{ "action.msg" | translate }}
           </th>
@@ -131,7 +130,7 @@
               >
               </mb-badge>
             </td>
-            <td nzAlign="left" *hasRoles="['user:update']">
+            <td nzAlign="left" *>
               <!--<i class="icon icon-edit"-->
               <!--(click)="update(item)"-->
               <!--nz-icon nzType="edit"-->
@@ -141,7 +140,6 @@
               <!--nz-tooltip></i>-->
               <mb-button-action
                 [action]="'edit'"
-                *hasRoles="['user:update']"
                 className="first"
                 nzTooltipTitle="{{ 'action.update' | translate }}"
                 nzTooltipPlacement="top"
@@ -151,7 +149,6 @@
               </mb-button-action>
               <mb-button-action
                 [action]="item.status === userActive ? 'lock' : 'unlock'"
-                *hasRoles="['user:update']"
                 className="{{
                     item.authenticationType === USER_INTERNAL
                       ? 'center'
@@ -171,7 +168,6 @@
               <ng-container *ngIf="item.authenticationType === USER_INTERNAL">
                 <mb-button-action
                   [action]="'key'"
-                  *hasRoles="['user:update']"
                   className="last"
                   (click)="openChangePassword(item)"
                   nzTooltipTitle="{{

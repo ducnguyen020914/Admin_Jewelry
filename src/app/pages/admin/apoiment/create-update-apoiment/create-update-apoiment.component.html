@@ -1,0 +1,201 @@
+<div class="content">
+  <div *nzModalTitle>
+    <span *ngIf="!isDetail">{{
+      (isUpdate ? "action.update" : "action.create") | translate
+    }}</span>
+    <span *ngIf="isDetail">{{ "action.detail" | translate }}</span>
+  </div>
+ 
+    <div class="col-12">
+      <form [formGroup]="form">
+         <div class="row">
+          <div class="col-6 mb-2">
+            <label
+              >{{ "model.apoiment.username" | translate }}
+              <span class="text-danger">*</span></label
+            >
+            <input
+              formControlName="userName"
+              nz-input
+              [maxLength]="LENGTH_VALIDATOR.NAME_MAX_LENGTH.MAX"
+              placeholder="{{ 'model.apoiment.username' | translate }}"
+            />
+            <ng-container
+              *ngIf="form.get('userName')?.touched || form.get('userName')?.dirty"
+            >
+              <span
+                class="text-danger"
+                *ngIf="form.get('userName')?.hasError('required')"
+              >
+                <mb-not-blank [value]="'model.apoiment.username'"></mb-not-blank>
+              </span>
+            </ng-container>
+          </div> 
+          <div class="col-6 mb-2">
+            <label
+              >{{ "model.apoiment.time" | translate }}
+              <span class="text-danger">*</span></label
+            >
+            <nz-date-picker [nzRenderExtraFooter]="plainFooter" nzShowTime formControlName="time" [disabled]="this.isUpdate && checkStatus()"></nz-date-picker>
+            <ng-container
+              *ngIf="form.get('time')?.touched || form.get('time')?.dirty"
+            >
+              <span
+                class="text-danger"
+                *ngIf="form.get('time')?.hasError('required')"
+              >
+                <mb-not-blank [value]="'model.apoiment.time'"></mb-not-blank>
+              </span>
+            </ng-container>
+          </div> 
+          <div class="col-6 mb-2">
+            <label
+              >{{ "model.apoiment.phoneNumber" | translate }}
+              <span class="text-danger">*</span></label
+            >
+            <input
+              formControlName="phoneNumber"
+              [disabled]="this.isUpdate && checkStatus()"
+              nz-input
+              [maxLength]="LENGTH_VALIDATOR.NAME_MAX_LENGTH.MAX"
+              placeholder="{{ 'model.apoiment.phoneNumber' | translate }}"
+            />
+            <ng-container
+              *ngIf="form.get('phoneNumber')?.touched || form.get('phoneNumber')?.dirty"
+            >
+              <span
+                class="text-danger"
+                *ngIf="form.get('phoneNumber')?.hasError('required')"
+              >
+                <mb-not-blank [value]="'model.apoiment.phoneNumber'"></mb-not-blank>
+              </span>
+            </ng-container>
+          </div> 
+          <div class="col-6 mb-2">
+            <label
+              >{{ "model.apoiment.email" | translate }}
+              <span class="text-danger">*</span></label
+            >
+            <input
+              type="email"
+              formControlName="email"
+              [disabled]="this.isUpdate && checkStatus()"
+              nz-input
+              [maxLength]="LENGTH_VALIDATOR.NAME_MAX_LENGTH.MAX"
+              placeholder="{{ 'model.apoiment.email' | translate }}"
+            />
+            <ng-container
+              *ngIf="form.get('email')?.touched || form.get('email')?.dirty"
+            >
+              <span
+                class="text-danger"
+                *ngIf="form.get('email')?.hasError('required')"
+              >
+                <mb-not-blank [value]="'model.apoiment.email'"></mb-not-blank>
+              </span>
+            </ng-container>
+          </div> 
+          <div class="col-6 mb-2">
+            <label>{{ "model.apoiment.product" | translate }} 
+              <span class="text-danger">*</span></label>
+            <nz-select
+              formControlName="productId"
+              [disabled]="this.isUpdate && checkStatus()"
+              nzAllowClear
+              appRemoveOptionTitle
+              nzPlaceHolder="{{ 'model.apoiment.product' | translate }}"
+              (ngModelChange)="loadSize($event)"
+            >
+              <nz-option
+                *ngFor="let service of products"
+                [nzLabel]="service.nameProduct"
+                [nzValue]="service.productId"
+                [nzCustomContent]="true"
+              >
+                <div
+                  container="body"
+                  [animation]="false"
+                  [openDelay]="100"
+                  [closeDelay]="0"
+                  [ngbTooltip]="service?.nameProduct! | translate"
+                >
+                  {{ service?.nameProduct! | translate }}
+                </div>
+              </nz-option>
+            </nz-select>
+          </div>
+          <div class="col-6 mb-2">
+            <label>{{ "model.apoiment.sizeselect" | translate }} <span class="text-danger">*</span></label>
+            <nz-select
+              formControlName="sizeId"
+              nzAllowClear
+              [disabled]="this.isUpdate && checkStatus()"
+              appRemoveOptionTitle
+              nzPlaceHolder="{{ 'model.apoiment.size' | translate }}"
+            >
+              <nz-option
+                *ngFor="let service of sizes"
+                [nzLabel]="service.size"
+                [nzValue]="service.sizeId"
+                [nzCustomContent]="true"
+              >
+                <div
+                  container="body"
+                  [animation]="false"
+                  [openDelay]="100"
+                  [closeDelay]="0"
+                  [ngbTooltip]="service?.size"
+                >
+                  {{ service?.size }}
+                </div>
+              </nz-option>
+            </nz-select>
+          </div>
+            <div class="col-12 mb-2">
+              <label>{{ "model.apoiment.note" | translate }}</label>
+              <mb-editor
+                [placeholder]="'model.apoiment.note'| translate"
+                (data)="onChangeData('note', $event)"
+                [isReadOnly]="this.isUpdate && checkStatus()"
+                [value]="form?.get('note')?.value || ''"
+                [maxLength]="LENGTH_VALIDATOR.CONTENT_MAX_LENGTH.MAX"
+              >
+              </mb-editor>
+              <ng-container
+                *ngIf="
+                  form.get('note')?.touched || form.get('note')?.dirty
+                "
+              >
+                <span
+                  class="text-danger"
+                  *ngIf="form.get('note')?.hasError('required')"
+                >
+                  <mb-not-blank
+                    [value]="getTranslate('note')"
+                  ></mb-not-blank>
+                </span>
+              </ng-container>
+            </div>
+          </div>
+      </form>
+    </div>
+  <div class="row">
+    <div class="col-12 text-center" *nzModalFooter>
+      <button nz-button nzType="default" class="e-2" (click)="onCancel()">
+        {{
+          (action === ROUTER_ACTIONS.detail ? "action.back" : "action.cancel")
+            | translate
+        }}
+      </button>
+      <button
+        *ngIf="!isDetail"
+        nz-button
+        nzType="primary"
+        (click)="onSubmit()"
+        [disabled]="form.invalid"
+      >
+        {{ (isUpdate ? "action.save" : "action.save") | translate }}
+      </button>
+    </div>
+  </div>
+</div>

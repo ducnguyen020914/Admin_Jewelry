@@ -53,7 +53,7 @@ export class UpdateOrderComponent implements OnInit {
   list: IProductOrder[] = [];
   disabled = false;
   menuId = '';
-
+ staff = '';
   ROUTER_ACTIONS = ROUTER_ACTIONS;
   ROUTER_UTILS = ROUTER_UTILS;
   form: FormGroup = new FormGroup({});
@@ -125,7 +125,7 @@ export class UpdateOrderComponent implements OnInit {
     this.productService.productOrders().subscribe((res: any) => {
       this.productOrders = res.body?.data;
       this.productOrders = this.productOrders.filter((res) => res.quantity as number > 0)
-      this.selectedProducts = JSON.parse(this.localStorage.retrieve('selectedProducts'));
+      // this.selectedProducts = JSON.parse(this.localStorage.retrieve('selectedProducts'));
       if(this.selectedProducts=== null){
         this.selectedProducts = [];
       }
@@ -150,7 +150,7 @@ export class UpdateOrderComponent implements OnInit {
       paymentMethod: [null, [Validators.required]],
       orderDetailList: this.fb.array([]),
       total: [{ value: '', disabled: true }, Validators.required],
-      staff: [{ value: '', disabled: true }, Validators.required],
+      staff: [{ value: this.localStorage.retrieve('username'), disabled: true }, Validators.required],
     });
     // this.form.get('date')?.setValue(new Date());
     this.form.get('total')?.setValue(0);
@@ -318,7 +318,7 @@ export class UpdateOrderComponent implements OnInit {
         }
         item.quantityBy = 1;
         this.selectedProducts.push(item);
-        this.localStorage.store("selectedProducts",JSON.stringify(this.selectedProducts));
+        // this.localStorage.store("selectedProducts",JSON.stringify(this.selectedProducts));
         this.productOrders = this.productOrders.filter(
           (item) => item.id !== id
         );
@@ -348,7 +348,7 @@ export class UpdateOrderComponent implements OnInit {
     } else {
       this.selectedProducts[i].quantityBy = quantityBy;
     }
-    this.localStorage.store("selectedProducts",JSON.stringify(this.selectedProducts));
+    // this.localStorage.store("selectedProducts",JSON.stringify(this.selectedProducts));
   }
   changePrice(){
     this.total = 0;
@@ -369,7 +369,7 @@ export class UpdateOrderComponent implements OnInit {
     modal.afterClose.subscribe((result: { success: boolean }) => {
       if (result.success) {
         this.selectedProducts = this.selectedProducts.filter((item,index) => index !== i );
-        this.localStorage.store("selectedProducts",JSON.stringify(this.selectedProducts));
+        // this.localStorage.store("selectedProducts",JSON.stringify(this.selectedProducts));
         this.productOrderFilter.push(item);
         this.changePrice();
         this.value = '     ';

@@ -145,9 +145,13 @@
           <label class="mb-3" style="width:'11rem'">Tổng tiền: </label> <span class="fw-bold">{{this.tongTien() | vnd}}</span> 
           <br>
           <label class="mb-3" style="width:'11rem'">Phí 30% tiền công: </label> <span class="fw-bold">{{this.get30persent() | vnd}}</span> 
-        
+          <br />
+          <label class="mb-3" style="width: '11rem'">Chi phí khác: </label>
+          <nz-input-number [(ngModel)]="cost" [nzSize]="'small'" [nzMin]="0" [nzMax]="this.tongTien() - this.get30persent()" [nzStep]="1"
+          [nzFormatter]="formatterPrice"
+          [nzParser]="parserPrice"></nz-input-number>
           <hr>
-          <label class="fw-bold" style="width:'11rem'">Thành tiền :</label><span class="fw-bold">{{this.tongTien() - this.get30persent()  | vnd}}</span>
+          <label class="fw-bold" style="width:'11rem'">Thành tiền :</label><span class="fw-bold">{{this.tongTien() - this.cost -  this.get30persent()  | vnd}}</span>
         </nz-card>
       </div>
     </div>

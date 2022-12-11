@@ -92,6 +92,8 @@
   "sidebar": {
     "vendor": "Quản lý nhà cung cấp",
     "productProcessed":"Quản lý sản phẩm cần gia công",
+    "statisticalTop":"Thông kê bán chạy",
+    "statisticaldoanhthu":"Thống kê doanh thu",
     "dashboard": "Trang chủ",
     "contract": "Quản lý hợp đồng",
     "building": "Quản lý tòa nhà",
@@ -110,6 +112,7 @@
     "survey": "Quản lý phản hồi đánh giá",
     "survey-list": "Quản lý đợt khảo sát",
     "survey-result": "Quản lý kết quả đánh giá",
+    "appointment":"Quản lý lịch hẹn",
     "report": "Báo cáo hệ thống",
     "qr-code": "Quản lý mã QR",
     "complaint": "Quản lý góp ý",
@@ -204,15 +207,22 @@
         "msg": "Lỗi"
       }
     },
+    "statistical": {
+      "statistical":"Báo cáo thống kê",
+      "list": "Thống kê"
+    },
     "repurchase": {
-       "before48h": "Tạo hóa đơn mua lại trước 2 ngày",
+       "before48h": "Tạo hóa đơn mua lại trước 2 ngày mua hàng",
        "orderList":"Danh sách hóa đơn mua lại",
+       "repurchaseDetail":"Cập nhật hóa đơn mua lại",
        "repurchaseOrder":"Danh sách hóa đơn có thể mua lại ",
        "create":"Tạo hóa đơn mua lại",
        "pricePurchase":"Đơn giá mua lại",
        "createRepurchaseTitle":"Tạo hóa đơn mua lại",
        "createRepurchaseContent":"Bạn có muốn tạo hóa đơn mua lại này?",
-       "date":"Ngày tạo"
+       "date":"Ngày tạo",
+       "after48h": "Tạo hóa đơn mua lại sau 2 ngày mua hàng"
+       
     },
     "exchange": {
       "list": "Danh sách thu đổi",
@@ -466,6 +476,28 @@
       "count": "Số lần đến công ty",
       "guest-register": "Sổ quản lý khách ra vào công ty"
     },
+    "apoiment":{
+      "title":"Quản lý lịch hẹn",
+      "username":"Người đặt lịch",
+      "phoneNumber":"Số điện thoại liên hệ",
+      "email":"Email",
+      "apoiment":"Thời gian hẹn",
+      "product":"Sản phẩm",
+      "size":"Kích thước",
+      "datcoc":"Tiền cọc",
+      "keyword":"Nhập từ khóa tìm kiếm",
+      "keywordContent":"Nhập tên,số điện thoại,email",
+      "note":"Ghi chú",
+      "status":"Trạng thái",
+      "sizeselect":"Kích thước(Chọn sản phẩm trước)",
+      "time":"Thời gian đặt hẹn",
+      "cancel":"Hủy lịch hẹn",
+      "cancelContent":"Bạn có muốn hủy lịch hẹn này không?",
+      "success":"Xác nhận thành công",
+      "successContent":"Khách hàng đã mua hàng thành công",
+      "active":"Xác nhận lịch hẹn",
+      "activeContent":"Bạn có muốn xác nhận lịch hẹn này không?"
+    },
     "register": {
       "date": "Ngày Vào",
       "employeeId": "Nhân viên",
@@ -692,13 +724,18 @@
       "orderListExchange":"Danh sách hóa đơn",
       "orderExchange":"Danh sách hóa đơn được thu đổi",
       "orderExchangeDetail":"Quản lý đổi hàng",
+      "updateOrderWaitTitle":"Cập nhật hóa đơn chờ",
+      "updateOrderWaitContent":"Bạn có muốn cập nhật hóa đơn chờ này không",
       "createExchange":"Hóa đơn thu đổi",
+      "waitOrder":"Lưu hóa đơn chờ",
       "code": "Mã đơn đặt",
       "payment":"Hình thức thanh toán",
       "title": "Tiêu đề",
       "create": "Đặt sản phẩm",
       "quantityBy":"Số lượng mua",
       "createdBy": "Người tạo",
+      "createOrderWaitTitle":"Thêm hóa đơn chờ",
+      "createOrderWaitContent":"Bạn có muốn thêm hóa đơn chờ này không ?",
       "menuName": "Menu",
       "menuType": "Kiểu menu",
       "totalPrice": "Tổng giá tiền",
@@ -789,6 +826,7 @@
       "lastModifiedAt": "Ngày cập nhật"
     },
     "user": {
+      "employee":"Quản lý nhân viên",
       "user": "Quản lý tài khoản",
       "title": "Quản lý người dùng",
       "list": "Danh sách người dùng",

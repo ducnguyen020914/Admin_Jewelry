@@ -6,7 +6,7 @@
           [nzTitle]="menu.title | translate" [nzIcon]="menu.icon">
           <ul>
             <ng-container *ngFor="let item of menu.submenu">
-              <li nz-menu-item nzMatchRouter class="li-padding-left"
+              <li nz-menu-item nzMatchRouter class="li-padding-left" *ngIf="item.admin"
                 [ngClass]="isCollapsed ? 'ant-menu-item-custom-selected' : ''" >
                 <a [routerLink]="item.path">{{ item.title | translate }}</a>
               </li>
@@ -14,7 +14,7 @@
           </ul>
         </li>
       </ng-container>
-      <ng-container *ngIf="menu.root">
+      <ng-container *ngIf="menu.root &&  menu.admin">
         <li nz-menu-item nzMatchRouter [ngClass]="isCollapsed ? 'ant-menu-item-custom-selected' : ''"
         >
           <i nz-icon [nzType]="menu.icon + ''" *ngIf="menu?.icon"></i>

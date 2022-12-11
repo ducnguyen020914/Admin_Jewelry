@@ -198,7 +198,7 @@ onChangeRangePrice(): void {
     this.router.navigate([
       ROUTER_UTILS.order.root,
       id,
-      ROUTER_ACTIONS.detail,
+      'detail-repurchase',
     ]);
   }
 

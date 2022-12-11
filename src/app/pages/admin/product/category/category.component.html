@@ -65,7 +65,6 @@
         [icon]="'plus'"
         [text]="'action.create'"
         (click)="create()"
-        *hasRoles="['category:create']"
       >
       </mb-button>
     </div>
@@ -108,14 +107,14 @@
               <td nzAlign="center">{{ getIndex(i) }}</td>
               <td nzAlign="left">{{ item.name }}</td>
               <td nzAlign="center">
-                {{ item.createdAt | date: "dd/MM/yyyy" }}
+                {{ item.createAt | date: "dd/MM/yyyy" }}
               </td>
-              <td nzAlign="left">{{ item.createdBy }}</td>
+              <td nzAlign="left">{{ item.createBy ? item.createBy : '' }}</td>
               <td nzAlign="center">
                 {{ item.lastModifiedAt | date: "dd/MM/yyyy" }}
               </td>
               <td nzAlign="center">
-                {{ item.lastModifiedBy }}
+                {{ item.lastModifiedBy ? item.lastModifiedBy  : '' }}
               </td>
               <td nzAlign="center" class="action">
                 <mb-button-action
@@ -128,7 +127,6 @@
                 </mb-button-action>
                 <mb-button-action
                   [action]="'edit'"
-                  *hasRoles="['category:update']"
                   className="first"
                   nzTooltipTitle="{{ 'action.update' | translate }}"
                   nzTooltipPlacement="top"

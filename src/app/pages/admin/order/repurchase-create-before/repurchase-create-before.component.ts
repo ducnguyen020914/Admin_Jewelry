@@ -54,6 +54,7 @@ export class RepurchaseCreateBeforeComponent implements OnInit {
   events: IEvent[] = [];
   total = 0;
   discount = 0;
+  cost=0;
   selectedProducts: IProductOrder[] = [];
   extraTemplate: any;
   thanhtien = 0;
@@ -140,6 +141,9 @@ export class RepurchaseCreateBeforeComponent implements OnInit {
     // this.form.get('date')?.setValue(new Date());
     this.form.get('total')?.setValue(0);
   }
+  formatterPrice = (value: number): string =>
+  CommonUtil.moneyFormat(value + '') + ' đ';
+parserPrice = (value: string): number => CommonUtil.formatToNumber(value);
   getStatus():string{
     let status = '';
     this.ORDER_STATUS.filter((stas) => stas.value === this.order.status).forEach((item) => {
@@ -226,16 +230,17 @@ export class RepurchaseCreateBeforeComponent implements OnInit {
 
       const createForm = CommonUtil.modalConfirm(
         this.translateService,
-        'model.purchase.updateExchangeTitle',
-        'model.purchase.updateExchangeContent'
+        'model.repurchase.createRepurchaseTitle',
+        'model.repurchase.createRepurchaseContent'
       );
       const modal: NzModalRef = this.modalService.create(createForm);
       modal.afterClose.subscribe((result: { success: boolean; data: any }) => {
         if (result?.success) {
           const order = {
              userId:this.order.userId,
+             cost:this.cost,
              paymentMethod:this.payment,
-             total: this.tongTien() - this.get30persent(),
+             total: this.tongTien() - this.get30persent() - this.cost,
              purchaseType:OrderType.DIRECT_TYPE,
              transportFee: 0,
              status:StatusEnum.DA_GIAO,

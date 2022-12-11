@@ -23,6 +23,9 @@ export class SizeService extends AbstractService {
   ): Observable<EntityResponseType<ISize[]> >{
     return super.get<ISize[]>(`${this.resourceUrl}`);
   }
+  getbyProductId(productId:string): Observable<EntityResponseType<ISize[]>>{
+    return super.get<ISize[]>(`${this.resourceUrl}/${productId}/product`);
+  }
 
  
 }

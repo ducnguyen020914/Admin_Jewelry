@@ -462,26 +462,8 @@ export default class CommonUtil {
     }
   }
 
-  static decryptMessage(value: string, key: string): string {
-    if (this.decryptValueTmp[value]) {
-      return this.decryptValueTmp[value];
-    }
-    let result = '';
-    try {
-      console.log('decryptMessage');
-      result = CryptoJS.AES.decrypt(value, key).toString(CryptoJS.enc.Utf8);
-      this.decryptValueTmp[value] = result;
-    } catch (e) {
-      console.log(e);
-    }
-    return result;
-  }
 
   // endCode message with secrect key
-  static encryptMessage(value: string, keys: string): string {
-    const encrypted = CryptoJS.AES.encrypt(value, keys);
-    return encrypted.toString();
-  }
 
   static copyToClipboard(textToCopy: string): Promise<void> {
     if (navigator.clipboard && window.isSecureContext) {

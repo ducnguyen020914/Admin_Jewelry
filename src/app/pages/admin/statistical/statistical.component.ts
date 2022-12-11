@@ -2,6 +2,10 @@ import { Component, OnInit,ViewChild} from '@angular/core';
 import { Chart, registerables } from 'chart.js';
 import { Revenue, SatisticalCategory, IcategoryStatistical } from '../../../shared/models/statistical.model';
 import { StatisticalService } from '../../../shared/services/statistical.service';
+import { ProductService } from '../../../shared/services/product/product.service';
+import { UserService } from '../../../shared/services/user.service';
+import { OrderService } from '../../../shared/services/order/order.service';
+import { ExchangeService } from '../../../shared/services/order/exchange.service';
 Chart.register(...registerables);
 @Component({
   selector: 'app-statistical',
@@ -13,7 +17,14 @@ export class StatisticalComponent implements OnInit {
   maxSL: number = 0;
   max2:number = 0;
   maxSL2: number = 0;
-  constructor(private statisticalService:StatisticalService) { }
+  product = 0;
+  customer = 0;
+  order = 0;
+  exchange = 0;
+  constructor(private statisticalService:StatisticalService,
+    private productService:ProductService,private userService:UserService,
+    private orderService:OrderService,
+    private exchangeService:ExchangeService) { }
    curent:Array<number> = [];
   revenue:Revenue[] = [];
   revenue2:Revenue[] = [];
@@ -27,9 +38,11 @@ chart:any;
   ngOnInit(): void {  
     this.loadChartLine(new Date().getFullYear());
     this.loadYear();
-    this.loadCategory();
-    this.loadMaterial();
     this.loadChartLine2(new Date().getFullYear());
+    this.countProduct();
+    this.countCustomer();
+    this.countorder();
+    this.countExchange();
 }
   loadChartLine(year:number){
     const params = {
@@ -83,7 +96,7 @@ chart:any;
             name: 'Doanh thu',
             min: 0,
             max: Math.round(this.max * 1.5),
-            interval: 2000000,
+            interval: 1000000000,
             axisLabel: {
               formatter: '{value} đ'
             }
@@ -125,6 +138,37 @@ chart:any;
         ]
       };
     })
+  }
+
+  countProduct(){
+    this.productService.search().subscribe((res:any) => {
+      this.product =  res.body.page.total;;
+      console.log(res);
+      
+    })
+  }
+  countCustomer(){
+   const userRequest = {
+    role: 'CUSTOMER'
+   }
+    this.userService.search(userRequest).subscribe(
+      (response: any) => {
+      
+        this.customer = response?.body?.page.total;
+  })
+  }
+  countExchange(){
+    this.exchangeService.search().subscribe((res:any)=>{
+      this.exchange = res.body?.data.page.total
+    })
+  }
+
+  countorder(){
+    this.orderService
+    .search()
+    .subscribe((response: any) => {
+      this.order = response.body.page.total;
+    });
   }
   loadChartLine2(year:number){
     const params = {
@@ -221,82 +265,7 @@ chart:any;
       };
     })
   }
-  loadCategory(){
-    this.statisticalService.category().subscribe((res:any)=>{
-      this.category = res.body.data;
-      console.log(this.category);
-      const data:IcategoryStatistical[]= this.category.map((data=> new IcategoryStatistical(data.name,data.quantity)))
-      console.log(data);
-      
-      this.option1 = {
-        title: {
-          text: 'Số lượng sản phẩm đã bán của thể loại',
-          subtext: '(Thống kê thể loại)',
-          left: 'center'
-        },
-        tooltip: {
-          trigger: 'item'
-        },
-        legend: {
-          orient: 'vertical',
-          left: 'left'
-        },
-        series: [
-          {
-            name: 'Access From',
-            type: 'pie',
-            radius: '50%',
-            data: data,
-            emphasis: {
-              itemStyle: {
-                shadowBlur: 10,
-                shadowOffsetX: 0,
-                shadowColor: 'rgba(0, 0, 0, 0.5)'
-              }
-            }
-          }
-        ]
-      };
-    })
-  }
-  loadMaterial(){
-    this.statisticalService.material().subscribe((res:any)=>{
-      this.category = res.body.data;
-      console.log(this.category);
-      const data:IcategoryStatistical[]= this.category.map((data=> new IcategoryStatistical(data.name,data.quantity)))
-      console.log(data);
-      
-      this.option2 = {
-        title: {
-          text: 'Số lượng sản phẩm đã bán của chất liệu',
-          subtext: '(Thống kê chất liệu)',
-          left: 'center'
-        },
-        tooltip: {
-          trigger: 'item'
-        },
-        legend: {
-          orient: 'vertical',
-          left: 'left'
-        },
-        series: [
-          {
-            name: 'Access From',
-            type: 'pie',
-            radius: '50%',
-            data: data,
-            emphasis: {
-              itemStyle: {
-                shadowBlur: 10,
-                shadowOffsetX: 0,
-                shadowColor: 'rgba(0, 0, 0, 0.5)'
-              }
-            }
-          }
-        ]
-      };
-    })
-  }
+  
   loadYear(){
     for(var i = new Date().getFullYear() -5;i<=new Date().getFullYear();i++ ){
       this.curent.push(i);

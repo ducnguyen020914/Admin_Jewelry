@@ -159,6 +159,7 @@
               disabled="disabled"
               [maxLength]="LENGTH_VALIDATOR.NAME_MAX_LENGTH.MAX"
               placeholder="{{ 'model.order.staff' | translate }}"
+              formControlName="staff"
             />
           </div>
           <div class="col-4 " *ngIf="!this.order.isRepurchase">

@@ -101,7 +101,7 @@
             </nz-option>
           </nz-select>
         </div>
-        <div *hasRoles="['user:view']" class="col-3 mb-2">
+        <div class="col-3 mb-2">
           <label>{{'model.order.orderer' | translate }}</label>
           <nz-select [nzNotFoundContent]="noDataResult"
            nzShowSearch nzServerSearch 
@@ -135,7 +135,7 @@
   <div class="col-12 text-end mt-3">
     <mb-button class="me-3" nz-button nz-dropdown  [icon]="'plus'" [text]="'model.repurchase.before48h'" (click)="createBefore48h()">
     </mb-button>
-    <mb-button nz-button nz-dropdown [icon]="'plus'" [text]="'action.create'" (click)="create()"></mb-button>
+    <mb-button nz-button nz-dropdown [icon]="'plus'" [text]="'model.repurchase.after48h'" (click)="create()"></mb-button>
   </div>
 
   <div class="col-12 mt-2">

@@ -16,10 +16,11 @@ import {IOrderSearchRequest} from "@shared/models/request/order-search-request.m
 import {ORDER_STATUS, paymentMethod} from "@shared/constants/order.constant";
 import { OrderService } from '../../../../shared/services/order/order.service';
 import { OrderSearchRequest } from '../../../../shared/models/request/order-search-request.model';
-import { OrderType } from '../../../../shared/models/order.model';
+import { OrderType, Order } from '../../../../shared/models/order.model';
 import { NzMarks } from 'ng-zorro-antd/slider';
 import { formatDate } from '@angular/common';
 import * as moment from 'moment';
+import { IgnorePlugin } from 'webpack';
 
 @Component({
   selector: 'app-order-list',
@@ -189,12 +190,20 @@ onChangeRangePrice(): void {
     // });
   }
 
-  detail(id: string): void {
+  detail(order: Order): void {
+    if(order.status === StatusEnum.HOA_DON_CHO){
+      this.router.navigate([
+        ROUTER_UTILS.order.root,
+        order.id,
+        'updatewait'
+      ]);
+    }else{
     this.router.navigate([
       ROUTER_UTILS.order.root,
-      id,
+      order.id,
       ROUTER_ACTIONS.detail,
     ]);
+  }
   }
 
   pipeType(orderTypeCode: string) {
@@ -297,7 +306,10 @@ onChangeRangePrice(): void {
     );
   }
   getColor(status:StatusEnum): string{
-    if(status === StatusEnum.CHO_XAC_NHAN){
+    if(status === StatusEnum.HOA_DON_CHO){
+      return 'badge-wait'
+    }
+    else if(status === StatusEnum.CHO_XAC_NHAN){
       return 'badge-warning'
     }else if(status === StatusEnum.DANG_GIAO){
       return 'badge-success'
@@ -310,7 +322,9 @@ onChangeRangePrice(): void {
     }
   }
   getStatus(status:StatusEnum): string{
-    if(status === StatusEnum.CHO_XAC_NHAN){
+    if(status === StatusEnum.HOA_DON_CHO){
+      return 'Hóa đơn chờ';
+    }else if(status === StatusEnum.CHO_XAC_NHAN){
       return 'Chờ xác nhận';
     }else if(status === StatusEnum.DANG_GIAO){
       return 'Đang giao'

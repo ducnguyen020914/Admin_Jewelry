@@ -13,6 +13,8 @@ import { ExchangeOrderDetailComponent } from './exchange-order-detail/exchange-o
 import { RepurchaseCreateComponent } from './repurchase-create/repurchase-create.component';
 import { RepurchaseOrderComponent } from './repurchase-order/repurchase-order.component';
 import { RepurchaseCreateBeforeComponent } from './repurchase-create-before/repurchase-create-before.component';
+import { UpdateHoaDonChoComponent } from './update-hoa-don-cho/update-hoa-don-cho.component';
+import { RepurchaseDetailComponent } from './repurchase-detail/repurchase-detail.component';
 
 const routes: Routes = [
   {
@@ -114,6 +116,22 @@ const routes: Routes = [
     data: {
       title: 'model.order.repurchase',
       action: ROUTER_ACTIONS.view,
+    }
+  },
+  {
+    path: ROUTER_UTILS.order.updateWaitOrder,
+    component: UpdateHoaDonChoComponent,
+    data: {
+      title: 'model.order.update',
+      action: ROUTER_ACTIONS.update,
+    }
+  },
+  {
+    path: ROUTER_UTILS.order.detailrepurchase,
+    component: RepurchaseDetailComponent,
+    data: {
+      title: 'model.order.update',
+      action: ROUTER_ACTIONS.update,
     }
   },
 ];

@@ -101,7 +101,7 @@
           <tr>
             <td nzAlign="center">{{ getIndex(i) }}</td>
             <td nzAlign="center">{{ item.orderDTO.orderCode }}</td>
-            <td nzAlign="center">{{ item.orderDTO.createBy }}</td>
+            <td nzAlign="center">{{ item.orderDTO.user.fullName }}</td>
             <td nzAlign="center">{{ item.createBy }}</td>
             <td nzAlign="center">{{ item.createAt | date:'dd/MM/yyyy' }}</td>
             <td nzAlign="center">{{ item.reason }}</td>

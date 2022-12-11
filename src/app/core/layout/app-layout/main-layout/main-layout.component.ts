@@ -83,23 +83,8 @@ export class MainLayoutComponent implements OnInit {
   }
 
   ngOnInit(): void {
-   
-    const profile = this.localStorage.retrieve(LOCAL_STORAGE.PROFILE);
-    const token = this.authService.getToken();
-    if (!profile) {
-      if (token) {
-        this.authService.myProfile().subscribe((response) => {
-          this.currentUser = response?.body?.data as IUser;
-          this.localStorage.store(LOCAL_STORAGE.PROFILE, this.currentUser);
-          this.authService.myAuthorities().subscribe((res) => {
-            this.currentUser.userPrimary = res.body?.data as UserPrimary;
-            this.localStorage.store(LOCAL_STORAGE.PROFILE, this.currentUser);
-          });
-        });
-       } 
-    } else {
-      this.currentUser = profile;
-    }
+    const profile = this.localStorage.retrieve('profile');
+    this.currentUser = profile;
   }
 
   getShortName(fullName: string): string {
@@ -115,11 +100,8 @@ export class MainLayoutComponent implements OnInit {
   }
 
   logout(): void {
-    this.authService.logout().subscribe((response) => {
-      this.authService.clear();
-      this.router.navigate(['/home']);
-      this.toast.success('model.logout.success.authenticate');
-    });
+    this.localStorage.store("userName",null);
+    this.router.navigate(['authentication','login']);
   }
 
   notifiMeNavigate(): void {

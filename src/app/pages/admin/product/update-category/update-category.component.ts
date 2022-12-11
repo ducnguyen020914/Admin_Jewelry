@@ -11,6 +11,7 @@ import { NzModalRef } from 'ng-zorro-antd/modal';
 import { TranslateService } from '@ngx-translate/core';
 import { map, filter } from 'rxjs/operators';
 import { element } from 'protractor';
+import { LocalStorageService } from 'ngx-webstorage';
 
 @Component({
   selector: 'app-update-category',
@@ -35,11 +36,13 @@ export class UpdateCategoryComponent implements OnInit {
     private categoryService:CategoryService,
     private toast:ToastService,
     private modalRef:NzModalRef,
+    private localStorage:LocalStorageService,
     private translateService:TranslateService) { }
   get properties():FormArray{
     return this.form.get('properties') as FormArray;
   }
   ngOnInit() {
+   
     this.initForm();
   }
   initForm(): void {
@@ -93,9 +96,10 @@ export class UpdateCategoryComponent implements OnInit {
     return this.properties.value;
   }
   createCategory(){
-    
     const category: Category = {
       ...this.form.value,
+      createBy:this.localStorage.retrieve('username'),
+      lastModifiedBy:this.localStorage.retrieve('username'),
       properties:this.propertyValues().filter((element) => element.trim() !== '')
     };
     console.log('heelooo khi',category);

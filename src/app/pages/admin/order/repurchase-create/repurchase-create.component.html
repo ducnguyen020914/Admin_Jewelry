@@ -167,6 +167,7 @@
               disabled="disabled"
               [maxLength]="LENGTH_VALIDATOR.NAME_MAX_LENGTH.MAX"
               placeholder="{{ 'model.order.staff' | translate }}"
+              [value]="this.staffCurrent"
             />
           </div>
           <!-- <div class="col-4 ">
@@ -311,10 +312,16 @@
             <br />
             <label class="mb-3" style="width: '13rem'">Tổng tiền: </label>
             <span class="fw-bold">{{ this.total | vnd }}</span>
-
+            <br />
+            <label class="mb-3" style="width: '13rem'">Chi phí khác: </label>
+            
+            <nz-input-number [(ngModel)]="cost" [nzSize]="'small'" [nzMin]="0" [nzMax]="this.tongTien()" [nzStep]="1" (ngModelChange)="changePrice()"
+            [nzFormatter]="formatterPrice"
+            [nzParser]="parserPrice"></nz-input-number>
             <hr />
             <label class="fw-bold" style="width: '13rem'">Thành tiền :</label
             ><span class="fw-bold">{{ this.thanhtien | vnd }}</span>
+               
           </nz-card>
         </div>
       </div>
