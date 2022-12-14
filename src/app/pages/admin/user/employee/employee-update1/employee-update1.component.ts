@@ -21,6 +21,7 @@ import { ICustomer, Customer } from '../../../../../shared/models/customer.model
 import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { finalize } from 'rxjs/operators';
 import { Role } from '@shared/models/request/employee-request.model';
+import { CountryService } from '../../../../../shared/services/country.service';
 
 @Component({
   selector: 'app-employee-update',
@@ -52,10 +53,15 @@ export class EmployeeUpdateComponent1 implements OnInit {
     private modalRef: NzModalRef,
      private toast: ToastService,
     // private fileService: FileService,
-    private storage: AngularFireStorage
+    private storage: AngularFireStorage,
+    private countryService:CountryService
   ) {}
 
   ngOnInit(): void {
+    this.countryService.province().subscribe((res:any)=>{
+      console.log(res);
+      
+    })
     this.initForm();
     console.log(this.employee);
     

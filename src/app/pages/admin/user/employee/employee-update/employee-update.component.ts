@@ -20,6 +20,7 @@ import { DEFAULT_DATE_FORMAT } from '@shared/constants/common.constant';
 import { ICustomer, Customer } from '../../../../../shared/models/customer.model';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { finalize } from 'rxjs/operators';
+import { CountryService } from '../../../../../shared/services/country.service';
 
 @Component({
   selector: 'app-employee-update',
@@ -44,6 +45,12 @@ export class EmployeeUpdateComponent implements OnInit {
   DEFAULT_DATE_FORMAT = DEFAULT_DATE_FORMAT;
   foodPlaceholder =  `assets/images/icon/fast-food.png`;
   dowloadUrl:any;
+  province:any[] = [];
+  distrist:any[] = [];
+  ward:any[] = [];
+  idDistrict:number = -1;
+  idWard:number = -1;
+  addresses:string[] = [];
   constructor(
     private fb: UntypedFormBuilder,
     private translate: TranslateService,
@@ -51,19 +58,34 @@ export class EmployeeUpdateComponent implements OnInit {
     private modalRef: NzModalRef,
     private toast: ToastService,
     private fileService: FileService,
-    private storage: AngularFireStorage
-  ) {}
+    private storage: AngularFireStorage,
+    private countryService:CountryService
+  ) {
+  }
 
   ngOnInit(): void {
-    this.initForm();
-    console.log(this.employee);
+    this.countryService.province().subscribe((res:any)=>{
+      this.province = res.data;
+      this.initForm();
+    })
     
+    this.initForm();
   }
   initForm(): void {
     const dataObject =
       this.action === this.ROUTER_ACTIONS.create
         ? this.initalState
         : this.employee;
+     this.addresses = dataObject.address?.split(", ") as string[]; 
+    let addressDetail = '';
+   if( this.addresses ){
+    this.addresses .forEach((data,index) =>{
+      if(index <  this.addresses .length-3 ) {
+         addressDetail = addressDetail + data;
+      }
+    })
+   }
+
     this.form = this.fb.group({
       userName: [
         dataObject.userName || "",
@@ -72,7 +94,7 @@ export class EmployeeUpdateComponent implements OnInit {
         ],
       ],
       password: [
-        dataObject.password,
+        dataObject.password || "",
         [
           Validators.required,
         ],
@@ -121,10 +143,27 @@ export class EmployeeUpdateComponent implements OnInit {
         dataObject.gender,
         [Validators.maxLength(LENGTH_VALIDATOR.GENDER_MAX_LENGTH.MAX)],
       ],
-      address: [
-        dataObject.address,
+      province: [
+        this.getCodeProvince( this.addresses  ?   this.addresses [ this.addresses .length - 1] : '' ) ,
         [
-          Validators.maxLength(LENGTH_VALIDATOR.ADDRESS_MAX_LENGTH.MAX),
+          Validators.required,
+        ],
+      ],
+      district: [
+        ,
+        [
+          Validators.required,
+        ],
+      ],
+      ward: [
+        ,
+        [
+          Validators.required,
+        ],
+      ],
+      addressDetail: [
+        addressDetail,
+        [
           Validators.required,
         ],
       ],
@@ -138,12 +177,92 @@ export class EmployeeUpdateComponent implements OnInit {
     });
   }
 
-  private onSubmit(): void {
+  getDistrist(provinceID:number){
+    const params = {
+      province_id:provinceID
+    }
+    this.countryService.distrist(params).subscribe((res:any) =>{
+      this.distrist = res.data;
+      this.form.get('district')?.setValue(this.getCodeDistrcit(this.addresses  ?   this.addresses [ this.addresses .length - 2] : '' ))
+    })
+  }
+  getWard(districtId:number){
+    this.countryService.ward(districtId).subscribe((res:any) =>{
+      this.ward = res.data;
+      this.form.get('ward')?.setValue(this.getCodeWard(this.addresses  ?   this.addresses [ this.addresses .length - 3] : '' ))
+      
+    })
+  }
+  getStringWard(){
+    const ward = this.form.get('ward')?.value;
+    let data2 = '';
+    this.ward.forEach((data) => {
+      const w= data.WardCode as string;
+      if(w === ward){
+        data2 =  data.WardName;
+      }
+    });
+    return data2;
+  }
+  getCodeWard(param:string):string{
+    let data2 = '';
+    this.ward.forEach((data) => {
+      
+      if(data.WardName === param){
+        data2 =  data.WardCode;
+      }
+    });
+    return data2;
+  }
+  getStringDistrcit():string{
+    const district = this.form.get('district')?.value;
+    let data2 = '';
+    this.distrist.forEach((data) => {
+      if(data.DistrictID === district){
+        data2 =  data.DistrictName;
+      }
+    });
+    return data2;
+  }
+  getCodeDistrcit(param:string):number{
+    let data2 = -1;
+    this.distrist.forEach((data) => {
+      if(data.DistrictName === param){
+        data2 =  data.DistrictID;
+      }
+    });
+    return data2;
+  }
+  getStringpProvince():string{
+    const province = this.form.get('province')?.value;
+    let data2 = '';
+    this.province.forEach((data) => {
+      if(data.ProvinceID === province){
+        data2 =  data.ProvinceName;
+      }
+    });
+    return data2;
+  }
+  getCodeProvince(param:string):number{
+    console.log(param);
+    let data2 = -1;
+    this.province.forEach((data) => {
+      if(data.ProvinceName === param){
+        data2 =  data.ProvinceID;
+        this.getDistrist(data2);  
+      }
+    });
+    return data2;
+  }
+   onSubmit(): void {
+    console.log(this.form.value);
+    console.log(this.getStringWard()+", " + this.getStringDistrcit() +", " + this.getStringpProvince());
         const customer:ICustomer = {
           ...this.form.value,
           note:"note",
           role:"CUSTOMER",
-          imageUrl:this.imageUrl ? this.imageUrl :null
+          imageUrl:this.imageUrl ? this.imageUrl :null,
+          address:this.form.get('addressDetail')?.value +", " +this.getStringWard()+", " + this.getStringDistrcit() +", " + this.getStringpProvince()
         }
         console.log(customer);
         
