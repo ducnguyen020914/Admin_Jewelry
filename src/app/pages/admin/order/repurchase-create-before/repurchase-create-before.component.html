@@ -105,7 +105,7 @@
                       product.productOrder.size
                     }}</nz-tag>
                   </td>
-                  <td  nzAlign="center">{{ product.productOrder.price | vnd }}</td>
+                  <td  nzAlign="center">{{ product.productOrder.priceSale | vnd }}</td>
                   <td  nzAlign="center">{{ product.productOrder.salary | vnd }}</td>
                   <td nzAlign="center">
                     <nz-input-number *ngIf="product.selected" nzBorderless [(ngModel)]="product.quantityExchange" [nzMin]="1" [nzMax]="product.productOrder.quantity" [nzStep]="1" style="width: 40px;"></nz-input-number> <span *ngIf="product.selected">/</span>{{ product.productOrder.quantity }} 

@@ -171,9 +171,9 @@
             <mb-button-action [action]="'view'" className="first" nzTooltipTitle="{{'action.view' | translate}}"
                               nzTooltipPlacement="top" (click)="detail(item)">
             </mb-button-action>
-            <!-- <mb-button-action [action]="'delete'" className="last" nzTooltipTitle="{{'action.delete' | translate}}"
-                              nzTooltipPlacement="top" (click)="delete(item.id)">
-            </mb-button-action> -->
+            <mb-button-action [action]="'received'" className="last" nzTooltipTitle="{{'action.export' | translate}}"
+                              nzTooltipPlacement="top" (click)="export(item.id)">
+            </mb-button-action>
           </td>
         </tr>
       </ng-container>

@@ -148,6 +148,7 @@ export class IProductOrder    {
   public imageUrl?:string[],
   public price?:number,
   public pricePurchase?:number,
+  public priceSale?:number,
   public nameProduct?:string,
   public quantity?:number,
   public size?:string,
@@ -166,6 +167,7 @@ export class IProductOrder    {
     this.size = size;
     this.sizeId  = sizeId,
     this.total = total,
+    this.priceSale =priceSale;
     this.salary = salary;
   }
   

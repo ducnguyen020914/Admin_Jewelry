@@ -1,6 +1,4 @@
-import {
-  HttpClient,
-} from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { IMaterial } from '@shared/models/material.model';
 import {
@@ -51,6 +49,13 @@ export class OrderService extends AbstractService {
     loading = true,
   ): Observable<EntityResponseType<IOrder>>{
     return super.post<IOrder>(`${this.resourceUrl}/${id}`,params);
+  }
+  exportOrder(
+    id:string,
+    loading = true,
+  ): Observable<Blob>{
+    const header = new HttpHeaders().set('Content-Type', 'application/json')
+    return this.http.get(`${this.resourceUrl}/export/${id}`,{responseType:'blob',headers:header});
   }
  
 }

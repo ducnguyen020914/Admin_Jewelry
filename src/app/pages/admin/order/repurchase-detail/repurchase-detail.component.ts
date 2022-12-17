@@ -45,6 +45,8 @@ export class RepurchaseDetailComponent implements OnInit {
   selectedProducts: IProductOrder[] = [];
   extraTemplate: any;
   thanhtien = 0;
+  isCreateBefore = true;
+  totalCreateBrefore = 0;
   constructor(
     private fb: FormBuilder,
     private translateService: TranslateService,
@@ -72,7 +74,6 @@ export class RepurchaseDetailComponent implements OnInit {
 
   ngOnInit() {
     console.log(this.action);
-    
     this.loadOrder();
   }
   loadOrder() {
@@ -81,6 +82,24 @@ export class RepurchaseDetailComponent implements OnInit {
       this.selectedProducts = this.order.orderDetailDTOList as IProductOrder[];
       console.log('Order', this.order);
       console.log('Selected', this.selectedProducts);
+      this.selectedProducts.forEach((data) => {
+        this.totalCreateBrefore+=((data.pricePurchase ? data.pricePurchase : 0) * (data.quantity ? data.quantity  : 0))
+      })
+      const selectEvent = this.events.filter(
+        (evn: IEvent) => evn.eventId === this.order.eventId
+      );
+      this.discount = selectEvent.length > 0 ? selectEvent[0].discount : 0;
+      if((this.totalCreateBrefore - (this.order.cost ? this.order.cost : 0)) === this.order.total ){
+        this.total = this.totalCreateBrefore
+        this.isCreateBefore = false;
+      }else{
+        this.selectedProducts.forEach((data) => {
+          this.total+=((data.priceSale ? data.priceSale : 0)* (data.quantity ? data.quantity  : 0))
+        })
+      }
+      console.log(this.isCreateBefore);
+      
+      
       this.form.get('userId')?.setValue(this.order.userId);
       this.form.get('paymentMethod')?.setValue(this.order.paymentMethod);
       this.form.get('eventId')?.setValue(this.order.eventId);
@@ -91,9 +110,19 @@ export class RepurchaseDetailComponent implements OnInit {
       this.form.get('transportFee')?.setValue(this.order.transportFee);
       this.thanhtien = this.order.total ? this.order.total : 0;
       this.getStatus(this.form.get('status')?.value);
-      this.getTotal(this.form.get('eventId')?.value);
       
     });
+  }
+
+  get30persent(){
+    let total = 0;
+    this.selectedProducts.forEach((product) => 
+    {
+      const quantity = product.quantity as number;
+      const salary = product.salary as number;
+    total =total + (salary * 0.3  * quantity  );
+  })
+    return Math.round(total);
   }
   private initForm() {
     this.form = this.fb.group({
@@ -125,13 +154,7 @@ export class RepurchaseDetailComponent implements OnInit {
       this.users = res.body?.data;
     });
   }
-  getTotalTt(){
-    let total = 0;
-    this.selectedProducts.forEach((data) =>{
-      total = total + (data.pricePurchase as number)
-    })
-    return total;
-  }
+   
   loadevent() {
     this.eventService.getAll().subscribe((res: any) => {
       this.events = res.body?.data;

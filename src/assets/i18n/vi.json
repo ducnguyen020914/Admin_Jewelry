@@ -634,7 +634,10 @@
       }
     },
     "product": {
+      "createProductContent":"Bạn có muôn thêm sản phẩm này không ?",
+      "createProductTitle":"Thêm sản phẩm",
       "index": "STT",
+      "salaryMin":"Tiền công phải lơn hơn 0",
       "title": "Quản lý sản phẩm",
       "update":"Cập nhật sản phẩm",
       "code": "Mã sản phẩm",

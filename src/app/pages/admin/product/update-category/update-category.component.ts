@@ -82,6 +82,7 @@ export class UpdateCategoryComponent implements OnInit {
     console.log('heelooo khi');
     const category: Category = {
       ...this.form.value,
+      lastModifiedBy:this.localStorage.retrieve('username'),
       properties:this.propertyValues().filter((element) => element.trim() !== '')
     };
     this.categoryService.update(category,this.category.categoryId).subscribe((res) => {

@@ -81,6 +81,9 @@ export class DetailUpdateOrderComponent implements OnInit {
       this.selectedProducts = this.order.orderDetailDTOList as IProductOrder[];
       console.log('Order', this.order);
       console.log('Selected', this.selectedProducts);
+      this.selectedProducts.forEach((data) =>{
+        this.total= this.total + (data.priceSale as number * (data.quantity ? data.quantity : 0))
+      })
       this.form.get('userId')?.setValue(this.order.userId);
       this.form.get('paymentMethod')?.setValue(this.order.paymentMethod);
       this.form.get('eventId')?.setValue(this.order.eventId);
@@ -128,6 +131,8 @@ export class DetailUpdateOrderComponent implements OnInit {
   loadevent() {
     this.eventService.getAll().subscribe((res: any) => {
       this.events = res.body?.data;
+      console.log(this.events);
+      
     });
   }
   showCustomer() {

@@ -240,7 +240,7 @@
                   <th>{{ "model.product.image" | translate }}</th>
                   <th>{{ "model.product.name" | translate }}</th>
                   <th>{{ "model.product.sizeId" | translate }}</th>
-                  <th>{{ "model.product.price" | translate }}</th>
+                  <th>{{ ("model.product.price" | translate)  }} bán</th>
                   <th>{{ "model.order.quantityBy" | translate }}</th>
                   <th>{{ "model.order.thanhtien" | translate }}</th>
                 </tr>
@@ -265,11 +265,11 @@
                       product.size
                     }}</nz-tag>
                   </td>
-                  <td>{{ product.price | vnd }}</td>
+                  <td>{{ product.priceSale | vnd }}</td>
                   <td nzAlign="center">
                     {{ product.quantity }} sản phẩm
                   </td>
-                  <td>{{ (product.price * product.quantity) | vnd }}</td>
+                  <td>{{ (product.priceSale * product.quantity) | vnd }}</td>
                 </tr>
               </tbody>
             </nz-table>
@@ -280,7 +280,7 @@
         <nz-card nzAlign="center" nzTitle="Bảng giá" [nzExtra]="extraTemplate" >
           <label class="mb-3" style="width:'13rem'">Số lượng sản phẩm:</label> <span class="fw-bold">{{this.selectedProducts ? this.selectedProducts.length : 0 }} sản phẩm</span>
           <br>
-          <label class="mb-3" style="width:'13rem'">Tổng tiền: </label> <span class="fw-bold">{{this.thanhtien + (this.discount/100 * this.thanhtien) | vnd}}</span> 
+          <label class="mb-3" style="width:'13rem'">Tổng tiền: </label> <span class="fw-bold">{{total | vnd}}</span> 
           <br> 
           <label  class="mb-1" style="width:'13rem'">Giảm giá:</label> <span class="fw-bold">{{this.discount + '%'}}</span>
           <hr>

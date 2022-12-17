@@ -53,6 +53,12 @@
               >
                 <mb-not-blank [value]="'model.product.salary'"></mb-not-blank>
               </span>
+              <span
+              class="text-danger"
+              *ngIf="form.get('salary')?.hasError('min')"
+            >
+              <mb-not-blank [value]="'model.product.salaryMin'"></mb-not-blank>
+            </span>
             </ng-container>
           </div>
         </div>
@@ -88,7 +94,7 @@
                 class="text-danger"
                 *ngIf="form.get('gender')?.hasError('required')"
               >
-                <mb-not-blank [value]="'model.product.type'"></mb-not-blank>
+                <mb-not-blank [value]="'model.product.gender'"></mb-not-blank>
               </span>
             </ng-container>
           </div>
@@ -156,7 +162,7 @@
                 class="text-danger"
                 *ngIf="form.get('materialId')?.hasError('required')"
               >
-                <mb-not-blank [value]="'model.product.type'"></mb-not-blank>
+                <mb-not-blank [value]="'model.product.materialId'"></mb-not-blank>
               </span>
             </ng-container>
           </div>
@@ -192,7 +198,7 @@
                 class="text-danger"
                 *ngIf="form.get('accessoryId')?.hasError('required')"
               >
-                <mb-not-blank [value]="'model.product.type'"></mb-not-blank>
+                <mb-not-blank [value]="'model.product.accessoryId'"></mb-not-blank>
               </span>
             </ng-container>
           </div>
@@ -407,7 +413,7 @@
         {{ "action.back" | translate }}
       </button>
       <button
-        *ngIf="action !== ROUTER_ACTIONS.detail"
+      [disabled]="form.invalid"
         nz-button
         nzType="primary"
         (click)="onSubmit()"

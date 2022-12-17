@@ -260,11 +260,11 @@
                       product.size
                     }}</nz-tag>
                   </td>
-                  <td>{{ product.price | vnd }}</td>
+                  <td>{{(this.isCreateBefore ? product.priceSale : product.pricePurchase) | vnd }}</td>
                   <td nzAlign="center">
                     {{ product.quantity }} sản phẩm
                   </td>
-                  <td>{{ (product.price * product.quantity) | vnd }}</td>
+                  <td>{{ ((this.isCreateBefore ? product.priceSale : product.pricePurchase) * product.quantity) | vnd }}</td>
                 </tr>
               </tbody>
             </nz-table>
@@ -275,9 +275,9 @@
         <nz-card nzAlign="center" nzTitle="Bảng giá" [nzExtra]="extraTemplate" >
           <label class="mb-3" style="width:'13rem'">Số lượng sản phẩm:</label> <span class="fw-bold">{{this.selectedProducts ? this.selectedProducts.length : 0 }} sản phẩm</span>
           <br>
-          <label class="mb-3" style="width:'13rem'">Tổng tiền: </label> <span class="fw-bold">{{getTotalTt() | vnd}}</span> 
-          <br> 
-          <label  class="mb-3" style="width:'13rem'">Giảm giá:</label> <span class="fw-bold">{{this.discount + '%'}}</span>
+          <label class="mb-3" style="width:'13rem'">Tổng tiền: </label> <span class="fw-bold">{{this.total| vnd}}</span> 
+          <br *ngIf="isCreateBefore">
+          <label class="mb-3" style="width:'13rem'" *ngIf="isCreateBefore">Phí 30% tiền công: </label> <span class="fw-bold" *ngIf="isCreateBefore">{{  get30persent()| vnd}}</span> 
           <br> 
           <label class="mb-1" style="width:'13rem'">Chí phí khác: </label> <span class="fw-bold">{{ (this.order.cost || 0) | vnd}}</span> 
           
