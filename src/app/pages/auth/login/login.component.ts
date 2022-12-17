@@ -66,6 +66,12 @@ export class LoginComponent implements OnInit {
           this.f.rememberMe.value
         )
         .subscribe((token:any) => {
+          console.log(token);
+          
+          if(token.data.roles[0].role === 'CUSTOMER'){
+            this.toast.error("Tài khoản không có quyền truy cập");
+            return;
+          }
          this.localStorage.store("jwt-token",token.data.token);
          this.localStorage.store("userName",token.data.username)
          this.localStorage.store("role",token.data.roles);
