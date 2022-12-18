@@ -210,7 +210,7 @@
             <td nzAlign="center">{{ item.code }}</td>
             <td nzAlign="center">{{ item.nameProduct | limitWord: 25 }}</td>
             <td nzAlign="center">
-              {{ item.gender }}
+              {{ getGender(item.gender) }}
             </td>
             <td nzAlign="center">
               {{ item.salary }}

@@ -65,8 +65,8 @@
               <span class="text-danger">*</span></label
             >
             <input
+            appCurrencyFormatter
               formControlName="purchasePrice"
-              type="number"
               [min]="0"
               nz-input
               [maxLength]="LENGTH_VALIDATOR.PHONE_MAX_LENGTH.MAX"
@@ -102,8 +102,8 @@
               <span class="text-danger">*</span></label
             >
             <input
+              appCurrencyFormatter
               formControlName="salePrice"
-              type="number"
               [min]="0"
               nz-input
               [maxLength]="LENGTH_VALIDATOR.PHONE_MAX_LENGTH.MAX"

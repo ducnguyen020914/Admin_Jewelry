@@ -135,13 +135,13 @@
         <thead>
           <tr>
             <th nzAlign="center">{{ "common.index" | translate }}</th>
-            <th nzAlign="left" nzColumnKey="materialName" [nzSortFn]="true">
+            <th nzAlign="center" nzColumnKey="materialName" [nzSortFn]="true">
               {{ getTranslate("name") }}
             </th>
             <th nzAlign="center" nzColumnKey="purchasePrice" [nzSortFn]="true">
               {{ getTranslate("purchasePrice") }}
             </th>
-            <th nzAlign="left" nzColumnKey="salePrice" [nzSortFn]="true">
+            <th nzAlign="center" nzColumnKey="salePrice" [nzSortFn]="true">
               {{ getTranslate("salePrice") }}
             </th>
             <th nzAlign="center" nzColumnKey="type" [nzSortFn]="true">
@@ -166,11 +166,11 @@
           <ng-container *ngFor="let item of materials; let i = index">
             <tr>
               <td nzAlign="center">{{ getIndex(i) }}</td>
-              <td nzAlign="left">{{ item.materialName }}</td>
-              <td nzAlign="left">
+              <td nzAlign="center">{{ item.materialName }}</td>
+              <td nzAlign="center">
                 {{ item.purchasePrice | vnd }}/Chỉ
               </td>
-              <td nzAlign="left">{{ item.salePrice| vnd  }}/Chỉ</td>
+              <td nzAlign="center">{{ item.salePrice| vnd  }}/Chỉ</td>
               <td nzAlign="center">
                 {{ item.type}}
               </td>

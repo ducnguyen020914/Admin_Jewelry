@@ -6,7 +6,7 @@ import { Category } from '../../../shared/models/category.model';
 import { ProductSearchRequest } from '../../../shared/models/request/product-search-request.model';
 import CommonUtil from '../../../shared/utils/common-utils';
 import { PRODUCT_STATUS } from '../../../shared/constants/product.constant copy';
-import { Product, IProduct, ProductStatus } from '../../../shared/models/productReal.model';
+import { Product, IProduct, ProductStatus, ProductGender } from '../../../shared/models/productReal.model';
 import { ROUTER_ACTIONS, ROUTER_UTILS } from '../../../shared/utils/router.utils';
 import { NzModalRef, NzModalService } from 'ng-zorro-antd/modal';
 import { ProductService } from '@shared/services/product/product.service';
@@ -18,7 +18,7 @@ import { Material } from '../../../shared/models/material.model';
 import { MaterialService } from '../../../shared/services/product/material.service';
 import { CategoryService } from '../../../shared/services/product/category.service';
 import { NzTableQueryParams } from 'ng-zorro-antd/table';
-import { SORT } from '@shared/constants/common.constant';
+import { GENDER, SORT } from '@shared/constants/common.constant';
 import { Router } from '@angular/router';
 import { Size } from '../../../shared/models/size.model';
 import { SizeService } from '../../../shared/services/product/size.service';
@@ -292,5 +292,13 @@ export class ProductComponent implements OnInit {
         },
       };
     }
+  }
+  getGender(item:string):string{
+    if(item === ProductGender.FEMALE){
+      return 'Nữ'
+    }else if(item === ProductGender.MALE){
+      return "Nam"
+    }
+    return 'Nam và Nữ';
   }
 }

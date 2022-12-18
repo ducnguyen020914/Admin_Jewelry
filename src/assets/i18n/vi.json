@@ -200,6 +200,8 @@
     "dashboard": {
       "title": "Trang chủ",
       "list": "Danh sách hợp đồng",
+      "myProfile":"Hồ sơ cá nhân",
+      "myInfo":"Thông tin cá nhân",
       "success": {
         "msg": "Thành công"
       },
@@ -388,8 +390,11 @@
       "unlockTitle":"Xác nhận mở khóa chất liệu",
       "unlockContent":"Bán có muốn kmở hóa chất liệu {{name}} không ?",
       "lockSuccess":"Khóa chất liệu sản phẩm thành công",
-      "unlockSuccess":"Mở khóa chất liệu thành công"
-
+      "unlockSuccess":"Mở khóa chất liệu thành công",
+      "success":{
+        "create":"Thêm chất liệu thành công",
+        "update": "Cập nhật chất liệu thành công"
+      }
     },
     "category": {
       "description":"Mô tả chi tiết",
@@ -602,6 +607,7 @@
         "cancel": "Hủy khách thành công"
       }
     },
+    
     "accessory": {
       "keyword": "Nhập tên, giá, màu sắc",
       "name": "Tên phụ kiện",
@@ -636,6 +642,8 @@
     "product": {
       "createProductContent":"Bạn có muôn thêm sản phẩm này không ?",
       "createProductTitle":"Thêm sản phẩm",
+      "updateProductTitle":"Cập nhật sản phẩm",
+      "updateProductContent":"Bạn có muốn cập nhật sản phẩm này không ?",
       "index": "STT",
       "salaryMin":"Tiền công phải lơn hơn 0",
       "title": "Quản lý sản phẩm",

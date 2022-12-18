@@ -6,7 +6,7 @@
     <div class="col-12">
       <form [formGroup]="form">
         <div class="row">
-          <div class="col-6 mb-4">
+          <div class="col-12 mb-4">
             <label
               >{{ "model.product.name" | translate }}
               <span class="text-danger">*</span></label
@@ -31,36 +31,7 @@
               </span>
             </ng-container>
           </div>
-          <div class="col-6 mb-4">
-            <label
-              >{{ "model.product.salary" | translate }}
-              <span class="text-danger">*</span></label
-            >
-            <input
-              type="number"
-              formControlName="salary"
-              nz-input
-              [maxLength]="LENGTH_VALIDATOR.NAME_MAX_LENGTH.MAX"
-              placeholder="{{ 'model.product.salary' | translate }}"
-             (input)="getMaterial()"
-              />
-            <ng-container
-              *ngIf="form.get('salary')?.touched || form.get('salary')?.dirty"
-            >
-              <span
-                class="text-danger"
-                *ngIf="form.get('salary')?.hasError('required')"
-              >
-                <mb-not-blank [value]="'model.product.salary'"></mb-not-blank>
-              </span>
-              <span
-              class="text-danger"
-              *ngIf="form.get('salary')?.hasError('min')"
-            >
-              <mb-not-blank [value]="'model.product.salaryMin'"></mb-not-blank>
-            </span>
-            </ng-container>
-          </div>
+         
         </div>
         <div class="row">
          
@@ -100,35 +71,35 @@
           </div>
           <div class="col-6 mb-4">
             <label
-              >{{ "model.product.vendorId" | translate }}
+              >{{ "model.product.salary" | translate }}
               <span class="text-danger">*</span></label
             >
-            <nz-select
-              formControlName="vendorId"
-              [nzPlaceHolder]="'model.product.vendorId' | translate"
-            >
-              <ng-container *ngFor="let v of vendors">
-                <nz-option
-                  [nzValue]="v.vendorId"
-                  [nzLabel]="v.name"
-                ></nz-option>
-              </ng-container>
-            </nz-select>
+            <input
+            appCurrencyFormatter
+              formControlName="salary"
+              nz-input
+              [maxLength]="LENGTH_VALIDATOR.NAME_MAX_LENGTH.MAX"
+              placeholder="{{ 'model.product.salary' | translate }}"
+             (input)="getMaterial()"
+              />
             <ng-container
-              *ngIf="
-                form.get('vendorId')?.touched || form.get('vendorId')?.dirty
-              "
+              *ngIf="form.get('salary')?.touched || form.get('salary')?.dirty"
             >
               <span
                 class="text-danger"
-                *ngIf="form.get('vendorId')?.hasError('required')"
+                *ngIf="form.get('salary')?.hasError('required')"
               >
-                <mb-not-blank
-                  [value]="'model.product.manufacture'"
-                ></mb-not-blank>
+                <mb-not-blank [value]="'model.product.salary'"></mb-not-blank>
               </span>
+              <span
+              class="text-danger"
+              *ngIf="form.get('salary')?.hasError('min')"
+            >
+              <mb-not-blank [value]="'model.product.salaryMin'"></mb-not-blank>
+            </span>
             </ng-container>
           </div>
+          
         </div>
         <div class="row">
           <div class="col-6 mb-4">
@@ -162,7 +133,7 @@
                 class="text-danger"
                 *ngIf="form.get('materialId')?.hasError('required')"
               >
-                <mb-not-blank [value]="'model.product.materialId'"></mb-not-blank>
+                <mb-not-blank [value]="'model.product.material'"></mb-not-blank>
               </span>
             </ng-container>
           </div>
@@ -240,19 +211,35 @@
             </ng-container>
           </div>
           <div class="col-6 mb-4">
-            <label>{{ "model.product.event" | translate }} </label>
-            <nz-select
-              formControlName="eventId"
-              [nzPlaceHolder]="'model.product.event' | translate"
-              
+            <label
+              >{{ "model.product.vendorId" | translate }}
+              <span class="text-danger">*</span></label
             >
-              <ng-container *ngFor="let event of events">
+            <nz-select
+              formControlName="vendorId"
+              [nzPlaceHolder]="'model.product.vendorId' | translate"
+            >
+              <ng-container *ngFor="let v of vendors">
                 <nz-option
-                  [nzValue]="event.eventId"
-                  [nzLabel]="event.name + ' - ' + 'Giảm ' + event.discount + '%'"
+                  [nzValue]="v.vendorId"
+                  [nzLabel]="v.name"
                 ></nz-option>
               </ng-container>
             </nz-select>
+            <ng-container
+              *ngIf="
+                form.get('vendorId')?.touched || form.get('vendorId')?.dirty
+              "
+            >
+              <span
+                class="text-danger"
+                *ngIf="form.get('vendorId')?.hasError('required')"
+              >
+                <mb-not-blank
+                  [value]="'model.product.manufacture'"
+                ></mb-not-blank>
+              </span>
+            </ng-container>
           </div>
         </div>
         

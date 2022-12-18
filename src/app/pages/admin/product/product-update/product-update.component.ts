@@ -35,6 +35,7 @@ import { Observable } from 'rxjs';
 import { finalize } from 'rxjs/operators';
 import { NzUploadFile } from 'ng-zorro-antd/upload';
 import { DetailProductComponent } from '../detail-product/detail-product.component';
+import { error } from 'console';
 
 @Component({
   selector: 'app-product-update',
@@ -303,8 +304,14 @@ export class ProductUpdateComponent implements OnInit {
     const product: Product = {
       ...this.form.value,
       imageUrls: this.imageUrls,
+      salary: this.form.value.salary &&
+      CommonUtil.formatToNumber(this.form.value.salary),
+  
     };
-    console.log(product);
+    if(this.imageUrls === null || this.imageUrls.length === 0 ){
+      this.toast.error("Ảnh không được để trống");
+      return
+    }
     if (this.action === this.ROUTER_ACTIONS.update) {
       this.update(product);
     } else {

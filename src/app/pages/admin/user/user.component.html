@@ -68,20 +68,20 @@
         <thead>
         <tr>
           <th nzAlign="center">{{ "common.index" | translate }}</th>
-          <th nzAlign="left" nzColumnKey="fullName" [nzSortFn]="true">
+          <th nzAlign="center" nzColumnKey="fullName" [nzSortFn]="true">
             {{ "model.user.fullName" | translate }}
           </th>
-          <th nzAlign="left" nzColumnKey="username" [nzSortFn]="true">
+          <th nzAlign="center" nzColumnKey="username" [nzSortFn]="true">
             {{ "model.user.username" | translate }}
           </th>
-          <th nzAlign="left" nzColumnKey="role" [nzSortFn]="true">
+          <th nzAlign="center" nzColumnKey="role" [nzSortFn]="true">
             {{ "model.user.role" | translate }}
           </th>
           <th nzAlign="center">{{ "model.user.phoneNumber" | translate }}</th>
           <th nzAlign="left" nzColumnKey="email" [nzSortFn]="true">
             {{ "model.user.email" | translate }}
           </th>
-          <th nzAlign="left" nzColumnKey="employeeCode" [nzSortFn]="true">
+          <th nzAlign="center" nzColumnKey="employeeCode" [nzSortFn]="true">
             {{ "model.user.employeeCodeSort" | translate }}
           </th>
           <th nzAlign="center" nzColumnKey="status" [nzSortFn]="true">
@@ -100,25 +100,25 @@
           <tr>
             <td nzAlign="center">{{ getIndex(i) }}</td>
             <td
-              nzAlign="left"
+              nzAlign="center"
               [nzTooltipTitle]="item.fullName"
               nzTooltipPlacement="top"
               nz-tooltip
             >
               {{ getLimitLength(item.fullName!) }}
             </td>
-            <td nzAlign="left">{{ item.userName }}</td>
-            <td nzAlign="left">{{item.role }}</td>
+            <td nzAlign="center">{{ item.userName }}</td>
+            <td nzAlign="center">{{item.role }}</td>
             <td nzAlign="center">{{ item.phoneNumber }}</td>
             <td
-              nzAlign="left"
+              nzAlign="center"
               [nzTooltipTitle]="item.email"
               nzTooltipPlacement="top"
               nz-tooltip
             >
               {{ item.email }}
             </td>
-            <td nzAlign="left">{{ item.employeeCode }}</td>
+            <td nzAlign="center">{{ item.employeeCode }}</td>
             <td nzAlign="center">
               <mb-badge
                 [color]="

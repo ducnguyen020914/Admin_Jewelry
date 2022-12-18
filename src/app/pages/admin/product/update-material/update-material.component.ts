@@ -66,6 +66,10 @@ export class UpdateMaterialComponent implements OnInit {
     console.log('heelooo khi');
     const material:Material  = {
       ...this.form.value,
+      purchasePrice: this.form.value.purchasePrice &&
+      CommonUtil.formatToNumber(this.form.value.purchasePrice),
+      salePrice:  this.form.value.salePrice &&
+      CommonUtil.formatToNumber(this.form.value.salePrice),
     };
     this.materialService.update(this.material.materialId+'',material).subscribe((res) => {
       this.toast.success('model.material.success.update');
@@ -78,9 +82,13 @@ export class UpdateMaterialComponent implements OnInit {
   createCategory(){
     const material:Material  = {
       ...this.form.value,
+      purchasePrice: this.form.value.purchasePrice &&
+      CommonUtil.formatToNumber(this.form.value.purchasePrice),
+      salePrice:  this.form.value.salePrice &&
+      CommonUtil.formatToNumber(this.form.value.salePrice),
     };
     this.materialService.create(material).subscribe((res) => {
-      this.toast.success('model.matrial.success.create');
+      this.toast.success('model.material.success.create');
       this.modalRef.close({
         success: true,
         value: material,

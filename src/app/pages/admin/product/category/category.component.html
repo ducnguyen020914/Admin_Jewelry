@@ -81,7 +81,7 @@
         <thead>
           <tr>
             <th nzAlign="center">{{ "common.index" | translate }}</th>
-            <th nzAlign="left" nzColumnKey="name" [nzSortFn]="true">
+            <th nzAlign="center" nzColumnKey="name" [nzSortFn]="true">
               {{ getTranslate("name") }}
             </th>
             <th nzAlign="center" nzColumnKey="createdAt" [nzSortFn]="true">
@@ -105,11 +105,11 @@
           <ng-container *ngFor="let item of categories; let i = index">
             <tr>
               <td nzAlign="center">{{ getIndex(i) }}</td>
-              <td nzAlign="left">{{ item.name }}</td>
+              <td nzAlign="center">{{ item.name }}</td>
               <td nzAlign="center">
                 {{ item.createAt | date: "dd/MM/yyyy" }}
               </td>
-              <td nzAlign="left">{{ item.createBy ? item.createBy : '' }}</td>
+              <td nzAlign="center">{{ item.createBy ? item.createBy : '' }}</td>
               <td nzAlign="center">
                 {{ item.lastModifiedAt | date: "dd/MM/yyyy" }}
               </td>
