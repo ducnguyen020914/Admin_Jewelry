@@ -18,6 +18,7 @@ import CommonUtil from '../../../../shared/utils/common-utils';
 import { ExchangeProduct, ExchangeDetail } from '../../../../shared/models/order.model';
 import { ExchangeEnum } from '../../../../shared/models/exchange.model';
 import { ExchangeService } from '../../../../shared/services/order/exchange.service';
+import { error } from 'console';
 import {
   Order,
   OrderType,
@@ -219,6 +220,8 @@ export class ExchangeOrderComponent implements OnInit {
           }   
             this.exchangeService.createExchange(exchanges).subscribe((item) => {
               this.onCancel();
+           },(error) => {
+            this.toast.error(error.error.message)
            })
          }});    
   
