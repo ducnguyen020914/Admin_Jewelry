@@ -55,7 +55,11 @@ export class UpdateHoaDonChoComponent implements OnInit {
   disabled = false;
   menuId = '';
   staff = '';
-  ORDER_STATUS = ORDER_STATUS;
+  ORDER_STATUS = [
+    {value: 'HOA_DON_CHO', label: 'Hóa đơn chờ'},
+    {value: 'DA_GIAO', label: 'model.order.status.completed'},
+    {value: 'HUY', label: 'model.order.status.cancelled'},
+    ];
   ROUTER_ACTIONS = ROUTER_ACTIONS;
   ROUTER_UTILS = ROUTER_UTILS;
   form: FormGroup = new FormGroup({});

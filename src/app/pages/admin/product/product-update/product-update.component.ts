@@ -224,7 +224,7 @@ export class ProductUpdateComponent implements OnInit {
   }
   loadSize() {
     this.sizeService.autoComplete().subscribe((res: any) => {
-      this.sizes = res.body?.data;
+      this.sizes = res.body?.data.data;
     });
   }
   loadAccessory(event: any) {
@@ -308,13 +308,13 @@ export class ProductUpdateComponent implements OnInit {
       CommonUtil.formatToNumber(this.form.value.salary),
   
     };
-    if(this.imageUrls === null || this.imageUrls.length === 0 ){
-      this.toast.error("Ảnh không được để trống");
-      return
-    }
     if (this.action === this.ROUTER_ACTIONS.update) {
       this.update(product);
     } else {
+      if(this.imageUrls === null || this.imageUrls.length === 0 ){
+        this.toast.error("Ảnh không được để trống");
+        return
+      }
       this.createProduct(product);
     }
 
@@ -439,7 +439,6 @@ export class ProductUpdateComponent implements OnInit {
               if (url) {
                 this.imageUrls.push(url);
               }
-              console.log(url);
             });
           })
         )

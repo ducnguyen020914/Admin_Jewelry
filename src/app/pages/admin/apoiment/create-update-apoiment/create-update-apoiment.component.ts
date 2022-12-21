@@ -3,7 +3,7 @@ import { Category, ICategory } from '../../../../shared/models/category.model';
 import { CategorySearchRequest } from '../../../../shared/models/request/category-search-request.model';
 import { PAGINATION } from '../../../../shared/constants/pagination.constants';
 import { FormGroup, Validators, FormBuilder, FormArray } from '@angular/forms';
-import { LENGTH_VALIDATOR } from '../../../../shared/constants/validators.constant';
+import { LENGTH_VALIDATOR, VALIDATORS } from '../../../../shared/constants/validators.constant';
 import { ROUTER_ACTIONS } from '@shared/utils/router.utils';
 import { CategoryService } from '../../../../shared/services/product/category.service';
 import { ToastService } from '../../../../shared/services/helpers/toast.service';
@@ -75,7 +75,7 @@ export class CreateUpdateApoimentComponent implements OnInit {
         : this.calendar;
     this.form = this.fb.group({
       userName: [{value :dataObject.userName,disabled:this.isUpdate && this.checkStatus() ? true:false}, [Validators.required]],
-      phoneNumber:[{value :dataObject.phoneNumber,disabled:this.isUpdate && this.checkStatus() ? true:false},[Validators.required]],
+      phoneNumber:[{value :dataObject.phoneNumber,disabled:this.isUpdate && this.checkStatus() ? true:false},[Validators.required,Validators.pattern(VALIDATORS.PHONE)]],
       email:[{value:dataObject.email,disabled:this.isUpdate && this.checkStatus() ? true:false},[Validators.required,Validators.email]],
       time:[{value:dataObject.time,disabled:this.isUpdate && this.checkStatus() ? true:false},[Validators.required]],
       productId:[{value:dataObject.productId,disabled:this.isUpdate && this.checkStatus() ? true:false},[Validators.required]],

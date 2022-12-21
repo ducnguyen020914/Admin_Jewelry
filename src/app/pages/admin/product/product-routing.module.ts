@@ -10,6 +10,7 @@ import { DetailCategoryComponent } from './detail-category/detail-category.compo
 import { DetailMaterialComponent } from './detail-material/detail-material.component';
 import { ProductUpdateComponent } from './product-update/product-update.component';
 import { ProductProcessedComponent } from './product-processed/product-processed.component';
+import { SizeListComponent } from './size-list/size-list.component';
 
 const routes: Routes = [
   {
@@ -17,6 +18,13 @@ const routes: Routes = [
     component: ProductComponent,
     data: {
       title: 'sidebar.product',
+    },
+  },
+  {
+    path: ROUTER_UTILS.product.productProcess,
+    component: ProductProcessedComponent,
+    data: {
+      title: 'sidebar.productProcessed',
     },
   },
   {
@@ -41,6 +49,14 @@ const routes: Routes = [
     },
     
   },
+  {
+    path: ROUTER_UTILS.product.size,
+    component: SizeListComponent,
+    data: {
+      title: 'sidebar.size',
+    },
+    
+  },
 
   {
     path: ROUTER_UTILS.product.vendor,
@@ -50,14 +66,7 @@ const routes: Routes = [
     },
     
   },
-  {
-    path: ROUTER_UTILS.product.productProcess,
-    component: ProductProcessedComponent,
-    data: {
-      title: 'sidebar.productProcessed',
-    },
-    
-  },
+
   {
     path: ROUTER_UTILS.product.categoryDetail,
     component: DetailCategoryComponent,

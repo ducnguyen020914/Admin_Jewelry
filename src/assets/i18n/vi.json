@@ -91,12 +91,14 @@
   },
   "sidebar": {
     "vendor": "Quản lý nhà cung cấp",
+    "event":"Sự kiện",
     "productProcessed":"Quản lý sản phẩm cần gia công",
     "statisticalTop":"Thông kê bán chạy",
     "statisticaldoanhthu":"Thống kê doanh thu",
     "dashboard": "Trang chủ",
     "contract": "Quản lý hợp đồng",
     "building": "Quản lý tòa nhà",
+    "size":"Quản lý kích thước",
     "unit": "Quản lý mặt bằng",
     "ticket": "Yêu cầu hỗ trợ",
     "ticket-list": "Danh sách yêu cầu hỗ trợ",
@@ -212,6 +214,24 @@
     "statistical": {
       "statistical":"Báo cáo thống kê",
       "list": "Thống kê"
+    },
+    "event":{
+      "title":"Quản lý sự kiện giảm giá",
+      "list":"Danh sách sự kiện",
+      "keywordContent":"Nhập tên sự kiện,mã sự kiện",
+      "code":"Mã sự kiên",
+      "name":"Tên sự kiện",
+      "discount":"Giảm giá",
+      "startDate":"Ngày bắt đầu",
+      "endDate":"Ngày kết thúc"
+    },
+    "size":{
+      "size":"Kích thước",
+      "description":"Mô tả chi tiết",
+      "createAt":"Ngày tạo",
+      "lastModifiedAt":"Ngày cập nhập"
+
+
     },
     "repurchase": {
        "before48h": "Tạo hóa đơn mua lại trước 2 ngày mua hàng",
@@ -487,6 +507,7 @@
       "phoneNumber":"Số điện thoại liên hệ",
       "email":"Email",
       "apoiment":"Thời gian hẹn",
+      "list":"Danh sách lịch hẹn",
       "product":"Sản phẩm",
       "size":"Kích thước",
       "datcoc":"Tiền cọc",
@@ -834,7 +855,7 @@
         "availableproduct":"Các sản phẩm đang có",
         "emptyProducts":"Không có sản phẩm nào"
       },
-      "orderer": "Nguời đặt",
+      "orderer": "Người đặt",
       "owner": "Nguời sở hữu",
       "lastModifiedBy":"Người cập nhật",
       "history": "Lịch sử thay đổi trạng thái",

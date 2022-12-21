@@ -23,6 +23,7 @@ import { DetailProductComponent } from './detail-product/detail-product.componen
 import { ProductProcessedComponent } from './product-processed/product-processed.component';
 import { UpdateWaitingProductComponent } from './update-waitingProduct/update-waitingProduct.component';
 import { DetailWaitingProductComponent } from './detail-waitingProduct/detail-waitingProduct.component';
+import { SizeListComponent } from './size-list/size-list.component';
 @NgModule({
   imports: [
     CommonModule,
@@ -49,7 +50,8 @@ import { DetailWaitingProductComponent } from './detail-waitingProduct/detail-wa
     DetailProductComponent,
     ProductProcessedComponent,
     UpdateWaitingProductComponent,
-    DetailWaitingProductComponent
+    DetailWaitingProductComponent,
+    SizeListComponent
   ],
 })
 export class ProductModule {}

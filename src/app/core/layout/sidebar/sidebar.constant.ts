@@ -43,6 +43,13 @@ export const SidebarConstant = [
     admin:true,
   },
   {
+    path: ROUTER_UTILS.event.event,
+    title: 'sidebar.event',
+    icon: 'bell',
+    root: true,
+    admin:true,
+  },
+  {
     path: ROUTER_UTILS.product.productList,
     title: 'sidebar.product',
     icon: 'shop',
@@ -78,6 +85,12 @@ export const SidebarConstant = [
         admin:true
       },
       {
+        path: `${ROUTER_UTILS.product.root}/${ROUTER_UTILS.product.size}`,
+        title: 'sidebar.size',
+        root: true,
+        admin:true
+      },
+      {
         path: `${ROUTER_UTILS.product.root}/${ROUTER_UTILS.product.vendor}`,
         title: 'sidebar.vendor',
         root: true,
@@ -106,13 +119,12 @@ export const SidebarConstant = [
     ]
   },
   {
-    path: ROUTER_UTILS.statistical.root,
     title: 'sidebar.statistical',
     icon: 'bar-chart',
     admin: localStorage.getItem('isadmin') === 'true' ? true : false,
     submenu: [
       {
-        path: `${ROUTER_UTILS.statistical.statistical}`,
+        path: `${ROUTER_UTILS.statistical.statistical}/${ROUTER_UTILS.statistical.statisticaldoanhthu}`,
         title: 'sidebar.statisticaldoanhthu',
         root: true,
         admin:localStorage.getItem('isadmin') === 'true' ? true : false

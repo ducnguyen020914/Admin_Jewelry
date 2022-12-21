@@ -117,10 +117,13 @@ export class DetailUpdateOrderComponent implements OnInit {
     this.form.get('total')?.setValue(0);
   }
   getStatus(status:StatusEnum){
-  if(status === StatusEnum.DANG_GIAO){
+    this.ORDER_STATUS = this.ORDER_STATUS.filter((item,index) => item.value !== StatusEnum.HOA_DON_CHO)
+  if(status === StatusEnum.CHO_XAC_NHAN){
+    this.ORDER_STATUS = this.ORDER_STATUS.filter((item,index) => item.value !== StatusEnum.DANG_GIAO && item.value !== StatusEnum.DA_GIAO);
+  }else if(status === StatusEnum.DANG_GIAO){
     this.ORDER_STATUS = this.ORDER_STATUS.filter((item,index) => item.value !== StatusEnum.CHO_XAC_NHAN && item.value !== StatusEnum.XAC_NHAN);
   }else if(status  === StatusEnum.XAC_NHAN){
-    this.ORDER_STATUS = this.ORDER_STATUS.filter((item,index) => item.value !== StatusEnum.CHO_XAC_NHAN);
+    this.ORDER_STATUS = this.ORDER_STATUS.filter((item,index) => item.value !== StatusEnum.CHO_XAC_NHAN && item.value !== StatusEnum.DA_GIAO);
   }
   }
   private loadCustomer() {

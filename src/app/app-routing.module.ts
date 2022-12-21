@@ -49,6 +49,12 @@ const routes: Routes = [
         )
       },
       {
+        path:ROUTER_UTILS.event.event,
+        loadChildren : () => import('@pages/admin/event/event.module').then(
+          (m) => m.EventModule
+        )
+      },
+      {
         path:ROUTER_UTILS.statistical.statistical,
         loadChildren : () => import('@pages/admin/statistical/statistical.module').then(
           (m) => m.StatisticalModule

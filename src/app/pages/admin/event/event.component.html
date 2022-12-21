@@ -1,0 +1,95 @@
+<div class="content">
+  <mb-table-title [title]="'model.event.list' | translate"></mb-table-title>
+  <!-- search -->
+  <nz-table class="content mt-3">
+    <div [formGroup]="form">
+      <div class="row p-4">
+        <div class="col-6 mb-2">
+          <label>{{'model.apoiment.keyword' | translate}}</label>
+           <input
+            formControlName="keyword"
+            (keyup.enter)="search()"
+            nz-input
+            class="form-control"
+            placeholder="{{ 'model.event.keywordContent'|translate}}"
+          />
+        </div>
+       </div>
+    </div>
+    <div class="row pb-3 text-center">
+      <div class="col-12">
+        <button class="me-3" nz-button nzType="default" (click)="resetSearch()">
+          {{ "action.reset" | translate }}
+        </button>
+        <button nz-button nzType="primary" (click)="search()">
+          {{ "common.search" | translate }}
+        </button>
+      </div>
+    </div>
+  </nz-table>
+  <!-- end-search -->
+  <div class="col-12 text-end mt-3">
+    <!-- <mb-button class="me-3" nz-button nz-dropdown [text]="'model.order.export'" (click)="openPurchasePopup()">
+    </mb-button> -->
+    <mb-button nz-button nz-dropdown [icon]="'plus'" [text]="'action.create'" (click)="create()"></mb-button>
+  </div>
+
+  <div class="col-12 mt-2">
+    <nz-table #table [nzData]="events" [nzNoResult]="noDataResult"    (nzQueryParams)="onChangeQueryParam($event)">
+      <thead>
+      <tr>
+        <th nzAlign="center">{{'common.index' | translate}}</th>
+        <th nzAlign="center" nzColumnKey="code" [nzSortFn]="true">{{'model.event.code' | translate}}</th>
+        <th nzAlign="center">{{'model.event.name' | translate}}</th>
+        <th nzAlign="center" mzColumnKey="createAt"  [nzSortFn]="true">{{'model.event.discount' | translate}}</th>
+        <th nzAlign="center" nzColumnKey="total" [nzSortFn]="true">{{'model.event.startDate' | translate}}</th>
+        <th nzAlign="center" nzColumnKey="purchaseType" [nzSortFn]="true">{{'model.event.endDate' | translate}}</th>
+        <th nzAlign="center">{{'action.msg' | translate}}</th>
+      </tr>
+      </thead>
+      <tbody>
+      <ng-container *ngFor="let item of events; let i = index">
+        <tr>
+          <td nzAlign="center">{{ getIndex(i) }}</td>
+          <td nzAlign="center">{{item.code}}</td>
+          <td nzAlign="center">{{item.name}}</td>
+          <td nzAlign="center">{{item.discount +'%'}}</td>
+          <td nzAlign="center">{{item.startDate | date:'dd-MM-yyyy'}}</td>
+          <td nzAlign="center">{{item.endDate | date:'dd-MM-yyyy'}}</td>
+          <td nzAlign="center">
+          
+            <mb-button-action
+             [action]="'edit'" className="center" nzTooltipTitle="{{'action.update' | translate}}"
+                              nzTooltipPlacement="top" (click)="update(item)">
+            </mb-button-action>
+            <mb-button-action *ngIf="item.status === 'WAIT_CONFIRM'" [action]="'check'" className="first" nzTooltipTitle="{{'action.view' | translate}}"
+            nzTooltipPlacement="top" (click)="active(item)">
+</mb-button-action>
+            <!-- <mb-button-action [action]="'delete'" className="last" nzTooltipTitle="{{'action.delete' | translate}}"
+                              nzTooltipPlacement="top" (click)="delete(item.id)">
+            </mb-button-action> -->
+          </td>
+        </tr>
+      </ng-container>
+      </tbody>
+    </nz-table>
+    <mb-pagination [pageIndex]="eventSearchRequest.pageIndex" [pageSize]="eventSearchRequest.pageSize" [total]="total"
+                   (onChange)="onQuerySearch($event)">
+    </mb-pagination>
+  </div>
+</div>
+<ng-template #noDataResult>
+  <mb-no-data></mb-no-data>
+</ng-template>
+<mb-modal
+  [title]="lockPopup.title"
+  [content]="lockPopup.content"
+  [interpolateParams]="lockPopup.interpolateParams"
+  [okText]="lockPopup.okText"
+  [btnCentered]="true"
+  [callBack]="this.lockPopup.callBack"
+  [isVisible]="isVisible"
+  (emitter)="changStatus($event)"
+>
+</mb-modal>
+

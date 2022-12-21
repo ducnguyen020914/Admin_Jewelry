@@ -57,6 +57,7 @@ export const ROUTER_UTILS = {
   statistical:{
     root:'',
     statistical:"statistical",
+    statisticaldoanhthu:"doanhthu",
     statisticalTop:'statisticalTop'
   },
   notification: {
@@ -77,7 +78,9 @@ export const ROUTER_UTILS = {
     list: 'list',
     detail: ':id',
   },
-
+  event:{
+    event:'event'
+  },
   department: {
     root: 'department',
     detail: `:id/${ROUTER_ACTIONS.detail}`,
@@ -144,6 +147,7 @@ export const ROUTER_UTILS = {
     materialDetail: 'material/:id/detail',
     categoryCreate: 'category/create',
     accessory:'accessory',
+    size:'size',
     vendor:'vendor',
     productCreate: 'create',
     productUdate: ':id/update',

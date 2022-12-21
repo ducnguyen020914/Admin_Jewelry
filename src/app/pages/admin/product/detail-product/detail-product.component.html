@@ -43,17 +43,9 @@
         </div>
         <div class="col-6 mb-2">
           <span
-            ><label>{{ "model.product.accessoryId" | translate }}:&nbsp;</label
-            >{{
-              product.accessory?.name
-            }}</span
-          >
-        </div>
-        <div class="col-6 mb-2">
-          <span
             ><label>{{ "model.product.gender" | translate }}:&nbsp;</label
             >{{
-              product.gender
+              getGender(product.gender+'')
             }}</span
           >
         </div>

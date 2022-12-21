@@ -146,6 +146,7 @@ export class IProductOrder    {
  constructor(public id?:string,
   public productId?:String,
   public imageUrl?:string[],
+  public priceProduct?:number,
   public price?:number,
   public pricePurchase?:number,
   public priceSale?:number,
@@ -161,6 +162,7 @@ export class IProductOrder    {
     this.imageUrl = imageUrl;
     this.price = price;
     this.pricePurchase = pricePurchase;
+    this.priceProduct = priceProduct;
     this.nameProduct = nameProduct;
     this.quantity  = quantity;
     this.quantityBy = quantityBy;

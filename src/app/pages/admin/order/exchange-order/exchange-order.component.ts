@@ -195,7 +195,7 @@ export class ExchangeOrderComponent implements OnInit {
  
    const exchanges: {                                                                                        
       orderId?: string ;
-      createAt?:string;
+      createBy?:string;
       products:ExchangeDetail[]; 
       status: ExchangeEnum; reason: string;
       note: string; } = {
@@ -204,7 +204,7 @@ export class ExchangeOrderComponent implements OnInit {
       status: ExchangeEnum.THANH_CONG,
       reason: this.reason,
       note: this.note,
-      createAt:this.localStorage.retrieve('username') as string
+      createBy:this.localStorage.retrieve('username') as string
       };
       const createForm = CommonUtil.modalConfirm(
         this.translateService,

@@ -56,7 +56,11 @@ export class AddOrderComponent implements OnInit {
   ROUTER_UTILS = ROUTER_UTILS;
   form: FormGroup = new FormGroup({});
   LENGTH_VALIDATOR = LENGTH_VALIDATOR;
-  PAYMENT_METHOD = paymentMethod;
+  PAYMENT_METHOD = [
+    {value: 'MONEY', label: 'model.order.paymentMethod.money'},
+    {value: 'CARD', label: 'model.order.paymentMethod.card'},
+    
+    ];
   startValue: Date | null = null;
   orderId = '';
   order: IOrder = new Order();
@@ -245,6 +249,7 @@ extraTemplate: any;
     const order: Order = {
       ...this.form.value,
       total: this.thanhtien,
+      createBy: this.localStorage.retrieve("username"),
       orderDetailList: this.selectedProducts.map((res: any) => {
         const price = res.price as number;
         const productDetail: IProductOrder = {

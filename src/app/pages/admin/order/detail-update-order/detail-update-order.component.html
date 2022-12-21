@@ -298,10 +298,10 @@
       <div class="col-12 text-center">
         <button nz-button nzType="default" (click)="onCancel()">
           {{
-            (action === ROUTER_ACTIONS.detail
-              ? "action.back"
-              : "action.cancel"
-            ) | translate
+           
+               "action.back"
+           
+             | translate
           }}
         </button>
         <button
@@ -310,9 +310,9 @@
           class="ms-3"
           nz-button
           nzType="primary"
+          *ngIf="action === ROUTER_ACTIONS.update && this.order.status !== status.DA_GIAO && this.order.status !== status.DA_HUY"
         >
           {{
-          
                "action.update" | translate
           }}
         </button>

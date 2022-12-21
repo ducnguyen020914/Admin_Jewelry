@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { NzModalRef } from 'ng-zorro-antd/modal';
-import { IProduct, Product } from '../../../../shared/models/productReal.model';
+import { IProduct, Product, ProductGender } from '../../../../shared/models/productReal.model';
 import { PRODUCT_STATUS } from '../../../../shared/constants/product.constant copy';
 import { ProductStatus } from '../../../../shared/models/enums/productStatus.enum';
 @Component({
@@ -17,6 +17,14 @@ export class DetailProductComponent implements OnInit {
   ngOnInit(): void {
     console.log(this.product);
     
+  }
+  getGender(item:string):string{
+    if(item === ProductGender.FEMALE){
+      return 'Nữ'
+    }else if(item === ProductGender.MALE){
+      return "Nam"
+    }
+    return 'Nam và Nữ';
   }
 
   // pipeType(type: string): string {

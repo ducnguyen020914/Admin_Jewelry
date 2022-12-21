@@ -108,8 +108,7 @@ export class RepurchaseCreateBeforeComponent implements OnInit {
   loadOrder() {
     this.orderService.findOne(this.id).subscribe((res: any) => {
       this.order = res.body?.data;
-      console.log(this.order);
-      
+      console.log(this.order);   
       this.selectedProducts = this.order.orderDetailDTOList as IProductOrder[];
       this.productExchange = this.selectedProducts.map((product) => new ExchangeProduct(product,1,false));
       this.form.get('userId')?.setValue(this.order.userId);
@@ -190,8 +189,10 @@ parserPrice = (value: string): number => CommonUtil.formatToNumber(value);
     let total = 0;
     productSelected.forEach((product) => 
     {
-      const price = product.productOrder?.priceSale as number;
-    total = total + price;
+      const price = product.productOrder?.priceProduct as number;
+      const quantity = product.quantityExchange as number;
+      const salary = product.productOrder?.salary as number;
+     total = total + (price * quantity  +  salary* quantity) ;
   })
     return total;
   }

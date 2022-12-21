@@ -20,6 +20,9 @@ import { ROUTER_UTILS } from '@shared/utils/router.utils';
 import * as moment from 'moment';
 import { NzModalRef, NzModalService } from 'ng-zorro-antd/modal';
 import { LocalStorageService } from 'ngx-webstorage';
+import { EmployeeUpdateComponent } from '../../../../pages/admin/user/employee/employee-update/employee-update.component';
+import { ROUTER_ACTIONS } from '../../../../shared/utils/router.utils';
+import { ICustomer } from '../../../../shared/models/customer.model';
 @Component({
   selector: 'app-main-layout',
   templateUrl: './main-layout.component.html',
@@ -128,9 +131,22 @@ export class MainLayoutComponent implements OnInit {
   }
 
   toChangeProfile(): void {
-    this.router.navigate([
-      `${ROUTER_UTILS.setting.root}/${ROUTER_UTILS.setting.myProfile}`,
-    ]);
+    const employee = this.localStorage.retrieve('profile') as ICustomer
+    const base = CommonUtil.modalBase(
+      EmployeeUpdateComponent,
+      {
+        action: ROUTER_ACTIONS.update,
+        employee
+
+      },
+      '50%'
+    );
+    const modal: NzModalRef = this.modalService.create(base);
+    modal.afterClose.subscribe((result) => {
+      if (result && result?.success) {
+        this.toast.success("Cập nhật thông tin thành công")
+      }
+    });
   }
 
   /**

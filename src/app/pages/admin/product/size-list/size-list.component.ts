@@ -14,22 +14,23 @@ import { NzTableQueryParams } from 'ng-zorro-antd/table';
 import {IOrder, PaymentMethod, StatusEnum} from "@shared/models/order.model";
 import {IOrderSearchRequest} from "@shared/models/request/order-search-request.model";
 import {ORDER_STATUS, paymentMethod} from "@shared/constants/order.constant";
-import { OrderService } from '../../../../shared/services/order/order.service';
-import { OrderSearchRequest } from '../../../../shared/models/request/order-search-request.model';
-import { OrderType, Order } from '../../../../shared/models/order.model';
 import { NzMarks } from 'ng-zorro-antd/slider';
 import { formatDate } from '@angular/common';
 import * as moment from 'moment';
-import { IgnorePlugin } from 'webpack';
+import { IEvent } from '@shared/models/event.model';
+import { EventService } from '@shared/services/product/event.service';
+import { ISizeSearchRequest } from '../../../../shared/models/request/event-search-request.model';
+import { SizeService } from '../../../../shared/services/product/size.service';
+import { ISize } from '../../../../shared/models/size.model';
 
 @Component({
-  selector: 'app-order-list',
-  templateUrl: './order-list.component.html',
-  styleUrls: ['./order-list.component.scss'],
+  selector: 'app-size-list',
+  templateUrl: './size-list.component.html',
+  styleUrls: ['./size-list.component.css']
 })
-export class OrderListComponent implements OnInit {
-  formSearchOrder:FormGroup = new FormGroup({});
-  orderSearchRequest: OrderSearchRequest = {
+export class SizeListComponent implements OnInit {
+  form:FormGroup = new FormGroup({});
+  sizeSearchRequest: ISizeSearchRequest = {
   
   };
   pageIndex =  PAGINATION.PAGE_DEFAULT;
@@ -37,7 +38,6 @@ export class OrderListComponent implements OnInit {
   types = ORDER_TYPE;
   orderStatus = ORDER_STATUS;
   payMethods = paymentMethod;
-  status = StatusEnum;
   selectedOrderId = '';
   total = 0;
   minPrice = 0;
@@ -48,15 +48,15 @@ export class OrderListComponent implements OnInit {
     content: '',
     okText: '',
   };
-  orders: IOrder[] = [];
+  isVisible=false;
+  sizes: ISize[] = [];
   users: IUser[] = [];
-  marks: NzMarks = {
-    0: '0đ',
-    20000000: '20.000.000đ',
-    40000000: '40.000.000đ',
-    60000000: '60.000.000đ',
-    80000000: '80.000.000đ',
-    100000000: '100.000.000đ',
+  lockPopup = {
+    title: '',
+    content: '',
+    okText: '',
+    interpolateParams: {},
+    callBack: () => {},
   };
   constructor(
     private translateService: TranslateService,
@@ -66,74 +66,72 @@ export class OrderListComponent implements OnInit {
     private modalService: NzModalService,
     private userService: UserService,
     private fb: FormBuilder,
-    private orderService:OrderService
+    private sizeService:SizeService
   ) {
     this.initForm();
     // this.menuService.searchAutoComplete({}).subscribe((menusResponse: any) => {
     //   this.menus = menusResponse.body?.data;
     // });
   }
-
+  changStatus(event:any){}
   ngOnInit(): void {
     this.loadData(this.pageIndex,this.pageSize);
-    this.loadCustomer();
   }
 
   initForm(): void {
-    this.formSearchOrder = this.fb.group({
-      purchaseType : [this.orderSearchRequest.purchaseType || null],
-      status: [this.orderSearchRequest.status || null],
-      payMethod: [this.orderSearchRequest.payMethod || null],
-      startDate: [this.orderSearchRequest.startDate || null],
-      endDate: [this.orderSearchRequest.endDate || null],
-      rangePrice: [[this.minPrice,this.maxPrice]],
-      startPrice: [this.orderSearchRequest.startPrice || this.minPrice],
-      endPrice: [this.orderSearchRequest.endPrice || this.maxPrice],
-      keyword: [this.orderSearchRequest.keyword || null],
-      userId: [this.orderSearchRequest.userId || null],
+    this.form = this.fb.group({
+       keyword: [this.sizeSearchRequest.keyword || null],
     });
   }
 
   private loadData(pageIndex:number,pageSize:number,sortBy?:string) {
-    this.orderSearchRequest.pageIndex  =pageIndex;
-    this.orderSearchRequest.pageSize  =pageSize;
-    this.orderSearchRequest.sortBy  =sortBy;
+    this.sizeSearchRequest.pageIndex = pageIndex;
+    this.sizeSearchRequest.pageSize = pageSize;
+    this.sizeSearchRequest.sortBy = sortBy;
+    console.log(this.sizeSearchRequest);
     
-    this.orderService
-      .search(this.orderSearchRequest)
+    this.sizeService
+      .search(this.sizeSearchRequest)
       .subscribe((response: any) => {
-        this.orders = response?.body?.data;
-        this.total = response.body.page.total;
-        console.log(this.orders);
+        this.sizes = response?.body?.data.data;
+        this.total = response.body.data.page.total;
         console.log(response);
-        
       });
   }
-  private loadCustomer(){
-    this.userService.findCustomer().subscribe((res :any) => {
-      this.users = res.body?.data;
-    })
-  }
-
   formatterPrice = (value: number): string =>
   CommonUtil.moneyFormat(value + '') + ' đ';
 parserPrice = (value: string): number => CommonUtil.formatToNumber(value);
-onChangeRangePrice(): void {
-  console.log(this.formSearchOrder.get('rangePrice')?.value);
-  
-  this.formSearchOrder
-    .get('startPrice')
-    ?.setValue(this.formSearchOrder.get('rangePrice')?.value[0]);
-  this.formSearchOrder
-    .get('endPrice')
-    ?.setValue(this.formSearchOrder.get('rangePrice')?.value[1]);
-}
-  create(): void {
-    this.router.navigate([ROUTER_UTILS.order.root, ROUTER_ACTIONS.create]);
-  }
-  export(id:string){
-    window.open('http://localhost:8080/api/v1/order/export/'+id)
-  }
+ create(): void {
+//   const base = CommonUtil.modalBase(
+//     CreateUpdateApoimentComponent,
+//     {
+//       action: ROUTER_ACTIONS.create,
+//     },
+//     '50%'
+//   );
+//   const modal: NzModalRef = this.modalService.create(base);
+//   modal.afterClose.subscribe((result) => {
+//     if (result && result?.success) {
+//       this.loadData(this.pageIndex, this.pageSize);
+//     }
+//   });
+ }
+// update(calendar: Apoiment): void {
+//   const base = CommonUtil.modalBase(
+//     CreateUpdateApoimentComponent,
+//     {
+//       isUpdate: true,
+//       calendar,
+//     },
+//     '50%'
+//   );
+//   const modal: NzModalRef = this.modalService.create(base);
+//   modal.afterClose.subscribe((result) => {
+//     if (result && result?.success) {
+//       this.loadData(this.pageIndex, this.pageSize);
+//     }
+//   });
+// }
 
   openPurchasePopup(): void {
     // const form = CommonUtil.modalConfirm(
@@ -166,13 +164,7 @@ onChangeRangePrice(): void {
     // });
   }
 
-  update(id: string): void {
-    this.router.navigate([
-      ROUTER_UTILS.order.root,
-      id,
-      ROUTER_ACTIONS.update,
-    ]);
-  }
+
 
   delete(id: string): void {
     // const form = CommonUtil.modalConfirm(
@@ -193,20 +185,12 @@ onChangeRangePrice(): void {
     // });
   }
 
-  detail(order: Order): void {
-    if(order.status === StatusEnum.HOA_DON_CHO){
-      this.router.navigate([
-        ROUTER_UTILS.order.root,
-        order.id,
-        'updatewait'
-      ]);
-    }else{
+  detail(id: string): void {
     this.router.navigate([
       ROUTER_UTILS.order.root,
-      order.id,
-      ROUTER_ACTIONS.update,
+      id,
+      ROUTER_ACTIONS.detail,
     ]);
-  }
   }
 
   pipeType(orderTypeCode: string) {
@@ -226,9 +210,9 @@ onChangeRangePrice(): void {
   }
 
   resetSearch(): void {
-    this.formSearchOrder.reset();
+    this.form.reset();
     
-    this.orderSearchRequest = {
+    this.sizeSearchRequest = {
       pageIndex: PAGINATION.PAGE_DEFAULT,
       pageSize: PAGINATION.SIZE_DEFAULT,
     };
@@ -236,35 +220,21 @@ onChangeRangePrice(): void {
   }
 
   search(): void {
-    console.log(this.formSearchOrder.value);
+    console.log(this.form.value);
     
-    this.orderSearchRequest.purchaseType = this.formSearchOrder.get('purchaseType')?.value;
-    this.orderSearchRequest.status = this.formSearchOrder.get('status')?.value;
-    this.orderSearchRequest.payMethod = this.formSearchOrder.get('payMethod')?.value;
-    this.orderSearchRequest.userId = this.formSearchOrder.get('userId')?.value;
-    this.orderSearchRequest.startPrice = this.formSearchOrder.get('startPrice')?.value;
-    this.orderSearchRequest.endPrice = this.formSearchOrder.get('endPrice')?.value;
-    const endCreatedAt = this.formSearchOrder.get('endDate')?.value;
-    const startCreatedAt = this.formSearchOrder.get('startDate')?.value;
-    if (startCreatedAt) {
-      this.orderSearchRequest.startDate = moment(startCreatedAt).format('yyyy/MM/DD');
-    } else {
-      this.orderSearchRequest.startDate = '';
-    }
-    if (endCreatedAt) {
-      this.orderSearchRequest.endDate = moment(endCreatedAt).format('yyyy/MM/DD');
-    } else {
-      this.orderSearchRequest.endDate = '';
-    }
-    console.log(this.orderSearchRequest);
+    this.sizeSearchRequest.keyword = this.form.get('keyword')?.value;
+    const endCreatedAt = this.form.get('endDate')?.value;
+    const startCreatedAt = this.form.get('startDate')?.value;
+
+    console.log(this.sizeSearchRequest);
     
     this.loadData(this.pageIndex,this.pageSize);
   }
 
   onQuerySearch(params: { pageIndex: number; pageSize: number }): void {
     const { pageIndex, pageSize } = params;
-    this.orderSearchRequest.pageIndex = pageIndex;
-    this.orderSearchRequest.pageSize = pageSize;
+    this.sizeSearchRequest.pageIndex = pageIndex;
+    this.sizeSearchRequest.pageSize = pageSize;
 
     this.loadData(pageIndex,pageSize);
   }
@@ -287,7 +257,7 @@ onChangeRangePrice(): void {
     } else {
       sortBy = '';
     }
-    this.orderSearchRequest.sortBy = sortBy;
+    this.sizeSearchRequest.sortBy = sortBy;
     this.loadData(pageIndex,pageSize,sortBy);
   }
 
@@ -304,49 +274,44 @@ onChangeRangePrice(): void {
   getIndex(index: number): number {
     return CommonUtil.getIndex(
       index,
-      this.orderSearchRequest.pageIndex,
-      this.orderSearchRequest.pageSize
+      this.sizeSearchRequest.pageIndex,
+      this.sizeSearchRequest.pageSize
     );
   }
-  getColor(status:StatusEnum): string{
-    if(status === StatusEnum.HOA_DON_CHO){
-      return 'badge-wait'
-    }
-    else if(status === StatusEnum.CHO_XAC_NHAN){
-      return 'badge-warning'
-    }else if(status === StatusEnum.DANG_GIAO){
-      return 'badge-success'
-    }else if(status === StatusEnum.DA_GIAO){
-      return 'badge-info'
-    }else if(status === StatusEnum.XAC_NHAN){
-      return "badge-default"
-    }else {
-      return 'badge-danger';
-    }
-  }
-  getStatus(status:StatusEnum): string{
-    if(status === StatusEnum.HOA_DON_CHO){
-      return 'Hóa đơn chờ';
-    }else if(status === StatusEnum.CHO_XAC_NHAN){
-      return 'Chờ xác nhận';
-    }else if(status === StatusEnum.DANG_GIAO){
-      return 'Đang giao'
-    }else if(status === StatusEnum.DA_GIAO){
-      return 'Đã giao'
-    }else if(status === StatusEnum.XAC_NHAN){
-      return "Đã xác nhận"
-    }else {
-      return 'Đã hủy';
-    }
-  }
-  getPurchaseType(item:any):string{
-    if(item === OrderType.DIRECT_TYPE){
-      return "Mua trực tiếp";
-    }else if(item === OrderType.ONLINE){
-      return "Mua online"
-    }
-    return '';
-  }
+  // getColor(status:CalendarStatus): string{
+  //   if(status === CalendarStatus.WAIT_CONFIRM){
+  //     return 'badge-warning'
+  //   }else if(status === CalendarStatus.ACTIVE){
+  //     return 'badge-success'
+  //   }else if(status === CalendarStatus.DONE){
+  //     return 'badge-info'
+  //   }else if(status === CalendarStatus.CLOSE){
+  //     return 'badge-danger';
+  //   }else {
+  //     return 'badge-danger';
+  //   }
+  // }
+  // getStatus(status:CalendarStatus): string{
+  //   if(status ===  CalendarStatus.WAIT_CONFIRM){
+  //     return 'Chờ xác nhận';
+  //   }else if(status === CalendarStatus.ACTIVE){
+  //     return 'Xác nhận'
+  //   }else if(status === CalendarStatus.DONE){
+  //     return 'Đã mua sản phẩm'
+  //   }else if(status === CalendarStatus.CLOSE){
+  //     return "Đã hủy"
+  //   }else {
+  //     return 'Đã hủy';
+  //   }
+  // }
+  // getPurchaseType(item:any):string{
+  //   if(item === OrderType.DIRECT_TYPE){
+  //     return "Mua trực tiếp";
+  //   }else if(item === OrderType.ONLINE){
+  //     return "Mua online"
+  //   }
+  //   return '';
+  // }
   getpayment(item:any):string{
     if(item === PaymentMethod.CARD){
       return 'Thanh Toán ATM'
@@ -357,8 +322,8 @@ onChangeRangePrice(): void {
   }
 
   onChangeCreateDate(rangeDate: { fromDate?: Date; toDate?: Date }): void {
-    this.formSearchOrder.get('startDate')?.setValue(rangeDate.fromDate);
-    this.formSearchOrder.get('endDate')?.setValue(rangeDate.toDate);
+    this.form.get('startDate')?.setValue(rangeDate.fromDate);
+    this.form.get('endDate')?.setValue(rangeDate.toDate);
   }
-  
+
 }

@@ -6,7 +6,7 @@ import { StatisticalTopComponent } from './statistical-top/statistical-top.compo
 
 const routes = [
     {
-        path: ROUTER_UTILS.statistical.root,
+        path: ROUTER_UTILS.statistical.statisticaldoanhthu,
         component: StatisticalComponent,
         data: {
           title: 'model.statistical.statistical',

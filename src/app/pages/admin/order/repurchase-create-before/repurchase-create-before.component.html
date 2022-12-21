@@ -78,7 +78,7 @@
                   <th nzAlign="center" >{{ "model.product.image" | translate }}</th>
                   <th nzAlign="center">{{ "model.product.name" | translate }}</th>
                   <th nzAlign="center">{{ "model.product.sizeId" | translate }}</th>
-                  <th nzAlign="center">{{ "model.product.price" | translate }}</th>
+                  <th nzAlign="center">{{ "model.product.price" | translate }} mua lại</th>
                   <th nzAlign="center">{{ "model.product.salary" | translate }}</th>
                   <th nzAlign="center">{{ "model.order.quantityBy" | translate }}</th>
                   <th nzAlign="center">{{ "model.order.thanhtien" | translate }}</th>
@@ -105,12 +105,12 @@
                       product.productOrder.size
                     }}</nz-tag>
                   </td>
-                  <td  nzAlign="center">{{ product.productOrder.priceSale | vnd }}</td>
+                  <td  nzAlign="center">{{ product.productOrder.priceProduct | vnd }}</td>
                   <td  nzAlign="center">{{ product.productOrder.salary | vnd }}</td>
                   <td nzAlign="center">
                     <nz-input-number *ngIf="product.selected" nzBorderless [(ngModel)]="product.quantityExchange" [nzMin]="1" [nzMax]="product.productOrder.quantity" [nzStep]="1" style="width: 40px;"></nz-input-number> <span *ngIf="product.selected">/</span>{{ product.productOrder.quantity }} 
                   </td>
-                  <td  nzAlign="center">{{ (product.productOrder.price * product.productOrder.quantity) | vnd }}</td>
+                  <td  nzAlign="center">{{ (product.productOrder.priceProduct * product.quantityExchange + product.productOrder.salary * product.quantityExchange)  | vnd }}</td>
                 </tr>
               </tbody>
             </nz-table>

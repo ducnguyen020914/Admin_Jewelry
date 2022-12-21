@@ -8,7 +8,7 @@ import { Category } from '../../../../shared/models/category.model';
 import { Product, IProduct, WaitingProduct } from '../../../../shared/models/productReal.model';
 import { Material } from '../../../../shared/models/material.model';
 import { Accessory } from '../../../../shared/models/accesory.model';
-import { Size } from '../../../../shared/models/size.model';
+import { Size, ISize } from '../../../../shared/models/size.model';
 import { NzMarks } from 'ng-zorro-antd/slider';
 import { NzModalService, NzModalRef } from 'ng-zorro-antd/modal';
 import { ProductService } from '../../../../shared/services/product/product.service';
@@ -54,7 +54,7 @@ export class ProductProcessedComponent implements OnInit {
   accessories: Accessory[] = [];
   materials: Material[] = [];
   productAutos:Product[] = [];
-  sizes: Size[] = [];
+  sizes: ISize[] = [];
   isFirstFetch = false;
   total = 0;
   minPrice = 0;
@@ -151,7 +151,7 @@ export class ProductProcessedComponent implements OnInit {
   }
   loadSize() {
     this.sizeService.autoComplete().subscribe((res:any) =>{
-      this.sizes = res.body?.data
+      this.sizes = res.body?.data.data
     })
   }
   
