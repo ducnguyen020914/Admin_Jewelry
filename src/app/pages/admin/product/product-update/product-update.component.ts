@@ -133,6 +133,7 @@ export class ProductUpdateComponent implements OnInit {
         this.imageTam = this.product.productImages?.map((image:any) => image.imageUrl) as string[];
       });
     }
+    this.getMaterial();
 
   }
   initForm(): void {
@@ -192,8 +193,9 @@ export class ProductUpdateComponent implements OnInit {
     if (materialSalePrice.length === 0) {
       materialSalePrice[0] = 0;
     }
+    const salary = CommonUtil.formatToNumber(this.form.get('salary')?.value);
     this.sizeProduct.controls[i].get('purchasePrice')?.setValue((material[0]*weight) + accessory[0]) ;
-    this.sizeProduct.controls[i].get('salePrice')?.setValue(materialSalePrice[0]*weight + accessory[0]);
+    this.sizeProduct.controls[i].get('salePrice')?.setValue(materialSalePrice[0]*weight + accessory[0] + salary);
   }
 
   loadVendor(event: any) {
@@ -264,7 +266,8 @@ export class ProductUpdateComponent implements OnInit {
       const accessory = this.accessories
       .filter((accessory) => accessory.accessoryId === this.accessoryId)
       .map((accessory) => accessory.price as number);
-      let salary = this.form.get('salary')?.value as number
+      let salary = CommonUtil.formatToNumber(this.form.get('salary')?.value);
+
       if(salary == null){
         salary = 0;
       }

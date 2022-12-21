@@ -38,7 +38,7 @@ export class UserService extends AbstractService {
   }
 
   create(user: User, loading = false): Observable<EntityResponseType<IUser>> {
-    return super.post<IUser>(`${this.resourceUrl}`, user, { loading });
+    return super.post<IUser>(`${this.resourceUrl}/add`, user, { loading });
   }
 
   createLdap(
