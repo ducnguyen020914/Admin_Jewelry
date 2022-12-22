@@ -274,17 +274,6 @@
               (click)="lock(item)"
             >
             </mb-button-action>
-              <mb-button-action
-              *ngIf="item.status === 'INACTIVE'"
-                [action]="'delete'"
-                [className]="'last'"
-                nzTooltipTitle="{{ 'action.update' | translate }}"
-                nzTooltipPlacement="top"
-                nz-tooltip
-                (click)="delete(item)"
-              >
-              </mb-button-action>
-           
             </td>
           </tr>
         </ng-container>

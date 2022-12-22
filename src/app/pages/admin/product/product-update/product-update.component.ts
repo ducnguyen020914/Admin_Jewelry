@@ -260,8 +260,7 @@ export class ProductUpdateComponent implements OnInit {
   getMaterial(){
     this.sizeProduct.controls.forEach(control => {
       const material = this.materials
-      .filter((material) => material.materialId === this.materialId)
-      .map((material) => material.purchasePrice as number);
+      .filter((material) => material.materialId === this.materialId);
       const weight = control.get('weight')?.value as number;
       const accessory = this.accessories
       .filter((accessory) => accessory.accessoryId === this.accessoryId)
@@ -275,8 +274,11 @@ export class ProductUpdateComponent implements OnInit {
       if (accessory.length === 0) {
         accessory[0] = 0;
       }
-      control.get('purchasePrice')?.setValue((material[0]* weight) + accessory[0]  );
-      control.get('salePrice')?.setValue((material[0]* weight) + accessory[0] + salary)
+     const purchasePrice = material[0].purchasePrice as number;
+     const salePrice = material[0].salePrice as number;
+      
+      control.get('purchasePrice')?.setValue((purchasePrice * weight) + accessory[0]  );
+      control.get('salePrice')?.setValue((salePrice* weight) + accessory[0] + salary)
     })
   }
 

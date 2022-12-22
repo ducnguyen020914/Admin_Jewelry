@@ -293,6 +293,7 @@ export class ProductComponent implements OnInit {
       };
     }
   }
+  
   getGender(item:string):string{
     if(item === ProductGender.FEMALE){
       return 'Nữ'

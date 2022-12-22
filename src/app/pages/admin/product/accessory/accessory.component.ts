@@ -221,7 +221,14 @@ export class AccessoryComponent implements OnInit {
     this.loadData(this.pageIndex, this.pageSize, sortBy);
   }
 
-  onQuerySearch(event:any){};
+  onQuerySearch(event:any){
+    const { pageIndex, pageSize } = event;
+    console.log(event);
+    
+    this.pageIndex = pageIndex;
+    this.pageSize = pageSize;
+    this.loadData(this.pageIndex, this.pageSize);
+  };
 
   // getText(status: string): string {
   //   if(status === AccessoryStatus.ACTIVE){

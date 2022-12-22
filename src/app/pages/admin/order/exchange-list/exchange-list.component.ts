@@ -139,8 +139,6 @@ export class ExchangeListComponent implements OnInit {
     }
 
     const { pageIndex, pageSize, sort, filter } = params;
-console.log(params);
-
     const currentSort = sort.find((item) => item.value !== null);
     const sortField = (currentSort && currentSort.key) || null;
     const sortOrder = (currentSort && currentSort.value) || null;
