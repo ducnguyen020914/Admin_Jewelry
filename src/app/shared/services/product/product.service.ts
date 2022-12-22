@@ -43,6 +43,11 @@ export class ProductService extends AbstractService {
   ): Observable<EntityResponseType<IProduct[]>> {
     return super.get<IProduct[]>(`${this.resourceUrl}/product-order`);
   }
+
+  productOrders1(
+    ): Observable<EntityResponseType<IProduct[]>> {
+      return super.get<IProduct[]>(`${this.resourceUrl}/product-order1`);
+    }
   create(dish: IProduct): Observable<EntityResponseType<IProduct>> {
     return super.post<IProduct>(`${this.resourceUrl}`, dish);
   }

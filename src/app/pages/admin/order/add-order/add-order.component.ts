@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, EventEmitter, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
 import { ToastService } from '@shared/services/helpers/toast.service';
@@ -197,7 +197,8 @@ extraTemplate: any;
 
   onUpdateSubmit(): void {}
 
-  navigateToUpdatePage() {}
+  navigateToUpdatePage() {
+  }
 
   //tab
   closeTab({ index }: { index: number }): void {
@@ -275,6 +276,7 @@ extraTemplate: any;
     modal.afterClose.subscribe((result: { success: boolean; data: any }) => {
       if (result?.success) {
         this.orderService.createOrder(order).subscribe((res) => {
+          this.router.navigate([ROUTER_UTILS.order.root,ROUTER_UTILS.order.orderList])
           this.toast.success('Thêm hóa đơn thành công');
           this.localStorage.clear("selectedProducts");
         });

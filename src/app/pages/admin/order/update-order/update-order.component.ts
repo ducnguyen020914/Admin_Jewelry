@@ -193,6 +193,8 @@ export class UpdateOrderComponent implements OnInit {
 
   //tab
   closeTab({ index }: { index: number }): void {
+
+    
     this.tabs.splice(index, 1);
   }
 

@@ -131,7 +131,7 @@ export class RepurchaseCreateComponent implements OnInit {
    
   }
   loadProductOrder() {
-    this.productService.productOrders().subscribe((res: any) => {
+    this.productService.productOrders1().subscribe((res: any) => {
       this.productOrders = res.body?.data;
      
       
@@ -337,7 +337,7 @@ export class RepurchaseCreateComponent implements OnInit {
   fiter(event: any) {
     const value = event.target.value + '';
     this.productOrderFilter = this.productOrders.filter((item) =>
-      item.nameProduct?.includes(value.trim())
+      item.nameProduct?.includes(value.trim()) || item.productCode?.includes(value.trim())
     );
   }
   changQuantity(event: any, quantity: number, i: number) {
