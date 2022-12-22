@@ -82,7 +82,7 @@ export class DetailUpdateOrderComponent implements OnInit {
       console.log('Order', this.order);
       console.log('Selected', this.selectedProducts);
       this.selectedProducts.forEach((data) =>{
-        this.total= this.total + (data.priceSale as number * (data.quantity ? data.quantity : 0))
+        this.total= this.total + (data.price as number * (data.quantity ? data.quantity : 0))
       })
       this.form.get('userId')?.setValue(this.order.userId);
       this.form.get('paymentMethod')?.setValue(this.order.paymentMethod);

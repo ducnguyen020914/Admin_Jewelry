@@ -156,10 +156,12 @@ export class IProductOrder    {
   public sizeId?:string,
   public quantityBy?:number,
   public total?:number,
+  public productCode?:string,
   public salary?:number ){
     this.id = id;
     this.productId = productId;
     this.imageUrl = imageUrl;
+    this.productCode = productCode;
     this.price = price;
     this.pricePurchase = pricePurchase;
     this.priceProduct = priceProduct;

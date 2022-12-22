@@ -14,6 +14,7 @@ import { EmployeeUpdateComponent } from './employee/employee-update/employee-upd
 import { EmployeeDetailsComponent } from './employee/employee-details/employee-details.component';
 import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
 import { EmployeeUpdateComponent1 } from './employee/employee-update1/employee-update1.component';
+import { AddCustomerComponent } from './employee/AddCustomer/AddCustomer.component';
 @NgModule({
   declarations: [
     UserComponent,
@@ -24,7 +25,8 @@ import { EmployeeUpdateComponent1 } from './employee/employee-update1/employee-u
     EmployeeListComponent,
     EmployeeUpdateComponent,
     EmployeeDetailsComponent,
-    EmployeeUpdateComponent1
+    EmployeeUpdateComponent1,
+    AddCustomerComponent
   ],
   imports: [
     CommonModule,

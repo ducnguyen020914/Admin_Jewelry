@@ -219,6 +219,7 @@ export class ExchangeOrderComponent implements OnInit {
             status:this.form.value.status
           }   
             this.exchangeService.createExchange(exchanges).subscribe((item) => {
+              this.toast.success("Thêm hóa đơn đổi hàng thành công");
               this.onCancel();
            },(error) => {
             this.toast.error(error.error.message)

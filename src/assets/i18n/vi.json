@@ -243,7 +243,7 @@
        "createRepurchaseTitle":"Tạo hóa đơn mua lại",
        "createRepurchaseContent":"Bạn có muốn tạo hóa đơn mua lại này?",
        "date":"Ngày tạo",
-       "after48h": "Tạo hóa đơn mua lại sau 2 ngày mua hàng"
+       "after48h": "Tạo hóa đơn mua lại"
        
     },
     "exchange": {
@@ -606,7 +606,7 @@
       "estimatedCheckIn":"Thời gian vào dự kiến",
       "estimatedCheckOut":"Thời gian ra dự kiên",
       "status":"Trạng thái",
-      "name": "Tên",
+      "name": "Họ và tên",
       "guestId":"Khách đăng ký",
       "employeeId":"Nhân viên",
       "checkInAt":"Thời điểm vào",
@@ -667,6 +667,7 @@
       "updateProductTitle":"Cập nhật sản phẩm",
       "updateProductContent":"Bạn có muốn cập nhật sản phẩm này không ?",
       "index": "STT",
+      "addProduct":"Thêm vào sản phẩm bán hàng thành công",
       "salaryMin":"Tiền công phải lơn hơn 0",
       "title": "Quản lý sản phẩm",
       "update":"Cập nhật sản phẩm",

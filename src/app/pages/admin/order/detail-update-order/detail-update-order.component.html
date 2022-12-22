@@ -265,11 +265,11 @@
                       product.size
                     }}</nz-tag>
                   </td>
-                  <td>{{ product.priceSale | vnd }}</td>
+                  <td>{{ product.price | vnd }}</td>
                   <td nzAlign="center">
                     {{ product.quantity }} sản phẩm
                   </td>
-                  <td>{{ (product.priceSale * product.quantity) | vnd }}</td>
+                  <td>{{ (product.price * product.quantity) | vnd }}</td>
                 </tr>
               </tbody>
             </nz-table>

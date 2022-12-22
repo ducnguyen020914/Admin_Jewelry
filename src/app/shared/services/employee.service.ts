@@ -29,7 +29,11 @@ export class EmployeeService extends AbstractService {
   }
 
   create(guest: ICustomer): Observable<EntityResponseType<ICustomer>> {
-    return super.post<ICustomer>(`${this.resourceUrl}`, guest);
+    return super.post<ICustomer>(`${this.resourceUrl}/add`, guest);
+  }
+
+  createCustomer(guest: ICustomer): Observable<EntityResponseType<ICustomer>> {
+    return super.post<ICustomer>(`${this.resourceUrl}/addCustomer`, guest);
   }
 
   update(guest: ICustomer, id: any): Observable<EntityResponseType<ICustomer>> {

@@ -1,0 +1,427 @@
+<div class="content">
+  <div *nzModalTitle>
+    <span>{{
+      (action === ROUTER_ACTIONS.update
+        ? "action.update"
+        : action === ROUTER_ACTIONS.detail
+        ? "action.detail"
+        : "action.create"
+      ) | translate
+    }}</span>
+  </div>
+  <div class="row">
+    <div class="col-12">
+      <form [formGroup]="form">
+        <div class="row">
+          <!-- <div class="col-12 mb-2" *ngIf="this.action !== 'update'">
+            <label
+              >{{ "model.guest.userName" | translate }}
+              <span class="text-danger">*</span></label
+            >
+            <input
+              formControlName="userName"
+              nz-input
+              [maxLength]="LENGTH_VALIDATOR.NAME_MAX_LENGTH.MAX"
+              placeholder="{{ 'model.guest.name' | translate }}"
+            />
+            <ng-container
+              *ngIf="
+                form.get('userName')?.touched || form.get('userName')?.dirty
+              "
+            >
+              <span
+                class="text-danger"
+                *ngIf="form.get('userName')?.hasError('required')"
+              >
+                <mb-not-blank [value]="'model.guest.userName'"></mb-not-blank>
+              </span>
+            </ng-container>
+          </div>
+          <div class="col-6 mb-2" *ngIf="this.action !== 'update'">
+            <label
+              >{{ "model.guest.password" | translate }}
+              <span class="text-danger">*</span></label
+            >
+            <input
+              type="password"
+              formControlName="password"
+              nz-input
+              [maxLength]="LENGTH_VALIDATOR.NAME_MAX_LENGTH.MAX"
+              placeholder="{{ 'model.guest.password' | translate }}"
+            />
+            <ng-container
+              *ngIf="
+                form.get('password')?.touched || form.get('password')?.dirty
+              "
+            >
+              <span
+                class="text-danger"
+                *ngIf="form.get('password')?.hasError('required')"
+              >
+                <mb-not-blank [value]="'model.guest.password'"></mb-not-blank>
+              </span>
+            </ng-container>
+          </div>
+
+          <div class="col-6 mb-2" *ngIf="this.action !== 'update'">
+            <label
+              >{{ "model.guest.confirmPassword" | translate }}
+              <span class="text-danger">*</span></label
+            >
+            <input
+              type="password"
+              formControlName="confirmPassword"
+              nz-input
+              [maxLength]="LENGTH_VALIDATOR.NAME_MAX_LENGTH.MAX"
+              placeholder="{{ 'model.guest.confirmPassword' | translate }}"
+            />
+            <ng-container
+              *ngIf="
+                form.get('confirmPassword')?.touched ||
+                form.get('confirmPassword')?.dirty
+              "
+            >
+              <span
+                class="text-danger"
+                *ngIf="form.get('confirmPassword')?.hasError('required')"
+              >
+                <mb-not-blank
+                  [value]="'model.guest.confirmPassword'"
+                ></mb-not-blank>
+              </span>
+            </ng-container>
+          </div> -->
+          <div class="col-6 mb-2">
+            <label
+              >{{ "model.guest.name" | translate }}
+              <span class="text-danger">*</span></label
+            >
+            <input
+              formControlName="fullName"
+              nz-input
+              [maxLength]="LENGTH_VALIDATOR.NAME_MAX_LENGTH.MAX"
+              placeholder="{{ 'model.guest.name' | translate }}"
+            />
+            <ng-container
+              *ngIf="
+                form.get('fullName')?.touched || form.get('fullName')?.dirty
+              "
+            >
+              <span
+                class="text-danger"
+                *ngIf="form.get('fullName')?.hasError('required')"
+              >
+                <mb-not-blank [value]="'model.guest.name'"></mb-not-blank>
+              </span>
+            </ng-container>
+          </div>
+          <div class="col-6 mb-2">
+            <label
+              >{{ "model.guest.email" | translate }}
+              <span class="text-danger">*</span></label
+            >
+            <input
+              formControlName="email"
+              nz-input
+              [maxLength]="LENGTH_VALIDATOR.EMAIL_MAX_LENGTH.MAX"
+              placeholder="{{ 'model.guest.email' | translate }}"
+            />
+            <ng-container
+              *ngIf="form.get('email')?.touched || form.get('email')?.dirty"
+            >
+              <span
+                class="text-danger"
+                *ngIf="form.get('email')?.hasError('required')"
+              >
+                <mb-not-blank [value]="'model.guest.email'"></mb-not-blank>
+              </span>
+              <span
+                class="text-danger"
+                *ngIf="form.get('email')?.hasError('pattern')"
+              >
+                <small>{{ "common.pattern" | translate }}</small>
+              </span>
+            </ng-container>
+          </div>
+        </div>
+        <div class="row mb-2">
+          <div class="col-6 mb-2">
+            <label
+              >{{ "model.guest.cccd" | translate }}
+              <span class="text-danger">*</span></label
+            >
+            <input
+              formControlName="cccd"
+              nz-input
+              [maxLength]="LENGTH_VALIDATOR.EMAIL_MAX_LENGTH.MAX"
+              placeholder="{{ 'model.guest.cccd' | translate }}"
+            />
+            <ng-container
+              *ngIf="form.get('cccd')?.touched || form.get('cccd')?.dirty"
+            >
+              <span
+                class="text-danger"
+                *ngIf="form.get('cccd')?.hasError('required')"
+              >
+                <mb-not-blank [value]="'model.guest.cccd'"></mb-not-blank>
+              </span>
+              <span
+                class="text-danger"
+                *ngIf="form.get('cccd')?.hasError('pattern')"
+              >
+                <small>{{ "common.pattern" | translate }}</small>
+              </span>
+            </ng-container>
+          </div>
+          <div class="col-6">
+            <label
+              >{{ "model.user.dayOfBirth" | translate }}
+              <span class="text-danger">*</span>
+            </label>
+            <nz-date-picker
+              formControlName="birthday"
+              [nzId]="'datePicker'"
+              (keyup.enter)="enterDatePicker($event)"
+              [nzDisabledDate]="disabledAfterToday"
+              [nzFormat]="'dd/MM/yyyy'"
+              nzPlaceHolder="{{ 'DD/MM/YYYY' | translate }}"
+              #datePicker
+            >
+            </nz-date-picker>
+          </div>
+        </div>
+
+        <div class="row mb-2">
+          <div class="col-6 mb-2">
+            <label
+              >{{ "model.guest.phoneNumber" | translate }}
+              <span class="text-danger">*</span></label
+            >
+            <input
+              formControlName="phoneNumber"
+              nz-input
+              [maxLength]="LENGTH_VALIDATOR.PHONE_MAX_LENGTH.MAX"
+              placeholder="{{ 'model.guest.phoneNumber' | translate }}"
+            />
+            <ng-container
+              *ngIf="
+                form.get('phoneNumber')?.touched ||
+                form.get('phoneNumber')?.dirty
+              "
+            >
+              <span
+                class="text-danger"
+                *ngIf="form.get('phoneNumber')?.hasError('required')"
+              >
+                <mb-not-blank
+                  [value]="'model.guest.phoneNumber'"
+                ></mb-not-blank>
+              </span>
+              <span
+                class="text-danger"
+                *ngIf="form.get('phoneNumber')?.hasError('pattern')"
+              >
+                <small>{{ "common.pattern" | translate }}</small>
+              </span>
+            </ng-container>
+          </div>
+          <div class="col-6">
+            <label>{{ "model.user.gender" | translate }}</label>
+            <br />
+
+            <nz-radio-group formControlName="gender" class="ant-input gender">
+              <label
+                nz-radio
+                *ngFor="let service of employeeGender"
+                [nzValue]="service.value"
+                >{{ service.label | translate }}
+              </label>
+            </nz-radio-group>
+          </div>
+        </div>
+        <div class="row">
+         
+          <div class="col-4 mb-2">
+            <label
+              >{{ "model.guest.province" | translate }}
+              <span class="text-danger">*</span></label
+            >
+            <nz-select
+              formControlName="province"
+              nzAllowClear
+              removeOptionTitle
+              (ngModelChange)="this.getDistrist($event)"
+              nzPlaceHolder="{{
+                'model.guest.province' | translate
+              }}"
+            >
+              <nz-option
+                *ngFor="let item of this.province"
+                [nzLabel]="item.ProvinceName | translate"
+                [nzValue]="item.ProvinceID"
+                [nzCustomContent]="true"
+              >
+                <div
+                  container="body"
+                  [animation]="false"
+                  [openDelay]="100"
+                  [closeDelay]="0"
+                  [ngbTooltip]="item?.ProvinceName! | translate"
+                >
+                  {{ item?.ProvinceName! | translate }}
+                </div>
+              </nz-option>
+            </nz-select>
+            <ng-container
+              *ngIf="form.get('province')?.touched || form.get('province')?.dirty"
+            >
+              <span
+                class="text-danger"
+                *ngIf="form.get('province')?.hasError('required')"
+              >
+                <mb-not-blank [value]="'model.guest.province'"></mb-not-blank>
+              </span>
+            </ng-container>
+          </div>
+          <div class="col-4 mb-2">
+            <label
+              >{{ "model.guest.distrist" | translate }}
+              <span class="text-danger">*</span></label
+            >
+            <nz-select
+              formControlName="district"
+              nzAllowClear
+              removeOptionTitle
+              (ngModelChange)="getWard($event)"
+              nzPlaceHolder="{{
+                'model.guest.distrist' | translate
+              }}"
+            >
+              <nz-option
+                *ngFor="let item of this.distrist"
+                [nzLabel]="item.DistrictName | translate"
+                [nzValue]="item.DistrictID"
+                [nzCustomContent]="true"
+              >
+                <div
+                  container="body"
+                  [animation]="false"
+                  [openDelay]="100"
+                  [closeDelay]="0"
+                  [ngbTooltip]="item?.DistrictName! | translate"
+                >
+                  {{ item?.DistrictName! | translate }}
+                </div>
+              </nz-option>
+            </nz-select>
+            <ng-container
+              *ngIf="form.get('district')?.touched || form.get('district')?.dirty"
+            >
+              <span
+                class="text-danger"
+                *ngIf="form.get('district')?.hasError('required')"
+              >
+                <mb-not-blank [value]="'model.guest.distrist'"></mb-not-blank>
+              </span>
+            </ng-container>
+          </div>
+          <div class="col-4 mb-2">
+            <label
+              >{{ "model.guest.ward" | translate }}
+              <span class="text-danger">*</span></label
+            >
+            <nz-select
+              formControlName="ward"
+              nzAllowClear
+              removeOptionTitle
+              nzPlaceHolder="{{
+                'model.guest.ward' | translate
+              }}"
+            >
+              <nz-option
+                *ngFor="let item of this.ward"
+                [nzLabel]="item.WardName | translate"
+                [nzValue]="item.WardCode"
+                [nzCustomContent]="true"
+              >
+                <div
+                  container="body"
+                  [animation]="false"
+                  [openDelay]="100"
+                  [closeDelay]="0"
+                  [ngbTooltip]="item?.WardName! | translate"
+                >
+                  {{ item?.WardName! | translate }}
+                </div>
+              </nz-option>
+            </nz-select>
+            <ng-container
+              *ngIf="form.get('ward')?.touched || form.get('ward')?.dirty"
+            >
+              <span
+                class="text-danger"
+                *ngIf="form.get('ward')?.hasError('ward')"
+              >
+                <mb-not-blank [value]="'model.guest.ward'"></mb-not-blank>
+              </span>
+            </ng-container>
+          </div>
+          <div class="col-12">
+            <label
+            >{{ "model.guest.addressDetail" | translate }}
+            <span class="text-danger">*</span></label
+          >
+          <textarea nz-input cols="30" rows="5"formControlName="addressDetail"></textarea>
+          <ng-container
+          *ngIf="form.get('addressDetail')?.touched || form.get('addressDetail')?.dirty"
+        >
+          <span
+            class="text-danger"
+            *ngIf="form.get('addressDetail')?.hasError('addressDetail')"
+          >
+            <mb-not-blank [value]="'model.guest.addressDetail'"></mb-not-blank>
+          </span>
+        </ng-container>
+          </div>
+        </div>
+        <div class="row">
+          <label>{{ "model.guest.image" | translate }}</label>
+          <div class="col-12 mb-2">
+            <app-upload-image
+              [customSizeImg]="false"
+              [acceptTypeFiles]="['image']"
+              (emitter)="getFiles($event)"
+              [imageId]="employee.imageUrl"
+              className="image"
+              nzTooltipPlacement="top"
+              nz-tooltip
+            >
+            </app-upload-image>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-12 text-center" *nzModalFooter>
+      <button nz-button nzType="default" class="e-2" (click)="onCancel()">
+        {{
+          (action === ROUTER_ACTIONS.detail ? "action.back" : "action.cancel")
+            | translate
+        }}
+      </button>
+      <button
+        *ngIf="action !== ROUTER_ACTIONS.detail"
+        nz-button
+        nzType="primary"
+        (click)="onSubmit()"
+      >
+        {{
+          (action === ROUTER_ACTIONS.update ? "action.update" : "action.create")
+            | translate
+        }}
+      </button>
+    </div>
+  </div>
+</div>

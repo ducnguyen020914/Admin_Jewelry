@@ -38,6 +38,7 @@ import { NzModalRef, NzModalService } from 'ng-zorro-antd/modal';
 import { LocalStorageService } from 'ngx-webstorage';
 import { ROUTER_UTILS } from '../../../../shared/utils/router.utils';
 import { EmployeeUpdateComponent } from '@pages/admin/user/employee/employee-update/employee-update.component';
+import { AddCustomerComponent } from '../../user/employee/AddCustomer/AddCustomer.component';
 
 @Component({
   selector: 'app-add-order',
@@ -128,6 +129,8 @@ extraTemplate: any;
     this.productService.productOrders().subscribe((res: any) => {
       this.productOrders = res.body?.data;
       this.productOrders = this.productOrders.filter((res) => res.quantity as number > 0)
+      console.log(this.productOrders);
+      
       // this.selectedProducts = JSON.parse(this.localStorage.retrieve('selectedProducts'));
       if(this.selectedProducts=== null){
         this.selectedProducts = [];
@@ -313,7 +316,7 @@ extraTemplate: any;
   }
   createCustomer(): void {
     const base = CommonUtil.modalBase(
-      EmployeeUpdateComponent,
+      AddCustomerComponent,
       {
         action: ROUTER_ACTIONS.create,
       },
@@ -372,7 +375,7 @@ extraTemplate: any;
   fiter(event: any) {
     const value = event.target.value + '';
     this.productOrderFilter = this.productOrders.filter((item) =>
-      item.nameProduct?.includes(value.trim())
+      item.nameProduct?.includes(value.trim()) || item.productCode?.includes(value.trim())
     );
   }
   changQuantity(event: any, quantity: number, i: number) {
