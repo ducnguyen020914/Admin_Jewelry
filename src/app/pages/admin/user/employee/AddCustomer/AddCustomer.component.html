@@ -179,6 +179,7 @@
               <span class="text-danger">*</span>
             </label>
             <nz-date-picker
+              
               formControlName="birthday"
               [nzId]="'datePicker'"
               (keyup.enter)="enterDatePicker($event)"
@@ -226,7 +227,8 @@
             </ng-container>
           </div>
           <div class="col-6">
-            <label>{{ "model.user.gender" | translate }}</label>
+            <label>{{ "model.user.gender" | translate }}
+            <span class="text-danger">*</span></label>
             <br />
 
             <nz-radio-group formControlName="gender" class="ant-input gender">
@@ -414,6 +416,7 @@
       <button
         *ngIf="action !== ROUTER_ACTIONS.detail"
         nz-button
+        disabled="{{this.form.invalid}}"
         nzType="primary"
         (click)="onSubmit()"
       >

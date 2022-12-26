@@ -219,6 +219,10 @@
           </nz-select>
            
           </div>
+          <div class="col-12">
+            <label for="">{{'model.order.note' | translate}} <span class="text-danger">*</span></label>
+            <textarea nz-input formControlName="note" [disabled]="true"  placeholder="{{'model.order.note' | translate}}" cols="30" rows="5"></textarea>
+          </div>
         </div>
       </section>
       

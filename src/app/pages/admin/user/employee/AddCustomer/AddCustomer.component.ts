@@ -142,7 +142,7 @@ export class AddCustomerComponent implements OnInit {
       ],
       gender: [
         dataObject.gender,
-        [Validators.maxLength(LENGTH_VALIDATOR.GENDER_MAX_LENGTH.MAX)],
+        [ Validators.required,Validators.maxLength(LENGTH_VALIDATOR.GENDER_MAX_LENGTH.MAX)],
       ],
       province: [
         this.getCodeProvince( this.addresses  ?   this.addresses [ this.addresses .length - 1] : '' ) ,
@@ -297,6 +297,8 @@ export class AddCustomerComponent implements OnInit {
       value: employee,
     });
   }
+
+
   enterDatePicker(event: any): void {
     const date = event?.target?.value;
     if (CommonUtil.newDate(date).toString() === 'Invalid Date') {
@@ -315,10 +317,12 @@ export class AddCustomerComponent implements OnInit {
     }
   }
   disabledAfterToday(current: Date): boolean {
-    return differenceInCalendarDays(current, new Date()) > 0;
+    const year = new Date();
+    year.setFullYear(year.getFullYear() - 18);
+    return current > year;
   }
 
-  getFiles(files: any): void {
+  getFiles(files: any): void {  
     if (files) {
       this.file = files[0];
       this.getBase64(files[0]).then((data) => {
@@ -351,7 +355,7 @@ export class AddCustomerComponent implements OnInit {
       const reader = new FileReader();
       reader.readAsDataURL(image);
       reader.onload = () => resolve(reader.result);
-      reader.onerror = (error) => reject(error);
+      reader.onerror = (error) => {reject(error),this.toast.error("Chỉ chọn được ảnh")};
     });
   }
 

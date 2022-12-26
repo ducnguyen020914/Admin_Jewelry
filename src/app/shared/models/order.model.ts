@@ -6,6 +6,7 @@ import { IEvent } from "./event.model";
 export enum PaymentMethod {
   MONEY="MONEY",
   CARD = "CARD",
+  CARD_MONEY = "CARD_MONEY",
 }
 export enum StatusEnum {
   HOA_DON_CHO = "HOA_DON_CHO",
@@ -40,7 +41,8 @@ export interface IOrder {
   orderDetailDTOList?:IProductOrder[];
   isRepurchase?:boolean;
   cost?:number;
-
+  note?:string;
+  phoneNumber?:string;
 }
 
 export class Order implements IOrder {
@@ -64,7 +66,9 @@ export class Order implements IOrder {
    public event?:IEvent,
    public  orderDetailDTOList?:IProductOrder[],
    public isRepurchase?:boolean,
-   public cost?:number
+   public cost?:number,
+   public note?:string,
+   public phoneNumber?:string
     ){
       this.createAt = createAt;
       this.createBy = createBy;
@@ -86,6 +90,8 @@ export class Order implements IOrder {
       this.userId = userId;
       this.isRepurchase = isRepurchase;
       this.cost = cost;
+      this.note = note;
+      this.phoneNumber = phoneNumber;
     }
 }
 

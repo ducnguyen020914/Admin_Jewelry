@@ -89,9 +89,11 @@ export class DetailUpdateOrderComponent implements OnInit {
       this.form.get('eventId')?.setValue(this.order.eventId);
       this.form.get('address')?.setValue(this.order.address);
       this.form.get('status')?.setValue(this.order.status);
+      this.form.get('phoneNumber')?.setValue(this.order.phoneNumber);
       this.form.get('staff')?.setValue(this.order.createBy);
       this.form.get('purchaseType')?.setValue(this.order.purchaseType);
       this.form.get('transportFee')?.setValue(this.order.transportFee);
+      this.form.get('note')?.setValue(this.order.note);
       this.thanhtien = this.order.total ? this.order.total : 0;
       this.getStatus(this.form.get('status')?.value);
       this.getTotal(this.form.get('eventId')?.value);
@@ -103,11 +105,13 @@ export class DetailUpdateOrderComponent implements OnInit {
       userId: [null, [Validators.required]],
       customerMoney: [0, [Validators.required]],
       transportFee: [0],
+      phoneNumber:[null],
       purchaseType: [OrderType.DIRECT_TYPE],
       status: [StatusEnum.DA_GIAO],
       eventId: [null],
       address: [{value:'Tại cửa hàng',disable:true}],
       date: [{ value: new Date(), disabled: true }],
+      note:[{ value:'', disabled: true }],
       paymentMethod: [null, [Validators.required]],
       orderDetailList: this.fb.array([]),
       total: [{ value: '', disabled: true }, Validators.required],
@@ -143,6 +147,7 @@ export class DetailUpdateOrderComponent implements OnInit {
       .filter((data: IUser) => data.userId === this.form.get('userId')?.value)
       .forEach((data) => {
         this.currentUser = data;
+        this.currentUser.phoneNumber = this.order.phoneNumber;
       });
   }
   getTotal(eventId: any) {

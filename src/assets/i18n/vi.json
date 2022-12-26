@@ -91,7 +91,7 @@
   },
   "sidebar": {
     "vendor": "Quản lý nhà cung cấp",
-    "event":"Sự kiện",
+    "event":"Sự kiện giảm giá",
     "productProcessed":"Quản lý sản phẩm cần gia công",
     "statisticalTop":"Thông kê bán chạy",
     "statisticaldoanhthu":"Thống kê doanh thu",
@@ -114,7 +114,7 @@
     "survey": "Quản lý phản hồi đánh giá",
     "survey-list": "Quản lý đợt khảo sát",
     "survey-result": "Quản lý kết quả đánh giá",
-    "appointment":"Quản lý lịch hẹn",
+    "appointment":"Quản lý lịch hẹn tư vấn",
     "report": "Báo cáo hệ thống",
     "qr-code": "Quản lý mã QR",
     "complaint": "Quản lý góp ý",
@@ -217,7 +217,7 @@
     },
     "event":{
       "title":"Quản lý sự kiện giảm giá",
-      "list":"Danh sách sự kiện",
+      "list":"Danh sách sự kiện giảm giá",
       "keywordContent":"Nhập tên sự kiện,mã sự kiện",
       "code":"Mã sự kiên",
       "name":"Tên sự kiện",
@@ -503,12 +503,12 @@
       "guest-register": "Sổ quản lý khách ra vào công ty"
     },
     "apoiment":{
-      "title":"Quản lý lịch hẹn",
+      "title":"Quản lý lịch hẹn tư vấn",
       "username":"Người đặt lịch",
       "phoneNumber":"Số điện thoại liên hệ",
       "email":"Email",
       "apoiment":"Thời gian hẹn",
-      "list":"Danh sách lịch hẹn",
+      "list":"Danh sách lịch hẹn tư vấn",
       "product":"Sản phẩm",
       "size":"Kích thước",
       "datcoc":"Tiền cọc",
@@ -814,7 +814,8 @@
       "updateOrderContent":"Bạn có muốn cập nhật hóa đơn này không ?",
       "paymentMethod" : {
         "money":"Tiền mặt",
-        "card":"Thanh toán thẻ"
+        "card":"Thanh toán thẻ",
+        "cardmoney":"Thanh toán thẻ và tiền mặt"
       },
       "exchange": "Quản lý đổi hàng",
       "created": {

@@ -141,7 +141,7 @@ export class EmployeeUpdateComponent implements OnInit {
       ],
       gender: [
         dataObject.gender,
-        [Validators.maxLength(LENGTH_VALIDATOR.GENDER_MAX_LENGTH.MAX)],
+        [Validators.required,Validators.maxLength(LENGTH_VALIDATOR.GENDER_MAX_LENGTH.MAX)],
       ],
       province: [
         this.getCodeProvince( this.addresses  ?   this.addresses [ this.addresses .length - 1] : '' ) ,

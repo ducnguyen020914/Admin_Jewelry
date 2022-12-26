@@ -17,7 +17,7 @@ export const ORDER_STATUS = [
   export const paymentMethod = [
     {value: 'MONEY', label: 'model.order.paymentMethod.money'},
     {value: 'CARD', label: 'model.order.paymentMethod.card'},
-    
+    {value: 'CARD_MONEY', label: 'model.order.paymentMethod.cardmoney'},
     ]
 export const EXCHANGE_REQUEST = 'EXCHANGE_REQUEST';
 export const TO_SHIP_EXCHANGE = 'TO_SHIP_EXCHANGE';

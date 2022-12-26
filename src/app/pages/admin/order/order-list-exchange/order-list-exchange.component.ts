@@ -316,17 +316,19 @@ onChangeRangePrice(): void {
   }
   getPurchaseType(item:any):string{
     if(item === OrderType.DIRECT_TYPE){
-      return "Mua trực tiếp";
+      return "Mua tại cửa hàng";
     }else if(item === OrderType.ONLINE){
-      return "Mua online"
+      return "Mua trưc tuyến"
     }
     return '';
   }
   getpayment(item:any):string{
     if(item === PaymentMethod.CARD){
-      return 'Thanh Toán ATM'
+      return 'Thanh Toán thẻ'
     }else if(item === PaymentMethod.MONEY){
       return 'Thanh toán tiền mặt'
+    }else if(item === PaymentMethod.CARD_MONEY){
+      return 'Thanh toán thẻ và tiền mặt'
     }
     return '';
   }

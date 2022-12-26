@@ -60,7 +60,7 @@ export class AddOrderComponent implements OnInit {
   PAYMENT_METHOD = [
     {value: 'MONEY', label: 'model.order.paymentMethod.money'},
     {value: 'CARD', label: 'model.order.paymentMethod.card'},
-    
+    {value: 'CARD_MONEY', label: 'model.order.paymentMethod.cardmoney'},
     ];
   startValue: Date | null = null;
   orderId = '';
@@ -154,6 +154,8 @@ extraTemplate: any;
       address: ['Tại cửa hàng'],
       date: [{ value: new Date(), disabled: true }],
       paymentMethod: [null, [Validators.required]],
+      note:[null],
+      phoneNumber:[null],
       orderDetailList: this.fb.array([]),
       total: [{ value: '', disabled: true }, Validators.required],
       staff: [{ value: this.localStorage.retrieve('username'), disabled: true }, Validators.required],
@@ -252,6 +254,7 @@ extraTemplate: any;
     }
     const order: Order = {
       ...this.form.value,
+      phoneNumber:this.currentUser.phoneNumber,
       total: this.thanhtien,
       createBy: this.localStorage.retrieve("username"),
       orderDetailList: this.selectedProducts.map((res: any) => {
@@ -276,7 +279,7 @@ extraTemplate: any;
     modal.afterClose.subscribe((result: { success: boolean; data: any }) => {
       if (result?.success) {
         this.orderService.createOrder(order).subscribe((res) => {
-          this.router.navigate([ROUTER_UTILS.order.root,ROUTER_UTILS.order.orderList])
+       //   this.router.navigate([ROUTER_UTILS.order.root,ROUTER_UTILS.order.orderList])
           this.toast.success('Thêm hóa đơn thành công');
           this.localStorage.clear("selectedProducts");
         });
@@ -286,6 +289,7 @@ extraTemplate: any;
   onSubmitOrderWait(): void {
     const order: Order = {
       ...this.form.value,
+      phoneNumber:this.currentUser.phoneNumber,
       status:StatusEnum.HOA_DON_CHO,
       total: this.thanhtien,
       orderDetailList: this.selectedProducts.map((res: any) => {
