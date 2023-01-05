@@ -24,6 +24,7 @@ import { RepurchaseCreateBeforeComponent } from './repurchase-create-before/repu
 import { AddOrderComponent } from './add-order/add-order.component';
 import { UpdateHoaDonChoComponent } from './update-hoa-don-cho/update-hoa-don-cho.component';
 import { RepurchaseDetailComponent } from './repurchase-detail/repurchase-detail.component';
+import { AddComponentOnlineComponent } from './add-component-online/add-component-online.component';
 
 
 @NgModule({
@@ -36,7 +37,7 @@ import { RepurchaseDetailComponent } from './repurchase-detail/repurchase-detail
     NzDatePickerModule,
     NzSliderModule,
     NzTagModule,
-    NzAutocompleteModule,
+    NzAutocompleteModule
   ],
   declarations: [
     OrderComponent,
@@ -53,7 +54,8 @@ import { RepurchaseDetailComponent } from './repurchase-detail/repurchase-detail
     RepurchaseCreateBeforeComponent,
     AddOrderComponent,
     UpdateHoaDonChoComponent,
-    RepurchaseDetailComponent
+    RepurchaseDetailComponent,
+    AddComponentOnlineComponent
   ],
   providers: [
     ToastService,

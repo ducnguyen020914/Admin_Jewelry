@@ -15,6 +15,7 @@ import { RepurchaseOrderComponent } from './repurchase-order/repurchase-order.co
 import { RepurchaseCreateBeforeComponent } from './repurchase-create-before/repurchase-create-before.component';
 import { UpdateHoaDonChoComponent } from './update-hoa-don-cho/update-hoa-don-cho.component';
 import { RepurchaseDetailComponent } from './repurchase-detail/repurchase-detail.component';
+import { AddComponentOnlineComponent } from './add-component-online/add-component-online.component';
 
 const routes: Routes = [
   {
@@ -132,6 +133,14 @@ const routes: Routes = [
     data: {
       title: 'model.order.update',
       action: ROUTER_ACTIONS.update,
+    }
+  },
+  {
+    path: ROUTER_UTILS.order.orderOnline,
+    component: AddComponentOnlineComponent,
+    data: {
+      title: 'model.order.create',
+      action: ROUTER_ACTIONS.create,
     }
   },
 ];

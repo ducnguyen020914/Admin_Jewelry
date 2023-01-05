@@ -1,3 +1,19 @@
+<div class="row">
+  <div class="col-8 title">
+    <mb-table-title
+      [showBack]="true"
+      title="{{
+        (action === ROUTER_ACTIONS.update
+          ? 'model.order.update'
+          : action === ROUTER_ACTIONS.detail
+          ? 'model.order.detail'
+          : 'model.order.create'
+        ) | translate
+      }}"
+    >
+    </mb-table-title>
+  </div>
+</div>
 <div
       *ngIf="action === ROUTER_ACTIONS.detail"
       class="col-6 mb-2"
@@ -82,7 +98,7 @@
                   nz-input
                   [maxLength]="LENGTH_VALIDATOR.LABEL_MAX_LENGTH.MAX"
                   [value]="this.currentUser.fullName"
-                  readonly
+                  [disabled]="true"
                 />
               </div>
               <div class="col-4 mb-2">
@@ -93,7 +109,7 @@
                     nz-input
                     [maxLength]="LENGTH_VALIDATOR.LABEL_MAX_LENGTH.MAX"
                     [value]="this.currentUser.phoneNumber"
-                    readonly
+                    [disabled]="true"
                   />
                 </div>
               </div>
@@ -104,8 +120,154 @@
                   [maxLength]="LENGTH_VALIDATOR.NAME_MAX_LENGTH.MAX"
                   placeholder="{{ 'model.order.staff' | translate }}"
                   [value]="this.currentUser.email"
-                  readonly
+                  [disabled]="true"
                 />
+              </div>
+            </div>
+            <div class="row" *ngIf="this.form.value.userId">
+         
+              <div class="col-4 mb-2">
+                <label
+                  >{{ "model.guest.province" | translate }}
+                  <span class="text-danger">*</span></label
+                >
+                <nz-select
+                  formControlName="province"
+                  nzAllowClear
+                  removeOptionTitle
+                  (ngModelChange)="this.getDistrist($event)"
+                  nzPlaceHolder="{{
+                    'model.guest.province' | translate
+                  }}"
+                >
+                  <nz-option
+                    *ngFor="let item of this.province"
+                    [nzLabel]="item.ProvinceName | translate"
+                    [nzValue]="item.ProvinceID"
+                    [nzCustomContent]="true"
+                  >
+                    <div
+                      container="body"
+                      [animation]="false"
+                      [openDelay]="100"
+                      [closeDelay]="0"
+                      [ngbTooltip]="item?.ProvinceName! | translate"
+                    >
+                      {{ item?.ProvinceName! | translate }}
+                    </div>
+                  </nz-option>
+                </nz-select>
+                <ng-container
+                  *ngIf="form.get('province')?.touched || form.get('province')?.dirty"
+                >
+                  <span
+                    class="text-danger"
+                    *ngIf="form.get('province')?.hasError('required')"
+                  >
+                    <mb-not-blank [value]="'model.guest.province'"></mb-not-blank>
+                  </span>
+                </ng-container>
+              </div>
+              <div class="col-4 mb-2">
+                <label
+                  >{{ "model.guest.distrist" | translate }}
+                  <span class="text-danger">*</span></label
+                >
+                <nz-select
+                  formControlName="district"
+                  nzAllowClear
+                  removeOptionTitle
+                  (ngModelChange)="getWard($event)"
+                  nzPlaceHolder="{{
+                    'model.guest.distrist' | translate
+                  }}"
+                >
+                  <nz-option
+                    *ngFor="let item of this.distrist"
+                    [nzLabel]="item.DistrictName | translate"
+                    [nzValue]="item.DistrictID"
+                    [nzCustomContent]="true"
+                  >
+                    <div
+                      container="body"
+                      [animation]="false"
+                      [openDelay]="100"
+                      [closeDelay]="0"
+                      [ngbTooltip]="item?.DistrictName! | translate"
+                    >
+                      {{ item?.DistrictName! | translate }}
+                    </div>
+                  </nz-option>
+                </nz-select>
+                <ng-container
+                  *ngIf="form.get('district')?.touched || form.get('district')?.dirty"
+                >
+                  <span
+                    class="text-danger"
+                    *ngIf="form.get('district')?.hasError('required')"
+                  >
+                    <mb-not-blank [value]="'model.guest.distrist'"></mb-not-blank>
+                  </span>
+                </ng-container>
+              </div>
+              <div class="col-4 mb-2">
+                <label
+                  >{{ "model.guest.ward" | translate }}
+                  <span class="text-danger">*</span></label
+                >
+                <nz-select
+                  formControlName="ward"
+                  nzAllowClear
+                  removeOptionTitle
+                  (ngModelChange)="chargeShipping(this.total)"
+                  nzPlaceHolder="{{
+                    'model.guest.ward' | translate
+                  }}"
+                >
+                  <nz-option
+                    *ngFor="let item of this.ward"
+                    [nzLabel]="item.WardName | translate"
+                    [nzValue]="item.WardCode"
+                    [nzCustomContent]="true"
+                  >
+                    <div
+                      container="body"
+                      [animation]="false"
+                      [openDelay]="100"
+                      [closeDelay]="0"
+                      [ngbTooltip]="item?.WardName! | translate"
+                    >
+                      {{ item?.WardName! | translate }}
+                    </div>
+                  </nz-option>
+                </nz-select>
+                <ng-container
+                  *ngIf="form.get('ward')?.touched || form.get('ward')?.dirty"
+                >
+                  <span
+                    class="text-danger"
+                    *ngIf="form.get('ward')?.hasError('ward')"
+                  >
+                    <mb-not-blank [value]="'model.guest.ward'"></mb-not-blank>
+                  </span>
+                </ng-container>
+              </div>
+              <div class="col-12">
+                <label
+                >{{ "model.guest.addressDetail" | translate }}
+                <span class="text-danger">*</span></label
+              >
+              <textarea nz-input cols="30" rows="5"formControlName="addressDetail"></textarea>
+              <ng-container
+              *ngIf="form.get('addressDetail')?.touched || form.get('addressDetail')?.dirty"
+            >
+              <span
+                class="text-danger"
+                *ngIf="form.get('addressDetail')?.hasError('addressDetail')"
+              >
+                <mb-not-blank [value]="'model.guest.addressDetail'"></mb-not-blank>
+              </span>
+            </ng-container>
               </div>
             </div>
             <div class="row mt-2">
@@ -279,9 +441,11 @@
                 <br>
                 <label class="mb-3" style="width:'13rem'">Tổng tiền: </label> <span class="fw-bold">{{this.total | vnd}}</span> 
                 <br> 
+                <label  class="mb-3" style="width:'13rem'">Phí ship(GHN):</label> <span class="fw-bold">{{this.shipMoney| vnd}}</span>
+                <br> 
                 <label  class="mb-1" style="width:'13rem'">Giảm giá:</label> <span class="fw-bold">{{this.discount + '%'}}</span>
                 <hr>
-                <label class="fw-bold" style="width:'13rem'">Thành tiền :</label><span class="fw-bold">{{this.thanhtien | vnd}}</span>
+                <label class="fw-bold" style="width:'13rem'">Thành tiền :</label><span class="fw-bold">{{this.thanhtien ? (this.thanhtien | vnd) : 0 |vnd}}</span>
               </nz-card>
             </div>
 
@@ -329,19 +493,6 @@
               ) | translate
             }}
           </button>
-          <button
-          (click)="onSubmitOrderWait()
-          "
-          class="ms-3"
-          nz-button
-          nzType="primary"
-          [disabled]="this.form.invalid"
-        >
-          {{
-            ('model.order.waitOrder'
-            ) | translate
-          }}
-        </button>
         </div>
       </div>
     </section>

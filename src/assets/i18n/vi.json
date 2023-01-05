@@ -157,6 +157,7 @@
   },
   "action": {
     "msg": "Hành động",
+    "createOnline":"Tạo hóa đơn mua hàng online",
     "save": "Lưu",
     "updateExchange":"Cập nhật trạng thái",
     "create": "Tạo mới",
@@ -783,6 +784,8 @@
       "detail": "Chi tiết đơn đặt hàng",
       "orderItems": "Danh sách sản phẩm",
       "deleteOrderTitle": "Xóa hóa đơn",
+      "cancelOrderTitle":"Hủy hóa đơn",
+      "cancelOrderContent":"Bạn có muốn hủy hóa đơn này không",
       "deleteOrderContent": "Bạn có chắc chắn xóa đơn này không?",
       "deleteProductOrderTitle": "Xóa sản phẩm ",
       "deleteProductOrderContent": "Bạn có chắc chắn xóa sản phẩm trong đơn này không?",

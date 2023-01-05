@@ -15,6 +15,33 @@
           />
         </div>
         <div class="col-3 mb-2">
+          <label>{{'model.order.status.root' | translate}}</label>
+          <nz-select
+            formControlName="status"
+            nzAllowClear
+            appRemoveOptionTitle
+            nzPlaceHolder="{{ 'model.order.selectStatus' | translate }}"
+            
+          >
+            <nz-option
+              *ngFor="let service of orderStatus"
+              [nzLabel]="service.label | translate"
+              [nzValue]="service.value"
+              [nzCustomContent]="true"
+            >
+              <div
+                container="body"
+                [animation]="false"
+                [openDelay]="100"
+                [closeDelay]="0"
+                [ngbTooltip]="service?.label! | translate"
+              >
+                {{ service?.label! | translate }}
+              </div>
+            </nz-option>
+          </nz-select>
+        </div>
+        <div class="col-3 mb-2">
           <label>{{'model.apoiment.product' | translate}}</label>
           <nz-select
             formControlName="productId"

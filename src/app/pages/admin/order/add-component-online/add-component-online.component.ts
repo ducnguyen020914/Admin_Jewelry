@@ -39,13 +39,17 @@ import { LocalStorageService } from 'ngx-webstorage';
 import { ROUTER_UTILS } from '../../../../shared/utils/router.utils';
 import { EmployeeUpdateComponent } from '@pages/admin/user/employee/employee-update/employee-update.component';
 import { AddCustomerComponent } from '../../user/employee/AddCustomer/AddCustomer.component';
+import { CountryService } from '../../../../shared/services/country.service';
+import { CartService } from '@shared/services/cart.service';
+import { Ship } from '../../../../shared/models/ship.model';
 
 @Component({
-  selector: 'app-add-order',
-  templateUrl: './add-order.component.html',
-  styleUrls: ['./add-order.component.css']
+  selector: 'app-add-component-online',
+  templateUrl: './add-component-online.component.html',
+  styleUrls: ['./add-component-online.component.css']
 })
-export class AddOrderComponent implements OnInit {
+export class AddComponentOnlineComponent implements OnInit {
+
   @Input() action = '';
   tabs = ['Hoá đơn 1', 'Hoá đơn 2'];
   selectedIndex = 0;
@@ -76,6 +80,13 @@ export class AddOrderComponent implements OnInit {
   productOrderFilter: IProductOrder[] = [];
   productOrder: IProductOrder = {};
   events: IEvent[] = [];
+  province:any[] = [];
+  distrist:any[] = [];
+  ward:any[] = [];
+  addresses:string[] = [];
+  shipMoney = 0;
+  address1:{province?:number,distrist?:number,ward?:string} = {
+  };
   total = 0;
   thanhtien = 0;
   discount = 0;
@@ -88,7 +99,7 @@ export class AddOrderComponent implements OnInit {
     interpolateParams: {},
     callBack: () => {},
   };
-
+  ship: Ship ={};
   NZ_TRANSFER_CONST = NZ_TRANSFER_CONST;
 
   DEFAULT_QUANTITY = DEFAULT_QUANTITY;
@@ -115,10 +126,15 @@ extraTemplate: any;
     private eventService: EventService,
     private orderService: OrderService,
     private modalService: NzModalService,
-    private localStorage: LocalStorageService
+    private localStorage: LocalStorageService,
+    private countryService:CountryService,
+    private cartService :CartService,
   ) {}
 
   ngOnInit(): void {
+    this.countryService.province().subscribe((res:any)=>{
+      this.province = res.data;
+    })
     this.initForm();
     this.loadCustomer();
     this.loadProductOrder();
@@ -149,9 +165,32 @@ extraTemplate: any;
       customerMoney: [0, [Validators.required]],
       transportFee: [0],
       purchaseType: [OrderType.DIRECT_TYPE],
-      status: [StatusEnum.DA_GIAO],
+      status: [StatusEnum.CHO_XAC_NHAN],
       eventId: [null],
-      address: ['Tại cửa hàng'],
+      province: [
+        null,
+        [
+          Validators.required,
+        ],
+      ],
+      district: [
+        null,
+        [
+          Validators.required,
+        ],
+      ],
+      ward: [
+        null,
+        [
+          Validators.required,
+        ],
+      ],
+      addressDetail: [
+        '',
+        [
+          Validators.required,
+        ],
+      ],
       date: [{ value: new Date(), disabled: true }],
       paymentMethod: [null, [Validators.required]],
       note:[null],
@@ -179,6 +218,21 @@ extraTemplate: any;
       .forEach((data) => {
         this.currentUser = data;
       });
+      if(this.currentUser){
+       
+        this.addresses = this.currentUser.address?.split(", ") as string[]; 
+        let addressDetail = '';
+       if( this.addresses ){
+        this.addresses .forEach((data,index) =>{
+          if(index <  this.addresses .length-3 ) {
+             addressDetail = addressDetail + data;
+          }
+        })
+       }
+       this.form.get('province')?.setValue(this.getCodeProvince(this.addresses  ?   this.addresses [ this.addresses .length - 1] : ''))
+       this.form.get('addressDetail')?.setValue(this.addresses[0]);
+       this.chargeShipping(this.total)
+      }
   }
   onCancel(): void {
     const createForm = CommonUtil.modalConfirm(
@@ -198,7 +252,83 @@ extraTemplate: any;
     });
    
   }
-
+  getDistrist(provinceID:number){
+    const params = {
+      province_id:provinceID
+    }
+    this.countryService.distrist(params).subscribe((res:any) =>{
+      this.distrist = res.data;
+      this.form.get('district')?.setValue(this.getCodeDistrcit(this.addresses  ?   this.addresses [ this.addresses .length - 2] : '' ))
+    })
+  }
+  getWard(districtId:number){
+    this.countryService.ward(districtId).subscribe((res:any) =>{
+      this.ward = res.data;
+      this.form.get('ward')?.setValue(this.getCodeWard(this.addresses  ?   this.addresses [ this.addresses .length - 3] : '' ))
+      
+    })
+  }
+  getStringWard(){
+    const ward = this.form.get('ward')?.value;
+    let data2 = '';
+    this.ward.forEach((data) => {
+      const w= data.WardCode as string;
+      if(w === ward){
+        data2 =  data.WardName;
+      }
+    });
+    return data2;
+  }
+  getCodeWard(param:string):string{
+    let data2 = '';
+    this.ward.forEach((data) => {
+      
+      if(data.WardName === param){
+        data2 =  data.WardCode;
+      }
+    });
+    return data2;
+  }
+  getStringDistrcit():string{
+    const district = this.form.get('district')?.value;
+    let data2 = '';
+    this.distrist.forEach((data) => {
+      if(data.DistrictID === district){
+        data2 =  data.DistrictName;
+      }
+    });
+    return data2;
+  }
+  getCodeDistrcit(param:string):number{
+    let data2 = -1;
+    this.distrist.forEach((data) => {
+      if(data.DistrictName === param){
+        data2 =  data.DistrictID;
+      }
+    });
+    return data2;
+  }
+  getStringpProvince():string{
+    const province = this.form.get('province')?.value;
+    let data2 = '';
+    this.province.forEach((data) => {
+      if(data.ProvinceID === province){
+        data2 =  data.ProvinceName;
+      }
+    });
+    return data2;
+  }
+  getCodeProvince(param:string):number{
+    console.log(param);
+    let data2 = -1;
+    this.province.forEach((data) => {
+      if(data.ProvinceName === param){
+        data2 =  data.ProvinceID;
+        this.getDistrist(data2);  
+      }
+    });
+    return data2;
+  }
   onSubmit(): void {
     if (this.selectedProducts.length === 0) {
       this.toast.error('Hóa đơn hiện chưa có sản phẩm nào');
@@ -207,7 +337,39 @@ extraTemplate: any;
     this.create();
   }
 
-  
+  chargeShipping(total: number) {
+    const district = this.form.get('district')?.value as number;
+    const ward = this.form.get('ward')?.value;
+    if(!ward){
+      this.changePrice();
+      return;
+    }
+    const param = {
+      shop_id:3445621,
+      from_district:2268,
+      to_district:district
+  }
+  this.cartService.getServiceShipping(param).subscribe((res:any)=>{
+    const data = res.data;
+    console.log(data);
+    
+    this.ship.service_id = data ? data[0].service_id : 53322;
+    this.ship.insurance_value=total;
+    this.ship.from_district_id =2268;
+    this.ship.to_district_id =district as number ;
+    this.ship.to_ward_code= ward +'' ;
+    this.ship.height=10;
+    this.ship.length=10;
+    this.ship.weight = 1000;
+    this.ship.width =10;
+    this.cartService.chargeShipping(this.ship).subscribe((respone) =>{
+     this.shipMoney = respone.data.total;
+     this.changePrice();
+   })
+})
+
+}
+
 
   onUpdateSubmit(): void {}
 
@@ -267,6 +429,8 @@ extraTemplate: any;
     const order: Order = {
       ...this.form.value,
       phoneNumber:this.currentUser.phoneNumber,
+      transportFee:this.shipMoney,
+      address:this.form.get('addressDetail')?.value +", " +this.getStringWard()+", " + this.getStringDistrcit() +", " + this.getStringpProvince(),
       total: this.thanhtien,
       createBy: this.localStorage.retrieve("username"),
       orderDetailList: this.selectedProducts.map((res: any) => {
@@ -355,7 +519,7 @@ extraTemplate: any;
       (evn: IEvent) => evn.eventId === eventId
     );
     this.discount = selectEvent.length > 0 ? selectEvent[0].discount : 0;
-    this.thanhtien = this.total - (this.total * this.discount) / 100;
+    this.thanhtien = this.total + this.shipMoney - (this.total * this.discount) / 100;
   }
   onLockAndUnLock(result: { success: boolean }): void {
     this.lockPopup.callBack = () => {};
@@ -387,7 +551,8 @@ extraTemplate: any;
           (item) => item.id !== id
         );
         this.productOrderFilter = this.productOrders;
-       this.changePrice();
+      
+       this.chargeShipping(this.total);
       });
   }
   fiter(event: any) {
@@ -420,7 +585,10 @@ extraTemplate: any;
       const q =  item.quantityBy as number;
        this.total = this.total + (item.price as number * q) 
      })
-     this.thanhtien = this.total - (this.total * this.discount/100);
+     this.thanhtien = this.total + this.shipMoney - (this.total * this.discount/100);
+     if(this.total === 0 || !this.form.get('ward')?.value){
+      this.shipMoney = 0;
+     }
   }
   delete(item:IProductOrder,i:number){
         const form = CommonUtil.modalConfirm(

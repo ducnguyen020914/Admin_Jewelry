@@ -56,17 +56,16 @@
             </ng-container>
           </div>
 
-          <!-- <div class="col-3 mb-2">
-            <button
-              nz-button
-              nzType="text"
-              class="mt-4"
-              nzPrimary
-              (click)="create()"
-            >
-              {{ "action.createCustomer" | translate }}
-            </button>
-          </div> -->
+          <div class="col-3 mb-2">
+            <label>{{ "model.order.code" | translate }} </label>
+            <input
+              appCurrencyFormatter
+              nz-input
+              [maxLength]="LENGTH_VALIDATOR.LABEL_MAX_LENGTH.MAX"
+              [value]="this.order.orderCode"
+              [disabled]="true"
+            />
+          </div>
         </div>
         <div class="row mt-2" *ngIf="this.form.value.userId">
           <div class="col-4 mb-2">
@@ -242,6 +241,7 @@
                 <tr>
                   <th nzAlign="center" >{{'common.index' | translate}}</th>
                   <th>{{ "model.product.image" | translate }}</th>
+                  <th>{{ "model.product.code" | translate }}</th>
                   <th>{{ "model.product.name" | translate }}</th>
                   <th>{{ "model.product.sizeId" | translate }}</th>
                   <th>{{ ("model.product.price" | translate)  }} bán</th>
@@ -263,6 +263,7 @@
                       style="border: 2px; border-radius: 5px"
                     />
                   </td>
+                  <td>{{ product.productCode }}</td>
                   <td>{{ product.nameProduct }}</td>
                   <td nzAlign="center">
                     <nz-tag nzColor="default">{{
@@ -285,6 +286,8 @@
           <label class="mb-3" style="width:'13rem'">Số lượng sản phẩm:</label> <span class="fw-bold">{{this.selectedProducts ? this.selectedProducts.length : 0 }} sản phẩm</span>
           <br>
           <label class="mb-3" style="width:'13rem'">Tổng tiền: </label> <span class="fw-bold">{{total | vnd}}</span> 
+          <br> 
+          <label  class="mb-3" style="width:'13rem'">Phí ship:</label> <span class="fw-bold">{{this.order.transportFee ? (this.order.transportFee | vnd) : 0}}</span>
           <br> 
           <label  class="mb-1" style="width:'13rem'">Giảm giá:</label> <span class="fw-bold">{{this.discount + '%'}}</span>
           <hr>

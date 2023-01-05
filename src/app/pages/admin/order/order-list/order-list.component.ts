@@ -131,6 +131,9 @@ onChangeRangePrice(): void {
   create(): void {
     this.router.navigate([ROUTER_UTILS.order.root, ROUTER_ACTIONS.create]);
   }
+  createOnline(){
+    this.router.navigate([ROUTER_UTILS.order.root, 'create-online']);
+  }
   export(id:string){
     window.open('http://localhost:8080/api/v1/order/export/'+id)
   }

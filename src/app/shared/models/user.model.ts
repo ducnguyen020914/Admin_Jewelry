@@ -3,6 +3,7 @@ import {Role} from './role.model';
 import {UserPrimary} from './user-primary.model';
 
 export interface IUser {
+  address?: string;
   userId?: string;
   username?: string;
   fullName?: string;

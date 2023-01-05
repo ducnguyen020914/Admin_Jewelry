@@ -163,7 +163,8 @@ export class IProductOrder    {
   public quantityBy?:number,
   public total?:number,
   public productCode?:string,
-  public salary?:number ){
+  public salary?:number,
+  public code?:string ){
     this.id = id;
     this.productId = productId;
     this.imageUrl = imageUrl;
@@ -179,6 +180,7 @@ export class IProductOrder    {
     this.total = total,
     this.priceSale =priceSale;
     this.salary = salary;
+    this.code = code
   }
   
 }

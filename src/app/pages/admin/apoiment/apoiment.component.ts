@@ -11,9 +11,9 @@ import CommonUtil from '@shared/utils/common-utils';
 import { ROUTER_ACTIONS, ROUTER_UTILS } from '@shared/utils/router.utils';
 import { NzModalRef, NzModalService } from 'ng-zorro-antd/modal';
 import { NzTableQueryParams } from 'ng-zorro-antd/table';
-import {IOrder, PaymentMethod, StatusEnum} from "@shared/models/order.model";
-import {IOrderSearchRequest} from "@shared/models/request/order-search-request.model";
-import {ORDER_STATUS, paymentMethod} from "@shared/constants/order.constant";
+import { IOrder, PaymentMethod, StatusEnum } from '@shared/models/order.model';
+import { IOrderSearchRequest } from '@shared/models/request/order-search-request.model';
+import { ORDER_STATUS, paymentMethod } from '@shared/constants/order.constant';
 import { NzMarks } from 'ng-zorro-antd/slider';
 import { formatDate } from '@angular/common';
 import * as moment from 'moment';
@@ -21,28 +21,33 @@ import { OrderSearchRequest } from '../../../shared/models/request/order-search-
 import { OrderService } from '../../../shared/services/order/order.service';
 import { OrderType } from '../../../shared/models/order.model';
 import { CreateUpdateApoimentComponent } from './create-update-apoiment/create-update-apoiment.component';
-import { Apoiment, IApoiment, CalendarStatus } from '../../../shared/models/apoiment.model';
+import {
+  Apoiment,
+  IApoiment,
+  CalendarStatus,
+} from '../../../shared/models/apoiment.model';
 import { CalendarService } from '../../../shared/services/calendar.service';
 import { CalendarSearchRequest } from '../../../shared/models/request/calendar-search-request.model';
-import { CLOSED } from '../../../shared/constants/system-report.constant';
 import { Product } from '../../../shared/models/productReal.model';
 import { ProductService } from '../../../shared/services/product/product.service';
 
 @Component({
   selector: 'app-apoiment',
   templateUrl: './apoiment.component.html',
-  styleUrls: ['./apoiment.component.css']
+  styleUrls: ['./apoiment.component.css'],
 })
 export class ApoimentComponent implements OnInit {
-
-  form:FormGroup = new FormGroup({});
-  calendarSearchRequest: CalendarSearchRequest = {
-  
-  };
-  pageIndex =  PAGINATION.PAGE_DEFAULT;
+  form: FormGroup = new FormGroup({});
+  calendarSearchRequest: CalendarSearchRequest = {};
+  pageIndex = PAGINATION.PAGE_DEFAULT;
   pageSize = PAGINATION.SIZE_DEFAULT;
   types = ORDER_TYPE;
-  orderStatus = ORDER_STATUS;
+  orderStatus = [
+    { value: 'WAIT_CONFIRM', label: 'Chờ xác nhận' },
+    { value: 'ACTIVE', label: 'Xác nhận' },
+    { value: 'DONE', label: 'Đã mua' },
+    { value: 'CLOSE', label: 'Đã hủy' },
+  ];
   payMethods = paymentMethod;
   status = CalendarStatus;
   selectedOrderId = '';
@@ -55,10 +60,10 @@ export class ApoimentComponent implements OnInit {
     content: '',
     okText: '',
   };
-  isVisible=false;
+  isVisible = false;
   calendars: IApoiment[] = [];
   users: IUser[] = [];
-  products:Product[] = [];
+  products: Product[] = [];
   marks: NzMarks = {
     0: '0đ',
     20000000: '20.000.000đ',
@@ -82,15 +87,15 @@ export class ApoimentComponent implements OnInit {
     private modalService: NzModalService,
     private userService: UserService,
     private fb: FormBuilder,
-    private calendarService:CalendarService,
-    private productService:ProductService
+    private calendarService: CalendarService,
+    private productService: ProductService
   ) {
     this.initForm();
     // this.menuService.searchAutoComplete({}).subscribe((menusResponse: any) => {
     //   this.menus = menusResponse.body?.data;
     // });
   }
-  changStatus(event:any){}
+  changStatus(event: any) {}
   active(apoiment: Apoiment): void {
     const deleteForm = CommonUtil.modalConfirm(
       this.translateService,
@@ -100,14 +105,14 @@ export class ApoimentComponent implements OnInit {
     const modal: NzModalRef = this.modalService.create(deleteForm);
     modal.afterClose.subscribe((result: { success: boolean; data: any }) => {
       if (result?.success) {
-        const data:Apoiment = {
-          status:CalendarStatus.ACTIVE
-        }
+        const data: Apoiment = {
+          status: CalendarStatus.ACTIVE,
+        };
         this.calendarService
-          .changeStatus(data,apoiment?.id+'')
+          .changeStatus(data, apoiment?.id + '')
           .subscribe((response: any) => {
             this.toast.success('model.apoiment.success');
-            this.loadData(PAGINATION.PAGE_DEFAULT,PAGINATION.SIZE_DEFAULT);
+            this.loadData(PAGINATION.PAGE_DEFAULT, PAGINATION.SIZE_DEFAULT);
           });
       }
     });
@@ -121,14 +126,14 @@ export class ApoimentComponent implements OnInit {
     const modal: NzModalRef = this.modalService.create(deleteForm);
     modal.afterClose.subscribe((result: { success: boolean; data: any }) => {
       if (result?.success) {
-        const data:Apoiment = {
-          status:CalendarStatus.DONE
-        }
+        const data: Apoiment = {
+          status: CalendarStatus.DONE,
+        };
         this.calendarService
-          .changeStatus(data,apoiment?.id+'')
+          .changeStatus(data, apoiment?.id + '')
           .subscribe((response: any) => {
             this.toast.success('model.apoiment.success');
-            this.loadData(PAGINATION.PAGE_DEFAULT,PAGINATION.SIZE_DEFAULT);
+            this.loadData(PAGINATION.PAGE_DEFAULT, PAGINATION.SIZE_DEFAULT);
           });
       }
     });
@@ -142,38 +147,39 @@ export class ApoimentComponent implements OnInit {
     const modal: NzModalRef = this.modalService.create(deleteForm);
     modal.afterClose.subscribe((result: { success: boolean; data: any }) => {
       if (result?.success) {
-        const data:Apoiment = {
-          status:CalendarStatus.CLOSE
-        }
+        const data: Apoiment = {
+          status: CalendarStatus.CLOSE,
+        };
         this.calendarService
-          .changeStatus(data,apoiment?.id+'')
+          .changeStatus(data, apoiment?.id + '')
           .subscribe((response: any) => {
             this.toast.success('model.apoiment.success');
-            this.loadData(PAGINATION.PAGE_DEFAULT,PAGINATION.SIZE_DEFAULT);
+            this.loadData(PAGINATION.PAGE_DEFAULT, PAGINATION.SIZE_DEFAULT);
           });
       }
     });
   }
   ngOnInit(): void {
-    this.loadData(this.pageIndex,this.pageSize);
+    this.loadData(this.pageIndex, this.pageSize);
     this.loadProduct();
     this.loadCustomer();
   }
 
   initForm(): void {
     this.form = this.fb.group({
-       startDate: [this.calendarSearchRequest.startDate || null],
-       endDate: [this.calendarSearchRequest.endDate || null],
-       keyword: [this.calendarSearchRequest.keyword || null],
-       productId: [this.calendarSearchRequest.productId || null],
+      startDate: [this.calendarSearchRequest.startDate || null],
+      endDate: [this.calendarSearchRequest.endDate || null],
+      keyword: [this.calendarSearchRequest.keyword || null],
+      status: [this.calendarSearchRequest.status || null],
+      productId: [this.calendarSearchRequest.productId || null],
     });
   }
 
-  private loadData(pageIndex:number,pageSize:number,sortBy?:string) {
-    this.calendarSearchRequest.pageIndex  =pageIndex;
-    this.calendarSearchRequest.pageSize  =pageSize;
-    this.calendarSearchRequest.sortBy  =sortBy;
-    
+  private loadData(pageIndex: number, pageSize: number, sortBy?: string) {
+    this.calendarSearchRequest.pageIndex = pageIndex;
+    this.calendarSearchRequest.pageSize = pageSize;
+    this.calendarSearchRequest.sortBy = sortBy;
+
     this.calendarService
       .search(this.calendarSearchRequest)
       .subscribe((response: any) => {
@@ -182,52 +188,52 @@ export class ApoimentComponent implements OnInit {
         console.log(response);
       });
   }
-  private loadCustomer(){
-    this.userService.findCustomer().subscribe((res :any) => {
+  private loadCustomer() {
+    this.userService.findCustomer().subscribe((res: any) => {
       this.users = res.body?.data;
-    })
+    });
   }
-  private loadProduct(){
-    this.productService.autoComlete().subscribe((res:any)=>{
+  private loadProduct() {
+    this.productService.autoComlete().subscribe((res: any) => {
       console.log(res);
       this.products = res.body.data;
-    })
+    });
   }
 
   formatterPrice = (value: number): string =>
-  CommonUtil.moneyFormat(value + '') + ' đ';
-parserPrice = (value: string): number => CommonUtil.formatToNumber(value);
-create(): void {
-  const base = CommonUtil.modalBase(
-    CreateUpdateApoimentComponent,
-    {
-      action: ROUTER_ACTIONS.create,
-    },
-    '50%'
-  );
-  const modal: NzModalRef = this.modalService.create(base);
-  modal.afterClose.subscribe((result) => {
-    if (result && result?.success) {
-      this.loadData(this.pageIndex, this.pageSize);
-    }
-  });
-}
-update(calendar: Apoiment): void {
-  const base = CommonUtil.modalBase(
-    CreateUpdateApoimentComponent,
-    {
-      isUpdate: true,
-      calendar,
-    },
-    '50%'
-  );
-  const modal: NzModalRef = this.modalService.create(base);
-  modal.afterClose.subscribe((result) => {
-    if (result && result?.success) {
-      this.loadData(this.pageIndex, this.pageSize);
-    }
-  });
-}
+    CommonUtil.moneyFormat(value + '') + ' đ';
+  parserPrice = (value: string): number => CommonUtil.formatToNumber(value);
+  create(): void {
+    const base = CommonUtil.modalBase(
+      CreateUpdateApoimentComponent,
+      {
+        action: ROUTER_ACTIONS.create,
+      },
+      '50%'
+    );
+    const modal: NzModalRef = this.modalService.create(base);
+    modal.afterClose.subscribe((result) => {
+      if (result && result?.success) {
+        this.loadData(this.pageIndex, this.pageSize);
+      }
+    });
+  }
+  update(calendar: Apoiment): void {
+    const base = CommonUtil.modalBase(
+      CreateUpdateApoimentComponent,
+      {
+        isUpdate: true,
+        calendar,
+      },
+      '50%'
+    );
+    const modal: NzModalRef = this.modalService.create(base);
+    modal.afterClose.subscribe((result) => {
+      if (result && result?.success) {
+        this.loadData(this.pageIndex, this.pageSize);
+      }
+    });
+  }
 
   openPurchasePopup(): void {
     // const form = CommonUtil.modalConfirm(
@@ -260,8 +266,6 @@ update(calendar: Apoiment): void {
     // });
   }
 
-
-
   delete(id: string): void {
     // const form = CommonUtil.modalConfirm(
     //   this.translateService,
@@ -282,11 +286,7 @@ update(calendar: Apoiment): void {
   }
 
   detail(id: string): void {
-    this.router.navigate([
-      ROUTER_UTILS.order.root,
-      id,
-      ROUTER_ACTIONS.detail,
-    ]);
+    this.router.navigate([ROUTER_UTILS.order.root, id, ROUTER_ACTIONS.detail]);
   }
 
   pipeType(orderTypeCode: string) {
@@ -294,20 +294,20 @@ update(calendar: Apoiment): void {
   }
 
   pipeStatus(orderStatusCode: string) {
-   // return BookingCommonUtil.pipeOrderStatus(orderStatusCode);
+    // return BookingCommonUtil.pipeOrderStatus(orderStatusCode);
   }
 
   formatColor(status: string): any {
-   // return BookingCommonUtil.formatStatusColor(status);
+    // return BookingCommonUtil.formatStatusColor(status);
   }
 
   openAdvancedSearch(): void {
-   // const base = CommonUtil.modalBase(SearchOrderComponent, {}, '40%');
+    // const base = CommonUtil.modalBase(SearchOrderComponent, {}, '40%');
   }
 
   resetSearch(): void {
     this.form.reset();
-    
+
     this.calendarSearchRequest = {
       pageIndex: PAGINATION.PAGE_DEFAULT,
       pageSize: PAGINATION.SIZE_DEFAULT,
@@ -317,24 +317,26 @@ update(calendar: Apoiment): void {
 
   search(): void {
     console.log(this.form.value);
-    
     this.calendarSearchRequest.keyword = this.form.get('keyword')?.value;
     this.calendarSearchRequest.productId = this.form.get('productId')?.value;
+    this.calendarSearchRequest.status = this.form.get('status')?.value;
     const endCreatedAt = this.form.get('endDate')?.value;
     const startCreatedAt = this.form.get('startDate')?.value;
     if (startCreatedAt) {
-      this.calendarSearchRequest.startDate = moment(startCreatedAt).format('yyyy/MM/DD');
+      this.calendarSearchRequest.startDate =
+        moment(startCreatedAt).format('yyyy/MM/DD');
     } else {
       this.calendarSearchRequest.startDate = '';
     }
     if (endCreatedAt) {
-      this.calendarSearchRequest.endDate = moment(endCreatedAt).format('yyyy/MM/DD');
+      this.calendarSearchRequest.endDate =
+        moment(endCreatedAt).format('yyyy/MM/DD');
     } else {
       this.calendarSearchRequest.endDate = '';
     }
     console.log(this.calendarSearchRequest);
-    
-    this.loadData(this.pageIndex,this.pageSize);
+
+    this.loadData(this.pageIndex, this.pageSize);
   }
 
   onQuerySearch(params: { pageIndex: number; pageSize: number }): void {
@@ -342,7 +344,7 @@ update(calendar: Apoiment): void {
     this.calendarSearchRequest.pageIndex = pageIndex;
     this.calendarSearchRequest.pageSize = pageSize;
 
-    this.loadData(pageIndex,pageSize);
+    this.loadData(pageIndex, pageSize);
   }
   onChangeQueryParam(params: NzTableQueryParams): void {
     if (this.isFirstFetch) {
@@ -364,7 +366,7 @@ update(calendar: Apoiment): void {
       sortBy = '';
     }
     this.calendarSearchRequest.sortBy = sortBy;
-    this.loadData(pageIndex,pageSize,sortBy);
+    this.loadData(pageIndex, pageSize, sortBy);
   }
 
   searchUsers(keyword: string): void {
@@ -384,45 +386,45 @@ update(calendar: Apoiment): void {
       this.calendarSearchRequest.pageSize
     );
   }
-  getColor(status:CalendarStatus): string{
-    if(status === CalendarStatus.WAIT_CONFIRM){
-      return 'badge-warning'
-    }else if(status === CalendarStatus.ACTIVE){
-      return 'badge-success'
-    }else if(status === CalendarStatus.DONE){
-      return 'badge-info'
-    }else if(status === CalendarStatus.CLOSE){
+  getColor(status: CalendarStatus): string {
+    if (status === CalendarStatus.WAIT_CONFIRM) {
+      return 'badge-warning';
+    } else if (status === CalendarStatus.ACTIVE) {
+      return 'badge-success';
+    } else if (status === CalendarStatus.DONE) {
+      return 'badge-info';
+    } else if (status === CalendarStatus.CLOSE) {
       return 'badge-danger';
-    }else {
+    } else {
       return 'badge-danger';
     }
   }
-  getStatus(status:CalendarStatus): string{
-    if(status ===  CalendarStatus.WAIT_CONFIRM){
+  getStatus(status: CalendarStatus): string {
+    if (status === CalendarStatus.WAIT_CONFIRM) {
       return 'Chờ xác nhận';
-    }else if(status === CalendarStatus.ACTIVE){
-      return 'Xác nhận'
-    }else if(status === CalendarStatus.DONE){
-      return 'Đã mua sản phẩm'
-    }else if(status === CalendarStatus.CLOSE){
-      return "Đã hủy"
-    }else {
+    } else if (status === CalendarStatus.ACTIVE) {
+      return 'Xác nhận';
+    } else if (status === CalendarStatus.DONE) {
+      return 'Đã mua sản phẩm';
+    } else if (status === CalendarStatus.CLOSE) {
+      return 'Đã hủy';
+    } else {
       return 'Đã hủy';
     }
   }
-  getPurchaseType(item:any):string{
-    if(item === OrderType.DIRECT_TYPE){
-      return "Mua trực tiếp";
-    }else if(item === OrderType.ONLINE){
-      return "Mua online"
+  getPurchaseType(item: any): string {
+    if (item === OrderType.DIRECT_TYPE) {
+      return 'Mua trực tiếp';
+    } else if (item === OrderType.ONLINE) {
+      return 'Mua online';
     }
     return '';
   }
-  getpayment(item:any):string{
-    if(item === PaymentMethod.CARD){
-      return 'Thanh Toán ATM'
-    }else if(item === PaymentMethod.MONEY){
-      return 'Thanh toán tiền mặt'
+  getpayment(item: any): string {
+    if (item === PaymentMethod.CARD) {
+      return 'Thanh Toán ATM';
+    } else if (item === PaymentMethod.MONEY) {
+      return 'Thanh toán tiền mặt';
     }
     return '';
   }
@@ -431,5 +433,4 @@ update(calendar: Apoiment): void {
     this.form.get('startDate')?.setValue(rangeDate.fromDate);
     this.form.get('endDate')?.setValue(rangeDate.toDate);
   }
-
 }

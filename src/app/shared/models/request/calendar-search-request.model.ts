@@ -1,3 +1,4 @@
+import { CalendarStatus } from '../apoiment.model';
 
 export interface ICalendarSearchRequest {
     pageIndex?: number;
@@ -7,6 +8,7 @@ export interface ICalendarSearchRequest {
     productId?:string;
     startDate?:Date|string;
     endDate?:Date | string;
+    status?:CalendarStatus;
   }
   
   export class CalendarSearchRequest implements ICalendarSearchRequest {
@@ -15,6 +17,7 @@ export interface ICalendarSearchRequest {
       public pageSize?: number,
       public sortBy?: string,
       public keyword?: string,
+      public status?:CalendarStatus,
       public productId?:string,
       public startDate?:Date|string,
       public endDate?:Date | string,
@@ -26,5 +29,6 @@ export interface ICalendarSearchRequest {
       this.productId = productId;
       this.startDate = startDate;
       this.endDate = endDate;
+      this.status = status;
     }
   }

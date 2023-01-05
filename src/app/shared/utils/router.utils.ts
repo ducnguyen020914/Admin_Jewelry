@@ -104,6 +104,7 @@ export const ROUTER_UTILS = {
     orderExchangeDetail:":id/exchange-detail",
     orderUpdate: ':id/update',
     orderDetail: ':id/detail',
+    orderOnline:'create-online',
     orderCreate: 'create',
     exchange:"exchange",
     repurchaseCreate:'repurchase/create',
