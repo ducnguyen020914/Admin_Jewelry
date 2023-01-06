@@ -83,6 +83,7 @@ export class ExchangeOrderComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.loadCustomer();
     this.loadOrder();
 
   }
@@ -103,8 +104,6 @@ export class ExchangeOrderComponent implements OnInit {
       this.order = res.body?.data;
       this.selectedProducts = this.order.orderDetailDTOList as IProductOrder[];
       this.productExchange = this.selectedProducts.map((product) => new ExchangeProduct(product,1,false));
-     console.log(this.order);
-     
       this.form.get('userId')?.setValue(this.order.userId);
       this.form.get('paymentMethod')?.setValue(this.order.paymentMethod);
       this.form.get('eventId')?.setValue(this.order.eventId);
@@ -115,7 +114,9 @@ export class ExchangeOrderComponent implements OnInit {
       this.form.get('transportFee')?.setValue(this.order.transportFee);
       this.thanhtien = this.order.total ? this.order.total : 0;
       this.getTotal(this.form.get('eventId')?.value);
-      this.users.filter((u) => u.userId === this.order.userId).forEach((user) => this.currentUser = user)
+      this.userService.find(this.order.userId+'').subscribe((res:any) => {
+        this.currentUser = res.body.data
+      })
     });
   }
   private initForm() {

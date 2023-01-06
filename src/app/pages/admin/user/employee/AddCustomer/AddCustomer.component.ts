@@ -10,7 +10,7 @@ import {TranslateService} from "@ngx-translate/core";
 import {NzDatePickerComponent} from "ng-zorro-antd/date-picker";
 import {USER_GENDER} from "@shared/constants/user.constant";
 import * as moment from "moment";
-import {NzModalRef} from "ng-zorro-antd/modal";
+import { NzModalRef, NzModalService } from 'ng-zorro-antd/modal';
 import {ToastService} from "@shared/services/helpers/toast.service";
 import {LENGTH_VALIDATOR, VALIDATORS} from "@shared/constants/validators.constant";
 import CommonUtil from "@shared/utils/common-utils";
@@ -21,6 +21,7 @@ import { ICustomer, Customer } from '../../../../../shared/models/customer.model
 import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { finalize } from 'rxjs/operators';
 import { CountryService } from '../../../../../shared/services/country.service';
+import { error } from 'console';
 
 
 @Component({
@@ -54,13 +55,14 @@ export class AddCustomerComponent implements OnInit {
   addresses:string[] = [];
   constructor(
     private fb: UntypedFormBuilder,
-    private translate: TranslateService,
+    private translateService: TranslateService,
     private employeeService: EmployeeService,
     private modalRef: NzModalRef,
     private toast: ToastService,
     private fileService: FileService,
     private storage: AngularFireStorage,
-    private countryService:CountryService
+    private countryService:CountryService,
+    private modalService: NzModalService
   ) {
   }
 
@@ -110,6 +112,8 @@ export class AddCustomerComponent implements OnInit {
         dataObject.cccd,
         [
           Validators.required,
+          Validators.maxLength(14),
+          Validators.pattern(VALIDATORS.CCCD)
         ],
       ],
       fullName: [
@@ -278,10 +282,24 @@ export class AddCustomerComponent implements OnInit {
   }
 
   private create(employee: ICustomer): void {;
-    this.employeeService.createCustomer(employee).subscribe((res: any) => {
-      this.toast.success('Thêm Khách hàng thành công');
-      this.closeModal(res.body.data);
+    const form = CommonUtil.modalConfirm(
+      this.translateService,
+      'model.user.addProductOrderTitle',
+      'model.user.addProductOrderContent'
+    );
+    const modal = this.modalService.create(form);
+    
+    modal.afterClose.subscribe((result: { success: boolean }) => {
+      if (result.success) {
+        this.employeeService.createCustomer(employee).subscribe((res: any) => {
+          this.toast.success('Thêm Khách hàng thành công');
+          this.closeModal(res.body.data);
+        },(error)=> {
+          this.toast.error(error.error.message)
+        });
+      }
     });
+   
   }
 
   private update(employee: IEmployee): void {
@@ -353,6 +371,10 @@ export class AddCustomerComponent implements OnInit {
   getBase64(image: any): Promise<unknown> {
     return new Promise((resolve, reject) => {
       const reader = new FileReader();
+      if(!image){
+        this.toast.error("Chỉ chọn được ảnh")
+        return;
+      }
       reader.readAsDataURL(image);
       reader.onload = () => resolve(reader.result);
       reader.onerror = (error) => {reject(error),this.toast.error("Chỉ chọn được ảnh")};

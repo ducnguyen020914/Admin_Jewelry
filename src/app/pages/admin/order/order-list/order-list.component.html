@@ -109,7 +109,7 @@
                      formControlName="userId" 
                      appDebounceKeyUp (onEvent)="searchUsers($event)"
                      nzPlaceHolder="{{ 'model.order.orderer' | translate }}">
-            <nz-option *ngFor="let user of users" [nzLabel]="user.fullName" [nzValue]="user.userId"></nz-option>
+            <nz-option *ngFor="let user of users" [nzLabel]="user.fullName + ' - ' + user.phoneNumber " [nzValue]="user.userId"></nz-option>
           </nz-select>
         </div>
         <div class="col-6 mb-2">

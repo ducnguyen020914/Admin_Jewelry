@@ -10,7 +10,7 @@ import {TranslateService} from "@ngx-translate/core";
 import {NzDatePickerComponent} from "ng-zorro-antd/date-picker";
 import {USER_GENDER} from "@shared/constants/user.constant";
 import * as moment from "moment";
-import {NzModalRef} from "ng-zorro-antd/modal";
+import { NzModalRef, NzModalService } from 'ng-zorro-antd/modal';
 import {ToastService} from "@shared/services/helpers/toast.service";
 import {LENGTH_VALIDATOR, VALIDATORS} from "@shared/constants/validators.constant";
 import CommonUtil from "@shared/utils/common-utils";
@@ -53,13 +53,14 @@ export class EmployeeUpdateComponent implements OnInit {
   addresses:string[] = [];
   constructor(
     private fb: UntypedFormBuilder,
-    private translate: TranslateService,
+    private translateService: TranslateService,
     private employeeService: EmployeeService,
     private modalRef: NzModalRef,
     private toast: ToastService,
     private fileService: FileService,
     private storage: AngularFireStorage,
-    private countryService:CountryService
+    private countryService:CountryService,
+    private modalService: NzModalService
   ) {
   }
 
@@ -277,16 +278,42 @@ export class EmployeeUpdateComponent implements OnInit {
   }
 
   private create(employee: ICustomer): void {;
-    this.employeeService.create(employee).subscribe((res: any) => {
-      this.toast.success('Thêm Khách hàng thành công');
-      this.closeModal(res.body.data);
+    const form = CommonUtil.modalConfirm(
+      this.translateService,
+      'model.user.addProductOrderTitle',
+      'model.user.addProductOrderContent'
+    );
+    const modal = this.modalService.create(form);
+    
+    modal.afterClose.subscribe((result: { success: boolean }) => {
+      if (result.success) {
+        this.employeeService.create(employee).subscribe((res: any) => {
+          this.toast.success('Thêm Khách hàng thành công');
+          this.closeModal(res.body.data);
+        },(error)=> {
+          this.toast.error(error.error.message)
+        });
+      }
     });
   }
 
   private update(employee: IEmployee): void {
-    this.employeeService.update(employee,this.employee.userId).subscribe((res: any) => {
-      this.toast.success('Cập nhật khách hàng thành công');
-      this.closeModal(res.body.data);
+    const form = CommonUtil.modalConfirm(
+      this.translateService,
+      'model.user.updateProductOrderTitle',
+      'model.user.updateProductOrderContent'
+    );
+    const modal = this.modalService.create(form);
+    
+    modal.afterClose.subscribe((result: { success: boolean }) => {
+      if (result.success) {
+        this.employeeService.update(employee,this.employee.userId).subscribe((res: any) => {
+          this.toast.success('Cập nhật khách hàng thành công');
+          this.closeModal(res.body.data);
+        },(error)=> {
+          this.toast.error(error.error.message)
+        });
+      }
     });
   }
 

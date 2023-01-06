@@ -48,7 +48,7 @@
     
           </div>
           <div class="col-4 ">
-            <label>{{ "model.product.event" | translate }}: <strong>{{ getEvent()}}</strong> </label>
+            <label>{{ "model.product.event" | translate }}: <strong>{{ getEvent() ? getEvent() : 'Không sự kiện giảm giá'}}</strong> </label>
           
           </div>
           <div class="col-4 ">
@@ -56,6 +56,9 @@
           </div>
           <div class="col-4">
             <label>{{ "model.order.status.root" | translate }}: <strong>{{getStatus()}}</strong> </label>       
+          </div>
+          <div class="col-12 mt-3">
+            <label>{{ "model.order.note" | translate }}: <strong>{{this.order.note}}</strong> </label>       
           </div>
         
           

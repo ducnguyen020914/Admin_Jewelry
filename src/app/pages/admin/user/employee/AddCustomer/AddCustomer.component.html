@@ -171,6 +171,7 @@
               >
                 <small>{{ "common.pattern" | translate }}</small>
               </span>
+              
             </ng-container>
           </div>
           <div class="col-6">
@@ -379,7 +380,7 @@
         >
           <span
             class="text-danger"
-            *ngIf="form.get('addressDetail')?.hasError('addressDetail')"
+            *ngIf="form.get('addressDetail')?.hasError('required')"
           >
             <mb-not-blank [value]="'model.guest.addressDetail'"></mb-not-blank>
           </span>

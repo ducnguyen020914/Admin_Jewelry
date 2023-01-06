@@ -108,6 +108,7 @@ export class RepurchaseDetailComponent implements OnInit {
       this.form.get('staff')?.setValue(this.order.createBy);
       this.form.get('purchaseType')?.setValue(this.order.purchaseType);
       this.form.get('transportFee')?.setValue(this.order.transportFee);
+      this.form.get('note')?.setValue(this.order.note);
       this.thanhtien = this.order.total ? this.order.total : 0;
       this.getStatus(this.form.get('status')?.value);
       
@@ -138,6 +139,7 @@ export class RepurchaseDetailComponent implements OnInit {
       orderDetailList: this.fb.array([]),
       total: [{ value: '', disabled: true }, Validators.required],
       staff: [{ value: '', disabled: true }, Validators.required],
+      note:[{ value: '', disabled: true }],
     });
     // this.form.get('date')?.setValue(new Date());
     this.form.get('total')?.setValue(0);

@@ -63,7 +63,7 @@ export class RepurchaseCreateComponent implements OnInit {
   PAYMENT_METHOD = [
     {value: 'MONEY', label: 'model.order.paymentMethod.money'},
     {value: 'CARD', label: 'model.order.paymentMethod.card'},
-    
+    {value: 'CARD_MONEY', label: 'model.order.paymentMethod.cardmoney'},
     ];;
   startValue: Date | null = null;
   orderId = '';
@@ -162,6 +162,7 @@ export class RepurchaseCreateComponent implements OnInit {
       orderDetailList: this.fb.array([]),
       total: [{ value: '', disabled: true }, Validators.required],
       staff: [{ value: '', disabled: true }, Validators.required],
+      note:[null]
     });
     // this.form.get('date')?.setValue(new Date());
     this.form.get('total')?.setValue(0);

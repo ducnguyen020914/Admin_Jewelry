@@ -41,7 +41,7 @@ export class RepurchaseCreateBeforeComponent implements OnInit {
   PAYMENT_METHOD2  = [
     {value: 'MONEY', label: 'model.order.paymentMethod.money'},
     {value: 'CARD', label: 'model.order.paymentMethod.card'},
-    
+    {value: 'CARD_MONEY', label: 'model.order.paymentMethod.cardmoney'},
     ];
   ORDER_STATUS = ORDER_STATUS
   status = StatusEnum;
