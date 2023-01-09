@@ -251,13 +251,14 @@
                 {{ item.value.sizeName }}
               </label>
               <input
-              type="number"
+             appCurrencyFormatter
                 nz-input
                 [maxLength]="LENGTH_VALIDATOR.NAME_MAX_LENGTH.MAX"
                 placeholder="{{'Số lượng sản phẩm của kích thước ' + item.value.sizeName }}"
-                value="{{ item.value.quantity }}"
-                min="0"
-                max="10000"
+                [(ngModel)]="item.value.quantity"
+                [ngModelOptions]="{standalone: true}"
+                [min]="0"
+                [max]="1000"
                 (change)="setValueSize(i, item.value.sizeId,item.value.sizeName, $event)"
               />
             </div>
@@ -267,11 +268,12 @@
                 {{ item.value.sizeName }}<i class="text-danger"> (đơn vị: Chỉ)</i>
               </label>
               <input
-              type="number"
+                type="number"
                 nz-input
                 [maxLength]="LENGTH_VALIDATOR.NAME_MAX_LENGTH.MAX"
                 placeholder="{{ item.value.weight }}"
-                value="{{ item.value.weight }}"
+                [(ngModel)]="item.value.weight"
+                [ngModelOptions]="{standalone: true}"
                 (input)="loadPurchasePriceAndSalePrice(i,$event)"
                 min="0"
                 max="10000"

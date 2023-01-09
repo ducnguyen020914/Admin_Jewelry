@@ -173,7 +173,11 @@ export class ProductUpdateComponent implements OnInit {
     return this.form.get('accessoryId')?.value as string;
   }
   loadPurchasePriceAndSalePrice(i:number,event:any) {
-    this.sizeProduct.controls[i].get('weight')?.setValue(event.target.value);
+    let value = event.target.value;
+    if(!value || value < 0){
+      value = 0.1;
+    }
+    this.sizeProduct.controls[i].get('weight')?.setValue(value);
     const material = this.materials
       .filter((material) => material.materialId === this.materialId)
       .map((material) => material.purchasePrice as number);
@@ -193,7 +197,10 @@ export class ProductUpdateComponent implements OnInit {
     if (materialSalePrice.length === 0) {
       materialSalePrice[0] = 0;
     }
-    const salary = CommonUtil.formatToNumber(this.form.get('salary')?.value);
+    let salary = CommonUtil.formatToNumber(!this.form.get('salary')?.value || this.form.get('salary')?.value < 0 ? 0 : this.form.get('salary')?.value);
+    if(!salary || salary < 0){
+      salary = 0;
+    }
     this.sizeProduct.controls[i].get('purchasePrice')?.setValue((material[0]*weight) + accessory[0]) ;
     this.sizeProduct.controls[i].get('salePrice')?.setValue(materialSalePrice[0]*weight + accessory[0] + salary);
   }
@@ -265,11 +272,7 @@ export class ProductUpdateComponent implements OnInit {
       const accessory = this.accessories
       .filter((accessory) => accessory.accessoryId === this.accessoryId)
       .map((accessory) => accessory.price as number);
-      let salary = CommonUtil.formatToNumber(this.form.get('salary')?.value);
-
-      if(salary == null){
-        salary = 0;
-      }
+      const salary = CommonUtil.formatToNumber(!this.form.get('salary')?.value || this.form.get('salary')?.value < 0 ? 0 : this.form.get('salary')?.value);
       
       if (accessory.length === 0) {
         accessory[0] = 0;
@@ -361,7 +364,13 @@ export class ProductUpdateComponent implements OnInit {
     });
   }
   setValueSize(i: number, sizeId: string, sizeName: string, event: any): void {
-    const value = event.target.value;
+    let value = event.target.value;
+    console.log(value);
+    if(!value || value < 0){
+      value = 0;
+      console.log(value);
+      
+    }
     this.sizeProduct.controls[i].get('sizeId')?.setValue(sizeId);
     this.sizeProduct.controls[i].get('quantity')?.setValue(value);
     this.sizeProduct.controls[i].get('sizeName')?.setValue(sizeName);
