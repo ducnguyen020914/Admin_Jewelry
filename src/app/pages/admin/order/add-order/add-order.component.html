@@ -303,32 +303,7 @@
               ) | translate
             }}
           </button>
-          <button
-            *ngIf="action === ROUTER_ACTIONS.detail"
-            (click)="navigateToUpdatePage()"
-            class="ms-3"
-            nz-button
-            nzType="primary"
-          >
-            {{ "action.update" | translate }}
-          </button>
-          <button
-            *ngIf="action !== ROUTER_ACTIONS.detail"
-            (click)="
-              action === ROUTER_ACTIONS.update ? onUpdateSubmit() : onSubmit()
-            "
-            class="ms-3"
-            nz-button
-            nzType="primary"
-            [disabled]="this.form.invalid"
-          >
-            {{
-              (action === ROUTER_ACTIONS.update
-                ? "action.update"
-                : "action.create"
-              ) | translate
-            }}
-          </button>
+         
           <button
           (click)="onSubmitOrderWait()
           "
@@ -338,7 +313,7 @@
           [disabled]="this.form.invalid"
         >
           {{
-            ('model.order.waitOrder'
+            ('action.create'
             ) | translate
           }}
         </button>

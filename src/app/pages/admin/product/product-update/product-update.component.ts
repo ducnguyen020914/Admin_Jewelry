@@ -144,7 +144,7 @@ export class ProductUpdateComponent implements OnInit {
     const sizeIds = dataObject.productSizes?.map((s) => s.sizeId);
     this.form = this.fb.group({
       nameProduct: [dataObject.nameProduct, [Validators.required]],
-      salary: [dataObject?.salary, [Validators.required, Validators.min(0)]],
+      salary: [dataObject?.salary, [Validators.required, Validators.max(100000000000)]],
       categoryId: [dataObject?.categoryId, [Validators.required]],
       materialId: [dataObject?.materialId, [Validators.required]],
       vendorId: [dataObject?.vendorId, [Validators.required]],

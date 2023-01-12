@@ -80,6 +80,7 @@
               [maxLength]="LENGTH_VALIDATOR.NAME_MAX_LENGTH.MAX"
               placeholder="{{ 'model.product.salary' | translate }}"
              (input)="getMaterial()"
+              
               />
             <ng-container
               *ngIf="form.get('salary')?.touched || form.get('salary')?.dirty"
@@ -92,7 +93,7 @@
               </span>
               <span
               class="text-danger"
-              *ngIf="form.get('salary')?.hasError('min')"
+              *ngIf="form.get('salary')?.hasError('max')"
             >
               <mb-not-blank [value]="'model.product.salaryMin'"></mb-not-blank>
             </span>
@@ -235,7 +236,7 @@
                 *ngIf="form.get('vendorId')?.hasError('required')"
               >
                 <mb-not-blank
-                  [value]="'model.product.manufacture'"
+                  [value]="'model.product.vendorId'"
                 ></mb-not-blank>
               </span>
             </ng-container>
