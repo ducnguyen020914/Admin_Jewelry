@@ -321,13 +321,18 @@ extraTemplate: any;
       'model.order.createOrderWaitTitle',
       'model.order.createOrderWaitContent'
     );
-
+    
     const modal: NzModalRef = this.modalService.create(createForm);
     modal.afterClose.subscribe((result: { success: boolean; data: any }) => {
       if (result?.success) {
         this.orderService.createOrder(order).subscribe((res) => {
           this.toast.success('Thêm hóa đơn thành công');
           this.localStorage.clear("selectedProducts");
+          this.form.get('userId')?.setValue(null);
+          this.form.get('purchaseType')?.setValue(null);
+          this.form.get('eventId')?.setValue(null);
+          this.form.get('note')?.setValue(null);
+          this.selectedProducts = [];
         });
       }
     });
