@@ -19,6 +19,7 @@ import { SizeService } from '../../../../shared/services/product/size.service';
 import { Size } from '../../../../shared/models/size.model';
 import * as moment from 'moment';
 import { CalendarService } from '../../../../shared/services/calendar.service';
+import { differenceInCalendarDays } from 'date-fns';
 @Component({
   selector: 'app-create-update-apoiment',
   templateUrl: './create-update-apoiment.component.html',
@@ -84,6 +85,9 @@ export class CreateUpdateApoimentComponent implements OnInit {
     });
   
   }
+  disabledDate = (current: Date): boolean =>
+    // Can not select days before today and today
+    differenceInCalendarDays(current, new Date()) < 0;
   private loadProduct(){
     this.productService.autoComlete().subscribe((res:any)=>{
       this.products = res.body.data;

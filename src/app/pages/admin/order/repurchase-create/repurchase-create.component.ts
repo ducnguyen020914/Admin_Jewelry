@@ -276,6 +276,7 @@ export class RepurchaseCreateComponent implements OnInit {
       ...this.form.value,
       total: this.thanhtien,
       cost:this.cost,
+      createBy: this.localStorage.retrieve("username"),
       orderDetailList: this.selectedProducts.map((res: any) => {
         const price = res.price as number;
         const productDetail: IProductOrder = {

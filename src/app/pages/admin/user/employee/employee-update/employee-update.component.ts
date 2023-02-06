@@ -124,7 +124,7 @@ export class EmployeeUpdateComponent implements OnInit {
         [
           Validators.required,
           Validators.maxLength(LENGTH_VALIDATOR.PHONE_MAX_LENGTH.MAX),
-          Validators.pattern(VALIDATORS.PHONE),
+          Validators.pattern(VALIDATORS.PHONE_SIMPLE),
         ],
       ],
       email: [
@@ -341,7 +341,9 @@ export class EmployeeUpdateComponent implements OnInit {
     }
   }
   disabledAfterToday(current: Date): boolean {
-    return differenceInCalendarDays(current, new Date()) > 0;
+    const year = new Date();
+    year.setFullYear(year.getFullYear() - 18);
+    return current > year;
   }
 
   getFiles(files: any): void {

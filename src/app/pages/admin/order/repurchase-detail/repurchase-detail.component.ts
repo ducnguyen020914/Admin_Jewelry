@@ -73,15 +73,20 @@ export class RepurchaseDetailComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log(this.action);
     this.loadOrder();
+    this.searchInfor();
+  }
+  searchInfor(){
+     this.userService.find(this.order.userId+"").subscribe((res:any) => {
+      this.currentUser = res.body.data;
+     })
   }
   loadOrder() {
     this.orderService.findOne(this.id).subscribe((res: any) => {
       this.order = res.body?.data;
+      console.log(this.order);
+      this.searchInfor()
       this.selectedProducts = this.order.orderDetailDTOList as IProductOrder[];
-      console.log('Order', this.order);
-      console.log('Selected', this.selectedProducts);
       this.selectedProducts.forEach((data) => {
         this.totalCreateBrefore+=((data.pricePurchase ? data.pricePurchase : 0) * (data.quantity ? data.quantity  : 0))
       })
@@ -97,9 +102,6 @@ export class RepurchaseDetailComponent implements OnInit {
           this.total+=((data.priceSale ? data.priceSale : 0)* (data.quantity ? data.quantity  : 0))
         })
       }
-      console.log(this.isCreateBefore);
-      
-      
       this.form.get('userId')?.setValue(this.order.userId);
       this.form.get('paymentMethod')?.setValue(this.order.paymentMethod);
       this.form.get('eventId')?.setValue(this.order.eventId);

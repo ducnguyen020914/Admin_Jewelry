@@ -149,7 +149,7 @@ export class ProductUpdateComponent implements OnInit {
       categoryId: [dataObject?.categoryId, [Validators.required]],
       materialId: [dataObject?.materialId, [Validators.required]],
       vendorId: [dataObject?.vendorId, [Validators.required]],
-      note: [dataObject?.note],
+      note: [dataObject?.note,Validators.maxLength(255)],
       sizeIds: [sizeIds, [Validators.required]],
       gender: [dataObject?.gender, [Validators.required]],
       eventId: [dataObject?.eventId],

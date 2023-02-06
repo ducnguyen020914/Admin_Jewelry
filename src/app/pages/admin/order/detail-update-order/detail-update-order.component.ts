@@ -79,8 +79,7 @@ export class DetailUpdateOrderComponent implements OnInit {
     this.orderService.findOne(this.id).subscribe((res: any) => {
       this.order = res.body?.data;
       this.selectedProducts = this.order.orderDetailDTOList as IProductOrder[];
-      console.log('Order', this.order);
-      console.log('Selected', this.selectedProducts);
+      this.searchInfor();
       this.selectedProducts.forEach((data) =>{
         this.total= this.total + (data.price as number * (data.quantity ? data.quantity : 0))
       })
@@ -144,6 +143,11 @@ export class DetailUpdateOrderComponent implements OnInit {
       
     });
   }
+  searchInfor(){
+    this.userService.find(this.order.userId+"").subscribe((res:any) => {
+     this.currentUser = res.body.data;
+    })
+ }
   showCustomer() {
     this.users
       .filter((data: IUser) => data.userId === this.form.get('userId')?.value)

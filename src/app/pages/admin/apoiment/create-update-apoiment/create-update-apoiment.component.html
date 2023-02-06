@@ -36,7 +36,7 @@
               >{{ "model.apoiment.time" | translate }}
               <span class="text-danger">*</span></label
             >
-            <nz-date-picker [nzRenderExtraFooter]="plainFooter" nzShowTime formControlName="time" [disabled]="this.isUpdate && checkStatus()"></nz-date-picker>
+            <nz-date-picker [nzRenderExtraFooter]="plainFooter"   [nzDisabledDate]="disabledDate" nzShowTime formControlName="time" [disabled]="this.isUpdate && checkStatus()"></nz-date-picker>
             <ng-container
               *ngIf="form.get('time')?.touched || form.get('time')?.dirty"
             >

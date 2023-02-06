@@ -248,6 +248,7 @@ parserPrice = (value: string): number => CommonUtil.formatToNumber(value);
           const order = {
              userId:this.order.userId,
              cost:this.cost,
+             createby:this.localStorage.retrieve("username"),
              paymentMethod:this.payment,
              total: this.tongTien() - this.get30persent() - this.cost,
              purchaseType:OrderType.DIRECT_TYPE,

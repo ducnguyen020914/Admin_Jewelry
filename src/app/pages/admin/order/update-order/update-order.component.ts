@@ -121,6 +121,11 @@ export class UpdateOrderComponent implements OnInit {
     this.loadevent();
    
   }
+  searchInfor(){
+    this.userService.find(this.order.userId+"").subscribe((res:any) => {
+     this.currentUser = res.body.data;
+    })
+ }
   loadProductOrder() {
     this.productService.productOrders().subscribe((res: any) => {
       this.productOrders = res.body?.data;

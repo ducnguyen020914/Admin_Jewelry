@@ -168,6 +168,8 @@ export class EmployeeUpdateComponent1 implements OnInit {
     this.employeeService.create(employee).subscribe((res: any) => {
       this.toast.success('Thêm nhân viên thành công');
       this.closeModal(res.body.data);
+    },(error)=> {
+      this.toast.error(error.error.message)
     });
   }
 
@@ -175,6 +177,8 @@ export class EmployeeUpdateComponent1 implements OnInit {
     this.employeeService.update(employee,this.employee.userId).subscribe((res: any) => {
       this.toast.success('Cập nhật nhân viên thành công');
       this.closeModal(res.body.data);
+    },(error)=> {
+      this.toast.error(error.error.message)
     });
   }
 

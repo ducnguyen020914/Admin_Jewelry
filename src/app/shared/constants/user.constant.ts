@@ -1,11 +1,11 @@
-export const USER_ACTIVE = 'ACTIVE';
+export const USER_ACTIVE = 'tr';
 export const USER_INACTIVE = 'INACTIVE';
 export const USER_EMPLOYEE = 'EMPLOYEE';
 export const USER_CUSTOMER = 'CUSTOMER';
 
 export const USER_STATUS = [
-  {value: USER_ACTIVE, label: 'model.user.service.userStatus.active'}, // Trạng thái hoạt động
-  {value: USER_INACTIVE, label: 'model.user.service.userStatus.inactive'}, // Trạng thái không hoạt động
+  {value: false, label: 'model.user.service.userStatus.active'}, // Trạng thái hoạt động
+  {value: true, label: 'model.user.service.userStatus.inactive'}, // Trạng thái không hoạt động
 ];
 
 

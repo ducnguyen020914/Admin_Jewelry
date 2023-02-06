@@ -164,7 +164,7 @@ extraTemplate: any;
       userId: [null, [Validators.required]],
       customerMoney: [0, [Validators.required]],
       transportFee: [0],
-      purchaseType: [OrderType.DIRECT_TYPE],
+      purchaseType: [OrderType.ONLINE],
       status: [StatusEnum.CHO_XAC_NHAN],
       eventId: [null],
       province: [
@@ -462,6 +462,7 @@ extraTemplate: any;
        //   this.router.navigate([ROUTER_UTILS.order.root,ROUTER_UTILS.order.orderList])
           this.toast.success('Thêm hóa đơn thành công');
           this.localStorage.clear("selectedProducts");
+          this.onCancel()
         });
       }
     });
