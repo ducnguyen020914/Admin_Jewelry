@@ -218,6 +218,31 @@ extraTemplate: any;
   closeTab({ index }: { index: number }): void {
     this.tabs.splice(index, 1);
   }
+  getPercent(eventId:string){
+    if(eventId){
+      let event:IEvent = {
+        eventId: '',
+        code: '',
+        name: '',
+        discount: 0,
+        startDate: '',
+        endDate: '',
+        description: '',
+        createAt: 0,
+        createBy: '',
+        lastModifiedAt: 0,
+        lastModifiedBy: '',
+        deleted: false
+      };
+      this.events.forEach((data) => {
+        if(data.eventId === eventId){
+          event = data;
+        }
+      })
+      return event.discount / 100 * this.total; 
+    }
+    return null;
+  }
 
   newTab(): void {
     if (this.tabs.length < 5) {
@@ -304,6 +329,7 @@ extraTemplate: any;
       phoneNumber:this.currentUser.phoneNumber,
       status:StatusEnum.HOA_DON_CHO,
       total: this.thanhtien,
+      discount: this.getPercent(this.form.value.eventId),
       orderDetailList: this.selectedProducts.map((res: any) => {
         const price = res.price as number;
         const productDetail: IProductOrder = {

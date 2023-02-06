@@ -37,6 +37,7 @@ export interface IOrder {
   address?:string;
   userId?:string;
   user?:User;
+  discount?:number;
   event?:IEvent;
   orderDetailDTOList?:IProductOrder[];
   isRepurchase?:boolean;
@@ -52,6 +53,7 @@ export class Order implements IOrder {
    public lastModifiedBy?: string,
    public lastModifiedAt?: number,
    public id?: string,
+   public discount?:number,
    public orderCode?: number,
    public customerMoney?: number,
    public paymentMethod?: PaymentMethod,
@@ -85,6 +87,7 @@ export class Order implements IOrder {
       this.transportFee = transportFee;
       this.address  = address;
       this.user = user;
+      this.discount = discount;
       this.event = event;
       this.orderDetailDTOList = orderDetailDTOList;
       this.userId = userId;

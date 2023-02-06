@@ -1,0 +1,102 @@
+<div class="content">
+  <div *nzModalTitle>
+    <span *ngIf="!isDetail">{{
+      (isUpdate ? "action.update" : "action.create") | translate
+    }}</span>
+    <span *ngIf="isDetail">{{ "action.detail" | translate }}</span>
+  </div>
+ 
+    <div class="col-12">
+      <form [formGroup]="form">
+         <div class="row">
+          <div class="col-6 mb-2">
+            <label
+              >{{ "model.event.name" | translate }}
+              <span class="text-danger">*</span></label
+            >
+            <input
+              formControlName="name"
+              nz-input
+              [maxLength]="LENGTH_VALIDATOR.NAME_MAX_LENGTH.MAX"
+              placeholder="{{ 'model.event.name' | translate }}"
+            />
+            <ng-container
+              *ngIf="form.get('name')?.touched || form.get('name')?.dirty"
+            >
+              <span
+                class="text-danger"
+                *ngIf="form.get('name')?.hasError('required')"
+              >
+                <mb-not-blank [value]="'model.event.name'"></mb-not-blank>
+              </span>
+            </ng-container>
+          </div> 
+          <div class="col-6 mb-2">
+            <label
+              >{{ "model.event.discount" | translate }}
+              <span class="text-danger">*</span></label
+            >
+            <input
+            formControlName="discount"
+            nz-input
+            placeholder="{{ 'model.event.discount' | translate }}"
+          />
+               <ng-container
+              *ngIf="form.get('discount')?.touched || form.get('discount')?.dirty"
+            >
+              <span
+                class="text-danger"
+                *ngIf="form.get('discount')?.hasError('required')"
+              >
+                <mb-not-blank [value]="'model.event.discount'"></mb-not-blank>
+              </span>
+            </ng-container>
+          </div> 
+          <div class="col-12 mb-2">
+            <label
+              >{{ "model.event.time" | translate }}
+              <span class="text-danger">*</span></label
+            >
+              <app-date-range-picker [fromDate]="this.form?.get('startDate')?.value"
+                                     [toDate]="this.form?.get('endDate')?.value" (rangeDateChange)="onChangeCreateDate($event)">
+              </app-date-range-picker>
+            
+            <ng-container
+              *ngIf="form.get('phoneNumber')?.touched || form.get('phoneNumber')?.dirty"
+            >
+              <span
+                class="text-danger"
+                *ngIf="form.get('phoneNumber')?.hasError('required')"
+              >
+                <mb-not-blank [value]="'model.apoiment.phoneNumber'"></mb-not-blank>
+              </span>
+            </ng-container>
+          </div> 
+          <div class="col-12 mt-2">
+            <label for="">{{'model.event.description' | translate}}</label>
+            <textarea nz-input formControlName="description"  placeholder="{{'model.event.description' | translate}}" cols="30" rows="5"></textarea>
+          </div>
+          <div></div>
+          </div>
+      </form>
+    </div>
+  <div class="row">
+    <div class="col-12 text-center" *nzModalFooter>
+      <button nz-button nzType="default" class="e-2" (click)="onCancel()">
+        {{
+          (action === ROUTER_ACTIONS.detail ? "action.back" : "action.cancel")
+            | translate
+        }}
+      </button>
+      <button
+        *ngIf="!isDetail"
+        nz-button
+        nzType="primary"
+        (click)="onSubmit()"
+        [disabled]="form.invalid"
+      >
+        {{ (isUpdate ? "action.save" : "action.save") | translate }}
+      </button>
+    </div>
+  </div>
+</div>

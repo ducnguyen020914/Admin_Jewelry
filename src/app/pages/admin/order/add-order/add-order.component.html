@@ -279,7 +279,7 @@
                 <br>
                 <label class="mb-3" style="width:'13rem'">Tổng tiền: </label> <span class="fw-bold">{{this.total | vnd}}</span> 
                 <br> 
-                <label  class="mb-1" style="width:'13rem'">Giảm giá:</label> <span class="fw-bold">{{this.discount + '%'}}</span>
+                <label  class="mb-1" style="width:'13rem'">Giảm giá:</label> <span class="fw-bold">{{this.discount + '%' + '(' + ((this.getPercent(this.form.value.eventId) ? this.getPercent(this.form.value.eventId) : 0) | vnd) +')'}}</span>
                 <hr>
                 <label class="fw-bold" style="width:'13rem'">Thành tiền :</label><span class="fw-bold">{{this.thanhtien | vnd}}</span>
               </nz-card>

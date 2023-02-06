@@ -224,7 +224,9 @@
       "name":"Tên sự kiện",
       "discount":"Giảm giá",
       "startDate":"Ngày bắt đầu",
-      "endDate":"Ngày kết thúc"
+      "time":"Thời gian sự kiện",
+      "endDate":"Ngày kết thúc",
+      "description":"Mô tả chi tiết"
     },
     "size":{
       "size":"Kích thước",
@@ -718,7 +720,7 @@
       "lockCategoryContent": "Bạn có chắc chắn muốn khóa sản phẩm {{name}}?",
       "unlockCategoryContent": "Bạn có chắc chắn muốn mở khóa sản phẩm <b>{{name}}?",
       "lockProductTitle": "Khóa sản phẩm",
-      "lockProductContent": "Bạn có chắc chắn muốn mở khóa sản phẩm <b>{{name}}?",
+      "lockProductContent": "Bạn có chắc chắn muốn khóa sản phẩm <b>{{name}}?",
       "unlockProductTitle": "Mở khóa sản phẩm",
       "unlockProductContent": "Bạn có chắc chắn muốn mở khóa sản phẩm <b>{{name}}?",
       "status": "Trạng thái",

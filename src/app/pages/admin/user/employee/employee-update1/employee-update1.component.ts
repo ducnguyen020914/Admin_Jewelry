@@ -94,6 +94,8 @@ export class EmployeeUpdateComponent1 implements OnInit {
         dataObject.cccd,
         [
           Validators.required,
+          Validators.maxLength(12),
+          Validators.pattern(VALIDATORS.CCCD),
         ],
       ],
       fullName: [

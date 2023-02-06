@@ -14,20 +14,20 @@ export interface IEvent {
   lastModifiedBy: string,
   deleted: boolean
 }
-export class EventProduct implements IEvent {
+export class EventProduct {
   constructor(
-    public eventId: string,
-    public code:string,
-    public name: string,
-    public discount: number,
-    public  startDate: Date | string,
-    public  endDate: Date | string,
-    public description: string,
-    public createAt: number,
-    public  createBy: string,
-    public  lastModifiedAt: number,
-    public lastModifiedBy: string,
-    public  deleted: boolean
+    public eventId?: string,
+    public code?:string,
+    public name?: string,
+    public discount?: number,
+    public  startDate?: Date | string,
+    public  endDate?: Date | string,
+    public description?: string,
+    public createAt?: number,
+    public  createBy?: string,
+    public  lastModifiedAt?: number,
+    public lastModifiedBy?: string,
+    public  deleted?: boolean
   ) {
     this.eventId = eventId;
     this.code = code;

@@ -163,31 +163,11 @@
           </div>
           <div class="col-4 " *ngIf="!this.order.isRepurchase">
             <label>{{ "model.product.event" | translate }} </label>
-            <nz-select
-              formControlName="eventId"
-              nzAllowClear 
-              [nzPlaceHolder]="'model.product.event' | translate"
-              (ngModelChange)="getTotal($event)"
-              [nzDisabled]="true"
-              
-            >
-              <ng-container *ngFor="let event of events">
-                <nz-option
-                  [nzValue]="event.eventId"
-                  [nzLabel]="event.name + ' - ' + 'Giảm ' + event.discount + '%'"
-                ></nz-option>
-              </ng-container>
-            </nz-select>
-            <ng-container
-              *ngIf="form.get('eventId')?.touched || form.get('eventId')?.dirty"
-            >
-              <span
-                class="text-danger"
-                *ngIf="form.get('eventId')?.hasError('required')"
-              >
-                <mb-not-blank [value]="'model.product.event'"></mb-not-blank>
-              </span>
-            </ng-container>
+            <input
+            nz-input
+            [disabled]="true"
+            [value]="(this.order.discount ? this.order.discount : 0) + ' đ'"
+          />
           </div>
           <div class="col-4 mb-2">
             <label>{{ "model.order.address" | translate }} </label>
@@ -289,7 +269,7 @@
           <br> 
           <label  class="mb-3" style="width:'13rem'">Phí ship:</label> <span class="fw-bold">{{this.order.transportFee ? (this.order.transportFee | vnd) : 0}}</span>
           <br> 
-          <label  class="mb-1" style="width:'13rem'">Giảm giá:</label> <span class="fw-bold">{{this.discount + '%'}}</span>
+          <label  class="mb-1" style="width:'13rem'">Giảm giá:</label> <span class="fw-bold">{{(this.order.discount ? this.order.discount : 0) | vnd}}</span>
           <hr>
           <label class="fw-bold" style="width:'13rem'">Thành tiền :</label><span class="fw-bold">{{this.thanhtien |vnd}}</span>
         </nz-card>

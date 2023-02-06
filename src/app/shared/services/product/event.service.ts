@@ -29,6 +29,13 @@ export class EventService extends AbstractService {
   search(params?:IEventSearchRequest):Observable<EntityResponseType<IEvent[]> >{
     return super.get<IEvent[]>(`${this.resourceUrl}`,{params});
   }
+  addEvent(param?:any):Observable<any> {
+    return super.post<IEvent>(`${this.resourceUrl}`,param);
+  }
+  updateEvent(id:string,param?:any):Observable<any> {
+    return super.put<IEvent>(`${this.resourceUrl}/${id}`,param);
+  }
+
 
  
 }

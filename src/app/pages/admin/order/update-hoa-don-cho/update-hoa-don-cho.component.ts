@@ -39,6 +39,7 @@ import { LocalStorageService } from 'ngx-webstorage';
 import { ROUTER_UTILS } from '../../../../shared/utils/router.utils';
 import { EmployeeUpdateComponent } from '@pages/admin/user/employee/employee-update/employee-update.component';
 import { ORDER_STATUS } from '../../../../shared/constants/order.constant';
+import { AddCustomerComponent } from '../../user/employee/AddCustomer/AddCustomer.component';
 
 
 @Component({
@@ -290,6 +291,31 @@ extraTemplate: any;
     }
     return 'https://artsmidnorthcoast.com/wp-content/uploads/2014/05/no-image-available-icon-6.png';
   }
+  getPercent(eventId:string){
+    if(eventId){
+      let event:IEvent = {
+        eventId: '',
+        code: '',
+        name: '',
+        discount: 0,
+        startDate: '',
+        endDate: '',
+        description: '',
+        createAt: 0,
+        createBy: '',
+        lastModifiedAt: 0,
+        lastModifiedBy: '',
+        deleted: false
+      };
+      this.events.forEach((data) => {
+        if(data.eventId === eventId){
+          event = data;
+        }
+      })
+      return event.discount / 100 * this.total; 
+    }
+    return null;
+  }
   create(): void {
     if (this.selectedProducts.length === 0) {
       this.toast.error('Hóa đơn hiện chưa có sản phẩm nào');
@@ -299,6 +325,7 @@ extraTemplate: any;
       ...this.form.value,
       total: this.thanhtien,
       phoneNumber:this.currentUser.phoneNumber,
+      discount: this.getPercent(this.form.value.eventId),
       orderDetailList: this.selectedProducts.map((res: any) => {
         const price = res.price as number;
         const productDetail: IProductOrder = {
@@ -362,7 +389,7 @@ extraTemplate: any;
   }
   createCustomer(): void {
     const base = CommonUtil.modalBase(
-      EmployeeUpdateComponent,
+      AddCustomerComponent,
       {
         action: ROUTER_ACTIONS.create,
       },

@@ -259,8 +259,6 @@ onChangeRangePrice(): void {
     } else {
       this.orderSearchRequest.endDate = '';
     }
-    console.log(this.orderSearchRequest);
-    
     this.loadData(this.pageIndex,this.pageSize);
   }
 

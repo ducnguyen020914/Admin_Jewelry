@@ -8,10 +8,12 @@ import { NzSliderModule } from 'ng-zorro-antd/slider';
 import { NzTagModule } from 'ng-zorro-antd/tag';
 import { NzAutocompleteModule } from 'ng-zorro-antd/auto-complete';
 import { EventComponent } from './event.component';
+import { EventUpdateComponent } from './event-update/event-update.component';
 
 @NgModule({
   declarations: [
-  EventComponent
+  EventComponent,
+  EventUpdateComponent
   ],
   imports: [
     CommonModule,

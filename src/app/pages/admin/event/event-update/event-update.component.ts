@@ -20,19 +20,22 @@ import { Size } from '../../../../shared/models/size.model';
 import * as moment from 'moment';
 import { CalendarService } from '../../../../shared/services/calendar.service';
 import { differenceInCalendarDays } from 'date-fns';
+import { IEvent, EventProduct } from '../../../../shared/models/event.model';
+import { EventService } from '../../../../shared/services/product/event.service';
+import { log } from 'console';
 @Component({
-  selector: 'app-create-update-apoiment',
-  templateUrl: './create-update-apoiment.component.html',
-  styleUrls: ['./create-update-apoiment.component.css']
+  selector: 'app-event-update',
+  templateUrl: './event-update.component.html',
+  styleUrls: ['./event-update.component.css']
 })
-export class CreateUpdateApoimentComponent implements OnInit {
+export class EventUpdateComponent implements OnInit {
 
   @Input() isUpdate = false;
   @Input() isDetail = false;
   @Input() action = '';
-  @Input() calendar: Apoiment = new Apoiment();
-  status = this.calendar.status+'';
-  initalState:Apoiment = new Apoiment();
+  @Input() calendar: IEvent | undefined;
+
+  initalState:EventProduct = new EventProduct();
   LENGTH_VALIDATOR = LENGTH_VALIDATOR;
   pathTranslate = 'model.category.'
   ROUTER_ACTIONS = ROUTER_ACTIONS;
@@ -45,7 +48,7 @@ export class CreateUpdateApoimentComponent implements OnInit {
     pageSize: PAGINATION.SIZE_DEFAULT,
   };
   constructor(private fb: FormBuilder,
-    private categoryService:CategoryService,
+    private eventService:EventService,
     private toast:ToastService,
     private modalRef:NzModalRef,
     private localStorage:LocalStorageService,
@@ -62,9 +65,6 @@ export class CreateUpdateApoimentComponent implements OnInit {
     console.log(this.calendar);
    this.loadProduct();
     this.initForm();
-    if(this.isUpdate){
-      this.loadSize(this.calendar.productId+'');
-    }
     
   }
   initForm(): void {
@@ -75,16 +75,17 @@ export class CreateUpdateApoimentComponent implements OnInit {
         ? this.initalState
         : this.calendar;
     this.form = this.fb.group({
-      userName: [{value :dataObject.userName,disabled:this.isUpdate && this.checkStatus() ? true:false}, [Validators.required]],
-      phoneNumber:[{value :dataObject.phoneNumber,disabled:this.isUpdate && this.checkStatus() ? true:false},[Validators.required,Validators.maxLength(10),
-        Validators.pattern(VALIDATORS.PHONE_SIMPLE)]],
-      email:[{value:dataObject.email,disabled:this.isUpdate && this.checkStatus() ? true:false},[Validators.required,Validators.email]],
-      time:[{value:dataObject.time,disabled:this.isUpdate && this.checkStatus() ? true:false},[Validators.required]],
-      productId:[{value:dataObject.productId,disabled:this.isUpdate && this.checkStatus() ? true:false},[Validators.required]],
-      sizeId:[{value:dataObject.sizeId,disabled:this.isUpdate && this.checkStatus() ? true:false},[Validators.required]],
-      note:[dataObject.note],
+      startDate:[dataObject?.startDate],
+      discount:[dataObject?.discount],
+      endDate:[dataObject?.endDate],
+      name:[dataObject?.name],
+      description:[dataObject?.description]
     });
   
+  }
+  onChangeCreateDate(rangeDate: { fromDate?: Date; toDate?: Date }): void {
+    this.form.get('startDate')?.setValue(rangeDate.fromDate);
+    this.form.get('endDate')?.setValue(rangeDate.toDate);
   }
   disabledDate = (current: Date): boolean =>
     // Can not select days before today and today
@@ -102,45 +103,43 @@ export class CreateUpdateApoimentComponent implements OnInit {
   searchCategories(id:string){};
 
   onSubmit(): void {
+    console.log(this.form.value);
+    const endCreatedAt = this.form.get('endDate')?.value;
+    const startCreatedAt = this.form.get('startDate')?.value;
+
     if (this.isUpdate) {
       this.updateCategory();
     } else {
       this.createCategory();
     }
   }
-  updateCategory(){
-    console.log('heelooo khi');
-    const apoiment: Apoiment = { 
-      ...this.form.value,
-    };
-    this.calendarService.update(apoiment,this.calendar.id+'').subscribe((res) => {
-      this.toast.success('Cập nhật lịch hẹn thành công');
-      this.modalRef.close({
-        success: true,
-        value: apoiment,
-      });
-    });
-  }
-  checkStatus(){
-    if(this.calendar.status){
-      return this.calendar.status !== CalendarStatus.WAIT_CONFIRM ? true: false;
-    }
-    return false;
-  }
+
   propertyValues():string[]{
     return this.properties.value;
   }
-  createCategory(){
-    const apoiment: Apoiment = { 
+  updateCategory(){
+    const event: IEvent = { 
       ...this.form.value,
-      status:CalendarStatus.WAIT_CONFIRM
     };
-    console.log('heelooo khi',apoiment);
-    this.calendarService.create(apoiment).subscribe((res) => {
-      this.toast.success('Đặt lịch hẹn thành công');
+    console.log(event);
+    this.eventService.updateEvent(this.calendar?.eventId + '',event).subscribe((res) => {
+      this.toast.success('Cập nhật sự kiện thành công');
       this.modalRef.close({
         success: true,
-        value: apoiment,
+        value: event,
+      });
+    });
+  };
+  createCategory(){
+    const event: IEvent = { 
+      ...this.form.value,
+    };
+    console.log(event);
+    this.eventService.addEvent(event).subscribe((res) => {
+      this.toast.success('Thêm sự kiện thành công');
+      this.modalRef.close({
+        success: true,
+        value: event,
       });
     });
   };
@@ -156,4 +155,5 @@ export class CreateUpdateApoimentComponent implements OnInit {
       value: null,
     });
   }
+
 }

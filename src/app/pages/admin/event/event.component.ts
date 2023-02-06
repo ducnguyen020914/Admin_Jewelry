@@ -30,6 +30,7 @@ import { CreateUpdateApoimentComponent } from '../apoiment/create-update-apoimen
 import { IEvent } from '@shared/models/event.model';
 import { EventService } from '@shared/services/product/event.service';
 import { IEventSearchRequest } from '../../../shared/models/request/event-search-request.model';
+import { EventUpdateComponent } from './event-update/event-update.component';
 
 @Component({
   selector: 'app-event',
@@ -90,6 +91,7 @@ export class EventComponent implements OnInit {
   }
 
   initForm(): void {
+    
     this.form = this.fb.group({
        startDate: [this.eventSearchRequest.startDate || null],
        endDate: [this.eventSearchRequest.endDate || null],
@@ -128,7 +130,7 @@ export class EventComponent implements OnInit {
 parserPrice = (value: string): number => CommonUtil.formatToNumber(value);
 create(): void {
   const base = CommonUtil.modalBase(
-    CreateUpdateApoimentComponent,
+    EventUpdateComponent,
     {
       action: ROUTER_ACTIONS.create,
     },
@@ -141,9 +143,9 @@ create(): void {
     }
   });
 }
-update(calendar: Apoiment): void {
+update(calendar: IEvent): void {
   const base = CommonUtil.modalBase(
-    CreateUpdateApoimentComponent,
+    EventUpdateComponent,
     {
       isUpdate: true,
       calendar,

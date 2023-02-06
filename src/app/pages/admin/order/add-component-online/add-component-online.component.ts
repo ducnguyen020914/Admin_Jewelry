@@ -462,7 +462,10 @@ extraTemplate: any;
        //   this.router.navigate([ROUTER_UTILS.order.root,ROUTER_UTILS.order.orderList])
           this.toast.success('Thêm hóa đơn thành công');
           this.localStorage.clear("selectedProducts");
-          this.onCancel()
+          this.router.navigate([
+            this.ROUTER_UTILS.order.root,
+            this.ROUTER_UTILS.order.orderList
+          ])
         });
       }
     });
