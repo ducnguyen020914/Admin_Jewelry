@@ -298,6 +298,7 @@ extraTemplate: any;
     const order: Order = {
       ...this.form.value,
       total: this.thanhtien,
+      phoneNumber:this.currentUser.phoneNumber,
       orderDetailList: this.selectedProducts.map((res: any) => {
         const price = res.price as number;
         const productDetail: IProductOrder = {

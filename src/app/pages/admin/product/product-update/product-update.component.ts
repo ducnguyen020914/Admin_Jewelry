@@ -26,7 +26,7 @@ import {
   ROUTER_UTILS,
 } from '../../../../shared/utils/router.utils';
 import { ProductStatus } from '../../../../shared/models/productReal.model';
-import { PRODUCT_GENDER } from '../../../../shared/constants/product.constant copy';
+import { PRODUCT_GENDER, PRODUCT_STATUS } from '../../../../shared/constants/product.constant copy';
 import { VendorService } from '../../../../shared/services/product/vendorservice';
 import { EventService } from '../../../../shared/services/product/event.service';
 import { IEvent } from '../../../../shared/models/event.model';
@@ -63,6 +63,7 @@ export class ProductUpdateComponent implements OnInit {
   PRODUCT_GENDER = PRODUCT_GENDER;
   LENGTH_VALIDATOR = LENGTH_VALIDATOR;
   ROUTER_ACTIONS = ROUTER_ACTIONS;
+  PRODUCT_STATUS = PRODUCT_STATUS;
   categoryProperties: ProductCategoryProperty[] = [];
   productPropertyValue: ProductPropertyValue[] = [];
   initalState: IProduct = new Product('', '', '');
@@ -152,6 +153,7 @@ export class ProductUpdateComponent implements OnInit {
       sizeIds: [sizeIds, [Validators.required]],
       gender: [dataObject?.gender, [Validators.required]],
       eventId: [dataObject?.eventId],
+      status:['ACTIVE'],
       accessoryId: [dataObject?.accessoryId, [Validators.required]],
       productProperties: this.fb.array([]),
       sizeProducts: this.fb.array([]),
@@ -306,15 +308,11 @@ export class ProductUpdateComponent implements OnInit {
     });
   }
   onSubmit(): void {
-    console.log(this.form);
-    console.log(this.fileOrigin);
-    console.log(this.files);
     const product: Product = {
       ...this.form.value,
       imageUrls: this.imageUrls,
       salary: this.form.value.salary &&
       CommonUtil.formatToNumber(this.form.value.salary),
-  
     };
     if (this.action === this.ROUTER_ACTIONS.update) {
       this.update(product);

@@ -294,6 +294,32 @@
               </div>
             </div>   
             <div class="row">
+              <div class="col-6" *ngIf="this.action !== this.ROUTER_ACTIONS.update">
+                <label>{{ "model.product.status" | translate }}</label>
+                <nz-select
+                  formControlName="status"
+                  nzAllowClear
+                  appRemoveOptionTitle
+                  nzPlaceHolder="{{ 'model.product.selectStatus' | translate }}"
+                >
+                  <nz-option
+                    *ngFor="let service of PRODUCT_STATUS"
+                    [nzLabel]="service.label | translate"
+                    [nzValue]="service.value"
+                    [nzCustomContent]="true"
+                  >
+                    <div
+                      container="body"
+                      [animation]="false"
+                      [openDelay]="100"
+                      [closeDelay]="0"
+                      [ngbTooltip]="service?.label! | translate"
+                    >
+                      {{ service?.label! | translate }}
+                    </div>
+                  </nz-option>
+                </nz-select>
+              </div>
               <div class="col-6 mb-4">
                 <label
                   >{{ "model.product.type" | translate }}

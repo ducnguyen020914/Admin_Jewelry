@@ -231,7 +231,9 @@ extraTemplate: any;
        }
        this.form.get('province')?.setValue(this.getCodeProvince(this.addresses  ?   this.addresses [ this.addresses .length - 1] : ''))
        this.form.get('addressDetail')?.setValue(this.addresses[0]);
-       this.chargeShipping(this.total)
+       if(this.selectedProducts.length > 0){
+        this.chargeShipping(this.total)
+       }
       }
   }
   onCancel(): void {
@@ -338,6 +340,7 @@ extraTemplate: any;
   }
 
   chargeShipping(total: number) {
+    if(this.selectedProducts.length > 0 ){
     const district = this.form.get('district')?.value as number;
     const ward = this.form.get('ward')?.value;
     if(!ward){
@@ -367,6 +370,7 @@ extraTemplate: any;
      this.changePrice();
    })
 })
+    }
 
 }
 

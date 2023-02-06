@@ -81,17 +81,17 @@ export class RepurchaseCreateBeforeComponent implements OnInit {
 
     this.route.data.subscribe((res) => {
       this.action = res.action;
+      this.loadCustomer();
     });
     this.loadCustomer();
     this.loadevent();
-    this.initForm();
+   
   }
 
   ngOnInit() {
     this.loadOrder();
-    console.log(this.PAYMENT_METHOD);
-    
-
+    this.loadCustomer();
+    this.initForm();
   }
   getPayMethod(): string{
     let payment = '';
@@ -108,7 +108,7 @@ export class RepurchaseCreateBeforeComponent implements OnInit {
   loadOrder() {
     this.orderService.findOne(this.id).subscribe((res: any) => {
       this.order = res.body?.data;
-      console.log(this.order);   
+      this.loadInfor()
       this.selectedProducts = this.order.orderDetailDTOList as IProductOrder[];
       this.productExchange = this.selectedProducts.map((product) => new ExchangeProduct(product,1,false));
       this.form.get('userId')?.setValue(this.order.userId);
@@ -125,6 +125,7 @@ export class RepurchaseCreateBeforeComponent implements OnInit {
     });
   }
   private initForm() {
+    this.loadCustomer();
     this.form = this.fb.group({
       userId: [null, [Validators.required]],
       customerMoney: [0, [Validators.required]],
@@ -156,6 +157,11 @@ parserPrice = (value: string): number => CommonUtil.formatToNumber(value);
     this.userService.findCustomer().subscribe((res: any) => {
       this.users = res.body?.data;
     });
+  }
+  private loadInfor(){
+    this.userService.find(this.order.userId+'').subscribe(((res:any) => {
+      this.currentUser = res.body.data
+    }))
   }
   loadevent() {
     this.eventService.getAll().subscribe((res: any) => {
