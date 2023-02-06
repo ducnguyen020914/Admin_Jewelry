@@ -127,8 +127,9 @@ export class AddCustomerComponent implements OnInit {
         dataObject.phoneNumber,
         [
           Validators.required,
+          Validators.minLength(10),
           Validators.maxLength(LENGTH_VALIDATOR.PHONE_MAX_LENGTH.MAX),
-          Validators.pattern(VALIDATORS.PHONE),
+          Validators.pattern(VALIDATORS.PHONE_SIMPLE),
         ],
       ],
       email: [

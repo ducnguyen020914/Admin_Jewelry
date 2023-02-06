@@ -133,6 +133,8 @@ export class DetailUpdateOrderComponent implements OnInit {
   private loadCustomer() {
     this.userService.findCustomer().subscribe((res: any) => {
       this.users = res.body?.data;
+      console.log(this.users);
+      
     });
   }
   loadevent() {
