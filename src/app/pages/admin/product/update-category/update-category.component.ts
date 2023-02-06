@@ -7,11 +7,12 @@ import { LENGTH_VALIDATOR } from '../../../../shared/constants/validators.consta
 import { ROUTER_ACTIONS } from '@shared/utils/router.utils';
 import { CategoryService } from '../../../../shared/services/product/category.service';
 import { ToastService } from '../../../../shared/services/helpers/toast.service';
-import { NzModalRef } from 'ng-zorro-antd/modal';
+import {NzModalRef, NzModalService} from 'ng-zorro-antd/modal';
 import { TranslateService } from '@ngx-translate/core';
 import { map, filter } from 'rxjs/operators';
 import { element } from 'protractor';
 import { LocalStorageService } from 'ngx-webstorage';
+import CommonUtil from "@shared/utils/common-utils";
 
 @Component({
   selector: 'app-update-category',
@@ -36,18 +37,19 @@ export class UpdateCategoryComponent implements OnInit {
     private categoryService:CategoryService,
     private toast:ToastService,
     private modalRef:NzModalRef,
-    private localStorage:LocalStorageService,
+              private modalService: NzModalService,
+              private localStorage:LocalStorageService,
     private translateService:TranslateService) { }
   get properties():FormArray{
     return this.form.get('properties') as FormArray;
   }
   ngOnInit() {
-   
+
     this.initForm();
   }
   initForm(): void {
     console.log(this.category);
-    
+
     const dataObject =
       this.action === this.ROUTER_ACTIONS.create
         ? this.initalState
@@ -64,7 +66,7 @@ export class UpdateCategoryComponent implements OnInit {
     }
   }
   searchCategories(id:string){};
-  
+
   addProperties() {
     this.properties.push(
      this.fb.control('')
@@ -79,38 +81,61 @@ export class UpdateCategoryComponent implements OnInit {
     }
   }
   updateCategory(){
-    console.log('heelooo khi');
-    const category: Category = {
-      ...this.form.value,
-      lastModifiedBy:this.localStorage.retrieve('username'),
-      properties:this.propertyValues().filter((element) => element.trim() !== '')
-    };
-    this.categoryService.update(category,this.category.categoryId).subscribe((res) => {
-      this.toast.success('model.category.success.update');
-      this.modalRef.close({
-        success: true,
-        value: category,
-      });
-    });
+    const updatencc =CommonUtil.modalConfirm(
+      this.translateService,
+      'Xác nhận',
+      'Bạn có muốn cập nhật thể loại không',
+      {name: 'a'}
+    )
+    const modal: NzModalRef =this.modalService.create(updatencc);
+    modal.afterClose.subscribe((result:{success: boolean; data: any}) => {
+      if(result?.success) {
+        console.log('heelooo khi');
+        const category: Category = {
+          ...this.form.value,
+          lastModifiedBy:this.localStorage.retrieve('username'),
+          properties:this.propertyValues().filter((element) => element.trim() !== '')
+        };
+        this.categoryService.update(category,this.category.categoryId).subscribe((res) => {
+          this.toast.success('model.category.success.update');
+          this.modalRef.close({
+            success: true,
+            value: category,
+          });
+        });
+      }
+    })
   }
   propertyValues():string[]{
     return this.properties.value;
   }
   createCategory(){
-    const category: Category = {
-      ...this.form.value,
-      createBy:this.localStorage.retrieve('username'),
-      lastModifiedBy:this.localStorage.retrieve('username'),
-      properties:this.propertyValues().filter((element) => element.trim() !== '')
-    };
-    console.log('heelooo khi',category);
-    this.categoryService.create(category).subscribe((res) => {
-      this.toast.success('model.category.success.create');
-      this.modalRef.close({
-        success: true,
-        value: category,
-      });
-    });
+    const updatencc =CommonUtil.modalConfirm(
+      this.translateService,
+      'Xác nhận',
+      'Bạn có muốn thêm thể loại không',
+      {name: 'a'}
+    )
+
+    const modal: NzModalRef =this.modalService.create(updatencc);
+    modal.afterClose.subscribe((result:{success: boolean; data: any}) => {
+      if(result?.success) {
+        const category: Category = {
+          ...this.form.value,
+          createBy:this.localStorage.retrieve('username'),
+          lastModifiedBy:this.localStorage.retrieve('username'),
+          properties:this.propertyValues().filter((element) => element.trim() !== '')
+        };
+        console.log('heelooo khi',category);
+        this.categoryService.create(category).subscribe((res) => {
+          this.toast.success('model.category.success.create');
+          this.modalRef.close({
+            success: true,
+            value: category,
+          });
+        });
+      }
+    })
   };
     getTranslate(str: string): string {
       return this.translateService.instant(this.pathTranslate + '' + str);

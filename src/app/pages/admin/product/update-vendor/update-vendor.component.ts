@@ -5,7 +5,7 @@ import { LENGTH_VALIDATOR } from '@shared/constants/validators.constant';
 import { ROUTER_ACTIONS } from '../../../../shared/utils/router.utils';
 import { TranslateService } from '@ngx-translate/core';
 import { VendorService } from '../../../../shared/services/product/vendorservice';
-import { NzModalRef } from 'ng-zorro-antd/modal';
+import {NzModalRef, NzModalService} from 'ng-zorro-antd/modal';
 import { ToastService } from '../../../../shared/services/helpers/toast.service';
 import { VALIDATORS } from '../../../../shared/constants/validators.constant';
 import CommonUtil from '../../../../shared/utils/common-utils';
@@ -28,6 +28,8 @@ export class UpdateVendorComponent implements OnInit {
     private translate: TranslateService,
     private vendorService: VendorService,
     private modalRef: NzModalRef,
+    private translateService: TranslateService,
+    private modalService: NzModalService,
     private toast: ToastService
   ) {}
 
@@ -93,7 +95,7 @@ export class UpdateVendorComponent implements OnInit {
   }
 
   onSubmit(): void {
-       
+
     if (this.isUpdate) {
       this.updateManufacture();
     } else {
@@ -102,43 +104,64 @@ export class UpdateVendorComponent implements OnInit {
   }
 
   private createManufacture(): void {
-    if (this.form.invalid) {
-      CommonUtil.markFormGroupTouched(this.form);
-      return;
-    }
-    const vendor: Vendor = {
-      ...this.form.value,
-    };
-    this.vendorService.create(vendor).subscribe((res) => {
-      this.toast.success('model.manufacture.success.create');
-      this.modalRef.close({
-        success: true,
-        value: vendor,
-      });
-    });
-  }
-
-  private updateManufacture(): void {
-    console.log(this.vendor);
-    
-    if (this.form.invalid) {
-      CommonUtil.markFormGroupTouched(this.form);
-      return;
-    }
-    const vendor: Vendor = {
-      ...this.form.value,
-    };
-    if (this.vendor?.vendorId) {
-      this.vendorService
-        .update( this.vendor.vendorId,vendor)
-        .subscribe((res) => {
-          this.toast.success('model.manufacture.success.update');
+    const cretetncc =CommonUtil.modalConfirm(
+      this.translateService,
+      'Xác nhận',
+      'Bạn có muốn thêm nhà cung cấp không',
+      {name: 'a'}
+    )
+    const modal: NzModalRef =this.modalService.create(cretetncc);
+    modal.afterClose.subscribe((result:{success: boolean; data: any}) => {
+      if(result?.success) {
+        if (this.form.invalid) {
+          CommonUtil.markFormGroupTouched(this.form);
+          return;
+        }
+        const vendor: Vendor = {
+          ...this.form.value,
+        };
+        this.vendorService.create(vendor).subscribe((res) => {
+          this.toast.success('model.manufacture.success.create');
           this.modalRef.close({
             success: true,
             value: vendor,
           });
         });
-    }
+      }
+    })
+  }
+
+  private updateManufacture(): void {
+    console.log(this.vendor);
+    const updatencc =CommonUtil.modalConfirm(
+      this.translateService,
+      'Xác nhận',
+      'Bạn có muốn cập nhật nhà cung cấp không',
+      {name: 'a'}
+    )
+    const modal: NzModalRef =this.modalService.create(updatencc);
+    modal.afterClose.subscribe((result:{success: boolean; data: any}) => {
+      if(result?.success) {
+        if (this.form.invalid) {
+          CommonUtil.markFormGroupTouched(this.form);
+          return;
+        }
+        const vendor: Vendor = {
+          ...this.form.value,
+        };
+        if (this.vendor?.vendorId) {
+          this.vendorService
+            .update( this.vendor.vendorId,vendor)
+            .subscribe((res) => {
+              this.toast.success('model.manufacture.success.update');
+              this.modalRef.close({
+                success: true,
+                value: vendor,
+              });
+            });
+        }
+      }
+    })
   }
 
 }

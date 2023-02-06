@@ -9,7 +9,7 @@ import { FileService } from '@shared/services/file.service';
 import { ToastService } from '@shared/services/helpers/toast.service';
 import CommonUtil from '@shared/utils/common-utils';
 import { ROUTER_ACTIONS } from '@shared/utils/router.utils';
-import { NzModalRef } from 'ng-zorro-antd/modal';
+import {NzModalRef, NzModalService} from 'ng-zorro-antd/modal';
 import {Accessory, IAccessory} from "@shared/models/accesory.model";
 import {AccessoryService} from "@shared/services/product/accessory.service";
 import {ACCESSORY_STATUS} from "@shared/constants/accsessory.constant";
@@ -35,6 +35,8 @@ export class UpdateAccessoryComponent implements OnInit {
     private accessoryService: AccessoryService,
     private modalRef: NzModalRef,
     private toast: ToastService,
+    private modalService: NzModalService,
+    private translateService: TranslateService,
     private fileService: FileService
   ){ }
 
@@ -105,35 +107,58 @@ export class UpdateAccessoryComponent implements OnInit {
   }
 
   private createAccessory(accessory: IAccessory): void {
-    if (this.form.invalid) {
-      CommonUtil.markFormGroupTouched(this.form);
-      return;
-    }
+    const phukien =CommonUtil.modalConfirm(
+      this.translateService,
+      'Xác nhận',
+      'Bạn có muốn thêm phụ kiện không',
+      {name: 'a'}
+    )
+    const modal: NzModalRef =this.modalService.create(phukien);
+    modal.afterClose.subscribe((result:{success: boolean; data: any}) => {
+      if(result?.success) {
+        if (this.form.invalid) {
+          CommonUtil.markFormGroupTouched(this.form);
+          return;
+        }
 
-    this.accessoryService.create(accessory).subscribe((res) => {
-      this.toast.success('model.accessory.success.create');
-      this.modalRef.close({
-        success: true,
-        value: accessory,
-      });
-    });
-  }
-
-  private updateAccessory(accessory: IAccessory): void {
-    if (this.form.invalid) {
-      CommonUtil.markFormGroupTouched(this.form);
-      return;
-    }
-    if (this.accessory?.accessoryId) {
-      this.accessoryService
-        .update(accessory, this.accessory.accessoryId)
-        .subscribe((res) => {
-          this.toast.success('model.accessory.success.update');
+        this.accessoryService.create(accessory).subscribe((res) => {
+          this.toast.success('model.accessory.success.create');
           this.modalRef.close({
             success: true,
             value: accessory,
           });
         });
-    }
+      }
+    })
+  }
+
+  private updateAccessory(accessory: IAccessory): void {
+
+    const updatephukien =CommonUtil.modalConfirm(
+      this.translateService,
+      'Xác nhận',
+      'Bạn có muốn cập nhật phụ kiện không',
+      {name: 'a'}
+    )
+    const modal: NzModalRef =this.modalService.create(updatephukien);
+    modal.afterClose.subscribe((result:{success: boolean; data: any}) => {
+      if(result?.success) {
+        if (this.form.invalid) {
+          CommonUtil.markFormGroupTouched(this.form);
+          return;
+        }
+        if (this.accessory?.accessoryId) {
+          this.accessoryService
+            .update(accessory, this.accessory.accessoryId)
+            .subscribe((res) => {
+              this.toast.success('model.accessory.success.update');
+              this.modalRef.close({
+                success: true,
+                value: accessory,
+              });
+            });
+        }
+      }
+    })
   }
 }

@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Material } from '../../../../shared/models/material.model';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { NzModalRef, NzModalModule } from 'ng-zorro-antd/modal';
+import {NzModalRef, NzModalModule, NzModalService} from 'ng-zorro-antd/modal';
 import { ToastService } from '../../../../shared/services/helpers/toast.service';
 import { LENGTH_VALIDATOR } from '../../../../shared/constants/validators.constant';
 import { MATERIAL_TYPE } from '../../../../shared/constants/material.constant';
@@ -9,6 +9,7 @@ import { ROUTER_ACTIONS } from '../../../../shared/utils/router.utils';
 import { MaterialService } from '../../../../shared/services/product/material.service';
 import CommonUtil from '../../../../shared/utils/common-utils';
 import { PAGINATION } from '../../../../shared/constants/pagination.constants';
+import {TranslateService} from "@ngx-translate/core";
 
 @Component({
   selector: 'app-update-material',
@@ -28,6 +29,8 @@ export class UpdateMaterialComponent implements OnInit {
     private toast: ToastService,
     private modalRef: NzModalRef,
     private materialService:MaterialService,
+               private translateService:TranslateService,
+               private modalService1: NzModalService,
     private modalService :NzModalModule) { }
 
   ngOnInit() {
@@ -35,7 +38,7 @@ export class UpdateMaterialComponent implements OnInit {
   }
   initForm(): void {
     console.log(this.material);
-    
+
     const dataObject =
       this.action === this.ROUTER_ACTIONS.create
         ? this.initalState
@@ -63,37 +66,62 @@ export class UpdateMaterialComponent implements OnInit {
     }
   }
   updateCategory(){
-    console.log('heelooo khi');
-    const material:Material  = {
-      ...this.form.value,
-      purchasePrice: this.form.value.purchasePrice &&
-      CommonUtil.formatToNumber(this.form.value.purchasePrice),
-      salePrice:  this.form.value.salePrice &&
-      CommonUtil.formatToNumber(this.form.value.salePrice),
-    };
-    this.materialService.update(this.material.materialId+'',material).subscribe((res) => {
-      this.toast.success('model.material.success.update');
-      this.modalRef.close({
-        success: true,
-        value: material,
-      });
-    });
+    const updatencc =CommonUtil.modalConfirm(
+      this.translateService,
+      'Xác nhận',
+      'Bạn có muốn cập nhật chất liệu không',
+      {name: 'a'}
+    )
+    const modal: NzModalRef =this.modalService1.create(updatencc);
+    modal.afterClose.subscribe((result:{success: boolean; data: any}) => {
+      if(result?.success) {
+        console.log('heelooo khi');
+        const material:Material  = {
+          ...this.form.value,
+          purchasePrice: this.form.value.purchasePrice &&
+            CommonUtil.formatToNumber(this.form.value.purchasePrice),
+          salePrice:  this.form.value.salePrice &&
+            CommonUtil.formatToNumber(this.form.value.salePrice),
+        };
+        this.materialService.update(this.material.materialId+'',material).subscribe((res) => {
+          this.toast.success('model.material.success.update');
+          this.modalRef.close({
+            success: true,
+            value: material,
+          });
+        });
+      }
+    })
+
   }
   createCategory(){
-    const material:Material  = {
-      ...this.form.value,
-      purchasePrice: this.form.value.purchasePrice &&
-      CommonUtil.formatToNumber(this.form.value.purchasePrice),
-      salePrice:  this.form.value.salePrice &&
-      CommonUtil.formatToNumber(this.form.value.salePrice),
-    };
-    this.materialService.create(material).subscribe((res) => {
-      this.toast.success('model.material.success.create');
-      this.modalRef.close({
-        success: true,
-        value: material,
-      });
-    });
+    const updatencc =CommonUtil.modalConfirm(
+      this.translateService,
+      'Xác nhận',
+      'Bạn có muốn thêm chất liệu không',
+      {name: 'a'}
+    )
+
+    const modal: NzModalRef =this.modalService1.create(updatencc);
+    modal.afterClose.subscribe((result:{success: boolean; data: any}) => {
+      if(result?.success) {
+        const material:Material  = {
+          ...this.form.value,
+          purchasePrice: this.form.value.purchasePrice &&
+            CommonUtil.formatToNumber(this.form.value.purchasePrice),
+          salePrice:  this.form.value.salePrice &&
+            CommonUtil.formatToNumber(this.form.value.salePrice),
+        };
+        this.materialService.create(material).subscribe((res) => {
+          this.toast.success('model.material.success.create');
+          this.modalRef.close({
+            success: true,
+            value: material,
+          });
+        });
+      }
+    })
+
   };
- 
+
 }
