@@ -330,6 +330,7 @@ extraTemplate: any;
       status:StatusEnum.HOA_DON_CHO,
       total: this.thanhtien,
       discount: this.getPercent(this.form.value.eventId),
+      createBy: this.localStorage.retrieve("username"),
       orderDetailList: this.selectedProducts.map((res: any) => {
         const price = res.price as number;
         const productDetail: IProductOrder = {

@@ -147,6 +147,11 @@ export class EmployeeUpdateComponent1 implements OnInit {
     });
   }
 
+  disabledAfterToday(current: Date): boolean {
+    const year = new Date();
+    year.setFullYear(year.getFullYear() - 18);
+    return current > year;
+  }
   private onSubmit(): void {
         const customer:ICustomer = {
           ...this.form.value,
@@ -206,9 +211,6 @@ export class EmployeeUpdateComponent1 implements OnInit {
       );
       this.datePicker.close();
     }
-  }
-  disabledAfterToday(current: Date): boolean {
-    return differenceInCalendarDays(current, new Date()) > 0;
   }
 
   getFiles(files: any): void {

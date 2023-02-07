@@ -26,7 +26,7 @@ import {NzTableQueryParams} from "ng-zorro-antd/table";
 })
 export class AccessoryComponent implements OnInit {
   accessoryStatus = ACCESSORY_STATUS;
-  pathTranslate = 'model.category.';
+  pathTranslate = 'model.accessory.';
   form:FormGroup = new FormGroup([]);
   accessorySearchRequest:AccessorySearchRequest = {};
   accsessories: Accessory[] = [];
